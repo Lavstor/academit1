@@ -1,9 +1,6 @@
 package packe.range.ru;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-class Range {
+public class Range {
     private double from;
     private double to;
 
@@ -12,16 +9,15 @@ class Range {
         this.to = to;
     }
 
-    public double getRange() {
-        return Math.abs(from - to);
+    public double getRangeLength() {
+        return to - from;
     }
 
     public boolean isInside(double x) {
-        return !(x < from || x > to);
+        return x > from && x < to;
     }
 
     public Range getIntersection(Range range) {
-
         if (range.from >= to || range.to <= from) {
             return null;
         }
@@ -37,9 +33,10 @@ class Range {
 
     public Range[] getDifference(Range range) {
         if (range.from > to || range.to < from) {
-            return new Range[]{};
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
-        return new Range[]{new Range(Math.max(from, range.from), Math.min(to, range.to))};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(from, range.from)),
+                new Range(Math.min(to, range.to), Math.max(to, range.to))};
     }
 
     public double getFrom() {
@@ -57,14 +54,8 @@ class Range {
     public void setTo(double to) {
         this.to = to;
     }
-}
-
-class Main {
-    public static void main(String[] args) {
-        Range range = new Range(2, 3);
-        Range range2 = new Range(2.5, 5);
-        Range[] rangee = range.getUnion(range2);
-
-        System.out.println(rangee[0].isInside(1000000));
+    public void print() {
+        System.out.println(from);
+        System.out.println(to);
     }
 }
