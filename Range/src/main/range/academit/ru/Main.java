@@ -5,7 +5,7 @@ import packe.range.ru.Range;
 class Main {
     public static void main(String[] args) {
         Range range1 = new Range(2, 3);
-        Range range2 = new Range(2.5, 5);
+        Range range2 = new Range(2, 5);
 
         Range[] ranges1 = range1.getUnion(range2);
         Range intersection = range1.getIntersection(range2);
