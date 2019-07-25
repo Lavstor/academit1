@@ -1,5 +1,7 @@
 package Shapes.academ.it.school;
 
+import java.util.Objects;
+
 public class Circle extends Shapes.academ.it.school.Shape {
     private double radius;
 
@@ -22,8 +24,23 @@ public class Circle extends Shapes.academ.it.school.Shape {
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
-    public String toString(){
+
+    public String toString() {
         return "r = " + radius + " S = " + getArea() + " P = " + getPerimeter() + " Высота = " + getHeight() +
                 " Ширина = " + getWidth() + " Окружность";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Circle circle = (Circle) o;
+
+        return Double.compare(circle.radius, radius) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius);
     }
 }

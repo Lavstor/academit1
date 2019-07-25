@@ -9,5 +9,6 @@ public abstract class Shape implements ShapesInterface.academ.it.school.ru.Shape
 
     public abstract double getPerimeter();
 
+    @Override
     public abstract String toString();
 }
