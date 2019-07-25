@@ -8,4 +8,6 @@ public abstract class Shape implements ShapesInterface.academ.it.school.ru.Shape
     public abstract double getArea();
 
     public abstract double getPerimeter();
+
+    public abstract String toString();
 }

@@ -24,4 +24,9 @@ public class Rectangle extends Shapes.academ.it.school.Shape {
     public double getPerimeter() {
         return xSide * 2 + ySide * 2;
     }
+
+    public String toString(){
+        return "Сторона 1 = " + xSide + " Сторона 2 = " + ySide + " S = " + getArea() + " P = " + getPerimeter() +
+                " Высота = " + getHeight() + " Ширина = " + getWidth() + "Прямоугольник";
+    }
 }

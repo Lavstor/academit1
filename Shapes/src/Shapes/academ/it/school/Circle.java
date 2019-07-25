@@ -22,4 +22,8 @@ public class Circle extends Shapes.academ.it.school.Shape {
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
+    public String toString(){
+        return "r = " + radius + " S = " + getArea() + " P = " + getPerimeter() + " Высота = " + getHeight() +
+                " Ширина = " + getWidth() + " Окружность";
+    }
 }

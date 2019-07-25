@@ -18,4 +18,9 @@ public class Square extends Shapes.academ.it.school.Shape {
     public double getPerimeter(){
         return this.side * 4;
     }
+
+    public String toString(){
+        return "Сторона = " + side + " S = " + getArea() + " P = " + getPerimeter() +
+                " Высота = " + getHeight() + " Ширина = " + getWidth() + " Квадрат";
+    }
 }

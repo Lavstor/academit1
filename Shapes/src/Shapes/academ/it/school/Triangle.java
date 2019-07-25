@@ -49,4 +49,10 @@ public class Triangle extends Shapes.academ.it.school.Shape {
 
         return max2 - min2;
     }
+
+    public String toString() {
+        return "x1 = " + x1 + " x2 = " + x2 + " x3 = " + x3 + " y1 = " + y1 + " y2 = " + y2 + " y3 = " + y3 +
+                " S = " + getArea() + " P = " + getPerimeter() + " Высота = " + getHeight() + " Ширина = "
+                + getWidth() + " Треугольник";
+    }
 }
