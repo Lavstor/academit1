@@ -1,4 +1,4 @@
-package ru.academit.range;
+package ru.range.academit.range;
 
 public class Range {
     private double from;
@@ -39,7 +39,7 @@ public class Range {
         }
         if (range.from > from && to > range.to) {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
-        } else if(range.from < from && to > range.to){
+        } else if (range.from < from && to > range.to) {
             return new Range[]{new Range(range.to, to)};
         }
         return new Range[]{};

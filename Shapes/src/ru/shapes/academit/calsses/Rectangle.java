@@ -1,4 +1,4 @@
-package ru.shapes.academit.shapes.calsses;
+package ru.shapes.academit.calsses;
 
 import java.util.Objects;
 

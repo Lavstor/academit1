@@ -1,6 +1,6 @@
-package ru.academit.rangemain;
+package ru.range.academit.rangemain;
 
-import ru.academit.range.Range;
+import ru.range.academit.range.Range;
 
 class Main {
     public static void main(String[] args) {

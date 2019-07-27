@@ -1,4 +1,4 @@
-package ru.shapes.academit.shapes.interfaces;
+package ru.shapes.academit.interfaces;
 
 public interface ShapeInterface {
     double getWidth();
