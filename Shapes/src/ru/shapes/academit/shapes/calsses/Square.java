@@ -1,6 +1,6 @@
-package Shapes.academ.it.school;
+package ru.shapes.academit.shapes.calsses;
 
-public class Square extends Shapes.academ.it.school.Shape {
+public class Square extends Shape {
     private double side;
 
     public Square(double side) {

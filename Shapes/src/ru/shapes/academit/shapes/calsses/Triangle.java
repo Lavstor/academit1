@@ -1,8 +1,8 @@
-package Shapes.academ.it.school;
+package ru.shapes.academit.shapes.calsses;
 
 import java.util.Objects;
 
-public class Triangle extends Shapes.academ.it.school.Shape {
+public class Triangle extends Shape {
     private double x1;
     private double y1;
 

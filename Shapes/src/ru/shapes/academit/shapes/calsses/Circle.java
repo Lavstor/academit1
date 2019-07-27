@@ -1,8 +1,8 @@
-package Shapes.academ.it.school;
+package ru.shapes.academit.shapes.calsses;
 
 import java.util.Objects;
 
-public class Circle extends Shapes.academ.it.school.Shape {
+public class Circle extends Shape {
     private double radius;
 
     public Circle(double radius) {

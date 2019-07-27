@@ -1,8 +1,8 @@
-package Shapes.academ.it.school;
+package ru.shapes.academit.shapes.calsses;
 
 import java.util.Objects;
 
-public class Rectangle extends Shapes.academ.it.school.Shape {
+public class Rectangle extends Shape {
     private double xSide;
     private double ySide;
 

@@ -1,6 +1,6 @@
-package ComparatorShapes;
+package ru.shapes.academit.shapes.sort;
 
-import Shapes.academ.it.school.Shape;
+import ru.shapes.academit.shapes.calsses.Shape;
 
 import java.util.Comparator;
 

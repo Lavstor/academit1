@@ -1,8 +1,8 @@
-package Main.shapes.academ.it.school.ru;
+package ru.shapes.academit.shapes.main;
 
-import ComparatorShapes.SortShapesArrayByArea;
-import ComparatorShapes.SortShapesArrayByPerimeter;
-import Shapes.academ.it.school.*;
+import ru.shapes.academit.shapes.calsses.*;
+import ru.shapes.academit.shapes.sort.SortShapesArrayByArea;
+import ru.shapes.academit.shapes.sort.SortShapesArrayByPerimeter;
 
 import java.util.Arrays;
 

@@ -1,6 +1,8 @@
-package Shapes.academ.it.school;
+package ru.shapes.academit.shapes.calsses;
 
-public abstract class Shape implements ShapesInterface.academ.it.school.ru.ShapeInterface {
+import ru.shapes.academit.shapes.interfaces.ShapeInterface;
+
+public abstract class Shape implements ShapeInterface {
     public abstract double getWidth();
 
     public abstract double getHeight();

@@ -1,17 +1,17 @@
-package main.range.academit.ru;
+package ru.academit.rangemain;
 
-import packe.range.ru.Range;
+import ru.academit.range.Range;
 
 class Main {
     public static void main(String[] args) {
-        Range range1 = new Range(2, 3);
-        Range range2 = new Range(2, 5);
+        Range range1 = new Range(15, 19);
+        Range range2 = new Range(9, 15);
 
         Range[] ranges1 = range1.getUnion(range2);
         Range intersection = range1.getIntersection(range2);
         Range[] ranges2 = range1.getDifference(range2);
 
-        intersection.print();
+        System.out.println(intersection);
 
         int i = 0;
 
@@ -27,7 +27,7 @@ class Main {
             aRanges2.print();
             j++;
         }
-        System.out.println("В отрезке: " + ranges1[0].isInside(1000000));
+        System.out.println("В отрезке: " + ranges1[0].isInside(2.4));
         System.out.println("Длинна отрезка: " + range1.getRangeLength());
     }
 }
