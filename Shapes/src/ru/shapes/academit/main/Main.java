@@ -23,9 +23,7 @@ public class Main {
     public static void main(String[] args) {
         Shape[] shapes = new Shape[]{new Square(200), new Triangle(2, 3, 7, 5, 6, 10),
                 new Rectangle(4, 2), new Circle(3), new Circle(4)};
-
-        findMaxAreaShape(shapes);
-        findSecondPerimeterShape(shapes);
+        
         System.out.println(findMaxAreaShape(shapes));
         System.out.println();
         System.out.println(findSecondPerimeterShape(shapes));
