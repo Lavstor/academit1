@@ -1,6 +1,6 @@
 package ru.shapes.academit.interfaces;
 
-public interface ShapeInterface {
+public interface Shape {
     double getWidth();
 
     double getHeight();
@@ -8,4 +8,7 @@ public interface ShapeInterface {
     double getArea();
 
     double getPerimeter();
+
+    @Override
+    String toString();
 }

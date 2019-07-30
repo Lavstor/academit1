@@ -1,8 +1,10 @@
 package ru.shapes.academit.calsses;
 
+import ru.shapes.academit.interfaces.Shape;
+
 import java.util.Objects;
 
-public class Triangle extends Shape {
+public class Triangle implements Shape {
     private double x1;
     private double y1;
 
@@ -23,25 +25,28 @@ public class Triangle extends Shape {
         this.y3 = y3;
     }
 
+    @Override
     public double getWidth() {
         return maxMin(x1, x2, x3);
     }
 
+    @Override
     public double getHeight() {
         return maxMin(y1, y2, y3);
     }
 
+    @Override
     public double getArea() {
         double p = getPerimeter() / 2;
-        return Math.sqrt(p * (p - Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)), 0.5)) *
-                (p - Math.pow((Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2)), 0.5)) *
-                (p - Math.pow((Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2)), 0.5)));
+        return Math.sqrt(p * (p - getLength(x2, x1, y2, y1)) *
+                (p - getLength(x3, x1, y3, y1)) *
+                (p - getLength(x3, x2, y3, y2)));
     }
 
+    @Override
     public double getPerimeter() {
-        return Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)), 0.5) +
-                Math.pow((Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2)), 0.5) +
-                Math.pow((Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2)), 0.5);
+        return getLength(x2, x1, y1, y2) + getLength(x3, x1, y3, y1) + getLength(x3, x2, y3, y2);
+
     }
 
     private double maxMin(double y1, double y2, double y3) {
@@ -54,17 +59,27 @@ public class Triangle extends Shape {
         return max2 - min2;
     }
 
+    private double getLength(double x1, double x2, double y1, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    @Override
     public String toString() {
-        return "x1 = " + x1 + " x2 = " + x2 + " x3 = " + x3 + " y1 = " + y1 + " y2 = " + y2 + " y3 = " + y3 +
+        return "Треугольник " + "x1 = " + x1 + " x2 = " + x2 + " x3 = " + x3 + " y1 = " + y1 + " y2 = " + y2 + " y3 = " + y3 +
                 " S = " + getArea() + " P = " + getPerimeter() + " Высота = " + getHeight() + " Ширина = "
-                + getWidth() + " Треугольник";
+                + getWidth();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Triangle triangle = (Triangle) o;
+
         return Double.compare(triangle.x1, x1) == 0 &&
                 Double.compare(triangle.y1, y1) == 0 &&
                 Double.compare(triangle.x2, x2) == 0 &&
@@ -75,7 +90,6 @@ public class Triangle extends Shape {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(x1, y1, x2, y2, x3, y3);
     }
 }
