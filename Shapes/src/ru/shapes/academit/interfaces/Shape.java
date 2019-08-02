@@ -8,7 +8,4 @@ public interface Shape {
     double getArea();
 
     double getPerimeter();
-
-    @Override
-    String toString();
 }

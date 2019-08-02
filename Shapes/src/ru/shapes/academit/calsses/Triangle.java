@@ -37,16 +37,15 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double p = getPerimeter() / 2;
-        return Math.sqrt(p * (p - getLength(x2, x1, y2, y1)) *
-                (p - getLength(x3, x1, y3, y1)) *
-                (p - getLength(x3, x2, y3, y2)));
+        double halfPerimeter = getPerimeter() / 2;
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getLength(x1, y1, x2, y2)) *
+                (halfPerimeter - getLength(x1, y1, x3, y3)) *
+                (halfPerimeter - getLength(x2, y2, x3, y3)));
     }
 
     @Override
     public double getPerimeter() {
-        return getLength(x2, x1, y1, y2) + getLength(x3, x1, y3, y1) + getLength(x3, x2, y3, y2);
-
+        return getLength(x1, y1, x2, y2) + getLength(x1, y1, x3, y3) + getLength(x2, y2, x3, y3);
     }
 
     private double maxMin(double y1, double y2, double y3) {
@@ -59,7 +58,7 @@ public class Triangle implements Shape {
         return max2 - min2;
     }
 
-    private double getLength(double x1, double x2, double y1, double y2) {
+    private static double getLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
