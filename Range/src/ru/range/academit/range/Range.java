@@ -14,7 +14,7 @@ public class Range {
     }
 
     public boolean isInside(double x) {
-        return x > from && x < to;
+        return x >= from && x <= to;
     }
 
     public Range getIntersection(Range range) {
@@ -32,17 +32,25 @@ public class Range {
     }
 
     public Range[] getDifference(Range range) {
-        if (range.from == from && range.to < to) {
-            return new Range[]{new Range(range.to, to)};
-        } else if (range.to == to && from < range.from) {
-            return new Range[]{new Range(from, range.from)};
+        if (range.from >= to || range.to <= from) {
+            return new Range[]{new Range(from, to)};
         }
-        if (range.from > from && to > range.to) {
+        if (from >= range.from && to <= range.to) {
+            return new Range[]{};
+        }
+        if (from <= range.from && to >= range.to) {
+            if (from == range.from) {
+                return new Range[]{new Range(range.to, to)};
+            }
+            if (to == range.to) {
+                return new Range[]{new Range(from, range.from)};
+            }
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
-        } else if (range.from < from && to > range.to) {
-            return new Range[]{new Range(range.to, to)};
         }
-        return new Range[]{};
+        if (from > range.from) {
+            return new Range[]{new Range(Math.min(to, range.to), Math.max(range.to, to))};
+        }
+        return new Range[]{new Range(from, range.from)};
     }
 
     public double getFrom() {
