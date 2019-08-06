@@ -1,44 +1,37 @@
 package ru.academit.vector.vectors;
 
+import java.util.Arrays;
+
 public class Vector {
     private int n;
-    private double x;
-    private double y;
-    private double z;
+    private double[] array;
 
     public Vector(int n) {
         this.n = n;
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
+        array = new double[n];
     }
 
-    public Vector getVectorCopy(Vector vector) {
-        return vector;
+    @Override
+    public String toString() {
+        return Arrays.toString(array);
     }
 
-    public void fillVector(double[] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (i == 0) {
-                this.x = array[i];
-            }
-            if (i == 1) {
-                this.y = array[i];
-            }
-            if (i == 2) {
-                this.z = array[i];
-            }
+    public Vector getVectorCopy() {
+        double[] newArray = Arrays.copyOf(this.array, this.n);
+        Vector vectorCopy = new Vector(this.n);
+        vectorCopy.fillArray(newArray);
+
+        return vectorCopy;
+    }
+
+    public void fillArray(double[] donor) {
+        if (donor.length < this.n) {
+            Arrays.fill(this.array, this.n, array.length, 0.0);
         }
-    }
-
-    public void fillVector2(int n, double[] array) {
-        for (int i = 0; i < n; i++) {
-            if (i == 0) {
-                this.x = array[0];
-            } else if (i == 1) {
-                this.y = array[1];
-            } else if (i == 2) {
-                this.y = array[2];
+        for (int i = 0; i < donor.length; i++) {
+            this.array[i] = donor[i];
+            if (i + 1 == this.n || i + 1 == donor.length) {
+                break;
             }
         }
     }

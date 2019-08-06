@@ -4,7 +4,7 @@ import ru.range.academit.range.Range;
 
 class Main {
     public static void main(String[] args) {
-        Range range1 = new Range(15, 22);
+        Range range1 = new Range(14, 19);
         Range range2 = new Range(15, 19);
 
         Range[] ranges1 = range1.getUnion(range2);
