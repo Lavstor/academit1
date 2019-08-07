@@ -145,7 +145,6 @@ public class Vector {
     }
 
     public static Vector getVectorDifference(Vector vector1, Vector vector2) {
-
         int minN = Math.min(vector1.n, vector2.n);
         int maxN = Math.max(vector1.n, vector2.n);
 
