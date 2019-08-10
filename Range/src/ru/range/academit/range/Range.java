@@ -65,12 +65,7 @@ public class Range {
     public void setTo(double to) {
         this.to = to;
     }
-
-    public void print() {
-        System.out.println(from);
-        System.out.println(to);
-    }
-
+    
     @Override
     public String toString() {
         return "{" + from + ", " + to + "}";
