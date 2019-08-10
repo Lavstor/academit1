@@ -20,19 +20,19 @@ public class Main {
 
         System.out.println(vector1);
         System.out.println(vector2);
-        vector1.getDifference(vector2);
+        vector1.difference(vector2);
         System.out.println("Разность "+ vector1);
         System.out.println();
 
         System.out.println(vector1);
         System.out.println(vector2);
-        vector1.getSum(vector2);
+        vector1.sum(vector2);
         System.out.println("Сумма "+ vector1);
         System.out.println();
 
         System.out.println(vector1);
         System.out.println(vector2);
-        vector1.getSum(vector2);
+        vector1.sum(vector2);
         System.out.println("Сумма "+ vector1);
         System.out.println();
 
@@ -48,7 +48,7 @@ public class Main {
         System.out.println();
 
         System.out.println(vector4);
-        vector4.getUturn();
+        vector4.turn();
         System.out.println("Разворот "+ vector4);
         System.out.println();
 
@@ -84,9 +84,16 @@ public class Main {
         System.out.println(vector3);
 
 
-        Vector vector7 = Vector.getVectorDifference(vector1,vector3);
-        System.out.println(vector7);
+        Vector vector7 = Vector.getDifference(vector1,vector3);
+        System.out.println("Разность " + vector7);
+        System.out.println();
 
-        Vector vector8 = new Vector(0);
+        System.out.println(vector1);
+        System.out.println(vector3);
+
+
+        Vector vector8 = Vector.getSum(vector1,vector3);
+        System.out.println("Сумма " + vector8);
+       // Vector vector8 = new Vector(0);
     }
 }
