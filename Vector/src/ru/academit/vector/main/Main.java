@@ -18,27 +18,24 @@ public class Main {
         vector2.fillArray(array);
         vector3.fillArray(array3);
 
-        System.out.println(vector1);
         System.out.println(vector2);
+        System.out.println(vector1);
         vector1.difference(vector2);
         System.out.println("Разность "+ vector1);
         System.out.println();
 
         System.out.println(vector1);
+        vector2.fillArray(array2);
         System.out.println(vector2);
-        vector1.sum(vector2);
-        System.out.println("Сумма "+ vector1);
+        vector2.sum(vector1);
+        System.out.println("Сумма "+ vector2);
         System.out.println();
 
-        System.out.println(vector1);
-        System.out.println(vector2);
-        vector1.sum(vector2);
-        System.out.println("Сумма "+ vector1);
-        System.out.println();
-
-        Vector vector4 = vector3.getVectorCopy();
-
+        Vector vector4 = new Vector(5);
         System.out.println(vector3);
+        System.out.println(vector4);
+        vector4.getVectorCopy(vector3);
+
         System.out.println("Копия "+ vector4);
         System.out.println();
 
@@ -57,15 +54,15 @@ public class Main {
         System.out.println();
 
         System.out.println(vector4);
-        vector4.setArgument(0,0);
+        vector4.setPoint(0,0);
         System.out.println("Поменяли " + vector4);
-        System.out.println("Аргумент " + vector4.getArgument(0));
+        System.out.println("Аргумент " + vector4.getPoint(0));
         System.out.println();
 
         System.out.println(vector4);
-        vector4.setArgument(0,0);
+        vector4.setPoint(0,0);
         System.out.println("Поменяли " + vector4);
-        System.out.println("Аргумент " + vector4.getArgument(0));
+        System.out.println("Аргумент " + vector4.getPoint(0));
         System.out.println();
 
         System.out.println(vector1);
@@ -74,8 +71,8 @@ public class Main {
         vector6.fillArray(array2);
         System.out.println(vector6);
 
-        Vector vector5 = Vector.getVectorComposition(vector1,vector6);
-        System.out.println(vector5);
+
+        System.out.println("Произведение " + Vector.getComposition(vector1, vector2));
         System.out.println();
 
 
@@ -94,6 +91,14 @@ public class Main {
 
         Vector vector8 = Vector.getSum(vector1,vector3);
         System.out.println("Сумма " + vector8);
+        System.out.println();
+
+        Vector vector9 = new Vector(10);
+
+        double[] array4 = {2, 1, 4, 5, 6, 7};
+
+        vector9.fillArrayToN(4, array4);
+        System.out.print(vector9);
        // Vector vector8 = new Vector(0);
     }
 }
