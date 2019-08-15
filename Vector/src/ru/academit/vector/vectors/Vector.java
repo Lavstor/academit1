@@ -14,6 +14,10 @@ public class Vector {
         components = new double[n];
     }
 
+    public double[] getComponents() {
+        return this.components;
+    }
+
     @Override
     public String toString() {
         ArrayList<Double> componentsList = new ArrayList<>();
@@ -182,7 +186,6 @@ public class Vector {
     }
 
     public static int getComposition(Vector vector1, Vector vector2) {
-
         int result = 0;
         for (int i = 0; i < Math.max(vector1.components.length, vector2.components.length); i++) {
             result += vector1.components[i] * vector2.components[i];
