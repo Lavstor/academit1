@@ -46,6 +46,11 @@ public class Matrix {
     }
 
     public void fillMatrix(double[][] donor) {
+        if (matrix.length != matrix[0].length) {
+            double[][] matrix2 = matrix;
+            matrix = new double[matrix.length][matrix.length];
+            fillMatrix(matrix2);
+        }
         for (int i = 0; i < donor.length; i++) {
             for (int j = 0; j < donor[i].length; j++) {
                 if (donor.length > matrix.length) {
@@ -67,6 +72,11 @@ public class Matrix {
     }
 
     public void fillMatrix(Vector[] vectors) {
+        if (matrix.length != matrix[0].length) {
+            double[][] matrix2 = matrix;
+            matrix = new double[matrix.length][matrix.length];
+            fillMatrix(matrix2);
+        }
         int maxLength = 0;
 
         for (Vector vector : vectors) {
@@ -137,18 +147,59 @@ public class Matrix {
         matrix = temp;
     }
 
+
     public void MatrixMultipleVector(Vector vector) {
         double[] vectorComponents = vector.getComponents();
 
-        for (int i = 0; i < matrix[0].length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                matrix[j][i] *= vectorComponents[j];
-            }
+        for (int i = 0; i < vectorComponents.length; i++) {
+           MatrixMultipleScalar(vectorComponents[i]);
         }
-        for (double temp : vectorComponents) {
-            System.out.print(temp + " ");
-        }
-        System.out.println();
     }
 
+    public void MatrixMultipleScalar(double scalar) {
+        for (int i = 0; i < matrix[i].length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                matrix[j][i] *= scalar;
+            }
+        }
+    }
+
+    public double getMatrixDeterminant() {
+        if (matrix.length == 1) {
+            return matrix[0][0];
+        }
+        double[][] matrix2 = new double[matrix.length][matrix.length];
+
+        for (int i = 0; i < matrix.length; ++i) {
+            System.arraycopy(matrix[i], 0, matrix2[i], 0, matrix.length);
+        }
+        double determinant = 1;
+
+        for (int i = 0; i < matrix2.length; ++i) {
+            if (matrix2.length - i == 2) {
+                determinant *= (matrix2[i][i] * matrix2[i + 1][i + 1] - matrix2[i][i + 1] * matrix2[i + 1][i]);
+                break;
+            }
+            doZeroAlgorithm(matrix2, i);
+            determinant *= matrix2[i][i];
+        }
+        return determinant;
+    }
+
+    private static double getMultiplyNumber(double x, double y) {
+        if (x == 0) {
+            return 0;
+        }
+        return -(y / x);
+    }
+
+    private void doZeroAlgorithm(double[][] matrix, int k) {
+        for (int i = 1 + k; i < matrix.length; ++i) {
+            double multiplyNumber = getMultiplyNumber(matrix[k][k], matrix[i][k]);
+
+            for (int j = k; j < matrix.length; ++j) {
+                matrix[i][j] += multiplyNumber * matrix[k][j];
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@ public class Main {
         Matrix matrix2 = new Matrix(3,0);
 
         double[][] array1 = {{2,3}, {4,5}};
-        double[][] array2 = {{2,4}, {7,9}};
+
 
         matrix2.fillMatrix(array1);
 
@@ -71,10 +71,26 @@ public class Main {
         matrix2.transportMatrix();
         System.out.println(matrix2);
 
+        System.out.println(matrix2);
 
-        System.out.println(vector2);
-        matrix2.MatrixMultipleVector(vector2);
+        matrix2.MatrixMultipleScalar(2);
+        System.out.println(matrix2);
 
+
+        Matrix matrix4 = new Matrix(3,3);
+        double[][] array2 = {{2,4,9}, {7,80,9}, {7,9,9}};
+        matrix4.fillMatrix(array2);
+
+        System.out.println(matrix4.getMatrixDeterminant());
+        System.out.println(matrix4);
+
+        Vector vector5 = new Vector(3);
+        double[] array6 = {4,5,6};
+
+        vector5.fillArray(array6);
+
+        System.out.println(vector5);
+        matrix2.MatrixMultipleVector(vector5);
         System.out.println(matrix2);
     }
 }
