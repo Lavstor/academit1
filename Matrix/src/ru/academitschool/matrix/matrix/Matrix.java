@@ -26,6 +26,7 @@ public class Matrix {
     public String toString() {
         StringBuilder table = new StringBuilder();
         table.append("{");
+
         for (int i = 0; i < matrix.length; i++) {
             table.append("{");
             for (int j = 0; j < matrix[i].length; j++) {
@@ -48,6 +49,7 @@ public class Matrix {
     public void fillMatrix(double[][] donor) {
         if (matrix.length != matrix[0].length) {
             double[][] matrix2 = matrix;
+
             matrix = new double[matrix.length][matrix.length];
             fillMatrix(matrix2);
         }
@@ -75,6 +77,7 @@ public class Matrix {
         if (matrix.length != matrix[0].length) {
             double[][] matrix2 = matrix;
             matrix = new double[matrix.length][matrix.length];
+
             fillMatrix(matrix2);
         }
         int maxLength = 0;
@@ -115,6 +118,7 @@ public class Matrix {
 
         Vector vector = new Vector(matrix[n].length);
         vector.fillArray(matrix[n]);
+
         return vector;
     }
 
@@ -122,13 +126,11 @@ public class Matrix {
         if (n > matrix.length) {
             throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
-
         double[] components = new double[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
             components[i] = matrix[i][n];
         }
-
         Vector vector = new Vector(matrix.length);
         vector.fillArray(components);
 
@@ -148,12 +150,21 @@ public class Matrix {
     }
 
 
-    public void MatrixMultipleVector(Vector vector) {
+    public Matrix MatrixMultipleVector(Vector vector) {
         double[] vectorComponents = vector.getComponents();
 
+        Matrix newMatrix = new Matrix(3, 1);
+
         for (int i = 0; i < vectorComponents.length; i++) {
-           MatrixMultipleScalar(vectorComponents[i]);
+            double num = 0;
+
+            for (int j = 0; j < vectorComponents.length; j++) {
+                num += matrix[i][j] * vectorComponents[j];
+            }
+            newMatrix.matrix[i][0] = num;
         }
+
+        return newMatrix;
     }
 
     public void MatrixMultipleScalar(double scalar) {
@@ -183,6 +194,7 @@ public class Matrix {
             doZeroAlgorithm(matrix2, i);
             determinant *= matrix2[i][i];
         }
+
         return determinant;
     }
 
@@ -190,6 +202,7 @@ public class Matrix {
         if (x == 0) {
             return 0;
         }
+
         return -(y / x);
     }
 
@@ -201,5 +214,68 @@ public class Matrix {
                 matrix[i][j] += multiplyNumber * matrix[k][j];
             }
         }
+    }
+
+    public void getMatrixSum(Matrix matrix) {
+        if (matrix.matrix.length != this.matrix.length) {
+            throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
+        }
+        for (int i = 0; i < this.matrix.length; i++) {
+            for (int j = 0; j < this.matrix.length; j++) {
+                this.matrix[i][j] += matrix.matrix[i][j];
+            }
+        }
+    }
+
+    public void getMatrixDifference(Matrix matrix) {
+        if (matrix.matrix.length != this.matrix.length) {
+            throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
+        }
+        for (int i = 0; i < this.matrix.length; i++) {
+            for (int j = 0; j < this.matrix.length; j++) {
+                this.matrix[i][j] -= matrix.matrix[i][j];
+            }
+        }
+    }
+
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.matrix.length != matrix2.matrix.length) {
+            throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
+        }
+        Matrix matrix3 = new Matrix(matrix1.matrix.length, matrix1.matrix.length);
+
+        matrix3.getMatrixCopy(matrix1);
+        matrix3.getMatrixDifference(matrix2);
+
+        return matrix3;
+    }
+
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.matrix.length != matrix2.matrix.length) {
+            throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
+        }
+        Matrix matrix3 = new Matrix(matrix1.matrix.length, matrix1.matrix.length);
+
+        matrix3.getMatrixCopy(matrix1);
+        matrix3.getMatrixSum(matrix2);
+
+        return matrix3;
+    }
+
+    public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.matrix.length != matrix2.matrix.length) {
+            throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
+        }
+        Matrix matrix3 = new Matrix(matrix1.matrix.length, matrix1.matrix.length);
+
+        matrix3.getMatrixCopy(matrix1);
+
+        for (int i = 0; i < matrix1.matrix.length; i++) {
+            for (int j = 0; j < matrix1.matrix.length; j++) {
+                matrix3.matrix[i][j] *= matrix2.matrix[i][j];
+            }
+        }
+
+        return matrix3;
     }
 }

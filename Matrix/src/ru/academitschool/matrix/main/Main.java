@@ -7,25 +7,21 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Matrix matrix1 = new Matrix(3,3);
+        Matrix matrix1 = new Matrix(3, 3);
         System.out.print(matrix1);
-        Matrix matrix2 = new Matrix(3,0);
+        Matrix matrix2 = new Matrix(3, 0);
 
-        double[][] array1 = {{2,3}, {4,5}};
-
+        double[][] array1 = {{2, 3}, {4, 5}};
 
         matrix2.fillMatrix(array1);
 
         System.out.println(matrix2);
 
-        Matrix matrix3 = new Matrix(3,4);
+        Matrix matrix3 = new Matrix(3, 4);
         System.out.println(matrix2);
         System.out.println(matrix3);
         matrix3.getMatrixCopy(matrix2);
         System.out.println(matrix3);
-
-
-
 
         double[] array3 = {2, 3, 4, 5, 6, 7};
         double[] array4 = {9, 3, 32, 25, 6, 10};
@@ -44,25 +40,23 @@ public class Main {
         System.out.println(vector2);
         System.out.println(vector3);
 
-        Vector[] vectors = {vector1,vector2,vector3};
+        Vector[] vectors = {vector1, vector2, vector3};
 
         matrix2.fillMatrix(vectors);
         System.out.println(matrix2);
         System.out.println(Arrays.toString(matrix2.getMatrixSize()));
 
-
-
         Vector vector4 = new Vector(1);
-        matrix2.setVectorLine(0,vector4);
+        matrix2.setVectorLine(0, vector4);
         System.out.println(matrix2);
 
         matrix2.fillMatrix(vectors);
         System.out.println(matrix2);
 
-        matrix2.setVectorLine(0,vector1);
+        matrix2.setVectorLine(0, vector1);
         System.out.println(matrix2);
 
-       System.out.println(matrix2.getVectorLine(2));
+        System.out.println(matrix2.getVectorLine(2));
 
         System.out.println(matrix2);
 
@@ -77,20 +71,50 @@ public class Main {
         System.out.println(matrix2);
 
 
-        Matrix matrix4 = new Matrix(3,3);
-        double[][] array2 = {{2,4,9}, {7,80,9}, {7,9,9}};
+        Matrix matrix4 = new Matrix(3, 3);
+        double[][] array2 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
         matrix4.fillMatrix(array2);
 
         System.out.println(matrix4.getMatrixDeterminant());
         System.out.println(matrix4);
 
         Vector vector5 = new Vector(3);
-        double[] array6 = {4,5,6};
+        double[] array6 = {4, 5, 6};
 
         vector5.fillArray(array6);
 
-        System.out.println(vector5);
-        matrix2.MatrixMultipleVector(vector5);
         System.out.println(matrix2);
+        System.out.println(vector5);
+        Matrix matrix5 = matrix2.MatrixMultipleVector(vector5);
+        System.out.println(matrix5);
+
+        double[][] array7 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
+        double[][] array8 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
+
+        Matrix matrix6 = new Matrix(3, 3);
+        Matrix matrix7 = new Matrix(3, 3);
+
+        matrix6.fillMatrix(array7);
+        matrix7.fillMatrix(array8);
+
+        System.out.println(matrix6);
+        System.out.println(matrix7);
+
+        matrix6.getMatrixSum(matrix7);
+        System.out.println(matrix6);
+
+        matrix6.getMatrixDifference(matrix7);
+        System.out.println(matrix6);
+
+        Matrix matrix8 = Matrix.getDifference(matrix7, matrix6);
+        System.out.println(matrix8);
+
+        Matrix matrix9 = Matrix.getSum(matrix7, matrix6);
+        System.out.println(matrix9);
+
+        System.out.println(matrix7);
+        System.out.println(matrix6);
+        Matrix matrix10 = Matrix.getMultiplication(matrix7, matrix6);
+        System.out.println(matrix10);
     }
 }
