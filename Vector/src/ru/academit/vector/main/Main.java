@@ -34,13 +34,13 @@ public class Main {
         Vector vector4 = new Vector(5);
         System.out.println(vector3);
         System.out.println(vector4);
-        vector4.getVectorCopy(vector3);
+        vector4.vectorCopy(vector3);
 
         System.out.println("Копия "+ vector4);
         System.out.println();
 
         System.out.println(vector4);
-        vector4.getMultiplication(10);
+        vector4.multiplication(10);
         System.out.println("Умножение "+ vector4);
         System.out.println();
 
@@ -54,15 +54,15 @@ public class Main {
         System.out.println();
 
         System.out.println(vector4);
-        vector4.setPoint(0,0);
+        vector4.setComponent(0,0);
         System.out.println("Поменяли " + vector4);
-        System.out.println("Аргумент " + vector4.getPoint(0));
+        System.out.println("Аргумент " + vector4.getComponent(0));
         System.out.println();
 
         System.out.println(vector4);
-        vector4.setPoint(0,0);
+        vector4.setComponent(0,0);
         System.out.println("Поменяли " + vector4);
-        System.out.println("Аргумент " + vector4.getPoint(0));
+        System.out.println("Аргумент " + vector4.getComponent(0));
         System.out.println();
 
         System.out.println(vector1);
@@ -97,8 +97,6 @@ public class Main {
 
         double[] array4 = {2, 1, 4, 5, 6, 7};
 
-        vector9.fillArrayToN(4, array4);
-        System.out.print(vector9);
        // Vector vector8 = new Vector(0);
     }
 }

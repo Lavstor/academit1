@@ -1,6 +1,5 @@
 package ru.academit.vector.vectors;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -18,18 +17,22 @@ public class Vector {
         return this.components;
     }
 
-    @Override
-    public String toString() {
-        ArrayList<Double> componentsList = new ArrayList<>();
-
-        for (double component : components) {
-            componentsList.add(component);
-        }
-        return componentsList.toString().replace("[", "{").
-                replace("]", "}");
+    public int getSize() {
+        return components.length;
     }
 
-    public void getVectorCopy(Vector vector) {
+    @Override
+    public String toString() {
+       StringBuilder line = new StringBuilder();
+
+        for (double component : components) {
+            line.append("{").append(component).append("}");
+        }
+
+        return line.toString();
+    }
+
+    public void vectorCopy(Vector vector) {
         double[] newArray = Arrays.copyOf(vector.components, vector.components.length);
 
         components = new double[vector.components.length];
@@ -49,7 +52,7 @@ public class Vector {
         }
     }
 
-    public void fillArrayToN(int n, double[] donor) {
+    private void fillArrayToN(int n, double[] donor) {
         if (donor.length < n) {
             Arrays.fill(components, donor.length, components.length, 0.0);
         }
@@ -66,17 +69,11 @@ public class Vector {
 
         if (Math.max(vector.components.length, components.length) == vector.components.length) {
             for (int i = 0; i < components.length; i++) {
-                arrayCopy[i] += components[i];
-            }
-            for (int i = 0; i < arrayCopy.length; i++) {
-                arrayCopy[i] += vector.components[i];
+                arrayCopy[i] += components[i] + vector.components[i];
             }
         } else {
             for (int i = 0; i < vector.components.length; i++) {
-                arrayCopy[i] += vector.components[i];
-            }
-            for (int i = 0; i < components.length; i++) {
-                arrayCopy[i] += components[i];
+                arrayCopy[i] += vector.components[i] + components[i];
             }
         }
         components = new double[arrayCopy.length];
@@ -105,16 +102,14 @@ public class Vector {
         components = arrayCopy;
     }
 
-    public void getMultiplication(int number) {
+    public void multiplication(double number) {
         for (int i = 0; i < components.length; i++) {
             components[i] = components[i] * number;
         }
     }
 
     public void turn() {
-        for (int i = 0; i < components.length; i++) {
-            components[i] = components[i] * -1;
-        }
+        multiplication(-1);
     }
 
     public double getLength() {
@@ -127,7 +122,7 @@ public class Vector {
         return Math.sqrt(length);
     }
 
-    public void setPoint(int index, double num) {
+    public void setComponent(int index, double num) {
         if (index >= components.length) {
             throw new IllegalArgumentException("Индекс больше длинны массива");
         }
@@ -137,7 +132,7 @@ public class Vector {
         components[index] = num;
     }
 
-    public double getPoint(int index) {
+    public double getComponent(int index) {
         if (index >= components.length) {
             throw new IllegalArgumentException("Индекс больше длинны массива");
         }
@@ -158,7 +153,7 @@ public class Vector {
         }
         Vector vector = (Vector) o;
 
-        return components.length == vector.components.length && Arrays.equals(components, vector.components);
+        return Arrays.equals(components, vector.components);
     }
 
     @Override
@@ -171,7 +166,7 @@ public class Vector {
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector vector3 = new Vector(Math.max(vector1.components.length, vector2.components.length));
-        vector3.getVectorCopy(vector1);
+        vector3.vectorCopy(vector1);
         vector3.sum(vector2);
 
         return vector3;
@@ -179,7 +174,7 @@ public class Vector {
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector vector3 = new Vector(Math.max(vector1.components.length, vector2.components.length));
-        vector3.getVectorCopy(vector1);
+        vector3.vectorCopy(vector1);
         vector3.difference(vector2);
 
         return vector3;
@@ -187,7 +182,9 @@ public class Vector {
 
     public static int getComposition(Vector vector1, Vector vector2) {
         int result = 0;
-        for (int i = 0; i < Math.max(vector1.components.length, vector2.components.length); i++) {
+        int min = Math.min(vector1.components.length, vector2.components.length);
+
+        for (int i = 0; i < min; i++) {
             result += vector1.components[i] * vector2.components[i];
         }
 
