@@ -22,6 +22,76 @@ public class Matrix {
         matrix = new double[n][m];
     }
 
+    public Matrix(double[][] donor) {
+        for (int i = 0; i < donor.length; i++) {
+            if (donor[i].length != donor.length) {
+                double[][] arrayCopy = donor;
+                donor = new double[donor.length][donor.length];
+                int k = 0;
+
+                for (int j = 0; j < donor.length; j++) {
+                    donor[j][k] = arrayCopy[j][i];
+                    k++;
+                }
+            }
+        }
+
+        matrix = donor;
+    }
+
+    public Matrix(Matrix matrix) {
+        double[][] newArray = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
+        this.matrix = new double[matrix.matrix.length][matrix.matrix[0].length];
+
+        fillMatrix(newArray);
+    }
+
+    private void fillMatrix(double[][] donor) {
+        if (matrix.length != matrix[0].length) {
+            double[][] matrix2 = matrix;
+
+            matrix = new double[matrix.length][matrix.length];
+            fillMatrix(matrix2);
+        }
+        for (int i = 0; i < donor.length; i++) {
+            for (int j = 0; j < donor[i].length; j++) {
+                if (donor.length > matrix.length) {
+                    matrix = new double[donor.length][matrix[i].length];
+                }
+                if (donor[i].length > matrix[i].length) {
+                    matrix = new double[matrix.length][donor[i].length];
+                }
+
+                matrix[i][j] = donor[i][j];
+            }
+        }
+    }
+
+    public Matrix(Vector[] vectors) {
+        if (matrix.length != matrix[0].length) {
+            double[][] matrix2 = matrix;
+            matrix = new double[matrix.length][matrix.length];
+
+            fillMatrix(matrix2);
+        }
+        int maxLength = 0;
+
+        for (Vector vector : vectors) {
+            if (maxLength < vector.getComponents().length) {
+                maxLength = vector.getComponents().length;
+            }
+        }
+        double[][] donor = new double[vectors.length][maxLength];
+
+        for (int i = 0; i < vectors.length; i++) {
+            for (int j = 0; j < vectors[i].getComponents().length; j++) {
+                donor[i][j] = vectors[i].getComponents()[j];
+            }
+        }
+
+        fillMatrix(donor);
+    }
+
     @Override
     public String toString() {
         StringBuilder table = new StringBuilder();
@@ -44,26 +114,6 @@ public class Matrix {
         table.append("}\n");
 
         return table.toString();
-    }
-
-    public void fillMatrix(double[][] donor) {
-        if (matrix.length != matrix[0].length) {
-            double[][] matrix2 = matrix;
-
-            matrix = new double[matrix.length][matrix.length];
-            fillMatrix(matrix2);
-        }
-        for (int i = 0; i < donor.length; i++) {
-            for (int j = 0; j < donor[i].length; j++) {
-                if (donor.length > matrix.length) {
-                    matrix = new double[donor.length][matrix[i].length];
-                }
-                if (donor[i].length > matrix[i].length) {
-                    matrix = new double[matrix.length][donor[i].length];
-                }
-                matrix[i][j] = donor[i][j];
-            }
-        }
     }
 
     public void getMatrixCopy(Matrix matrix) {
@@ -116,8 +166,7 @@ public class Matrix {
             throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
 
-        Vector vector = new Vector(matrix[n].length);
-        vector.fillArray(matrix[n]);
+        Vector vector = new Vector(matrix[n]);
 
         return vector;
     }
@@ -131,8 +180,7 @@ public class Matrix {
         for (int i = 0; i < matrix.length; i++) {
             components[i] = matrix[i][n];
         }
-        Vector vector = new Vector(matrix.length);
-        vector.fillArray(components);
+        Vector vector = new Vector(components);
 
         return vector;
     }

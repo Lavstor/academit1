@@ -140,7 +140,7 @@ public class Vector {
         if (index < 0) {
             throw new IllegalArgumentException("Индекс меньше 0");
         }
-        
+
         components[index] = num;
     }
 

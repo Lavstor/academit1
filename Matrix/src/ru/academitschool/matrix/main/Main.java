@@ -9,11 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Matrix matrix1 = new Matrix(3, 3);
         System.out.print(matrix1);
-        Matrix matrix2 = new Matrix(3, 0);
 
         double[][] array1 = {{2, 3}, {4, 5}};
-
-        matrix2.fillMatrix(array1);
+        Matrix matrix2 = new Matrix(array1);
 
         System.out.println(matrix2);
 
@@ -27,13 +25,9 @@ public class Main {
         double[] array4 = {9, 3, 32, 25, 6, 10};
         double[] array5 = {12, 3, 1, 5, 4, 7};
 
-        Vector vector1 = new Vector(2);
-        Vector vector2 = new Vector(4);
-        Vector vector3 = new Vector(4);
-
-        vector1.fillArray(array3);
-        vector2.fillArray(array4);
-        vector3.fillArray(array5);
+        Vector vector1 = new Vector(array3);
+        Vector vector2 = new Vector(array4);
+        Vector vector3 = new Vector(array5);
 
         System.out.println(matrix2);
         System.out.println(vector1);
@@ -71,17 +65,16 @@ public class Main {
         System.out.println(matrix2);
 
 
-        Matrix matrix4 = new Matrix(3, 3);
+
         double[][] array2 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-        matrix4.fillMatrix(array2);
+        Matrix matrix4 = new Matrix(array2);
 
         System.out.println(matrix4.getMatrixDeterminant());
         System.out.println(matrix4);
 
-        Vector vector5 = new Vector(3);
         double[] array6 = {4, 5, 6};
+        Vector vector5 = new Vector(array6);
 
-        vector5.fillArray(array6);
 
         System.out.println(matrix2);
         System.out.println(vector5);
@@ -91,11 +84,9 @@ public class Main {
         double[][] array7 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
         double[][] array8 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
 
-        Matrix matrix6 = new Matrix(3, 3);
-        Matrix matrix7 = new Matrix(3, 3);
+        Matrix matrix6 = new Matrix(array7);
+        Matrix matrix7 = new Matrix(array8);
 
-        matrix6.fillMatrix(array7);
-        matrix7.fillMatrix(array8);
 
         System.out.println(matrix6);
         System.out.println(matrix7);
