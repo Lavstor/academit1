@@ -13,6 +13,34 @@ public class Vector {
         components = new double[n];
     }
 
+    public Vector(double[] donor) {
+        if (donor.length <= 0) {
+            throw new IllegalArgumentException("Размерность должна быть больше 0");
+        }
+
+        components = donor;
+    }
+
+    public Vector(Vector vector) {
+        double[] newArray = Arrays.copyOf(vector.components, vector.components.length);
+
+        components = new double[vector.components.length];
+
+        fillArray(newArray);
+    }
+
+    public Vector(int n, double[] donor) {
+        if (donor.length < n) {
+            Arrays.fill(components, donor.length, components.length, 0.0);
+        }
+        for (int i = 0; i < donor.length; i++) {
+            components[i] = donor[i];
+            if (i + 1 == components.length || i + 1 == donor.length) {
+                break;
+            }
+        }
+    }
+
     public double[] getComponents() {
         return this.components;
     }
@@ -32,7 +60,7 @@ public class Vector {
         return line.toString();
     }
 
-    public void copy(Vector vector) {
+    private void copy(Vector vector) {
         double[] newArray = Arrays.copyOf(vector.components, vector.components.length);
 
         components = new double[vector.components.length];
@@ -40,20 +68,8 @@ public class Vector {
         fillArray(newArray);
     }
 
-    public void fillArray(double[] donor) {
+    private void fillArray(double[] donor) {
         if (donor.length < components.length) {
-            Arrays.fill(components, donor.length, components.length, 0.0);
-        }
-        for (int i = 0; i < donor.length; i++) {
-            components[i] = donor[i];
-            if (i + 1 == components.length || i + 1 == donor.length) {
-                break;
-            }
-        }
-    }
-
-    private void fillArrayToN(int n, double[] donor) {
-        if (donor.length < n) {
             Arrays.fill(components, donor.length, components.length, 0.0);
         }
         for (int i = 0; i < donor.length; i++) {
@@ -85,6 +101,9 @@ public class Vector {
 
             for (int i = 0; i < components.length; i++) {
                 arrayCopy[i] = vector.components[i] - arrayCopy[i];
+            }
+            for (int i = components.length; i < vector.components.length; i++) {
+                arrayCopy[i] *= -1;
             }
             components = arrayCopy;
         } else {
@@ -121,6 +140,7 @@ public class Vector {
         if (index < 0) {
             throw new IllegalArgumentException("Индекс меньше 0");
         }
+        
         components[index] = num;
     }
 
@@ -151,8 +171,8 @@ public class Vector {
     @Override
     public int hashCode() {
         int result = Objects.hash(components.length);
-
         result = 31 * result + Arrays.hashCode(components);
+
         return result;
     }
 
@@ -174,9 +194,10 @@ public class Vector {
 
     public static int getComposition(Vector vector1, Vector vector2) {
         int result = 0;
-        int min = Math.min(vector1.components.length, vector2.components.length);
 
-        for (int i = 0; i < min; i++) {
+        int minLength = Math.min(vector1.components.length, vector2.components.length);
+
+        for (int i = 0; i < minLength; i++) {
             result += vector1.components[i] * vector2.components[i];
         }
 

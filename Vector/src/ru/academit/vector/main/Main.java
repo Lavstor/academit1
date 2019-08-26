@@ -4,24 +4,21 @@ import ru.academit.vector.vectors.Vector;
 
 public class Main {
     public static void main(String[] args) {
-        Vector vector1 = new Vector(2);
-        Vector vector2 = new Vector(5);
-        Vector vector3 = new Vector(2);
+
 
         double[] array = {2, 3, 4, 5, 6, 7};
 
         double[] array2 = {2, 0, 4};
         double[] array3 = {-20, 5};
 
+        Vector vector1 = new Vector(array);
+        Vector vector2 = new Vector(array);
+        Vector vector3 = new Vector(array3);
 
-        vector1.fillArray(array);
-        vector2.fillArray(array);
-        vector3.fillArray(array3);
-
-        Vector vector4 = new Vector(5);
+        Vector vector4 = new Vector(vector3);
         System.out.println(vector3);
         System.out.println(vector4);
-        vector4.copy(vector3);
+
 
         System.out.println("Копия "+ vector4);
         System.out.println();
@@ -46,23 +43,15 @@ public class Main {
         System.out.println("Аргумент " + vector4.getComponent(0));
         System.out.println();
 
-        System.out.println(vector4);
-        vector4.setComponent(0,0);
-        System.out.println("Поменяли " + vector4);
-        System.out.println("Аргумент " + vector4.getComponent(0));
-        System.out.println();
-
         System.out.println(vector1);
 
-        Vector vector6 = new Vector(3);
-        vector6.fillArray(array2);
+        Vector vector6 = new Vector(array2);
+
         System.out.println(vector6);
 
 
         System.out.println("Произведение " + Vector.getComposition(vector1, vector2));
         System.out.println();
-
-
 
         System.out.println(vector1);
         System.out.println(vector3);
@@ -80,32 +69,19 @@ public class Main {
         System.out.println("Сумма " + vector8);
         System.out.println();
 
-        Vector vector9 = new Vector(10);
-
-        double[] array4 = {2, 1, 4, 5, 6, 7};
-
-       // Vector vector8 = new Vector(0);
-
-        System.out.println(vector1);
         System.out.println(vector2);
-        vector1.doDifference(vector2);
-        System.out.println("Разность "+ vector1);
+        System.out.println(vector3);
+
+        vector2.doDifference(vector3);
+        System.out.println("Разность "+ vector2);
         System.out.println();
-
-        System.out.println(vector1);
-        vector2.fillArray(array2);
-        System.out.println(vector2);
-        vector2.doSum(vector1);
 
         double[] array5 = {2, 0, 4};
-        double[] array6 = {-20, 5};
+        double[] array6 = {-20, 5, 2, 4, 5, 6};
 
         System.out.println();
 
-        Vector vector5 = new Vector(6);
-
-        vector2.fillArray(array5);
-        vector5.fillArray(array5);
+        Vector vector5 = new Vector(array6);
 
         System.out.println(vector5);
         System.out.println(vector2);
