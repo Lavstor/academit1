@@ -61,7 +61,6 @@ public class Vector {
                 line.append(", ");
             }
         }
-        
         line.append("}");
 
         return line.toString();

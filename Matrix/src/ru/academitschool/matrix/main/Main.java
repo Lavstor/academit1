@@ -108,8 +108,44 @@ public class Main {
         Matrix matrix10 = Matrix.getMultiplication(matrix7, matrix6);
         System.out.println(matrix10);*/
 
-        double[][] array7 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-        Matrix matrix1 = new Matrix(array7);
+        double[][] array1 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
+        double[][] array2 = {{2, 14, 9, 1}, {7, 80, 9, 2}, {7, 9, 9, 2}};
+
+        Matrix matrix1 = new Matrix(array1);
         System.out.println(matrix1);
+        System.out.println();
+
+
+        Matrix matrix2 = new Matrix(matrix1);
+        System.out.println(matrix2);
+        System.out.println();
+
+        double[] array3 = {1, 24, 9};
+        double[] array4 = {11, 4, 9};
+        double[] array5 = {1, 4, 92};
+
+        Vector vector1 = new Vector(array3);
+        Vector vector2 = new Vector(array4);
+        Vector vector3 = new Vector(array5);
+
+        Vector[] vectors = {vector1, vector2, vector3};
+
+        Matrix matrix3 = new Matrix(vectors);
+
+        System.out.println(matrix3);
+        System.out.println();
+
+        Matrix matrix4 = new Matrix(3);
+
+        System.out.println(matrix4);
+
+        matrix4.setVectorLine(2, vector1);
+        matrix4.setVectorLine(0, vector2);
+        System.out.println(matrix4);
+        System.out.println();
+
+        Vector vector4 = matrix4.getVectorColumn(0);
+        System.out.println(vector4);
+        System.out.println();
     }
 }

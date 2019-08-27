@@ -7,6 +7,10 @@ public class Matrix {
 
     public Matrix(int m) {
         matrix = new Vector[m];
+
+        for(int i = 0; i < m; i++){
+            matrix[i] = new Vector(m);
+        }
     }
 
     public Matrix(double[][] donor) {
@@ -32,14 +36,59 @@ public class Matrix {
 
     }
 
-   /* public Matrix(Matrix matrix) {
-        double[][] newArray = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
-        this.matrix = new double[matrix.matrix.length][matrix.matrix[0].length];
-
-        fillMatrix(newArray);
+    public Matrix(Matrix matrix) {
+        this.matrix = matrix.matrix;
     }
 
-    private void fillMatrix(double[][] donor) {
+    public Matrix(Vector[] vectors) {
+        for (Vector vector : vectors) {
+            if (vector.getComponents().length != vectors.length) {
+                throw new IllegalArgumentException("Ошибка в размерности вектора");
+            }
+        }
+        matrix = vectors;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder table = new StringBuilder();
+        table.append("{");
+
+        for (Vector aMatrix : matrix) {
+            table.append(aMatrix);
+        }
+        table.append("}");
+
+        return table.toString();
+    }
+
+    public int getMatrixSize() {
+        return matrix.length;
+    }
+
+    public void setVectorLine(int n, Vector vector) {
+        if (n >= matrix.length || vector.getComponents().length != matrix.length) {
+            throw new IllegalArgumentException("Размерность или индекс не корректны");
+        }
+
+        matrix[n] = vector;
+    }
+
+    public Vector getVectorColumn(int n) {
+        if (n >= matrix.length) {
+            throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
+        }
+        double[] components = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            components[i] = matrix[i].getComponent(n);
+        }
+
+        return new Vector(components);
+    }
+
+
+    /*private void fillMatrix(double[][] donor) {
         if (matrix.length != matrix[0].length) {
             double[][] matrix2 = matrix;
 
@@ -59,44 +108,7 @@ public class Matrix {
             }
         }
     }
-
-    public Matrix(Vector[] vectors) {
-        if (matrix.length != matrix[0].length) {
-            double[][] matrix2 = matrix;
-            matrix = new double[matrix.length][matrix.length];
-
-            fillMatrix(matrix2);
-        }
-        int maxLength = 0;
-
-        for (Vector vector : vectors) {
-            if (maxLength < vector.getComponents().length) {
-                maxLength = vector.getComponents().length;
-            }
-        }
-        double[][] donor = new double[vectors.length][maxLength];
-
-        for (int i = 0; i < vectors.length; i++) {
-            for (int j = 0; j < vectors[i].getComponents().length; j++) {
-                donor[i][j] = vectors[i].getComponents()[j];
-            }
-        }
-
-        fillMatrix(donor);
-    }
 */
-    @Override
-    public String toString() {
-        StringBuilder table = new StringBuilder();
-        table.append("{");
-
-        for (Vector aMatrix : matrix) {
-            table.append(aMatrix);
-        }
-        table.append("}");
-
-        return table.toString();
-    }
 
   /*  public void getMatrixCopy(Matrix matrix) {
         double[][] newArray = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
@@ -130,18 +142,9 @@ public class Matrix {
         fillMatrix(donor);
     }
 
-    public int[] getMatrixSize() {
-        return new int[]{matrix.length, matrix[0].length};
-    }
 
-    public void setVectorLine(int n, Vector vector) {
-        if (n > matrix[n].length) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
-        }
-        for (int i = 0; i < vector.getComponents().length; i++) {
-            matrix[n][i] = vector.getComponents()[i];
-        }
-    }
+
+
 
     public Vector getVectorLine(int n) {
         if (n > matrix[n].length) {
@@ -153,19 +156,7 @@ public class Matrix {
         return vector;
     }
 
-    public Vector getVectorColumn(int n) {
-        if (n > matrix.length) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
-        }
-        double[] components = new double[matrix.length];
 
-        for (int i = 0; i < matrix.length; i++) {
-            components[i] = matrix[i][n];
-        }
-        Vector vector = new Vector(components);
-
-        return vector;
-    }
 
     public void transportMatrix() {
         double[][] temp = new double[matrix[0].length][matrix.length];
