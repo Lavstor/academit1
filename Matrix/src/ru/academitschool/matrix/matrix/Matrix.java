@@ -2,24 +2,11 @@ package ru.academitschool.matrix.matrix;
 
 import ru.academit.vector.vectors.Vector;
 
-import java.util.Arrays;
-
-
 public class Matrix {
-    private double[][] matrix;
+    private Vector[] matrix;
 
-    public Matrix(int n, int m) {
-        if (n <= 0 && m > 0) {
-            n = m;
-        }
-        if (m <= 0 && n > 0) {
-            m = n;
-        }
-        if (m <= 0) {
-            m = 1;
-            n = 1;
-        }
-        matrix = new double[n][m];
+    public Matrix(int m) {
+        matrix = new Vector[m];
     }
 
     public Matrix(double[][] donor) {
@@ -27,6 +14,7 @@ public class Matrix {
             if (donor[i].length != donor.length) {
                 double[][] arrayCopy = donor;
                 donor = new double[donor.length][donor.length];
+
                 int k = 0;
 
                 for (int j = 0; j < donor.length; j++) {
@@ -35,11 +23,16 @@ public class Matrix {
                 }
             }
         }
+        matrix = new Vector[donor.length];
 
-        matrix = donor;
+        for (int i = 0; i < donor.length; i++) {
+
+            matrix[i] = new Vector(donor[i]);
+        }
+
     }
 
-    public Matrix(Matrix matrix) {
+   /* public Matrix(Matrix matrix) {
         double[][] newArray = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
         this.matrix = new double[matrix.matrix.length][matrix.matrix[0].length];
 
@@ -91,32 +84,21 @@ public class Matrix {
 
         fillMatrix(donor);
     }
-
+*/
     @Override
     public String toString() {
         StringBuilder table = new StringBuilder();
         table.append("{");
 
-        for (int i = 0; i < matrix.length; i++) {
-            table.append("{");
-            for (int j = 0; j < matrix[i].length; j++) {
-                table.append(matrix[i][j]);
-                if (j != matrix[i].length - 1) {
-                    table.append(", ");
-                }
-            }
-            if (i != matrix.length - 1) {
-                table.append("}, ");
-            } else {
-                table.append("}");
-            }
+        for (Vector aMatrix : matrix) {
+            table.append(aMatrix);
         }
-        table.append("}\n");
+        table.append("}");
 
         return table.toString();
     }
 
-    public void getMatrixCopy(Matrix matrix) {
+  /*  public void getMatrixCopy(Matrix matrix) {
         double[][] newArray = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
         this.matrix = new double[matrix.matrix.length][matrix.matrix[0].length];
 
@@ -325,5 +307,5 @@ public class Matrix {
         }
 
         return matrix3;
-    }
+    }*/
 }

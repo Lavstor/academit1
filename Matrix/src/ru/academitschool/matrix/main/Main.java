@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Matrix matrix1 = new Matrix(3, 3);
+       /* Matrix matrix1 = new Matrix(3, 3);
         System.out.print(matrix1);
 
         double[][] array1 = {{2, 3}, {4, 5}};
@@ -106,6 +106,10 @@ public class Main {
         System.out.println(matrix7);
         System.out.println(matrix6);
         Matrix matrix10 = Matrix.getMultiplication(matrix7, matrix6);
-        System.out.println(matrix10);
+        System.out.println(matrix10);*/
+
+        double[][] array7 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
+        Matrix matrix1 = new Matrix(array7);
+        System.out.println(matrix1);
     }
 }

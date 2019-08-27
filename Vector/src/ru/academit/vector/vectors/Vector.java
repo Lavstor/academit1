@@ -53,9 +53,16 @@ public class Vector {
     public String toString() {
         StringBuilder line = new StringBuilder();
 
-        for (double component : components) {
-            line.append("{").append(component).append("}");
+        line.append("{");
+
+        for(int i = 0; i < components.length; i++){
+            line.append(components[i]);
+            if(i + 1 != components.length){
+                line.append(", ");
+            }
         }
+        
+        line.append("}");
 
         return line.toString();
     }
