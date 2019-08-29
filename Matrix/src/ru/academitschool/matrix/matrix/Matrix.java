@@ -2,6 +2,8 @@ package ru.academitschool.matrix.matrix;
 
 import ru.academit.vector.vectors.Vector;
 
+import java.util.Arrays;
+
 public class Matrix {
     private Vector[] matrix;
 
@@ -30,7 +32,6 @@ public class Matrix {
         matrix = new Vector[donor.length];
 
         for (int i = 0; i < donor.length; i++) {
-
             matrix[i] = new Vector(donor[i]);
         }
 
@@ -42,11 +43,11 @@ public class Matrix {
 
     public Matrix(Vector[] vectors) {
         for (Vector vector : vectors) {
-            if (vector.getComponents().length != vectors.length) {
+            if (vector.getLength() != vectors.length) {
                 throw new IllegalArgumentException("Ошибка в размерности вектора");
             }
         }
-        matrix = vectors;
+        matrix = Arrays.copyOf(vectors, vectors.length);
     }
 
     @Override
@@ -67,11 +68,11 @@ public class Matrix {
     }
 
     public void setVectorLine(int n, Vector vector) {
-        if (n >= matrix.length || vector.getComponents().length != matrix.length || n < 0) {
+        if (n >= matrix.length || vector.getLength() != matrix.length || n < 0) {
             throw new IllegalArgumentException("Размерность или индекс не корректны");
         }
 
-        matrix[n] = vector;
+        matrix[n] = new Vector(vector);
     }
 
     public Vector getVectorLine(int n) {
@@ -106,7 +107,7 @@ public class Matrix {
             }
         }
 
-        matrix = temp;
+        matrix = Arrays.copyOf(temp, temp.length);
     }
 
     public void MatrixMultipleScalar(double scalar) {
@@ -177,7 +178,7 @@ public class Matrix {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
         for (int i = 0; i < this.matrix.length; i++) {
-                this.matrix[i].doSum(matrix.matrix[i]);
+            this.matrix[i].doSum(matrix.matrix[i]);
         }
     }
 
@@ -212,16 +213,15 @@ public class Matrix {
         return matrix3;
     }
 
-   public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
         if (matrix1.matrix.length != matrix2.matrix.length) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
-        Matrix matrix3 = new Matrix(matrix1);
+        Matrix matrix3 = new Matrix(matrix2);
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
-            for (int j = 0; j < matrix1.matrix.length; j++) {
-                matrix3.matrix[i].setComponent(j,matrix3.matrix[i].getComponent(j) *
-                        matrix2.matrix[i].getComponent(j));
+            for(int j = 0 ; j < matrix1.matrix.length; j++){
+                matrix3.matrix[i].setComponent(j, Vector.getComposition(matrix2.getVectorLine(i), matrix3.getVectorLine(j)));
             }
         }
 

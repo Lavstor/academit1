@@ -16,11 +16,13 @@ public class Main {
         Vector vector3 = new Vector(array3);
 
         Vector vector4 = new Vector(vector3);
-        System.out.println(vector3);
-        System.out.println(vector4);
+        System.out.println(vector1);
+        for(int i = 0; i < array.length; i++){
+            array[i] = 1;
+        }
+        System.out.println(vector1);
 
-
-        System.out.println("Копия "+ vector4);
+      /*  System.out.println("Копия "+ vector4);
         System.out.println();
 
         System.out.println(vector4);
@@ -89,6 +91,6 @@ public class Main {
         vector2.doSum(vector5);
 
         System.out.println("Сумма "+ vector2);
-        System.out.println();
+        System.out.println();*/
     }
 }

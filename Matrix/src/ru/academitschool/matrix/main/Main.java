@@ -200,29 +200,18 @@ public class Main {
 
         Matrix matrix5 = Matrix.getDifference(matrix1, matrix2);
 
-
         System.out.println(matrix5);
         System.out.println();
 
+
+        System.out.println(matrix1);
         System.out.println(matrix2);
 
-        double[] array10 = {1, 24, 9, 2};
-        double[] array11 = {11, 4, 9, 7};
-        double[] array12 = {1, 4, 92, 10};
-        double[] array13 = {11, 47, 2, 0};
+        matrix5 = Matrix.getMultiplication(matrix1, matrix2);
+        System.out.println("getMultiplication" + matrix5);
+        System.out.println();
 
-
-        Vector vector11 = new Vector(array7);
-        Vector vector12 = new Vector(array8);
-        Vector vector13 = new Vector(array9);
-        Vector vector14 = new Vector(array6);
-
-        Vector[] vectors4 = {vector11, vector12, vector13, vector14};
-
-        Matrix matrix6 = new Matrix(vectors4);
-
-        Matrix matrix7 = Matrix.getMultiplication(matrix6,matrix6);
-        System.out.println(matrix7);
-
+        System.out.println(matrix1);
+        System.out.println(matrix2);
     }
 }

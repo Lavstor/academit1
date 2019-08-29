@@ -17,32 +17,18 @@ public class Vector {
         if (donor.length <= 0) {
             throw new IllegalArgumentException("Размерность должна быть больше 0");
         }
-
-        components = donor;
+        components = Arrays.copyOf(donor, donor.length);
     }
 
     public Vector(Vector vector) {
-        double[] newArray = Arrays.copyOf(vector.components, vector.components.length);
-
-        components = new double[vector.components.length];
-
-        fillArray(newArray);
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(int n, double[] donor) {
         if (donor.length < n) {
             Arrays.fill(components, donor.length, components.length, 0.0);
         }
-        for (int i = 0; i < donor.length; i++) {
-            components[i] = donor[i];
-            if (i + 1 == components.length || i + 1 == donor.length) {
-                break;
-            }
-        }
-    }
-
-    public double[] getComponents() {
-        return this.components;
+        components = Arrays.copyOf(donor, n);
     }
 
     public int getSize() {
@@ -55,9 +41,9 @@ public class Vector {
 
         line.append("{");
 
-        for(int i = 0; i < components.length; i++){
+        for (int i = 0; i < components.length; i++) {
             line.append(components[i]);
-            if(i + 1 != components.length){
+            if (i + 1 != components.length) {
                 line.append(", ");
             }
         }
@@ -66,44 +52,17 @@ public class Vector {
         return line.toString();
     }
 
-    private void copy(Vector vector) {
-        double[] newArray = Arrays.copyOf(vector.components, vector.components.length);
-
-        components = new double[vector.components.length];
-
-        fillArray(newArray);
-    }
-
-    private void fillArray(double[] donor) {
-        if (donor.length < components.length) {
-            Arrays.fill(components, donor.length, components.length, 0.0);
-        }
-        for (int i = 0; i < donor.length; i++) {
-            components[i] = donor[i];
-            if (i + 1 == components.length || i + 1 == donor.length) {
-                break;
-            }
-        }
-    }
 
     public void doSum(Vector vector) {
         if (components.length < vector.components.length) {
-            double[] arrayCopy = vector.components;
-
-            for (int i = 0; i < components.length; i++) {
-                arrayCopy[i] += components[i];
-            }
-            components = arrayCopy;
-        } else {
-            for (int i = 0; i < vector.components.length; i++) {
-                components[i] += vector.components[i];
-            }
+            this. (vector.components.length, components);
         }
+        double[] newArray = Arrays.copyOf(components, vector.components.length);
     }
 
     public void doDifference(Vector vector) {
         if (components.length < vector.components.length) {
-            double[] arrayCopy = vector.components;
+            double[] arrayCopy = Arrays.copyOf(vector.components, vector.components.length);
 
             for (int i = 0; i < components.length; i++) {
                 arrayCopy[i] = vector.components[i] - arrayCopy[i];
@@ -121,7 +80,7 @@ public class Vector {
 
     public void doMultiplication(double number) {
         for (int i = 0; i < components.length; i++) {
-            components[i] = components[i] * number;
+            components[i] *= number;
         }
     }
 
@@ -183,16 +142,14 @@ public class Vector {
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        Vector vector3 = new Vector(Math.max(vector1.components.length, vector2.components.length));
-        vector3.copy(vector1);
+        Vector vector3 = new Vector(vector1);
         vector3.doSum(vector2);
 
         return vector3;
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        Vector vector3 = new Vector(Math.max(vector1.components.length, vector2.components.length));
-        vector3.copy(vector1);
+        Vector vector3 = new Vector(vector1);
         vector3.doDifference(vector2);
 
         return vector3;
