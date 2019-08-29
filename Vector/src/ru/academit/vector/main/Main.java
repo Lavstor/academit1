@@ -2,27 +2,32 @@ package ru.academit.vector.main;
 
 import ru.academit.vector.vectors.Vector;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 
 
-        double[] array = {2, 3, 4, 5, 6, 7};
+        double[] array = {2, 3, 4, 5, 6};
 
         double[] array2 = {2, 0, 4};
         double[] array3 = {-20, 5};
 
-        Vector vector1 = new Vector(array);
-        Vector vector2 = new Vector(array);
+        Vector vector1 = new Vector(0);
+        Vector vector2 = new Vector(array2);
         Vector vector3 = new Vector(array3);
 
         Vector vector4 = new Vector(vector3);
-        System.out.println(vector1);
-        for(int i = 0; i < array.length; i++){
-            array[i] = 1;
-        }
+        System.out.println(vector2);
         System.out.println(vector1);
 
-      /*  System.out.println("Копия "+ vector4);
+        vector2.doDifference(vector1);
+
+        System.out.println(vector2);
+
+        System.out.println(Arrays.toString(array));
+        System.out.println(Arrays.toString(array2));
+        System.out.println("Копия "+ vector4);
         System.out.println();
 
         System.out.println(vector4);
@@ -52,7 +57,7 @@ public class Main {
         System.out.println(vector6);
 
 
-        System.out.println("Произведение " + Vector.getComposition(vector1, vector2));
+        System.out.println("Произведение " + Vector.getMultiplication(vector1, vector2));
         System.out.println();
 
         System.out.println(vector1);
@@ -91,6 +96,6 @@ public class Main {
         vector2.doSum(vector5);
 
         System.out.println("Сумма "+ vector2);
-        System.out.println();*/
+        System.out.println();
     }
 }

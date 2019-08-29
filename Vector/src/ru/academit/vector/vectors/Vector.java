@@ -8,14 +8,14 @@ public class Vector {
 
     public Vector(int n) {
         if (n <= 0) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0");
+            throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
         }
         components = new double[n];
     }
 
     public Vector(double[] donor) {
         if (donor.length <= 0) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0");
+            throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
         }
         components = Arrays.copyOf(donor, donor.length);
     }
@@ -25,7 +25,7 @@ public class Vector {
     }
 
     public Vector(int n, double[] donor) {
-        if (donor.length < n) {
+        if (donor.length >= n) {
             Arrays.fill(components, donor.length, components.length, 0.0);
         }
         components = Arrays.copyOf(donor, n);
@@ -33,6 +33,24 @@ public class Vector {
 
     public int getSize() {
         return components.length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Vector vector = (Vector) o;
+
+        return Arrays.equals(components, vector.components);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(components);
     }
 
     @Override
@@ -54,28 +72,29 @@ public class Vector {
 
 
     public void doSum(Vector vector) {
-        if (components.length < vector.components.length) {
-            this. (vector.components.length, components);
+        if (this.components.length < vector.components.length) {
+         new Vector(vector.components.length, this.components);
         }
         double[] newArray = Arrays.copyOf(components, vector.components.length);
+
+        for(int i = 0; i < newArray.length; i++){
+            newArray[i] += vector.components[i];
+        }
+
+        this.components = Arrays.copyOf(newArray, newArray.length);
     }
 
     public void doDifference(Vector vector) {
-        if (components.length < vector.components.length) {
-            double[] arrayCopy = Arrays.copyOf(vector.components, vector.components.length);
-
-            for (int i = 0; i < components.length; i++) {
-                arrayCopy[i] = vector.components[i] - arrayCopy[i];
-            }
-            for (int i = components.length; i < vector.components.length; i++) {
-                arrayCopy[i] *= -1;
-            }
-            components = arrayCopy;
-        } else {
-            for (int i = 0; i < vector.components.length; i++) {
-                components[i] -= vector.components[i];
-            }
+        if (this.components.length < vector.components.length) {
+            new Vector(vector.components.length, this.components);
         }
+        double[] newArray = Arrays.copyOf(components, vector.components.length);
+
+        for(int i = 0; i < newArray.length; i++){
+            newArray[i] -= vector.components[i];
+        }
+
+        this.components = Arrays.copyOf(newArray, newArray.length);
     }
 
     public void doMultiplication(double number) {
@@ -91,54 +110,33 @@ public class Vector {
     public double getLength() {
         double length = 0;
 
-        for (double anArray : components) {
-            length += Math.pow(anArray, 2);
+        for (double component : components) {
+            length += Math.pow(component, 2);
         }
 
         return Math.sqrt(length);
     }
 
-    public void setComponent(int index, double num) {
+    public void setComponent(int index, double number) {
         if (index >= components.length) {
-            throw new IllegalArgumentException("Индекс больше длинны массива");
+            throw new ArrayIndexOutOfBoundsException("Индекс больше длинны массива");
         }
         if (index < 0) {
-            throw new IllegalArgumentException("Индекс меньше 0");
+            throw new ArrayIndexOutOfBoundsException("Индекс меньше 0");
         }
 
-        components[index] = num;
+        components[index] = number;
     }
 
     public double getComponent(int index) {
         if (index >= components.length) {
-            throw new IllegalArgumentException("Индекс больше длинны массива");
+            throw new ArrayIndexOutOfBoundsException("Индекс больше длинны массива");
         }
         if (index < 0) {
-            throw new IllegalArgumentException("Индекс меньше 0");
+            throw new ArrayIndexOutOfBoundsException("Индекс меньше 0");
         }
 
         return components[index];
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Vector vector = (Vector) o;
-
-        return Arrays.equals(components, vector.components);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(components.length);
-        result = 31 * result + Arrays.hashCode(components);
-
-        return result;
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
@@ -155,7 +153,7 @@ public class Vector {
         return vector3;
     }
 
-    public static int getComposition(Vector vector1, Vector vector2) {
+    public static int getMultiplication(Vector vector1, Vector vector2) {
         int result = 0;
 
         int minLength = Math.min(vector1.components.length, vector2.components.length);
