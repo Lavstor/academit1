@@ -7,11 +7,14 @@ import java.util.Arrays;
 public class Matrix {
     private Vector[] matrix;
 
-    public Matrix(int m) {
-        matrix = new Vector[m];
+    public Matrix(int index) {
+        if (index <= 0) {
+            index = 1;
+        }
+        matrix = new Vector[index];
 
-        for (int i = 0; i < m; i++) {
-            matrix[i] = new Vector(m);
+        for (int i = 0; i < index; i++) {
+            matrix[i] = new Vector(index);
         }
     }
 
@@ -43,7 +46,7 @@ public class Matrix {
 
     public Matrix(Vector[] vectors) {
         for (Vector vector : vectors) {
-            if (vector.getLength() != vectors.length) {
+            if (vector.getSize() != vectors.length) {
                 throw new IllegalArgumentException("Ошибка в размерности вектора");
             }
         }
@@ -68,7 +71,7 @@ public class Matrix {
     }
 
     public void setVectorLine(int n, Vector vector) {
-        if (n >= matrix.length || vector.getLength() != matrix.length || n < 0) {
+        if (n > matrix.length || vector.getSize() != matrix.length || n < 0) {
             throw new IllegalArgumentException("Размерность или индекс не корректны");
         }
 
@@ -96,7 +99,7 @@ public class Matrix {
         return new Vector(components);
     }
 
-    public void transportMatrix() {
+    public void transport() {
         Vector[] temp = new Vector[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -110,13 +113,13 @@ public class Matrix {
         matrix = Arrays.copyOf(temp, temp.length);
     }
 
-    public void MatrixMultipleScalar(double scalar) {
+    public void multipleScalar(double scalar) {
         for (Vector aMatrix : matrix) {
             aMatrix.doMultiplication(scalar);
         }
     }
 
-    public double getMatrixDeterminant() {
+    public double getDeterminant() {
         if (matrix.length == 1) {
             return matrix[0].getComponent(0);
         }
@@ -157,7 +160,7 @@ public class Matrix {
         }
     }
 
-    public Vector MatrixMultipleVector(Vector vector) {
+    public Vector matrixMultipleVector(Vector vector) {
 
         Vector vectorToSet = new Vector(matrix.length);
 
@@ -173,7 +176,7 @@ public class Matrix {
         return vectorToSet;
     }
 
-    public void getMatrixSum(Matrix matrix) {
+    public void getSum(Matrix matrix) {
         if (matrix.matrix.length != this.matrix.length) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
@@ -182,7 +185,7 @@ public class Matrix {
         }
     }
 
-    public void getMatrixDifference(Matrix matrix) {
+    public void getDifference(Matrix matrix) {
         if (matrix.matrix.length != this.matrix.length) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
@@ -197,7 +200,7 @@ public class Matrix {
         }
         Matrix matrix3 = new Matrix(matrix1);
 
-        matrix3.getMatrixDifference(matrix2);
+        matrix3.getDifference(matrix2);
 
         return matrix3;
     }
@@ -208,7 +211,7 @@ public class Matrix {
         }
         Matrix matrix3 = new Matrix(matrix1);
 
-        matrix3.getMatrixSum(matrix2);
+        matrix3.getSum(matrix2);
 
         return matrix3;
     }
@@ -221,7 +224,7 @@ public class Matrix {
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
             for(int j = 0 ; j < matrix1.matrix.length; j++){
-                matrix3.matrix[i].setComponent(j, Vector.getComposition(matrix2.getVectorLine(i), matrix3.getVectorLine(j)));
+                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix2.getVectorLine(i), matrix3.getVectorLine(i)));
             }
         }
 

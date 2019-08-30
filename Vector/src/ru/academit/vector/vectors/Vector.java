@@ -1,7 +1,6 @@
 package ru.academit.vector.vectors;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Vector {
     private double[] components;
@@ -10,6 +9,7 @@ public class Vector {
         if (n <= 0) {
             throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
         }
+
         components = new double[n];
     }
 
@@ -17,6 +17,7 @@ public class Vector {
         if (donor.length <= 0) {
             throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
         }
+
         components = Arrays.copyOf(donor, donor.length);
     }
 
@@ -28,6 +29,7 @@ public class Vector {
         if (donor.length >= n) {
             Arrays.fill(components, donor.length, components.length, 0.0);
         }
+
         components = Arrays.copyOf(donor, n);
     }
 
@@ -36,14 +38,14 @@ public class Vector {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Vector vector = (Vector) o;
+        Vector vector = (Vector) object;
 
         return Arrays.equals(components, vector.components);
     }
@@ -153,7 +155,7 @@ public class Vector {
         return vector3;
     }
 
-    public static int getMultiplication(Vector vector1, Vector vector2) {
+    public static double getMultiplication(Vector vector1, Vector vector2) {
         int result = 0;
 
         int minLength = Math.min(vector1.components.length, vector2.components.length);

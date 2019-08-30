@@ -167,28 +167,28 @@ public class Main {
         matrix4 = new Matrix(vectors2);
 
         System.out.println(matrix4);
-        matrix4.transportMatrix();
+        matrix4.transport();
         System.out.println(matrix4);
         System.out.println();
 
-        matrix4.MatrixMultipleScalar(2);
+        matrix4.multipleScalar(2);
         System.out.println(matrix4);
         System.out.println();
 
-        System.out.println(matrix4.getMatrixDeterminant());
+        System.out.println(matrix4.getDeterminant());
         System.out.println();
 
         System.out.println(vector6);
         System.out.println(matrix4);
-        Vector vector10 = matrix4.MatrixMultipleVector(vector6);
+        Vector vector10 = matrix4.matrixMultipleVector(vector6);
         System.out.println(vector10);
         System.out.println();
 
-        matrix4.getMatrixSum(matrix4);
+        matrix4.getSum(matrix4);
         System.out.println(matrix4);
         System.out.println();
 
-        matrix4.getMatrixDifference(matrix4);
+        matrix4.getDifference(matrix4);
         System.out.println(matrix4);
         System.out.println();
 

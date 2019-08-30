@@ -6,14 +6,11 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-
-
         double[] array = {2, 3, 4, 5, 6};
-
         double[] array2 = {2, 0, 4};
         double[] array3 = {-20, 5};
 
-        Vector vector1 = new Vector(0);
+        Vector vector1 = new Vector(1);
         Vector vector2 = new Vector(array2);
         Vector vector3 = new Vector(array3);
 
@@ -55,8 +52,6 @@ public class Main {
         Vector vector6 = new Vector(array2);
 
         System.out.println(vector6);
-
-
         System.out.println("Произведение " + Vector.getMultiplication(vector1, vector2));
         System.out.println();
 
@@ -83,7 +78,6 @@ public class Main {
         System.out.println("Разность "+ vector2);
         System.out.println();
 
-        double[] array5 = {2, 0, 4};
         double[] array6 = {-20, 5, 2, 4, 5, 6};
 
         System.out.println();
@@ -97,5 +91,8 @@ public class Main {
 
         System.out.println("Сумма "+ vector2);
         System.out.println();
+
+        Vector vector9 = new Vector(9, array6);
+        System.out.println("Копия до n: " + vector9);
     }
 }
