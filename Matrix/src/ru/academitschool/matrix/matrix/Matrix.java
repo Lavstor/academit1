@@ -223,8 +223,10 @@ public class Matrix {
         Matrix matrix3 = new Matrix(matrix2);
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
+            double number = 0;
             for(int j = 0 ; j < matrix1.matrix.length; j++){
-                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix2.getVectorLine(i), matrix3.getVectorLine(i)));
+                number = matrix1.matrix[i].getComponent(j) *  matrix2.matrix[j].getComponent(i);
+               matrix3.matrix[i].setComponent(j, number + matrix3.matrix[i].getComponent(j));
             }
         }
 
