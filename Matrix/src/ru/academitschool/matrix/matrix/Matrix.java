@@ -21,7 +21,7 @@ public class Matrix {
     public Matrix(double[][] donor) {
         for (int i = 0; i < donor.length; i++) {
             if (donor[i].length != donor.length) {
-                double[][] arrayCopy = donor;
+                double[][] arrayCopy = Arrays.copyOf(donor, donor.length);
                 donor = new double[donor.length][donor.length];
 
                 int k = 0;
@@ -41,7 +41,13 @@ public class Matrix {
     }
 
     public Matrix(Matrix matrix) {
-        this.matrix = matrix.matrix;
+        Vector[] vectors = new Vector[matrix.matrix.length];
+
+        for (int i = 0; i < matrix.matrix.length; i++) {
+           vectors[i] = new Vector(matrix.matrix[i]);
+        }
+
+        this.matrix = Arrays.copyOf(vectors, vectors.length);
     }
 
     public Matrix(Vector[] vectors) {
@@ -72,7 +78,7 @@ public class Matrix {
 
     public void setVectorLine(int n, Vector vector) {
         if (n > matrix.length || vector.getSize() != matrix.length || n < 0) {
-            throw new IllegalArgumentException("Размерность или индекс не корректны");
+            throw new IndexOutOfBoundsException("Размерность или индекс не корректны");
         }
 
         matrix[n] = new Vector(vector);
@@ -80,7 +86,7 @@ public class Matrix {
 
     public Vector getVectorLine(int n) {
         if (n >= matrix.length || n < 0) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
+            throw new IndexOutOfBoundsException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
 
         return new Vector(matrix[n]);
@@ -88,7 +94,7 @@ public class Matrix {
 
     public Vector getVectorColumn(int n) {
         if (n >= matrix.length) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0 и меньше размера матрицы");
+            throw new IndexOutOfBoundsException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
         double[] components = new double[matrix.length];
 
@@ -114,8 +120,8 @@ public class Matrix {
     }
 
     public void multipleScalar(double scalar) {
-        for (Vector aMatrix : matrix) {
-            aMatrix.doMultiplication(scalar);
+        for (Vector vector : matrix) {
+            vector.doMultiplication(scalar);
         }
     }
 
@@ -165,12 +171,12 @@ public class Matrix {
         Vector vectorToSet = new Vector(matrix.length);
 
         for (int i = 0; i < matrix.length; i++) {
-            double num = 0;
+            double component = 0;
 
             for (int j = 0; j < matrix.length; j++) {
-                num += matrix[i].getComponent(j) * vector.getComponent(j);
+                component += matrix[i].getComponent(j) * vector.getComponent(j);
             }
-            vectorToSet.setComponent(i, num);
+            vectorToSet.setComponent(i, component);
         }
 
         return vectorToSet;
@@ -223,10 +229,8 @@ public class Matrix {
         Matrix matrix3 = new Matrix(matrix2);
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
-            double number = 0;
-            for(int j = 0 ; j < matrix1.matrix.length; j++){
-                number = matrix1.matrix[i].getComponent(j) *  matrix2.matrix[j].getComponent(i);
-               matrix3.matrix[i].setComponent(j, number + matrix3.matrix[i].getComponent(j));
+            for (int j = 0; j < matrix1.matrix.length; j++) {
+                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix1.getVectorLine(i), matrix2.getVectorColumn(j)));
             }
         }
 

@@ -7,109 +7,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-       /* Matrix matrix1 = new Matrix(3, 3);
-        System.out.print(matrix1);
-
-        double[][] array1 = {{2, 3}, {4, 5}};
-        Matrix matrix2 = new Matrix(array1);
-
-        System.out.println(matrix2);
-
-        Matrix matrix3 = new Matrix(3, 4);
-        System.out.println(matrix2);
-        System.out.println(matrix3);
-        matrix3.getMatrixCopy(matrix2);
-        System.out.println(matrix3);
-
-        double[] array3 = {2, 3, 4, 5, 6, 7};
-        double[] array4 = {9, 3, 32, 25, 6, 10};
-        double[] array5 = {12, 3, 1, 5, 4, 7};
-
-        Vector vector1 = new Vector(array3);
-        Vector vector2 = new Vector(array4);
-        Vector vector3 = new Vector(array5);
-
-        System.out.println(matrix2);
-        System.out.println(vector1);
-        System.out.println(vector2);
-        System.out.println(vector3);
-
-        Vector[] vectors = {vector1, vector2, vector3};
-
-        matrix2.fillMatrix(vectors);
-        System.out.println(matrix2);
-        System.out.println(Arrays.toString(matrix2.getMatrixSize()));
-
-        Vector vector4 = new Vector(1);
-        matrix2.setVectorLine(0, vector4);
-        System.out.println(matrix2);
-
-        matrix2.fillMatrix(vectors);
-        System.out.println(matrix2);
-
-        matrix2.setVectorLine(0, vector1);
-        System.out.println(matrix2);
-
-        System.out.println(matrix2.getVectorLine(2));
-
-        System.out.println(matrix2);
-
-        System.out.println(matrix2.getVectorColumn(0));
-
-        matrix2.transportMatrix();
-        System.out.println(matrix2);
-
-        System.out.println(matrix2);
-
-        matrix2.MatrixMultipleScalar(2);
-        System.out.println(matrix2);
-
-
-
-        double[][] array2 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-        Matrix matrix4 = new Matrix(array2);
-
-        System.out.println(matrix4.getMatrixDeterminant());
-        System.out.println(matrix4);
-
-        double[] array6 = {4, 5, 6};
-        Vector vector5 = new Vector(array6);
-
-
-        System.out.println(matrix2);
-        System.out.println(vector5);
-        Matrix matrix5 = matrix2.MatrixMultipleVector(vector5);
-        System.out.println(matrix5);
-
-        double[][] array7 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-        double[][] array8 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-
-        Matrix matrix6 = new Matrix(array7);
-        Matrix matrix7 = new Matrix(array8);
-
-
-        System.out.println(matrix6);
-        System.out.println(matrix7);
-
-        matrix6.getMatrixSum(matrix7);
-        System.out.println(matrix6);
-
-        matrix6.getMatrixDifference(matrix7);
-        System.out.println(matrix6);
-
-        Matrix matrix8 = Matrix.getDifference(matrix7, matrix6);
-        System.out.println(matrix8);
-
-        Matrix matrix9 = Matrix.getSum(matrix7, matrix6);
-        System.out.println(matrix9);
-
-        System.out.println(matrix7);
-        System.out.println(matrix6);
-        Matrix matrix10 = Matrix.getMultiplication(matrix7, matrix6);
-        System.out.println(matrix10);*/
-
         double[][] array1 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
-        double[][] array2 = {{2, 14, 9, 1}, {7, 80, 9, 2}, {7, 9, 9, 2}};
+
 
         Matrix matrix1 = new Matrix(array1);
         System.out.println(matrix1);
@@ -168,28 +67,28 @@ public class Main {
 
         System.out.println(matrix4);
         matrix4.transport();
-        System.out.println(matrix4);
+        System.out.println("matrix4.transport() " + matrix4);
         System.out.println();
 
         matrix4.multipleScalar(2);
-        System.out.println(matrix4);
+        System.out.println("matrix4.multipleScalar(2) " + matrix4);
         System.out.println();
 
-        System.out.println(matrix4.getDeterminant());
+        System.out.println("getDeterminant " + matrix4.getDeterminant());
         System.out.println();
 
         System.out.println(vector6);
         System.out.println(matrix4);
         Vector vector10 = matrix4.matrixMultipleVector(vector6);
-        System.out.println(vector10);
+        System.out.println("matrixMultipleVector " + vector10);
         System.out.println();
 
         matrix4.getSum(matrix4);
-        System.out.println(matrix4);
+        System.out.println("matrix4.getSum(matrix4) " + matrix4);
         System.out.println();
 
         matrix4.getDifference(matrix4);
-        System.out.println(matrix4);
+        System.out.println("matrix4getDifference " + matrix4);
         System.out.println();
 
         matrix1 = new Matrix(vectors2);
@@ -200,7 +99,7 @@ public class Main {
 
         Matrix matrix5 = Matrix.getDifference(matrix1, matrix2);
 
-        System.out.println(matrix5);
+        System.out.println("getDifference " + matrix5);
         System.out.println();
 
 
@@ -208,7 +107,7 @@ public class Main {
         System.out.println(matrix2);
 
         matrix5 = Matrix.getMultiplication(matrix1, matrix2);
-        System.out.println("getMultiplication" + matrix5);
+        System.out.println("getMultiplication " + matrix5);
         System.out.println();
 
         System.out.println(matrix1);
