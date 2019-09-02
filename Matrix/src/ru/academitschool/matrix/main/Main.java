@@ -38,16 +38,16 @@ public class Main {
 
         System.out.println(matrix4);
 
-        matrix4.setVectorLine(2, vector1);
-        matrix4.setVectorLine(0, vector2);
+        matrix4.setLine(2, vector1);
+        matrix4.setLine(0, vector2);
         System.out.println(matrix4);
         System.out.println();
 
-        Vector vector4 = matrix4.getVectorColumn(0);
+        Vector vector4 = matrix4.getColumn(0);
         System.out.println(vector4);
         System.out.println();
 
-        Vector vector5 = matrix4.getVectorLine(2);
+        Vector vector5 = matrix4.getLine(2);
         System.out.println(vector5);
         System.out.println();
 
@@ -112,5 +112,19 @@ public class Main {
 
         System.out.println(matrix1);
         System.out.println(matrix2);
+
+        double[] array10 = {1, 24, 9};
+        double[] array11 = {11, 4};
+        double[] array12 = {};
+
+        Vector vector11 = new Vector(array10);
+        Vector vector12 = new Vector(array11);
+        Vector vector13 = new Vector(3);
+
+        Vector[] vectors4 = {vector11, vector12};
+        Matrix matrix6 = new Matrix(vectors4);
+        System.out.println();
+
+        System.out.println(matrix6);
     }
 }

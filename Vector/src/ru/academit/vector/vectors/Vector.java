@@ -33,6 +33,14 @@ public class Vector {
         components = Arrays.copyOf(donor, n);
     }
 
+    public Vector(int n, Vector vector) {
+        if (vector.getSize() > n) {
+            Arrays.fill(components, vector.getSize(), components.length, 0.0);
+        }
+
+        components = Arrays.copyOf(vector.components, n);
+    }
+
     public int getSize() {
         return components.length;
     }

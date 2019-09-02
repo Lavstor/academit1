@@ -51,12 +51,21 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vectors) {
+        matrix = new Vector[vectors.length];
+
         for (Vector vector : vectors) {
             if (vector.getSize() != vectors.length) {
-                throw new IllegalArgumentException("Ошибка в размерности вектора");
+                matrix = new Vector[vector.getSize()];
+
             }
         }
-        matrix = Arrays.copyOf(vectors, vectors.length);
+        for (int i = 0; i < matrix.length; i++) {
+            if(i < vectors.length) {
+                matrix[i] = new Vector(matrix.length, vectors[i]);
+            } else{
+                matrix[i] = new Vector(matrix.length);
+            }
+        }
     }
 
     @Override
@@ -76,7 +85,7 @@ public class Matrix {
         return matrix.length;
     }
 
-    public void setVectorLine(int n, Vector vector) {
+    public void setLine(int n, Vector vector) {
         if (n > matrix.length || vector.getSize() != matrix.length || n < 0) {
             throw new IndexOutOfBoundsException("Размерность или индекс не корректны");
         }
@@ -84,7 +93,7 @@ public class Matrix {
         matrix[n] = new Vector(vector);
     }
 
-    public Vector getVectorLine(int n) {
+    public Vector getLine(int n) {
         if (n >= matrix.length || n < 0) {
             throw new IndexOutOfBoundsException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
@@ -92,7 +101,7 @@ public class Matrix {
         return new Vector(matrix[n]);
     }
 
-    public Vector getVectorColumn(int n) {
+    public Vector getColumn(int n) {
         if (n >= matrix.length) {
             throw new IndexOutOfBoundsException("Размерность должна быть больше 0 и меньше размера матрицы");
         }
@@ -230,7 +239,7 @@ public class Matrix {
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
             for (int j = 0; j < matrix1.matrix.length; j++) {
-                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix1.getVectorLine(i), matrix2.getVectorColumn(j)));
+                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix1.getLine(i), matrix2.getColumn(j)));
             }
         }
 
