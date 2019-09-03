@@ -16,7 +16,6 @@ public class ArrayListHome {
                     names.add(number);
                 }
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
