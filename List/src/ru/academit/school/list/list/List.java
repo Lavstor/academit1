@@ -26,6 +26,10 @@ public class List {
         return list.get(0);
     }
 
+    public String getElement(int index) {
+       return list.get(index);
+    }
+
     public void setElement(int index, String string) {
        list.set(index, string);
     }

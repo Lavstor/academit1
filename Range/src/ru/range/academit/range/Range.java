@@ -1,9 +1,6 @@
-package packe.range.ru;
+package ru.range.academit.range;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-class Range {
+public class Range {
     private double from;
     private double to;
 
@@ -12,20 +9,19 @@ class Range {
         this.to = to;
     }
 
-    public double getRange() {
-
-        return Math.abs(from - to);
+    public double getLength() {
+        return to - from;
     }
 
     public boolean isInside(double x) {
-        return !(x < from || x > to);
+        return x >= from && x <= to;
     }
 
     public Range getIntersection(Range range) {
-
         if (range.from >= to || range.to <= from) {
             return null;
         }
+
         return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
@@ -33,14 +29,25 @@ class Range {
         if (range.from > to || range.to < from) {
             return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
+
         return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     public Range[] getDifference(Range range) {
-        if (range.from > to || range.to < from) {
+        if (range.from >= to || range.to <= from) {
+            return new Range[]{new Range(from, to)};
+        }
+        if (from >= range.from && to <= range.to) {
             return new Range[]{};
         }
-        return new Range[]{new Range(Math.max(from, range.from), Math.min(to, range.to))};
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+        }
+        if (from >= range.from) {
+            return new Range[]{new Range(range.to, to)};
+        }
+
+        return new Range[]{new Range(from, range.from)};
     }
 
     public double getFrom() {
@@ -58,14 +65,9 @@ class Range {
     public void setTo(double to) {
         this.to = to;
     }
-}
 
-class Main {
-    public static void main(String[] args) {
-        Range range = new Range(2, 3);
-        Range range2 = new Range(2.5, 5);
-        Range[] rangee = range.getUnion(range2);
-
-        System.out.println(rangee[0].isInside(1000000));
+    @Override
+    public String toString() {
+        return "{" + from + ", " + to + "}";
     }
 }
