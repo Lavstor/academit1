@@ -26,8 +26,19 @@ public class List {
         return list.get(0);
     }
 
-    public String getElement(int index) {
-       return list.get(index);
+    public char getChar(int index) {
+        int i = 0;
+        int length = list.get(0).length();
+
+        while (index >= length){
+            length += list.get(i).length();
+
+            if(index >= length){
+               index -= length;
+           }
+            i++;
+        }
+       return list.get(i).charAt(index);
     }
 
     public void setElement(int index, String string) {
