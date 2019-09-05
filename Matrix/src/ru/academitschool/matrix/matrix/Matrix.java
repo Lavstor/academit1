@@ -196,7 +196,7 @@ public class Matrix {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
         for (int i = 0; i < this.matrix.length; i++) {
-            this.matrix[i].doSum(matrix.matrix[i]);
+            this.matrix[i].sum(matrix.matrix[i]);
         }
     }
 
@@ -205,7 +205,7 @@ public class Matrix {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
         for (int i = 0; i < this.matrix.length; i++) {
-            this.matrix[i].doDifference(matrix.matrix[i]);
+            this.matrix[i].difference(matrix.matrix[i]);
         }
     }
 
@@ -239,7 +239,7 @@ public class Matrix {
 
         for (int i = 0; i < matrix1.matrix.length; i++) {
             for (int j = 0; j < matrix1.matrix.length; j++) {
-                matrix3.matrix[i].setComponent(j, Vector.getMultiplication(matrix1.getLine(i), matrix2.getColumn(j)));
+                matrix3.matrix[i].setComponent(j, Vector.getScalarProduct(matrix1.getLine(i), matrix2.getColumn(j)));
             }
         }
 

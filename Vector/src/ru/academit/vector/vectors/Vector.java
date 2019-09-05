@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int n) {
         if (n <= 0) {
-            throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
+            throw new IllegalArgumentException("Размерность должна быть больше 0");
         }
 
         components = new double[n];
@@ -15,7 +15,7 @@ public class Vector {
 
     public Vector(double[] donor) {
         if (donor.length <= 0) {
-            throw new ArrayIndexOutOfBoundsException("Размерность должна быть больше 0");
+            throw new IllegalArgumentException("Размерность должна быть больше 0");
         }
 
         components = Arrays.copyOf(donor, donor.length);
@@ -26,16 +26,16 @@ public class Vector {
     }
 
     public Vector(int n, double[] donor) {
-        if (donor.length >= n) {
-            Arrays.fill(components, donor.length, components.length, 0.0);
+        if (n <= 0) {
+            throw new IllegalArgumentException("Неправильный аргумент");
         }
 
         components = Arrays.copyOf(donor, n);
     }
 
     public Vector(int n, Vector vector) {
-        if (vector.getSize() > n) {
-            Arrays.fill(components, vector.getSize(), components.length, 0.0);
+        if (n <= 0) {
+            throw new IllegalArgumentException("Неправильный аргумент");
         }
 
         components = Arrays.copyOf(vector.components, n);
@@ -81,30 +81,28 @@ public class Vector {
     }
 
 
-    public void doSum(Vector vector) {
-        if (this.components.length < vector.components.length) {
-         new Vector(vector.components.length, this.components);
+    public void sum(Vector vector) {
+        if (components.length < vector.components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
         }
-        double[] newArray = Arrays.copyOf(components, vector.components.length);
-
-        for(int i = 0; i < newArray.length; i++){
-            newArray[i] += vector.components[i];
+        if (components.length > vector.components.length) {
+            vector.components = Arrays.copyOf(vector.components, components.length);
         }
-
-        this.components = Arrays.copyOf(newArray, newArray.length);
+        for (int i = 0; i < components.length; i++) {
+            components[i] += vector.components[i];
+        }
     }
 
-    public void doDifference(Vector vector) {
-        if (this.components.length < vector.components.length) {
-            new Vector(vector.components.length, this.components);
+    public void difference(Vector vector) {
+        if (components.length < vector.components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
         }
-        double[] newArray = Arrays.copyOf(components, vector.components.length);
-
-        for(int i = 0; i < newArray.length; i++){
-            newArray[i] -= vector.components[i];
+        if (components.length > vector.components.length) {
+            vector.components = Arrays.copyOf(vector.components, components.length);
         }
-
-        this.components = Arrays.copyOf(newArray, newArray.length);
+        for (int i = 0; i < components.length; i++) {
+            components[i] -= vector.components[i];
+        }
     }
 
     public void doMultiplication(double number) {
@@ -129,10 +127,10 @@ public class Vector {
 
     public void setComponent(int index, double number) {
         if (index >= components.length) {
-            throw new ArrayIndexOutOfBoundsException("Индекс больше длинны массива");
+            throw new IndexOutOfBoundsException("Индекс больше длинны массива");
         }
         if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException("Индекс меньше 0");
+            throw new IndexOutOfBoundsException("Индекс меньше 0");
         }
 
         components[index] = number;
@@ -140,10 +138,10 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index >= components.length) {
-            throw new ArrayIndexOutOfBoundsException("Индекс больше длинны массива");
+            throw new IndexOutOfBoundsException("Индекс больше длинны массива");
         }
         if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException("Индекс меньше 0");
+            throw new IndexOutOfBoundsException("Индекс меньше 0");
         }
 
         return components[index];
@@ -151,19 +149,19 @@ public class Vector {
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector vector3 = new Vector(vector1);
-        vector3.doSum(vector2);
+        vector3.sum(vector2);
 
         return vector3;
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector vector3 = new Vector(vector1);
-        vector3.doDifference(vector2);
+        vector3.difference(vector2);
 
         return vector3;
     }
 
-    public static double getMultiplication(Vector vector1, Vector vector2) {
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
         int result = 0;
 
         int minLength = Math.min(vector1.components.length, vector2.components.length);
