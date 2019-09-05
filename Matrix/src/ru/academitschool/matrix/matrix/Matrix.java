@@ -242,7 +242,6 @@ public class Matrix {
                 matrix3.matrix[i].setComponent(j, Vector.getScalarProduct(matrix1.getLine(i), matrix2.getColumn(j)));
             }
         }
-
         return matrix3;
     }
 }
