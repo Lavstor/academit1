@@ -34,7 +34,7 @@ public class Main {
         System.out.println(matrix3);
         System.out.println();
 
-        Matrix matrix4 = new Matrix(3);
+        Matrix matrix4 = new Matrix(3,3);
 
         System.out.println(matrix4);
 
@@ -126,5 +126,9 @@ public class Main {
         System.out.println();
 
         System.out.println(matrix6);
+
+        Matrix matrix8 = new Matrix(0,0);
+
+        System.out.println(matrix8);
     }
 }

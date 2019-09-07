@@ -15,10 +15,10 @@ public class Matrix {
         if (column <= 0) {
             column = 1;
         }
-        matrixTable = new Vector[column];
+        matrixTable = new Vector[row];
 
         for (int i = 0; i < row; i++) {
-            matrixTable[i] = new Vector(row);
+            matrixTable[i] = new Vector(column);
         }
     }
 
@@ -54,7 +54,7 @@ public class Matrix {
            vectors[i] = new Vector(matrix.matrixTable[i]);
         }
 
-        matrixTable = Arrays.copyOf(vectors, vectors.length);
+        matrixTable = vectors;
     }
 
     public Matrix(Vector[] vectors) {
