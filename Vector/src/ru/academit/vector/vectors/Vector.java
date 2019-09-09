@@ -105,14 +105,14 @@ public class Vector {
         }
     }
 
-    public void doMultiplication(double number) {
+    public void multiplyOnScalar(double number) {
         for (int i = 0; i < components.length; i++) {
             components[i] *= number;
         }
     }
 
     public void turn() {
-        doMultiplication(-1);
+        multiplyOnScalar(-1);
     }
 
     public double getLength() {

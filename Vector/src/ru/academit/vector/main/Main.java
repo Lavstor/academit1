@@ -28,7 +28,7 @@ public class Main {
         System.out.println();
 
         System.out.println(vector4);
-        vector4.doMultiplication(10);
+        vector4.multiplyOnScalar(10);
         System.out.println("Умножение " + vector4);
         System.out.println();
 

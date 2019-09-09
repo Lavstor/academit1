@@ -66,11 +66,11 @@ public class Main {
         matrix4 = new Matrix(vectors2);
 
         System.out.println(matrix4);
-        matrix4.transport();
+        matrix4.transportation();
         System.out.println("matrix4.transport() " + matrix4);
         System.out.println();
 
-        matrix4.multipleScalar(2);
+        matrix4.multipleOnScalar(2);
         System.out.println("matrix4.multipleScalar(2) " + matrix4);
         System.out.println();
 
@@ -79,15 +79,15 @@ public class Main {
 
         System.out.println(vector6);
         System.out.println(matrix4);
-        Vector vector10 = matrix4.matrixMultipleVector(vector6);
+        Vector vector10 = matrix4.multipleOnVector(vector6);
         System.out.println("matrixMultipleVector " + vector10);
         System.out.println();
 
-        matrix4.getSum(matrix4);
+        matrix4.sumOnMatrix(matrix4);
         System.out.println("matrix4.getSum(matrix4) " + matrix4);
         System.out.println();
 
-        matrix4.getDifference(matrix4);
+        matrix4.differenceOnMatrix(matrix4);
         System.out.println("matrix4getDifference " + matrix4);
         System.out.println();
 
@@ -130,5 +130,23 @@ public class Main {
         Matrix matrix8 = new Matrix(0,0);
 
         System.out.println(matrix8);
+        System.out.println();
+
+        double[][] array2 = new double[0][0];
+
+        Matrix matrix9 = new Matrix(array1);
+
+        System.out.println(matrix9);
+
+        System.out.println(matrix9);
+        matrix9.transportation();
+        System.out.println("matrix4.transport() " + matrix9);
+        System.out.println();
+
+
+
+        System.out.println(matrix9);
+        System.out.println(matrix9.getDeterminant());
+        System.out.println(matrix9);
     }
 }
