@@ -58,14 +58,12 @@ public class Main {
         System.out.println(vector1);
         System.out.println(vector3);
 
-
         Vector vector7 = Vector.getDifference(vector1, vector3);
         System.out.println("Разность " + vector7);
         System.out.println();
 
         System.out.println(vector1);
         System.out.println(vector3);
-
 
         Vector vector8 = Vector.getSum(vector1, vector3);
         System.out.println("Сумма " + vector8);

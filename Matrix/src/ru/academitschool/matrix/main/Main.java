@@ -9,11 +9,9 @@ public class Main {
     public static void main(String[] args) {
         double[][] array1 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
 
-
         Matrix matrix1 = new Matrix(array1);
         System.out.println(matrix1);
         System.out.println();
-
 
         Matrix matrix2 = new Matrix(matrix1);
         System.out.println(matrix2);
@@ -34,7 +32,7 @@ public class Main {
         System.out.println(matrix3);
         System.out.println();
 
-        Matrix matrix4 = new Matrix(3,3);
+        Matrix matrix4 = new Matrix(3, 3);
 
         System.out.println(matrix4);
 
@@ -102,7 +100,6 @@ public class Main {
         System.out.println("getDifference " + matrix5);
         System.out.println();
 
-
         System.out.println(matrix1);
         System.out.println(matrix2);
 
@@ -115,11 +112,9 @@ public class Main {
 
         double[] array10 = {1, 24, 9};
         double[] array11 = {11, 4};
-        double[] array12 = {};
 
         Vector vector11 = new Vector(array10);
         Vector vector12 = new Vector(array11);
-        Vector vector13 = new Vector(3);
 
         Vector[] vectors4 = {vector11, vector12};
         Matrix matrix6 = new Matrix(vectors4);
@@ -127,26 +122,9 @@ public class Main {
 
         System.out.println(matrix6);
 
-        Matrix matrix8 = new Matrix(0,0);
+        Matrix matrix8 = new Matrix(0, 0);
 
         System.out.println(matrix8);
         System.out.println();
-
-        double[][] array2 = new double[0][0];
-
-        Matrix matrix9 = new Matrix(array1);
-
-        System.out.println(matrix9);
-
-        System.out.println(matrix9);
-        matrix9.transportation();
-        System.out.println("matrix4.transport() " + matrix9);
-        System.out.println();
-
-
-
-        System.out.println(matrix9);
-        System.out.println(matrix9.getDeterminant());
-        System.out.println(matrix9);
     }
 }

@@ -2,8 +2,6 @@ package ru.academitschool.matrix.matrix;
 
 import ru.academit.vector.vectors.Vector;
 
-import java.util.Arrays;
-
 public class Matrix {
     private Vector[] matrixTable;
 
@@ -11,7 +9,6 @@ public class Matrix {
         if (row <= 0) {
             row = 1;
         }
-
         if (column <= 0) {
             column = 1;
         }
@@ -26,19 +23,6 @@ public class Matrix {
         if (donor.length == 0) {
             donor = new double[1][1];
         }
-      /*  for (int i = 0; i < donor.length; i++) {
-            if (donor[i].length != donor.length) {
-                double[][] arrayCopy = Arrays.copyOf(donor, donor.length);
-                donor = new double[donor.length][donor.length];
-
-                int k = 0;
-
-                for (int j = 0; j < donor.length; j++) {
-                    donor[j][k] = arrayCopy[j][i];
-                    k++;
-                }
-            }
-        }*/
         matrixTable = new Vector[donor.length];
 
         for (int i = 0; i < donor.length; i++) {
@@ -66,7 +50,6 @@ public class Matrix {
         for (Vector vector : vectors) {
             if (vector.getSize() != vectors.length) {
                 matrixTable = new Vector[vector.getSize()];
-
             }
         }
         for (int i = 0; i < matrixTable.length; i++) {
@@ -95,11 +78,11 @@ public class Matrix {
         return table.toString();
     }
 
-    public int getMatrixRowSize() {
+    private int getMatrixRowSize() {
         return matrixTable.length;
     }
 
-    public int getMatrixColumnSize() {
+    private int getMatrixColumnSize() {
         return matrixTable[0].getSize();
     }
 
@@ -159,20 +142,20 @@ public class Matrix {
         if (matrixTable.length == 1) {
             return matrixTable[0].getComponent(0);
         }
-        Vector[] matrix2 = new Vector[matrixTable.length];
+        Matrix matrix2 = new Matrix(matrixTable);
 
-        System.arraycopy(matrixTable, 0, matrix2, 0, matrix2.length);
         double determinant = 1;
 
-        for (int i = 0; i < matrix2.length; ++i) {
-
-            if (matrix2.length - i == 2) {
-                determinant *= (matrix2[i].getComponent(i) * matrix2[i + 1].getComponent(i + 1) -
-                        matrix2[i].getComponent(i + 1) * matrix2[i + 1].getComponent(i));
+        for (int i = 0; i < matrix2.getMatrixRowSize(); ++i) {
+            if (matrix2.getMatrixRowSize() - i == 2) {
+                determinant *= (matrix2.matrixTable[i].getComponent(i) *
+                        matrix2.matrixTable[i + 1].getComponent(i + 1) -
+                        matrix2.matrixTable[i].getComponent(i + 1) *
+                                matrix2.matrixTable[i + 1].getComponent(i));
                 break;
             }
-            doZeroAlgorithm(matrix2, i);
-            determinant *= matrix2[i].getComponent(i);
+            doZeroAlgorithm(matrix2.matrixTable, i);
+            determinant *= matrix2.matrixTable[i].getComponent(i);
         }
 
         return determinant;
@@ -267,6 +250,7 @@ public class Matrix {
                 matrix3.matrixTable[i].setComponent(j, Vector.getScalarProduct(matrix1.getLine(i), matrix2.getColumn(j)));
             }
         }
+
         return matrix3;
     }
 }
