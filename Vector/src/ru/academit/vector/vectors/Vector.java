@@ -79,8 +79,7 @@ public class Vector {
 
         return line.toString();
     }
-
-
+    
     public void sum(Vector vector) {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);

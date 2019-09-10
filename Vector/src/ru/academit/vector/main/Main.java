@@ -85,9 +85,10 @@ public class Main {
         System.out.println(vector5);
         System.out.println(vector2);
 
-        vector2.sum(vector5);
+        vector5.sum(vector2);
 
-        System.out.println("Сумма " + vector2);
+        System.out.println("Сумма " + vector5);
+        System.out.println(vector5);
         System.out.println();
 
         Vector vector9 = new Vector(9, array6);
