@@ -27,7 +27,8 @@ public class Vector {
 
     public Vector(int n, double[] donor) {
         if (n <= 0) {
-            throw new IllegalArgumentException("Аргумент меньше, либо равен 0");
+            throw new IllegalArgumentException
+                    ("Аргумент первый (до которого будет заполняться вектор), меньше, либо равен 0");
         }
 
         components = Arrays.copyOf(donor, n);
@@ -35,7 +36,8 @@ public class Vector {
 
     public Vector(int n, Vector vector) {
         if (n <= 0) {
-            throw new IllegalArgumentException("Аргумент меньше, либо равен 0");
+            throw new IllegalArgumentException
+                    ("Аргумент первый меньше (до которого будет заполняться вектор, либо равен 0");
         }
 
         components = Arrays.copyOf(vector.components, n);
@@ -84,11 +86,8 @@ public class Vector {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
-
-        for (int i = 0; i < components.length; i++) {
-            if (i < vector.components.length) {
+        for (int i = 0; i < vector.components.length; i++) {
                 components[i] += vector.components[i];
-            }
         }
     }
 
@@ -96,10 +95,8 @@ public class Vector {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
-        for (int i = 0; i < components.length; i++) {
-            if (i < vector.components.length) {
-                components[i] -= vector.components[i];
-            }
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] -= vector.components[i];
         }
     }
 
@@ -125,7 +122,7 @@ public class Vector {
 
     public void setComponent(int index, double number) {
         if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Индекс должен быть равен, либо меньше длины массива");
+            throw new IndexOutOfBoundsException("Передваваемый индекс должен быть меньше длины массива");
         }
         if (index < 0) {
             throw new IndexOutOfBoundsException("Индекс меньше 0");
@@ -136,7 +133,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Индекс должен быть равен, либо меньше длины массива");
+            throw new IndexOutOfBoundsException("Передваваемый индекс должен быть меньше длины массива");
         }
         if (index < 0) {
             throw new IndexOutOfBoundsException("Индекс меньше 0");
