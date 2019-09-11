@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int n) {
         if (n <= 0) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0");
+            throw new IllegalArgumentException("Длина вектора должна быть больше нуля");
         }
 
         components = new double[n];
@@ -15,7 +15,7 @@ public class Vector {
 
     public Vector(double[] donor) {
         if (donor.length <= 0) {
-            throw new IllegalArgumentException("Размерность должна быть больше 0");
+            throw new IllegalArgumentException("Длина вектора должна быть больше нуля");
         }
 
         components = Arrays.copyOf(donor, donor.length);
@@ -27,8 +27,7 @@ public class Vector {
 
     public Vector(int n, double[] donor) {
         if (n <= 0) {
-            throw new IllegalArgumentException
-                    ("Аргумент первый (до которого будет заполняться вектор), меньше, либо равен 0");
+            throw new IllegalArgumentException("Аргумент первый (до которого будет заполняться вектор), меньше, либо равен 0");
         }
 
         components = Arrays.copyOf(donor, n);
@@ -36,8 +35,7 @@ public class Vector {
 
     public Vector(int n, Vector vector) {
         if (n <= 0) {
-            throw new IllegalArgumentException
-                    ("Аргумент первый меньше (до которого будет заполняться вектор, либо равен 0");
+            throw new IllegalArgumentException("Аргумент первый меньше (до которого будет заполняться вектор, либо равен 0");
         }
 
         components = Arrays.copyOf(vector.components, n);
@@ -87,7 +85,7 @@ public class Vector {
             components = Arrays.copyOf(components, vector.components.length);
         }
         for (int i = 0; i < vector.components.length; i++) {
-                components[i] += vector.components[i];
+            components[i] += vector.components[i];
         }
     }
 

@@ -6,11 +6,12 @@ import java.util.*;
 
 public class List {
     private ArrayList<String> list = new ArrayList<>();
+    private int listSize;
 
-    public List(String path){
+    public List(String path) {
         try (Scanner scanner = new Scanner(new File(path))) {
             while (scanner.hasNext()) {
-                    list.add(scanner.next());
+                list.add(scanner.next());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -18,31 +19,53 @@ public class List {
     }
 
     public int getListSize() {
-
-        return list.size();
+        listSize = list.size();
+        return listSize;
     }
 
     public String getFirstElement() {
         return list.get(0);
     }
 
-    public char getChar(int index) {
-        int i = 0;
-        int length = list.get(0).length();
-
-        while (index >= length){
-            length += list.get(i).length();
-
-            if(index >= length){
-               index -= length;
-           }
-            i++;
+    public char getValue(int index) {
+        if(index < 0){
+            throw new IllegalArgumentException("Переданный индекс меньше 0");
         }
-       return list.get(i).charAt(index);
+        int i = 0;
+        int elementLength = list.get(i).length();
+
+        while (index >= elementLength) {
+            if (i < getListSize() - 1) {
+                i++;
+            } else{
+                throw new IllegalArgumentException("Переданный индекс значения не входит в список");
+            }
+            index -= elementLength;
+
+            elementLength = list.get(i).length();
+        }
+
+        return list.get(i).charAt(index);
     }
 
-    public void setElement(int index, String string) {
-       list.set(index, string);
+    public void setValue(int index, Character character) {
+        if(index < 0){
+            throw new IllegalArgumentException("Переданный индекс меньше 0");
+        }
+        int i = 0;
+        int elementLength = list.get(i).length();
+
+        while (index >= elementLength) {
+            if (i < getListSize() - 1) {
+                i++;
+            } else{
+                throw new IllegalArgumentException("Переданный индекс значения не входит в список");
+            }
+            index -= elementLength;
+
+            elementLength = list.get(i).length();
+        }
+        list.set()
     }
 
     @Override
