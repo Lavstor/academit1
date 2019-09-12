@@ -1,8 +1,8 @@
 package ru.academit.school.list.ListElement;
 
 public class ListElement<T> {
-    private T data; // полезные данные
-    private ListElement<T> next; //ссылка на сл
+    private T data;
+    private ListElement<T> next;
 
     public ListElement() {
 
@@ -31,14 +31,5 @@ public class ListElement<T> {
 
     public void setNext(ListElement<T> next) {
         this.next = next;
-    }
-
-    public ListElement<T> getElement(int index) {
-        ListElement<T> data = getNext();
-
-        for(int i = 0; i < index; i++){
-           data =  getNext();
-        }
-        return data;
     }
 }
