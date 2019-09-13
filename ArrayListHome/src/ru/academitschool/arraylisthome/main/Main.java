@@ -7,67 +7,69 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> names = readLines(args[0]);
-        System.out.println(names);
+        ArrayList<String> list = readLines(args[0]);
+        System.out.println("Наш список: " + list);
         System.out.println();
 
         ArrayList<Integer> numbers1 = new ArrayList<>();
-        numbers1.add(1);
+        numbers1.add(2);
         numbers1.add(2);
         numbers1.add(3);
         numbers1.add(4);
-        numbers1.add(5);
+        numbers1.add(2);
 
-        System.out.println(numbers1);
+        System.out.println("Список чисел: " + numbers1);
         deleteEvenNumbers(numbers1);
-        System.out.println(numbers1);
+
+        System.out.println("Удаляем целые: " + numbers1);
         System.out.println();
 
         ArrayList<Integer> numbers2 = new ArrayList<>();
         numbers2.add(2);
         numbers2.add(2);
         numbers2.add(3);
-        numbers2.add(2);
+        numbers2.add(3);
         numbers2.add(4);
 
-        System.out.println(numbers2);
+        System.out.println("Еще один список чисел: " + numbers2);
 
-        ArrayList<Integer> numbers3 = deleteRepeatNumbers(numbers2);
-        System.out.println(numbers3);
+        ArrayList<Integer> numbers3 = getRepeatNumbersDeleted(numbers2);
+        System.out.println("Удалили повторения: " + numbers3);
     }
 
     private static ArrayList<String> readLines(String path) {
-        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new File(path))) {
             while (scanner.hasNextLine()) {
-                names.add(scanner.nextLine());
+                list.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return names;
+        return list;
     }
 
     private static void deleteEvenNumbers(ArrayList<Integer> numbers) {
         for (int i = 0; i < numbers.size(); i++) {
-            if (numbers.get(i) % 2 == 0)
+            if (numbers.get(i) % 2 == 0){
                 numbers.remove(i);
+
+                i--;
+            }
         }
     }
 
-    private static ArrayList<Integer> deleteRepeatNumbers(ArrayList<Integer> numbers) {
-        ArrayList<Integer> numbers1 = new ArrayList<>();
+    private static ArrayList<Integer> getRepeatNumbersDeleted(ArrayList<Integer> numbers) {
+        ArrayList<Integer> newNumbers = new ArrayList<>();
 
         for (Integer number : numbers) {
-            boolean hasTest = numbers1.contains(number);
-
-            if (!hasTest) {
-                numbers1.add(number);
+            if (!newNumbers.contains(number)) {
+                newNumbers.add(number);
             }
         }
 
-        return numbers1;
+        return newNumbers;
     }
 }
