@@ -3,8 +3,6 @@ package ru.academitschool.matrix.main;
 import ru.academit.vector.vectors.Vector;
 import ru.academitschool.matrix.matrix.Matrix;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         double[][] array1 = {{2, 4, 9}, {7, 80, 9}, {7, 9, 9}};
@@ -36,8 +34,8 @@ public class Main {
 
         System.out.println(matrix4);
 
-        matrix4.setLine(2, vector1);
-        matrix4.setLine(0, vector2);
+        matrix4.setRow(2, vector1);
+        matrix4.setRow(0, vector2);
         System.out.println(matrix4);
         System.out.println();
 
@@ -45,7 +43,7 @@ public class Main {
         System.out.println(vector4);
         System.out.println();
 
-        Vector vector5 = matrix4.getLine(2);
+        Vector vector5 = matrix4.getRow(2);
         System.out.println(vector5);
         System.out.println();
 
@@ -64,11 +62,11 @@ public class Main {
         matrix4 = new Matrix(vectors2);
 
         System.out.println(matrix4);
-        matrix4.transportation();
+        matrix4.transpose();
         System.out.println("matrix4.transport() " + matrix4);
         System.out.println();
 
-        matrix4.multipleOnScalar(2);
+        matrix4.multiply(2);
         System.out.println("matrix4.multipleScalar(2) " + matrix4);
         System.out.println();
 
@@ -77,15 +75,15 @@ public class Main {
 
         System.out.println(vector6);
         System.out.println(matrix4);
-        Vector vector10 = matrix4.multipleOnVector(vector6);
+        Vector vector10 = matrix4.multiply(vector6);
         System.out.println("matrixMultipleVector " + vector10);
         System.out.println();
 
-        matrix4.sumOnMatrix(matrix4);
+        matrix4.add(matrix4);
         System.out.println("matrix4.getSum(matrix4) " + matrix4);
         System.out.println();
 
-        matrix4.differenceOnMatrix(matrix4);
+        matrix4.subtract(matrix4);
         System.out.println("matrix4getDifference " + matrix4);
         System.out.println();
 
@@ -122,9 +120,7 @@ public class Main {
 
         System.out.println(matrix6);
 
-        Matrix matrix8 = new Matrix(0, 0);
-
-        System.out.println(matrix8);
-        System.out.println();
+        Matrix matrix9 = new Matrix(1,1);
+        System.out.println(matrix9);
     }
 }
