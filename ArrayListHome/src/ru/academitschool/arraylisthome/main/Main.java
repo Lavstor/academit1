@@ -7,33 +7,33 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> list = readLines(args[0]);
-        System.out.println("Наш список: " + list);
+        ArrayList<String> list1 = readLines(args[0]);
+        System.out.println("Наш список: " + list1);
         System.out.println();
 
-        ArrayList<Integer> numbers1 = new ArrayList<>();
-        numbers1.add(2);
-        numbers1.add(2);
-        numbers1.add(3);
-        numbers1.add(4);
-        numbers1.add(2);
+        ArrayList<Integer> list2 = new ArrayList<>();
+        list2.add(2);
+        list2.add(2);
+        list2.add(3);
+        list2.add(4);
+        list2.add(2);
 
-        System.out.println("Список чисел: " + numbers1);
-        deleteEvenNumbers(numbers1);
+        System.out.println("Список чисел: " + list2);
+        deleteEvenNumbers(list2);
 
-        System.out.println("Удаляем целые: " + numbers1);
+        System.out.println("Удаляем целые: " + list2);
         System.out.println();
 
-        ArrayList<Integer> numbers2 = new ArrayList<>();
-        numbers2.add(2);
-        numbers2.add(2);
-        numbers2.add(3);
-        numbers2.add(3);
-        numbers2.add(4);
+        ArrayList<Integer> list3 = new ArrayList<>();
+        list3.add(2);
+        list3.add(2);
+        list3.add(3);
+        list3.add(3);
+        list3.add(4);
 
-        System.out.println("Еще один список чисел: " + numbers2);
+        System.out.println("Еще один список чисел: " + list3);
 
-        ArrayList<Integer> numbers3 = getRepeatNumbersDeleted(numbers2);
+        ArrayList<Integer> numbers3 = getRepeatNumbersDeleted(list3);
         System.out.println("Удалили повторения: " + numbers3);
     }
 
@@ -51,22 +51,22 @@ public class Main {
         return list;
     }
 
-    private static void deleteEvenNumbers(ArrayList<Integer> numbers) {
-        for (int i = 0; i < numbers.size(); i++) {
-            if (numbers.get(i) % 2 == 0){
-                numbers.remove(i);
+    private static void deleteEvenNumbers(ArrayList<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) % 2 == 0){
+                list.remove(i);
 
                 i--;
             }
         }
     }
 
-    private static ArrayList<Integer> getRepeatNumbersDeleted(ArrayList<Integer> numbers) {
+    private static ArrayList<Integer> getRepeatNumbersDeleted(ArrayList<Integer> list) {
         ArrayList<Integer> newNumbers = new ArrayList<>();
 
-        for (Integer number : numbers) {
-            if (!newNumbers.contains(number)) {
-                newNumbers.add(number);
+        for (Integer element : list) {
+            if (!newNumbers.contains(element)) {
+                newNumbers.add(element);
             }
         }
 
