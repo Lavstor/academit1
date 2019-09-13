@@ -43,6 +43,7 @@ public class SinglyLinkedList<T> {
             throw new IllegalArgumentException("Индекс должен лежать в диапазоне от 0 и до размера списка");
         }
         int i = 0;
+
         T dataOld = null;
 
         for (ListElement<T> element = head; element != null; element = element.getNext()) {
@@ -67,7 +68,6 @@ public class SinglyLinkedList<T> {
         }
         int i = 1;
 
-
         for (ListElement<T> element = head; element != null; element = element.getNext()) {
             if (i == index) {
                 data = element.getData();
@@ -75,7 +75,6 @@ public class SinglyLinkedList<T> {
                 if (i < count) {
                     element.setNext(element.getNext().getNext());
                 }
-
                 count--;
             }
             i++;
@@ -85,19 +84,19 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteElementByData(T deleteData) {
-
         boolean deleted = false;
 
-        int i = 0;
+        ListElement<T> element = head;
 
-        for (ListElement<T> element = head; element != null; element = element.getNext()) {
-            while (deleteData == element.getData() && i < count) {
+        for (int i = 0; i < count; i++) {
+            if (deleteData == element.getData()) {
                 deleteElement(i);
-                element = element.getNext();
-                deleted = true;
-            }
-            i++;
 
+                deleted = true;
+
+                i--;
+            }
+            element = element.getNext();
         }
 
         return deleted;
@@ -105,6 +104,7 @@ public class SinglyLinkedList<T> {
 
     public T deleteFirstElement() {
         T data = head.getData();
+
         head = head.getNext();
         count--;
 
@@ -119,6 +119,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertElement(ListElement<T> listElement, int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Индекс должен лежать в диапазоне от 0 и до размера списка");
+        }
         if (index == 0) {
             insertFirstElement(listElement);
 
@@ -138,12 +141,35 @@ public class SinglyLinkedList<T> {
         count++;
     }
 
+    public SinglyLinkedList copy() {
+        return new SinglyLinkedList<>(new ListElement<>(head));
+    }
+
+    public void reverse() {
+        for (ListElement<T> nextElement = null, nextHead = head.getNext(); nextHead != null; nextHead = nextHead.getNext()) {
+            head.setNext(nextElement);
+
+            nextElement = head;
+            head = nextHead;
+
+            if (nextHead.getNext() == null) {
+                head.setNext(nextElement);
+
+                break;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder list = new StringBuilder();
 
         for (ListElement<T> element = head; element != null; element = element.getNext()) {
-            list.append(element.getData()).append(" ");
+            if (element.getNext() != null) {
+                list.append(element.getData()).append(", ");
+            } else {
+                list.append(element.getData());
+            }
         }
 
         return list.toString();
