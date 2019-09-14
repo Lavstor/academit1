@@ -122,5 +122,29 @@ public class Main {
 
         Matrix matrix9 = new Matrix(1,1);
         System.out.println(matrix9);
+
+        Vector[] vectors5 = {vector1, vector2};
+        Matrix matrix10 = new Matrix(vectors5);
+        System.out.println(matrix10);
+        System.out.println();
+
+        double[][] array12 = {{2}, {3, 2, 2}};
+        Matrix matrix11 = new Matrix(2,5);
+        System.out.println(matrix11);
+
+        Vector[] vectors6 = {new Vector(5), new Vector(1), new Vector(4)};
+        Matrix matrix12 = new Matrix(array12);
+
+
+
+        double[] array13 = {2};
+        Vector vector = new Vector(3);
+        System.out.println();
+
+        System.out.println(matrix1);
+        System.out.println(matrix12);
+        System.out.println(Matrix.getMultiplication(matrix1, matrix12));
+
+
     }
 }
