@@ -120,7 +120,7 @@ public class Main {
 
         System.out.println(matrix6);
 
-        Matrix matrix9 = new Matrix(1,1);
+        Matrix matrix9 = new Matrix(1, 1);
         System.out.println(matrix9);
 
         Vector[] vectors5 = {vector1, vector2};
@@ -128,13 +128,12 @@ public class Main {
         System.out.println(matrix10);
         System.out.println();
 
-        double[][] array12 = {{2}, {3, 2, 2}};
-        Matrix matrix11 = new Matrix(2,5);
+        double[][] array12 = {{2}, {3, 2, 2}, {2, 3, 4},{2}};
+        Matrix matrix11 = new Matrix(2, 5);
         System.out.println(matrix11);
 
         Vector[] vectors6 = {new Vector(5), new Vector(1), new Vector(4)};
         Matrix matrix12 = new Matrix(array12);
-
 
 
         double[] array13 = {2};
@@ -143,8 +142,6 @@ public class Main {
 
         System.out.println(matrix1);
         System.out.println(matrix12);
-        System.out.println(Matrix.getMultiplication(matrix1, matrix12));
-
-
+        System.out.println(Matrix.getMultiplication(matrix12, matrix1));
     }
 }

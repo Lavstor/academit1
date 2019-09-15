@@ -243,24 +243,21 @@ public class Matrix {
     }
 
     public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
-        Matrix matrix4;
-            if(matrix1.vectorArray.length < matrix2.vectorArray.length || matrix1.vectorArray[0].getSize() < matrix2.vectorArray[0].getSize()){
-                matrix4 = new Matrix(matrix1.getMatrixColumnSize(), matrix1.getMatrixRowSize());
-                for(Vector vector : matrix4.vectorArray){
-                    vector = new Vector()
-                }
-            } else{
-                
-            }
+        if(matrix1.getMatrixRowSize() != matrix2.getMatrixColumnSize() && matrix1.getMatrixColumnSize() != matrix2.getMatrixRowSize()){
+            throw new IllegalArgumentException("Число строк матрицы 1 должно быть равно числу столбцов матрицы 2");
+        }
 
-        Matrix matrix3 = new Matrix(matrix1);
+        Matrix matrix3;
 
-        if (matrix1.vectorArray.length < matrix2.vectorArray.length) {
+        if(matrix1.vectorArray.length > matrix2.vectorArray.length){
+            matrix3 = new Matrix(matrix1);
+        } else{
             matrix3 = new Matrix(matrix2);
         }
 
-        for (int i = 0; i < Math.max(matrix1.vectorArray.length, matrix2.vectorArray.length); i++) {
-            for (int j = 0; j < Math.max(matrix1.vectorArray.length, matrix2.vectorArray.length); j++) {
+
+        for (int i = 0; i < matrix3.vectorArray.length; i++) {
+            for (int j = 0; j < matrix3.vectorArray.length; j++) {
                 matrix3.vectorArray[i].setComponent(j, Vector.getScalarProduct(matrix1.getRow(i), matrix2.getColumn(j)));
             }
         }
