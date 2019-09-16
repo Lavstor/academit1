@@ -7,22 +7,17 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> list1 = readLines(args[0]);
-        System.out.println("Наш список: " + list1);
-        System.out.println();
-
         ArrayList<Integer> list2 = new ArrayList<>();
+
         list2.add(2);
         list2.add(2);
         list2.add(3);
         list2.add(4);
         list2.add(2);
 
-        System.out.println("Список чисел: " + list2);
+        print(list2);
         deleteEvenNumbers(list2);
-
-        System.out.println("Удаляем целые: " + list2);
-        System.out.println();
+        print(list2);
 
         ArrayList<Integer> list3 = new ArrayList<>();
         list3.add(2);
@@ -31,10 +26,10 @@ public class Main {
         list3.add(3);
         list3.add(4);
 
-        System.out.println("Еще один список чисел: " + list3);
+        print(list3);
 
-        ArrayList<Integer> numbers3 = getRepeatNumbersDeleted(list3);
-        System.out.println("Удалили повторения: " + numbers3);
+        ArrayList<Integer> numbers3 = getListWithoutRepetitions(list3);
+        print(numbers3);
     }
 
     private static ArrayList<String> readLines(String path) {
@@ -51,9 +46,13 @@ public class Main {
         return list;
     }
 
+    private static void print(ArrayList list) {
+        System.out.println(list);
+    }
+
     private static void deleteEvenNumbers(ArrayList<Integer> list) {
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) % 2 == 0){
+            if (list.get(i) % 2 == 0) {
                 list.remove(i);
 
                 i--;
@@ -61,7 +60,7 @@ public class Main {
         }
     }
 
-    private static ArrayList<Integer> getRepeatNumbersDeleted(ArrayList<Integer> list) {
+    private static ArrayList<Integer> getListWithoutRepetitions(ArrayList<Integer> list) {
         ArrayList<Integer> newNumbers = new ArrayList<>();
 
         for (Integer element : list) {
