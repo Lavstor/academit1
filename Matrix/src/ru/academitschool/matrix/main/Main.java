@@ -63,28 +63,28 @@ public class Main {
 
         System.out.println(matrix4);
         matrix4.transpose();
-        System.out.println("matrix4.transport() " + matrix4);
+        System.out.println("Транспортируем " + matrix4);
         System.out.println();
 
         matrix4.multiply(2);
-        System.out.println("matrix4.multipleScalar(2) " + matrix4);
+        System.out.println("Умножаем на скаляр " + matrix4);
         System.out.println();
 
-        System.out.println("getDeterminant " + matrix4.getDeterminant());
+        System.out.println("Определитель " + matrix4.getDeterminant());
         System.out.println();
 
         System.out.println(vector6);
         System.out.println(matrix4);
         Vector vector10 = matrix4.multiply(vector6);
-        System.out.println("matrixMultipleVector " + vector10);
+        System.out.println("Перемножение " + vector10);
         System.out.println();
 
         matrix4.add(matrix4);
-        System.out.println("matrix4.getSum(matrix4) " + matrix4);
+        System.out.println("Суммируем " + matrix4);
         System.out.println();
 
         matrix4.subtract(matrix4);
-        System.out.println("matrix4getDifference " + matrix4);
+        System.out.println("Разность " + matrix4);
         System.out.println();
 
         matrix1 = new Matrix(vectors2);
@@ -95,14 +95,14 @@ public class Main {
 
         Matrix matrix5 = Matrix.getDifference(matrix1, matrix2);
 
-        System.out.println("getDifference " + matrix5);
+        System.out.println("Разность " + matrix5);
         System.out.println();
 
         System.out.println(matrix1);
         System.out.println(matrix2);
 
         matrix5 = Matrix.getMultiplication(matrix1, matrix2);
-        System.out.println("getMultiplication " + matrix5);
+        System.out.println("Умножение " + matrix5);
         System.out.println();
 
         System.out.println(matrix1);
@@ -120,7 +120,7 @@ public class Main {
 
         System.out.println(matrix6);
 
-        Matrix matrix9 = new Matrix(1,1);
+        Matrix matrix9 = new Matrix(1, 1);
         System.out.println(matrix9);
 
         Vector[] vectors5 = {vector1, vector2};
@@ -128,23 +128,21 @@ public class Main {
         System.out.println(matrix10);
         System.out.println();
 
-        double[][] array12 = {{2}, {3, 2, 2}};
-        Matrix matrix11 = new Matrix(2,5);
+        double[][] array12 = {{2}, {3, 2, 2}, {}, {}};
+        Matrix matrix11 = new Matrix(2, 5);
         System.out.println(matrix11);
 
-        Vector[] vectors6 = {new Vector(5), new Vector(1), new Vector(4)};
         Matrix matrix12 = new Matrix(array12);
 
-
-
-        double[] array13 = {2};
-        Vector vector = new Vector(3);
         System.out.println();
 
         System.out.println(matrix1);
         System.out.println(matrix12);
         System.out.println(Matrix.getMultiplication(matrix1, matrix12));
 
-
+        System.out.println();
+        System.out.println(matrix12);
+        matrix12.transpose();
+        System.out.println(matrix12);
     }
 }

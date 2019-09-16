@@ -100,16 +100,16 @@ public class Matrix {
     }
 
     public Vector getRow(int index) {
-        if (index >= vectorArray.length || index < 0) {
-            throw new IndexOutOfBoundsException("Индекс должен быть больше 0 и меньше количества строк в матрице");
+        if (index >= getMatrixRowSize() || index < 0) {
+            throw new IndexOutOfBoundsException("Индекс должен быть больше либо равен 0 и меньше количества строк в матрице");
         }
 
         return new Vector(vectorArray[index]);
     }
 
     public Vector getColumn(int index) {
-        if (index >= vectorArray.length || index < 0) {
-            throw new IndexOutOfBoundsException("Индекс колонки должен быть больше 0 и меньше количества колонок в матрице");
+        if (index > getMatrixColumnSize() || index < 0) {
+            throw new IndexOutOfBoundsException("Индекс колонки должен быть больше либо равен 0 и не больше количества колонок в матрице");
         }
         double[] components = new double[vectorArray.length];
 
@@ -121,12 +121,16 @@ public class Matrix {
     }
 
     public void transpose() {
-        Vector[] temp = new Vector[vectorArray.length];
+        int deleteColumn = 0;
+        if (getMatrixRowSize() != getMatrixColumnSize()) {
+            deleteColumn = getMatrixRowSize() - getMatrixColumnSize();
+        }
+        Vector[] temp = new Vector[vectorArray.length - deleteColumn];
 
-        for (int i = 0; i < vectorArray.length; i++) {
+        for (int i = 0; i < getMatrixColumnSize(); i++) {
             temp[i] = new Vector(vectorArray.length);
 
-            for (int j = 0; j < vectorArray.length; j++) {
+            for (int j = 0; j < getMatrixRowSize(); j++) {
                 temp[i].setComponent(j, vectorArray[j].getComponent(i));
             }
         }
@@ -146,10 +150,10 @@ public class Matrix {
         }
         Vector result = new Vector(vectorArray.length);
 
-        for (int i = 0; i < vectorArray.length; i++) {
+        for (int i = 0; i < getMatrixRowSize(); i++) {
             double component = 0;
 
-            for (int j = 0; j < vectorArray.length; j++) {
+            for (int j = 0; j < getMatrixColumnSize(); j++) {
                 component += vectorArray[i].getComponent(j) * vector.getComponent(j);
             }
             result.setComponent(i, component);
@@ -243,24 +247,13 @@ public class Matrix {
     }
 
     public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
-        Matrix matrix4;
-            if(matrix1.vectorArray.length < matrix2.vectorArray.length || matrix1.vectorArray[0].getSize() < matrix2.vectorArray[0].getSize()){
-                matrix4 = new Matrix(matrix1.getMatrixColumnSize(), matrix1.getMatrixRowSize());
-                for(Vector vector : matrix4.vectorArray){
-                    vector = new Vector()
-                }
-            } else{
-                
-            }
-
-        Matrix matrix3 = new Matrix(matrix1);
-
-        if (matrix1.vectorArray.length < matrix2.vectorArray.length) {
-            matrix3 = new Matrix(matrix2);
+        if (matrix1.getMatrixColumnSize() != matrix2.getMatrixRowSize()) {
+            throw new IllegalArgumentException("Размер строки первой матрицы должен быть равен числу строк второй матрицы");
         }
+        Matrix matrix3 = new Matrix(matrix2);
 
-        for (int i = 0; i < Math.max(matrix1.vectorArray.length, matrix2.vectorArray.length); i++) {
-            for (int j = 0; j < Math.max(matrix1.vectorArray.length, matrix2.vectorArray.length); j++) {
+        for (int i = 0; i < matrix1.getMatrixRowSize(); i++) {
+            for (int j = 0; j < matrix2.getMatrixColumnSize(); j++) {
                 matrix3.vectorArray[i].setComponent(j, Vector.getScalarProduct(matrix1.getRow(i), matrix2.getColumn(j)));
             }
         }
