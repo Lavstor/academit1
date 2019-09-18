@@ -68,13 +68,11 @@ public class SinglyLinkedList<T> {
         }
         int i = 1;
 
-        for (ListElement<T> element = head; element != null; element = element.getNext()) {
+        for (ListElement<T> parent = head; parent != null; parent = parent.getNext()) {
             if (i == index) {
-                data = element.getData();
+                data = parent.getNext().getData();
+                parent.setNext(parent.getNext().getNext());
 
-                if (i < count) {
-                    element.setNext(element.getNext().getNext());
-                }
                 count--;
             }
             i++;

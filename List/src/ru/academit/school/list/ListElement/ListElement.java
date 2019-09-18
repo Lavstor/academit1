@@ -4,13 +4,7 @@ public class ListElement<T> {
     private T data;
     private ListElement<T> next;
 
-    public ListElement(ListElement<T> element) {
-        this.data = element.getData();
 
-        if (element.getNext() != null) {
-            this.next = new ListElement<>(element.getNext());
-        }
-    }
 
     public ListElement(T data) {
         this.data = data;
