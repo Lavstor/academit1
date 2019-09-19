@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        ArrayList<String> list1 = readLines(args[0]);
+        System.out.println("Прочитали " + list1);
+
         ArrayList<Integer> list2 = new ArrayList<>();
 
         list2.add(2);
@@ -15,9 +18,9 @@ public class Main {
         list2.add(4);
         list2.add(2);
 
-        print(list2);
+        System.out.println(list2);
         deleteEvenNumbers(list2);
-        print(list2);
+        System.out.println(list2);
 
         ArrayList<Integer> list3 = new ArrayList<>();
         list3.add(2);
@@ -26,10 +29,10 @@ public class Main {
         list3.add(3);
         list3.add(4);
 
-        print(list3);
+        System.out.println(list3);
 
         ArrayList<Integer> numbers3 = getListWithoutRepetitions(list3);
-        print(numbers3);
+        System.out.println(numbers3);
     }
 
     private static ArrayList<String> readLines(String path) {
@@ -40,14 +43,10 @@ public class Main {
                 list.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Файл не найден!");
         }
 
         return list;
-    }
-
-    private static void print(ArrayList list) {
-        System.out.println(list);
     }
 
     private static void deleteEvenNumbers(ArrayList<Integer> list) {
