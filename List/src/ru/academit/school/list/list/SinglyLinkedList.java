@@ -8,6 +8,7 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList() {
         count++;
+
         head = null;
     }
 
@@ -27,83 +28,74 @@ public class SinglyLinkedList<T> {
         return head.getData();
     }
 
+    private ListElement<T> getElement(int index) {
+        ListElement<T> element = head;
+
+        for (int i = 0; element != null; element = element.getNext(), i++) {
+            if (i == index) {
+                return element;
+            }
+        }
+
+        return head;
+    }
+
     public T getData(int index) {
         if (head == null) {
-            throw new NullPointerException ("Список пуст");
+            throw new NullPointerException("Список пуст");
         }
 
         if (index >= count || index < 0) {
-            throw new IndexOutOfBoundsException ("Индекс должен лежать в диапазоне от 0 и до размера списка");
+            throw new IndexOutOfBoundsException("Индекс должен лежать в диапазоне от 0 и до размера списка");
         }
 
-        int i = 0;
-
-        for (ListElement<T> element = head; element != null; element = element.getNext()) {
-            if (i == index) {
-                return element.getData();
-            }
-            i++;
-        }
-
-        return null;
+        return getElement(index).getData();
     }
 
     public T setData(int index, T newData) {
         if (index >= count || index < 0) {
-            throw new IndexOutOfBoundsException ("Индекс должен лежать в диапазоне от 0 и до размера списка");
+            throw new IndexOutOfBoundsException("Индекс должен лежать в диапазоне от 0 и до размера списка");
         }
 
-        if(head == null){
+        if (head == null) {
             head = new ListElement<>(newData);
         }
 
-        int i = 0;
-
-        T dataOld = null;
-
-        for (ListElement<T> element = head; element != null; element = element.getNext()) {
-            if (i == index) {
-                dataOld = element.getData();
-                element.setData(newData);
-            }
-            i++;
-        }
+        T dataOld = getElement(index).getData();
+        getElement(index).setData(newData);
 
         return dataOld;
     }
 
     public T deleteElement(int index) {
         if (head == null) {
-            throw new NullPointerException ("Список и так пуст");
+            throw new NullPointerException("Список и так пуст");
         }
 
         if (index >= count || index < 0) {
-            throw new IndexOutOfBoundsException ("Индекс должен лежать в диапазоне от 0 и до размера списка");
+            throw new IndexOutOfBoundsException("Индекс должен лежать в диапазоне от 0 и до размера списка");
         }
-
-        T data = null;
 
         if (index == 0) {
             return deleteFirstElement();
         }
-        int i = 1;
 
-        for (ListElement<T> parent = head; parent != null; parent = parent.getNext()) {
-            if (i == index) {
-                data = parent.getNext().getData();
-                parent.setNext(parent.getNext().getNext());
+        T data = getElement(index).getData();
 
-                count--;
-            }
-            i++;
+        try {
+            getElement(index - 1).setNext(getElement(index).getNext());
+        } catch (NullPointerException e) {
+            getElement(index - 1).setNext(null);
         }
+
+        count--;
 
         return data;
     }
 
     public boolean deleteElementByData(T deleteData) {
         if (head == null) {
-            throw new NullPointerException ("Список пуст");
+            throw new NullPointerException("Список пуст");
         }
 
         boolean deleted = false;
@@ -134,7 +126,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T deleteFirstElement() {
-        if(head == null){
+        if (head == null) {
             throw new NullPointerException("Список пуст");
         }
 
@@ -154,7 +146,7 @@ public class SinglyLinkedList<T> {
 
     public void insertElement(T data, int index) {
         if (index > count || index < 0) {
-            throw new IndexOutOfBoundsException ("Индекс должен лежать в диапазоне от 0 и не больше размера списка");
+            throw new IndexOutOfBoundsException("Индекс должен лежать в диапазоне от 0 и не больше размера списка");
         }
 
         if (index == 0) {
@@ -162,16 +154,7 @@ public class SinglyLinkedList<T> {
 
             return;
         }
-        int i = 0;
-
-        for (ListElement<T> element = head; element != null; element = element.getNext()) {
-            i++;
-
-            if (i == index) {
-                ListElement<T> listElement = new ListElement<>(data, element.getNext());
-                element.setNext(listElement);
-            }
-        }
+        getElement(index - 1).setNext(new ListElement<>(data, getElement(index - 1).getNext()));
 
         count++;
     }
@@ -179,12 +162,9 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList copy() {
         SinglyLinkedList<T> copy = new SinglyLinkedList<>();
 
-        int i = 0;
-        for (ListElement<T> element = head; i < count; element = element.getNext()) {
 
-            copy.insertElement(element.getData(), i);
-
-            i++;
+        for (int i = 0; i < count; i++) {
+            copy.insertElement(getElement(i).getData(), i);
         }
 
         return copy;
