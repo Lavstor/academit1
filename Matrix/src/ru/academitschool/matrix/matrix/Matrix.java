@@ -10,6 +10,7 @@ public class Matrix {
         if (column <= 0 || row <= 0) {
             throw new IllegalArgumentException("Размерность  не корректна");
         }
+
         vectorArray = new Vector[row];
 
         for (int i = 0; i < row; i++) {
@@ -92,6 +93,7 @@ public class Matrix {
         if (vector.getSize() != vectorArray.length) {
             throw new IndexOutOfBoundsException("Размерность не корректна");
         }
+
         if (n > vectorArray.length || n < 0) {
             throw new IndexOutOfBoundsException("Индекс не корректен");
         }
@@ -111,6 +113,7 @@ public class Matrix {
         if (index > getMatrixColumnSize() || index < 0) {
             throw new IndexOutOfBoundsException("Индекс колонки должен быть больше либо равен 0 и не больше количества колонок в матрице");
         }
+
         double[] components = new double[vectorArray.length];
 
         for (int i = 0; i < vectorArray.length; i++) {
@@ -122,6 +125,7 @@ public class Matrix {
 
     public void transpose() {
         int deleteColumn = 0;
+
         if (getMatrixRowSize() != getMatrixColumnSize()) {
             deleteColumn = getMatrixRowSize() - getMatrixColumnSize();
         }
@@ -148,6 +152,7 @@ public class Matrix {
         if (vector.getSize() != vectorArray[0].getSize()) {
             throw new IllegalArgumentException("Вектор должен быть такого же размера как и матрица");
         }
+
         Vector result = new Vector(vectorArray.length);
 
         for (int i = 0; i < getMatrixRowSize(); i++) {
@@ -166,6 +171,7 @@ public class Matrix {
         if (this.getMatrixColumnSize() != this.getMatrixRowSize()) {
             throw new IllegalArgumentException("Матрица должна быть квадратной");
         }
+
         if (vectorArray.length == 1) {
             return vectorArray[0].getComponent(0);
         }
@@ -210,6 +216,7 @@ public class Matrix {
         if (matrix.vectorArray.length != this.vectorArray.length || matrix.vectorArray[0].getSize() != this.vectorArray[0].getSize()) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
+
         for (int i = 0; i < this.vectorArray.length; i++) {
             this.vectorArray[i].sum(matrix.vectorArray[i]);
         }
@@ -219,6 +226,7 @@ public class Matrix {
         if (matrix.vectorArray.length != this.vectorArray.length || matrix.vectorArray[0].getSize() != this.vectorArray[0].getSize()) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
+
         for (int i = 0; i < this.vectorArray.length; i++) {
             this.vectorArray[i].difference(matrix.vectorArray[i]);
         }
@@ -228,6 +236,7 @@ public class Matrix {
         if (matrix1.vectorArray.length != matrix2.vectorArray.length || matrix1.vectorArray[0].getSize() != matrix2.vectorArray[0].getSize()) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
+
         Matrix matrix3 = new Matrix(matrix1);
 
         matrix3.subtract(matrix2);
@@ -239,6 +248,7 @@ public class Matrix {
         if (matrix1.vectorArray.length != matrix2.vectorArray.length || matrix1.vectorArray[0].getSize() != matrix2.vectorArray[0].getSize()) {
             throw new IllegalArgumentException("Размерности матриц должны быть одинаковые");
         }
+
         Matrix matrix3 = new Matrix(matrix1);
 
         matrix3.add(matrix2);
@@ -250,6 +260,7 @@ public class Matrix {
         if (matrix1.getMatrixColumnSize() != matrix2.getMatrixRowSize()) {
             throw new IllegalArgumentException("Размер строки первой матрицы должен быть равен числу строк второй матрицы");
         }
+
         Matrix matrix3 = new Matrix(matrix2);
 
         for (int i = 0; i < matrix1.getMatrixRowSize(); i++) {
