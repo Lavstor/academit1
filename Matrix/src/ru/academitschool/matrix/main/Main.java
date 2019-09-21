@@ -128,7 +128,7 @@ public class Main {
         System.out.println(matrix10);
         System.out.println();
 
-        double[][] array12 = {{2}, {3, 2, 2}, {}, {}};
+        double[][] array12 = {{2}, {3, 2, 2}, {1}, {2}};
         Matrix matrix11 = new Matrix(2, 5);
         System.out.println(matrix11);
 
@@ -138,11 +138,6 @@ public class Main {
 
         System.out.println(matrix1);
         System.out.println(matrix12);
-        System.out.println(Matrix.getMultiplication(matrix1, matrix12));
-
-        System.out.println();
-        System.out.println(matrix12);
-        matrix12.transpose();
-        System.out.println(matrix12);
+        System.out.println("Сумма: " + Matrix.getSum(matrix1, matrix12));
     }
 }
