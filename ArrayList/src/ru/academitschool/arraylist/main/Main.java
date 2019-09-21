@@ -26,6 +26,7 @@ public class Main {
         list1.addAll(list2);
         System.out.println("Добавили список в конец" + list1);
 
+        list2.add(3.3);
         list1.addAll(2, list2);
         System.out.println("Добавили список по индексу" + list1);
     }

@@ -136,20 +136,27 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
-        if(i == size - 1){
-           return addAll(collection);
+        if (i == size - 1) {
+            return addAll(collection);
         }
 
-        if (collection.size() >= items.length) {
+        if (collection.size() - items.length >= 0) {
             increaseCapacity();
             addAll(i, collection);
         }
 
         T[] temp = Arrays.copyOf(items, size);
+        System.out.println(Arrays.toString(temp));
 
         System.arraycopy(collection.toArray(), 0, items, i, collection.size());
         size += collection.size();
-        System.arraycopy(temp, i, items, size - temp.length - 1, temp.length);
+
+        System.out.println(Arrays.toString(items));
+        int k = i;
+        for (int j = temp.length; k < size; j++, k++) {
+            items[j] = temp[k];
+
+        }
 
 
         modCount++;
@@ -164,12 +171,23 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(int i) {
-        return null;
+        if(i <= 0 || i >= size){
+            throw new ArrayIndexOutOfBoundsException("Выход за пределы списка");
+        }
+
+        return items[i];
     }
 
     @Override
-    public T set(int i, Object o) {
-        return null;
+    public T set(int i, T data) {
+        if(i <= 0 || i >= size){
+            throw new ArrayIndexOutOfBoundsException("Выход за пределы списка");
+        }
+
+        T oldData = items[i];
+        items[i] = data;
+
+        return oldData;
     }
 
     @Override
