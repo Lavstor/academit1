@@ -34,6 +34,11 @@ public class Main {
         System.out.println("Убрали элемент: " + list1);
         System.out.println();
 
+        System.out.println("Убираем 2.3");
+        list1.remove(2.3);
+        System.out.println("Убрали элемент: " + list1);
+        System.out.println();
+
         ArrayList<Double> list2 = new ArrayList<>(array1);
         list2.add(3.3);
         list2.add(3.9);
@@ -51,8 +56,8 @@ public class Main {
 
         System.out.println("Вставляем: " + list2);
         System.out.println("Вставляем сюда: " + list1);
-        list1.addAll(0, list2);
-        System.out.println("Вставили по индексу 0" + list1);
+        list1.addAll(4, list2);
+        System.out.println("Вставили по индексу 4 " + list1);
         System.out.println();
 
         System.out.println("Элемент по индексу 5: " + list1.get(5));

@@ -17,6 +17,10 @@ public class ArrayList<T> implements List<T> {
         items = Arrays.copyOf(items, items.length * 2);
     }
 
+    private void trimToSize() {
+        items = Arrays.copyOf(items, size);
+    }
+
     private class MyListIterator implements Iterator<T> {
         private int currentIndex = -1;
         private int modCount = ArrayList.modCount;
@@ -138,9 +142,6 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
-        if (index == size - 1) {
-            return addAll(collection);
-        }
         while (collection.size() + size >= items.length) {
             increaseCapacity();
         }
@@ -159,6 +160,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public void clear() {
         size = 0;
+        trimToSize();
 
         modCount++;
     }
@@ -272,6 +274,7 @@ public class ArrayList<T> implements List<T> {
                 modCount++;
             }
         }
+        trimToSize();
 
         return isCleared;
     }
