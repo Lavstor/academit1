@@ -31,9 +31,11 @@ public class ArrayList<T> implements List<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException("Коллекция закончилась");
             }
+
             if (modCount != ArrayList.modCount) {
                 throw new NoSuchElementException("коллекция изменилась");
             }
+
             ++currentIndex;
 
             return items[currentIndex];
@@ -96,6 +98,7 @@ public class ArrayList<T> implements List<T> {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -118,9 +121,8 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection collection) {
-        if (collection.size() >= items.length) {
+        while (collection.size() + size >= items.length) {
             increaseCapacity();
-            addAll(collection);
         }
         System.arraycopy(collection.toArray(), 0, items, size, collection.size());
 
@@ -131,33 +133,23 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(int i, Collection collection) {
-        if (i < 0 || i >= size) {
+    public boolean addAll(int index, Collection collection) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
-        if (i == size - 1) {
+        if (index == size - 1) {
             return addAll(collection);
         }
-
-        if (collection.size() - items.length >= 0) {
+        while (collection.size() + size >= items.length) {
             increaseCapacity();
-            addAll(i, collection);
         }
+        T[] temp = Arrays.copyOfRange(items, index, size);
 
-        T[] temp = Arrays.copyOf(items, size);
-        System.out.println(Arrays.toString(temp));
-
-        System.arraycopy(collection.toArray(), 0, items, i, collection.size());
+        System.arraycopy(collection.toArray(), 0, items, index, collection.size());
         size += collection.size();
 
-        System.out.println(Arrays.toString(items));
-        int k = i;
-        for (int j = temp.length; k < size; j++, k++) {
-            items[j] = temp[k];
-
-        }
-
+        System.arraycopy(temp, 0, items, size - temp.length, temp.length);
 
         modCount++;
 
@@ -166,43 +158,144 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
+        size = 0;
 
+        modCount++;
     }
 
     @Override
-    public T get(int i) {
-        if(i <= 0 || i >= size){
+    public T get(int index) {
+        if (index < 0 || index >= size) {
             throw new ArrayIndexOutOfBoundsException("Выход за пределы списка");
         }
 
-        return items[i];
+        return items[index];
     }
 
     @Override
-    public T set(int i, T data) {
-        if(i <= 0 || i >= size){
+    public T set(int index, T data) {
+        if (index < 0 || index >= size) {
             throw new ArrayIndexOutOfBoundsException("Выход за пределы списка");
         }
 
-        T oldData = items[i];
-        items[i] = data;
+        T oldData = items[index];
+        items[index] = data;
+
+        modCount++;
 
         return oldData;
     }
 
     @Override
-    public void add(int i, Object o) {
+    public void add(int index, T data) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Выход за границы списка!");
+        }
 
+        while (1 + size >= items.length) {
+            increaseCapacity();
+        }
+        if (index == size - 1) {
+            T temp = items[index];
+            items[index] = data;
+            size++;
+            items[index + 1] = temp;
+            modCount++;
+
+            return;
+        }
+        T[] temp = Arrays.copyOfRange(items, index, size);
+
+        items[index] = data;
+        size++;
+
+        System.arraycopy(temp, 0, items, size - temp.length, temp.length);
+
+        modCount++;
     }
 
     @Override
     public int indexOf(Object o) {
+        if (!contains(o)) {
+            return -1;
+        }
+        int index = 0;
+
+        for (Iterator<T> i = iterator(); i.hasNext(); ) {
+            if (o.equals(i.next())) {
+                return index;
+            }
+            index++;
+        }
+
         return 0;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        int index = -1;
+
+        for (int i = 0; i < size; i++) {
+            if (o.equals(items[i])) {
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    @Override
+    public boolean retainAll(Collection collection) {
+        boolean isCleared = false;
+
+        for (int i = 0; i < size; i++) {
+            if (!collection.contains(items[i])) {
+                remove(i);
+                isCleared = true;
+                modCount++;
+                i--;
+            }
+        }
+
+        return isCleared;
+    }
+
+    @Override
+    public boolean removeAll(Collection collection) {
+        boolean isCleared = false;
+
+        for (int i = 0; i < size; i++) {
+            if (collection.contains(items[i])) {
+                remove(i);
+                isCleared = true;
+                i--;
+                modCount++;
+            }
+        }
+
+        return isCleared;
+    }
+
+    @Override
+    public boolean containsAll(Collection collection) {
+        boolean containsAll = true;
+        for (int i = 0; i < size; i++) {
+            if (!collection.contains(items[i])) {
+                containsAll = false;
+            }
+        }
+
+        return containsAll;
+    }
+
+    @Override
+    public <T> T[] toArray(T[] objects) {
+        return Arrays.copyOf(objects, objects.length);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(Arrays.copyOf(items, size));
     }
 
     @Override
@@ -218,30 +311,5 @@ public class ArrayList<T> implements List<T> {
     @Override
     public List subList(int i, int i1) {
         return null;
-    }
-
-    @Override
-    public boolean retainAll(Collection collection) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection collection) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection collection) {
-        return false;
-    }
-
-    @Override
-    public Object[] toArray(Object[] objects) {
-        return new Object[0];
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(Arrays.copyOf(items, size));
     }
 }
