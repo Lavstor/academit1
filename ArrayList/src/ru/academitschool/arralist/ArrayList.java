@@ -67,9 +67,9 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(Object o) {
-        for (Iterator<T> i = iterator(); i.hasNext(); ) {
-            if (o.equals(i.next())) {
+    public boolean contains(Object elementToDelete) {
+        for (T element : this) {
+            if (elementToDelete.equals(element)) {
                 return true;
             }
         }
@@ -90,9 +90,9 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(Object element) {
         for (int index = 0; index < size; index++) {
-            if (o.equals(items[index])) {
+            if (element.equals(items[index])) {
                 if (index < size - 1) {
                     System.arraycopy(items, index + 1, items, index, size - index - 1);
                 }
@@ -107,20 +107,20 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public T remove(int i) {
-        if (i < 0 || i >= size) {
+    public T remove(int elementIndex) {
+        if (elementIndex < 0 || elementIndex >= size) {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
         for (int index = 0; index < size; index++) {
-            if (i == index) {
+            if (elementIndex == index) {
                 System.arraycopy(items, index + 1, items, index, size - index - 1);
             }
         }
         size--;
         modCount++;
 
-        return items[i];
+        return items[elementIndex];
     }
 
     @Override
@@ -128,6 +128,7 @@ public class ArrayList<T> implements List<T> {
         while (collection.size() + size >= items.length) {
             increaseCapacity();
         }
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(collection.toArray(), 0, items, size, collection.size());
 
         size += collection.size();
@@ -147,6 +148,7 @@ public class ArrayList<T> implements List<T> {
         }
         T[] temp = Arrays.copyOfRange(items, index, size);
 
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(collection.toArray(), 0, items, index, collection.size());
         size += collection.size();
 
@@ -217,14 +219,14 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        if (!contains(o)) {
+    public int indexOf(Object elementToFind) {
+        if (!contains(elementToFind)) {
             return -1;
         }
         int index = 0;
 
-        for (Iterator<T> i = iterator(); i.hasNext(); ) {
-            if (o.equals(i.next())) {
+        for (T element : this) {
+            if (elementToFind.equals(element)) {
                 return index;
             }
             index++;
@@ -234,11 +236,11 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public int lastIndexOf(Object o) {
+    public int lastIndexOf(Object element) {
         int index = -1;
 
         for (int i = 0; i < size; i++) {
-            if (o.equals(items[i])) {
+            if (element.equals(items[i])) {
                 index = i;
             }
         }
@@ -282,6 +284,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public boolean containsAll(Collection collection) {
         boolean containsAll = true;
+
         for (int i = 0; i < size; i++) {
             if (!collection.contains(items[i])) {
                 containsAll = false;
@@ -291,9 +294,25 @@ public class ArrayList<T> implements List<T> {
         return containsAll;
     }
 
+    @SuppressWarnings("TypeParameterHidesVisibleType")
     @Override
     public <T> T[] toArray(T[] objects) {
-        return Arrays.copyOf(objects, objects.length);
+        if (size <= 0) {
+            throw new IllegalArgumentException("Этот список пуст!");
+        }
+
+        if (objects.length < size) {
+            //noinspection unchecked
+
+            return (T[]) Arrays.copyOf(items, size);
+        }
+        //noinspection MismatchedReadAndWriteOfArray
+        T[] newArray = Arrays.copyOf(objects, objects.length);
+
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(items, 0, newArray, 0, size);
+
+        return newArray;
     }
 
     @Override
@@ -301,18 +320,24 @@ public class ArrayList<T> implements List<T> {
         return Arrays.toString(Arrays.copyOf(items, size));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ListIterator listIterator() {
+        //noinspection ConstantConditions
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ListIterator listIterator(int i) {
+        //noinspection ConstantConditions
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List subList(int i, int i1) {
+        //noinspection ConstantConditions
         return null;
     }
 }

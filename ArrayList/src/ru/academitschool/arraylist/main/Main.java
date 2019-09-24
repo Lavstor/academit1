@@ -102,5 +102,10 @@ public class Main {
         System.out.println("Проверям: " + list1);
         System.out.println("Совпадение? : " + list1.containsAll(list3));
         System.out.println();
+
+        Double[] array = {23.4, 21.5, 25.7, 89.3, 34.32, 3.4, 21.5, 25.7, 89.3, 34.3};
+
+        System.out.println("Массив до: " + Arrays.toString(array));
+        System.out.println("Скопировали список в массив " + Arrays.toString(list1.toArray(array)));
     }
 }
