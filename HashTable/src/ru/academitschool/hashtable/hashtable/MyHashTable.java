@@ -7,19 +7,17 @@ public class MyHashTable<T> implements Collection {
     private static int modCount = 0;
     private int size = 0;
 
-    public MyHashTable(ArrayList<T>[] array) {
-        hashTable = array;
-        size = array.length;
-    }
-
     public MyHashTable() {
         hashTable = new ArrayList[0];
-        size = 0;
     }
 
     public MyHashTable(int size) {
         hashTable = new ArrayList[size];
         this.size = size;
+
+        for(int i = 0; i < size; i++){
+            hashTable[i] = new ArrayList<>();
+        }
     }
 
     @Override
@@ -48,13 +46,15 @@ public class MyHashTable<T> implements Collection {
 
             ++currentIndex;
 
-            return hashTable[currentIndex].iterator().next();
+            return (T) hashTable[currentIndex].iterator().next();
         }
     }
 
+
+
     @Override
     public int size() {
-        return hashTable.length;
+        return size;
     }
 
     @Override
@@ -104,32 +104,58 @@ public class MyHashTable<T> implements Collection {
 
     @Override
     public boolean addAll(Collection collection) {
-        T[] array = (T[]) collection.toArray();
-        for(int i = 0; i < array.length; i++){
-            add(array[i]);
+        for (Object element : collection) {
+            add(element);
         }
 
-        return false;
+        return true;
     }
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size; i++) {
+            hashTable[i].clear();
+        }
+        size = 0;
     }
 
     @Override
     public boolean retainAll(Collection collection) {
-        return false;
+        boolean isCleared = false;
+
+        for (int i = 0; i < size; i++) {
+         if (hashTable[i].retainAll(collection)){
+             isCleared = true;
+         }
+        }
+
+        return isCleared;
     }
 
     @Override
     public boolean removeAll(Collection collection) {
-        return false;
+        boolean isCleared = false;
+
+        for (int i = 0; i < size; i++) {
+            if (hashTable[i].removeAll(collection)) {
+                isCleared = true;
+            }
+        }
+
+        return isCleared;
     }
 
     @Override
     public boolean containsAll(Collection collection) {
-        return false;
+        boolean contains = false;
+
+        for (int i = 0; i < size; i++) {
+            if (hashTable[i].containsAll(collection)) {
+                contains = true;
+            }
+        }
+
+        return contains;
     }
 
     @Override
