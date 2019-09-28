@@ -3,6 +3,7 @@ package ru.academitschool.hashtable.main;
 import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
@@ -64,26 +65,36 @@ public class Main {
 
         System.out.println("Лист: " + list1);
         System.out.println("Таблица: " + hashTable1);
-        hashTable1.retainAll(list1);
+        System.out.println("Убрали все несовпадения? " + hashTable1.retainAll(list1));
         System.out.println("Убираем все несовпадения: " + hashTable1);
         System.out.println();
 
         System.out.println("Лист: " + list4);
         System.out.println("Таблица: " + hashTable1);
-        hashTable1.removeAll(list4);
+        System.out.println("Убираем все совпадения: " + hashTable1.removeAll(list4));
         System.out.println("Убираем все совпадения: " + hashTable1);
         System.out.println();
 
         ArrayList<Integer> list5 = new ArrayList<>();
-        list4.add(2);
-        list4.add(3);
-        list4.add(4);
-        list4.add(5);
+       // list5.add(2);
+        list5.add(3);
+        list5.add(4);
+        list5.add(5);
+        //list5.add(30);
 
         System.out.println("Лист: " + list5);
         System.out.println("Таблица: " + hashTable1);
-        hashTable1.contains(list5);
         System.out.println("Содержит все: " + hashTable1.containsAll(list5));
         System.out.println();
+
+        hashTable1.addAll(list2);
+        hashTable1.addAll(list3);
+        hashTable1.addAll(list2);
+        System.out.println("Таблица: " + hashTable1);
+
+        for(Iterator iterator = hashTable1.iterator(); iterator.hasNext();){
+            System.out.println(iterator.next());
+        }
+
     }
 }

@@ -15,7 +15,7 @@ public class MyHashTable<T> implements Collection {
         hashTable = new ArrayList[size];
         this.size = size;
 
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             hashTable[i] = new ArrayList<>();
         }
     }
@@ -26,8 +26,9 @@ public class MyHashTable<T> implements Collection {
     }
 
     private class MyListIterator implements Iterator<T> {
-        private int currentIndex = -1;
+        private int currentIndex = 0;
         private int modCount = MyHashTable.modCount;
+        private Iterator<T> listIterator = hashTable[currentIndex].iterator();
 
         @Override
         public boolean hasNext() {
@@ -44,12 +45,17 @@ public class MyHashTable<T> implements Collection {
                 throw new NoSuchElementException("коллекция изменилась");
             }
 
-            ++currentIndex;
+            while (!listIterator.hasNext() && hasNext()) {
+                listIterator = hashTable[++currentIndex].iterator();
+            }
 
-            return (T) hashTable[currentIndex].iterator().next();
+            while (hashTable[currentIndex].isEmpty() && hasNext()){
+                currentIndex++;
+            }
+
+            return listIterator.next();
         }
     }
-
 
 
     @Override
@@ -70,13 +76,7 @@ public class MyHashTable<T> implements Collection {
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (hashTable[i].contains(o)) {
-                return true;
-            }
-        }
-
-        return false;
+        return hashTable[code(o)].contains(o);
     }
 
     @Override
@@ -97,9 +97,7 @@ public class MyHashTable<T> implements Collection {
 
     @Override
     public boolean remove(Object o) {
-        hashTable[code(o)].remove(o);
-
-        return false;
+        return hashTable[code(o)].remove(o);
     }
 
     @Override
@@ -116,43 +114,44 @@ public class MyHashTable<T> implements Collection {
         for (int i = 0; i < size; i++) {
             hashTable[i].clear();
         }
+
         size = 0;
     }
 
     @Override
     public boolean retainAll(Collection collection) {
-        boolean isCleared = false;
+        int i = 0;
 
-        for (int i = 0; i < size; i++) {
-         if (hashTable[i].retainAll(collection)){
-             isCleared = true;
-         }
+        for (ArrayList<T> list : hashTable) {
+            if (list.retainAll(collection)) {
+                i++;
+            }
         }
 
-        return isCleared;
+        return i > 0;
     }
 
     @Override
     public boolean removeAll(Collection collection) {
-        boolean isCleared = false;
+        int i = 0;
 
-        for (int i = 0; i < size; i++) {
-            if (hashTable[i].removeAll(collection)) {
-                isCleared = true;
+        for (Object element : collection) {
+            int index = code(element);
+
+            while (hashTable[index].remove(element)) {
+                i++;
             }
         }
 
-        return isCleared;
+        return i > 0;
     }
 
     @Override
     public boolean containsAll(Collection collection) {
         boolean contains = false;
 
-        for (int i = 0; i < size; i++) {
-            if (hashTable[i].containsAll(collection)) {
-                contains = true;
-            }
+        for (Object element : collection) {
+            contains = contains(element);
         }
 
         return contains;
