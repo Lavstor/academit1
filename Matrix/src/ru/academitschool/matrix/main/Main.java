@@ -136,8 +136,13 @@ public class Main {
 
         System.out.println();
 
+        double[] array99 = {112, 473, 24, 50};
+
+        Vector vector99 = new Vector(array99);
+
         System.out.println(matrix1);
-        System.out.println(matrix12);
-        System.out.println("Сумма: " + Matrix.getSum(matrix1, matrix12));
+        System.out.println(vector99);
+        matrix1.setRow(3,vector99);
+        System.out.println(matrix1);
     }
 }
