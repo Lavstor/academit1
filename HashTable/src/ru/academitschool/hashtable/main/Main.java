@@ -3,7 +3,9 @@ package ru.academitschool.hashtable.main;
 import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,6 +37,7 @@ public class Main {
         System.out.println("Пустая?: " + hashTable1.isEmpty());
         System.out.println();
 
+        //noinspection MismatchedQueryAndUpdateOfCollection
         MyHashTable<Integer> hashTable2 = new MyHashTable<>();
         System.out.println("Пустая: " + hashTable2);
         System.out.println();
@@ -46,10 +49,12 @@ public class Main {
         System.out.println();
 
         System.out.println(hashTable1.add(200));
+        System.out.println("+ 200");
         System.out.println("Новая хэш таблица: " + hashTable1);
         System.out.println();
 
         hashTable1.remove(200);
+        System.out.println("- 200");
         System.out.println("Новая хэш таблица: " + hashTable1);
         System.out.println();
 
@@ -60,6 +65,7 @@ public class Main {
         list4.add(511);
 
         hashTable1.addAll(list4);
+        System.out.println("Добавили список");
         System.out.println("Новая хэш таблица: " + hashTable1);
         System.out.println();
 
@@ -76,7 +82,7 @@ public class Main {
         System.out.println();
 
         ArrayList<Integer> list5 = new ArrayList<>();
-       // list5.add(2);
+        // list5.add(2);
         list5.add(3);
         list5.add(4);
         list5.add(5);
@@ -90,11 +96,33 @@ public class Main {
         hashTable1.addAll(list2);
         hashTable1.addAll(list3);
         hashTable1.addAll(list2);
+
+        hashTable1.add(334234235);
+
         System.out.println("Таблица: " + hashTable1);
+        System.out.println("Итератор: ");
 
-        for(Iterator iterator = hashTable1.iterator(); iterator.hasNext();){
-            System.out.println(iterator.next());
+        for (Iterator iterator = hashTable1.iterator(); iterator.hasNext(); ) {
+            System.out.print(iterator.next() + " ");
         }
+        System.out.println();
 
+        MyHashTable hashTable3 = new MyHashTable<>(2);
+        System.out.println(hashTable3);
+        System.out.println("Пустая? " + hashTable3.isEmpty());
+        System.out.println();
+
+        hashTable3.add(2);
+        hashTable3.add(200012);
+        hashTable3.add(9);
+        System.out.println(hashTable3);
+        hashTable3.clear();
+        System.out.println(hashTable3);
+        System.out.println();
+
+        Objects[] objects = new Objects[15];
+        System.out.println(hashTable1);
+        //noinspection SuspiciousToArrayCall
+        System.out.println(Arrays.toString(hashTable1.toArray(objects)));
     }
 }
