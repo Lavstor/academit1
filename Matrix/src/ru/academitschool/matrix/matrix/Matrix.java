@@ -22,14 +22,14 @@ public class Matrix {
         int maxLength = 0;
 
         for (double[] vector : donor) {
-            if (vector.length == 0) {
-                throw new IndexOutOfBoundsException("Размерность массива неверная");
-            }
-
             if (maxLength < vector.length) {
                 maxLength = vector.length;
             }
         }
+        if (maxLength == 0) {
+            throw new IllegalArgumentException("Нельзя создать матрицу размером 0");
+        }
+
         rows = new Vector[donor.length];
 
         for (int i = 0; i < donor.length; i++) {
@@ -92,8 +92,8 @@ public class Matrix {
     }
 
     public void setRow(int index, Vector vector) {
-        if (index >= getColumnsAmount() || index < 0) {
-            throw new IndexOutOfBoundsException("Индекс не корректен");
+        if (index >= getRowsAmount() || index < 0) {
+            throw new IndexOutOfBoundsException("Такой строки нет!");
         }
 
         if (vector.getSize() != getColumnsAmount()) {
@@ -129,11 +129,7 @@ public class Matrix {
         Vector[] temp = new Vector[getColumnsAmount()];
 
         for (int i = 0; i < getColumnsAmount(); i++) {
-            temp[i] = new Vector(rows.length);
-
-            for (int j = 0; j < getRowsAmount(); j++) {
-                temp[i].setComponent(j, rows[j].getComponent(i));
-            }
+            temp[i] = new Vector(getColumn(i));
         }
 
         rows = temp;
@@ -146,14 +142,14 @@ public class Matrix {
     }
 
     public Vector multiply(Vector vector) {
-        if (vector.getSize() != getRowsAmount()) {
-            throw new IllegalArgumentException("Количество элементов вектора не совпадает с количеством строк у матрицы");
+        if (vector.getSize() != getColumnsAmount()) {
+            throw new IllegalArgumentException("Нельзя перемножить, так как количество столбцов матрицы не равно количеству строк вектора.");
         }
 
         Vector result = new Vector(vector.getSize());
 
         for (int i = 0; i < vector.getSize(); i++) {
-            result.setComponent(i,2);
+            result.setComponent(i, Vector.getScalarProduct(getRow(i), vector));
         }
 
         return result;

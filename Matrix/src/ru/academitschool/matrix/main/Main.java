@@ -105,44 +105,12 @@ public class Main {
         System.out.println("Умножение " + matrix5);
         System.out.println();
 
-        System.out.println(matrix1);
-        System.out.println(matrix2);
-
-        double[] array10 = {1, 24, 9};
-        double[] array11 = {11, 4};
-
-        Vector vector11 = new Vector(array10);
-        Vector vector12 = new Vector(array11);
-
-        Vector[] vectors4 = {vector11, vector12};
-        Matrix matrix6 = new Matrix(vectors4);
+        double[][] testArray = {{1, 2, 54}, {}, {}};
+        Matrix testMatrix = new Matrix(testArray);
+        System.out.println(testMatrix);
         System.out.println();
 
-        System.out.println(matrix6);
-
-        Matrix matrix9 = new Matrix(1, 1);
-        System.out.println(matrix9);
-
-        Vector[] vectors5 = {vector1, vector2};
-        Matrix matrix10 = new Matrix(vectors5);
-        System.out.println(matrix10);
-        System.out.println();
-
-        double[][] array12 = {{2}, {3, 2, 2}, {1}, {2}};
-        Matrix matrix11 = new Matrix(2, 5);
-        System.out.println(matrix11);
-
-        Matrix matrix12 = new Matrix(array12);
-
-        System.out.println();
-
-        double[] array99 = {112, 473, 24, 50};
-
-        Vector vector99 = new Vector(array99);
-
-        System.out.println(matrix1);
-        System.out.println(vector99);
-        matrix1.setRow(3,vector99);
-        System.out.println(matrix1);
+        testMatrix.transpose();
+        System.out.println(testMatrix);
     }
 }
