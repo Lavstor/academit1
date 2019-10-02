@@ -107,5 +107,9 @@ public class Main {
 
         System.out.println("Массив до: " + Arrays.toString(array));
         System.out.println("Скопировали список в массив " + Arrays.toString(list1.toArray(array)));
+        System.out.println();
+
+        ArrayList listTast = new ArrayList(4);
+        System.out.println(listTast);
     }
 }

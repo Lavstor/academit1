@@ -8,9 +8,19 @@ public class ArrayList<T> implements List<T> {
 
     private static int modCount = 0;
 
+    public ArrayList() {
+        size = 0;
+        items = (T[]) new Object[10];
+    }
+
+    public ArrayList(int size) {
+        this.size = size;
+        items = (T[]) new Object[size];
+    }
+
     public ArrayList(T[] array) {
         size = array.length;
-        items = array;
+        items = Arrays.copyOf(array, array.length);
     }
 
     private void increaseCapacity() {

@@ -10,16 +10,19 @@ public class SinglyLinkedList<T> {
     private int count = 0;
 
     public SinglyLinkedList() {
-        head = null;
     }
 
     private SinglyLinkedList(ListElement<T> listElement) {
+        if (listElement == null) {
+            return;
+        }
+
         head = new ListElement<>(listElement.getData());
         count++;
 
-        for (ListElement<T> nextElement = listElement.getNext(), nextHead = head; nextElement != null; nextElement = nextElement.getNext()) {
-            nextHead.setNext(new ListElement<>(nextElement.getData()));
-            nextHead = nextHead.getNext();
+        for (ListElement<T> nextElement = listElement.getNext(), head = this.head; nextElement != null; nextElement = nextElement.getNext()) {
+            head.setNext(new ListElement<>(nextElement.getData()));
+            head = head.getNext();
 
             count++;
         }
@@ -30,6 +33,10 @@ public class SinglyLinkedList<T> {
     }
 
     public T getHeadData() {
+        if (head == null) {
+            throw new NoSuchElementException("Список пуст");
+        }
+
         return head.getData();
     }
 
@@ -78,22 +85,17 @@ public class SinglyLinkedList<T> {
         if (index == 0) {
             return deleteFirstElement();
         }
-        ListElement<T> element = getElement(index - 1);
 
+        ListElement<T> element = getElement(index - 1);
         T data = element.getNext().getData();
 
         element.setNext(element.getNext().getNext());
-
         count--;
 
         return data;
     }
 
     public boolean deleteElementByData(T deleteData) {
-        if (head == null) {
-            throw new NoSuchElementException("Список пуст");
-        }
-
         if (Objects.equals(head.getData(), deleteData)) {
             head = head.getNext();
 
@@ -104,6 +106,7 @@ public class SinglyLinkedList<T> {
         for (ListElement<T> element = head; element2 != null; element = element.getNext(), element2 = element.getNext()) {
             if (Objects.equals(element2.getData(), deleteData)) {
                 element.setNext(element2.getNext());
+                count--;
 
                 return true;
             }
@@ -118,7 +121,6 @@ public class SinglyLinkedList<T> {
         }
 
         T data = head.getData();
-
         head = head.getNext();
         count--;
 
@@ -127,7 +129,6 @@ public class SinglyLinkedList<T> {
 
     public void insertFirstElement(T data) {
         head = new ListElement<>(data, head);
-
         count++;
     }
 
@@ -138,13 +139,11 @@ public class SinglyLinkedList<T> {
 
         if (index == 0) {
             insertFirstElement(data);
-
             return;
         }
+
         ListElement<T> element = getElement(index - 1);
-
         element.setNext(new ListElement<>(data, element.getNext()));
-
         count++;
     }
 
@@ -165,7 +164,6 @@ public class SinglyLinkedList<T> {
 
             if (nextHead.getNext() == null) {
                 head.setNext(nextElement);
-
                 break;
             }
         }

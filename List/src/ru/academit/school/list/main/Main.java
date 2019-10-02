@@ -59,5 +59,20 @@ public class Main {
         SinglyLinkedList<Integer> list2 = new SinglyLinkedList<>();
         System.out.println("Пустой список " + list2);
         System.out.println();
+
+        SinglyLinkedList<Integer> list3 = new SinglyLinkedList<>();
+        list3.insertFirstElement(6);
+        list3.insertFirstElement(5);
+        list3.insertFirstElement(4);
+        list3.insertFirstElement(3);
+        list3.insertFirstElement(2);
+        list3.insertFirstElement(1);
+
+        System.out.println(list3);
+        System.out.println(list3.getLength());
+        list3.deleteElementByData(2);
+        System.out.println(list3);
+        System.out.println(list3.getLength());
+        System.out.println();
     }
 }
