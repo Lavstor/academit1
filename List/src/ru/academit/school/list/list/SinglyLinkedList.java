@@ -98,9 +98,11 @@ public class SinglyLinkedList<T> {
     public boolean deleteElementByData(T deleteData) {
         if (Objects.equals(head.getData(), deleteData)) {
             head = head.getNext();
-
+            count--;
+            
             return true;
         }
+
         ListElement<T> element2 = head.getNext();
 
         for (ListElement<T> element = head; element2 != null; element = element.getNext(), element2 = element.getNext()) {
