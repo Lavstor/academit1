@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Double[] array1 = {1.0, 2.4, 6.2};
+        Double[] array1 = {1.0, null, 6.2};
         ArrayList<Double> list1 = new ArrayList<>(array1);
 
         System.out.println("Наш список на массиве: " + list1);
@@ -109,7 +109,17 @@ public class Main {
         System.out.println("Скопировали список в массив " + Arrays.toString(list1.toArray(array)));
         System.out.println();
 
-        ArrayList listTast = new ArrayList(4);
+        ArrayList listTast = new ArrayList(0);
+//listTast.add(2);
+System.out.println(listTast);
+        Double[] array2 = {};
+        ArrayList<Double> listTast2 = new ArrayList(array2);
 
+        listTast2.add(1.0);
+        listTast2.add(2.0);
+        listTast2.add(3.0);
+        System.out.println(listTast2);
+        listTast2.add(2, 99.9);
+        System.out.println(listTast2);
     }
 }
