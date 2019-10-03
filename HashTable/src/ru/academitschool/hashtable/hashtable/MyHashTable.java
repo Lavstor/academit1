@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MyHashTable<T> implements Collection {
     private ArrayList<T>[] hashTable;
-    private static int modCount = 0;
+    private int modCount = 0;
     private int size = 0;
 
     public MyHashTable() {
@@ -25,6 +25,10 @@ public class MyHashTable<T> implements Collection {
         }
     }
 
+    private int getModCount() {
+        return modCount;
+    }
+
     @Override
     public Iterator<T> iterator() {
         if (size <= 0) {
@@ -36,7 +40,7 @@ public class MyHashTable<T> implements Collection {
 
     private class MyListIterator implements Iterator<T> {
         private int currentIndex = 0;
-        private int modCount = MyHashTable.modCount;
+        private int modCount = getModCount();
         private int notEmptySize = getSize();
         private Iterator<T> listIterator = hashTable[currentIndex].iterator();
 
@@ -63,7 +67,7 @@ public class MyHashTable<T> implements Collection {
                 throw new NoSuchElementException("Коллекция закончилась");
             }
 
-            if (modCount != MyHashTable.modCount) {
+            if (modCount != getModCount()) {
                 throw new NoSuchElementException("Коллекция изменилась");
             }
 

@@ -99,7 +99,7 @@ public class SinglyLinkedList<T> {
         if (Objects.equals(head.getData(), deleteData)) {
             head = head.getNext();
             count--;
-            
+
             return true;
         }
 

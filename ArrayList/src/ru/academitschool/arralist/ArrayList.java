@@ -6,7 +6,7 @@ public class ArrayList<T> implements List<T> {
     private T[] items;
     private int size;
 
-    private static int modCount = 0;
+    private  int modCount = 0;
 
     public ArrayList() {
         size = 0;
@@ -23,6 +23,10 @@ public class ArrayList<T> implements List<T> {
         items = Arrays.copyOf(array, array.length);
     }
 
+    private int getMod() {
+        return modCount;
+    }
+
     private void increaseCapacity() {
         items = Arrays.copyOf(items, items.length * 2);
     }
@@ -33,7 +37,7 @@ public class ArrayList<T> implements List<T> {
 
     private class MyListIterator implements Iterator<T> {
         private int currentIndex = -1;
-        private int modCount = ArrayList.modCount;
+        private int modCount = getMod();
 
         @Override
         public boolean hasNext() {
@@ -46,7 +50,7 @@ public class ArrayList<T> implements List<T> {
                 throw new NoSuchElementException("Коллекция закончилась");
             }
 
-            if (modCount != ArrayList.modCount) {
+            if (modCount != getMod()) {
                 throw new NoSuchElementException("коллекция изменилась");
             }
 

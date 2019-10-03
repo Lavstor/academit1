@@ -110,6 +110,6 @@ public class Main {
         System.out.println();
 
         ArrayList listTast = new ArrayList(4);
-        System.out.println(listTast);
+
     }
 }
