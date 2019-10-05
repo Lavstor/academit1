@@ -129,7 +129,7 @@ public class Matrix {
         Vector[] temp = new Vector[getColumnsAmount()];
 
         for (int i = 0; i < getColumnsAmount(); i++) {
-            temp[i] = new Vector(getColumn(i));
+            temp[i] = getColumn(i);
         }
 
         rows = temp;
@@ -146,9 +146,11 @@ public class Matrix {
             throw new IllegalArgumentException("Нельзя перемножить, так как количество столбцов матрицы не равно количеству строк вектора.");
         }
 
-        Vector result = new Vector(vector.getSize());
+        int rowsAmount = getRowsAmount();
 
-        for (int i = 0; i < vector.getSize(); i++) {
+        Vector result = new Vector(rowsAmount);
+
+        for (int i = 0; i < rowsAmount; i++) {
             result.setComponent(i, Vector.getScalarProduct(getRow(i), vector));
         }
 
