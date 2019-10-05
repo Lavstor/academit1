@@ -30,12 +30,12 @@ public class Main {
         System.out.println();
 
         System.out.println("Убираем 2");
-        list1.remove(2);
+        System.out.println(list1.remove(2));
         System.out.println("Убрали элемент: " + list1);
         System.out.println();
 
         System.out.println("Убираем 2.3");
-        list1.remove(2.3);
+        System.out.println(list1.remove(2.3));
         System.out.println("Убрали элемент: " + list1);
         System.out.println();
 
@@ -110,16 +110,22 @@ public class Main {
         System.out.println();
 
         ArrayList listTast = new ArrayList(0);
-//listTast.add(2);
+
 System.out.println(listTast);
         Double[] array2 = {};
         ArrayList<Double> listTast2 = new ArrayList(array2);
 
         listTast2.add(1.0);
         listTast2.add(2.0);
-        listTast2.add(3.0);
+
         System.out.println(listTast2);
+
+        Double[] array3 = {1.0, 1.0, 2.0, 99999.6};
+        ArrayList<Double> listTast3 = new ArrayList(array3);
         listTast2.add(2, 99.9);
+        listTast2.set(2,99999.6);
+        System.out.println(listTast2);
+        System.out.println(listTast2.containsAll(listTast3));
         System.out.println(listTast2);
     }
 }

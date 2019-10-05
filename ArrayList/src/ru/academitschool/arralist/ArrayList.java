@@ -86,11 +86,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean contains(Object element) {
-        if (indexOf(element) != -1) {
-            return true;
-        }
-
-        return false;
+        return indexOf(element) != -1;
     }
 
     @Override
@@ -128,12 +124,13 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
+        T data = items[elementIndex];
         System.arraycopy(items, elementIndex + 1, items, elementIndex, size - elementIndex - 1);
 
         size--;
         modCount++;
 
-        return items[elementIndex];
+        return data;
     }
 
     @Override
@@ -275,15 +272,13 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection collection) {
-        boolean containsAll = true;
-
-        for (int i = 0; i < size; i++) {
-            if (!collection.contains(items[i])) {
-                containsAll = false;
+        for (Object element : collection) {
+            if (!contains(element)) {
+                return false;
             }
         }
 
-        return containsAll;
+        return true;
     }
 
     @SuppressWarnings("TypeParameterHidesVisibleType")
@@ -309,7 +304,18 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public String toString() {
-        return Arrays.toString(items);
+        StringBuilder list = new StringBuilder();
+        list.append("[");
+
+        for(Iterator iterator = iterator(); iterator.hasNext();){
+            list.append(iterator.next());
+            if(iterator.hasNext()){
+                list.append(", ");
+            }
+        }
+        list.append("]");
+
+        return list.toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -333,3 +339,28 @@ public class ArrayList<T> implements List<T> {
         return null;
     }
 }
+   /* В теме письма нужно указывать фамилию, имя и название задачи.
+
+
+        4. trimToSize должен не всегда пересоздавать массив
+
+        5. Сейчас можно создать список вместимости 0, и тогда будут проблемы
+
+        6. В целом коллекция должна нормально работать с null данными в списке
+
+
+        10. У многих методов сейчас не generic сигнатуры
+
+        12. toArray(T[]).
+        - в первом if нужно передать третий аргумент objects.getClass()
+        - нет логики про null, см. документацию
+        - можно обойтись без создания массива для случая, когда длины переданного массива хватает
+
+        15. lastIndexOf реализован неэффективно
+
+
+        17. addAll'ы:
+        - нужно, чтобы массив за 1 раз увеличивался, если в этом будет необходимость
+        - нужно обойтись без преобразования коллекции в массив
+        - не всегда выдается верный boolean
+        - делается изменение modcount даже если это не нужно */
