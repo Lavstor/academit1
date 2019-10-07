@@ -111,7 +111,7 @@ public class Main {
 
         ArrayList listTast = new ArrayList(0);
 
-System.out.println(listTast);
+        System.out.println(listTast);
         Double[] array2 = {};
         ArrayList<Double> listTast2 = new ArrayList(array2);
 
@@ -120,12 +120,19 @@ System.out.println(listTast);
 
         System.out.println(listTast2);
 
-        Double[] array3 = {1.0, 1.0, 2.0, 99999.6};
+        Double[] array3 = {null};
         ArrayList<Double> listTast3 = new ArrayList(array3);
         listTast2.add(2, 99.9);
-        listTast2.set(2,99999.6);
+        listTast2.set(2, 99999.6);
+        listTast2.addAll(listTast3);
         System.out.println(listTast2);
-        System.out.println(listTast2.containsAll(listTast3));
-        System.out.println(listTast2);
+
+        System.out.println(listTast2.lastIndexOf(111.0));
+        Double[] array4 = {2.3, 32.4};
+        System.out.println(Arrays.toString(listTast3.toArray(array4)));
+
+        ArrayList<Double> listTast4 = new ArrayList<>(array4);
+        System.out.println();
+        System.out.println(Arrays.toString(listTast4.toArray(array4)));
     }
 }

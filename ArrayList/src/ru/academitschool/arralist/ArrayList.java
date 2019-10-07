@@ -134,7 +134,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection collection) {
+    public boolean addAll(Collection<? extends T> collection) {
         if (collection.size() + size >= items.length) {
             increaseCapacity();
         }
@@ -148,7 +148,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(int index, Collection collection) {
+    public boolean addAll(int index, Collection<? extends T> collection) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
@@ -158,7 +158,6 @@ public class ArrayList<T> implements List<T> {
         }
         T[] temp = Arrays.copyOfRange(items, index, size);
 
-        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(collection.toArray(), 0, items, index, collection.size());
         size += collection.size();
 
@@ -227,19 +226,17 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object element) {
-        int index = -1;
-
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i > - 1; i--) {
             if (Objects.equals(element, items[i])) {
-                index = i;
+                return i;
             }
         }
 
-        return index;
+        return -1;
     }
 
     @Override
-    public boolean retainAll(Collection collection) {
+    public boolean retainAll(Collection<?> collection) {
         boolean isCleared = false;
 
         for (int i = 0; i < size; i++) {
@@ -255,7 +252,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean removeAll(Collection collection) {
+    public boolean removeAll(Collection<?> collection) {
         boolean isCleared = false;
 
         for (int i = 0; i < size; i++) {
@@ -271,7 +268,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean containsAll(Collection collection) {
+    public boolean containsAll(Collection<?> collection) {
         for (Object element : collection) {
             if (!contains(element)) {
                 return false;
@@ -284,22 +281,19 @@ public class ArrayList<T> implements List<T> {
     @SuppressWarnings("TypeParameterHidesVisibleType")
     @Override
     public <T> T[] toArray(T[] objects) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Этот список пуст!");
+        if(items == null){
+            throw new NullPointerException ("Указанный список пуст");
+        }
+
+        if (objects.getClass() != items.getClass()) {
+            throw new ArrayStoreException("Тип данных в списке и переданном массиве не совпадают!");
         }
 
         if (objects.length < size) {
-            //noinspection unchecked
-
             return (T[]) Arrays.copyOf(items, size);
         }
-        //noinspection MismatchedReadAndWriteOfArray
-        T[] newArray = Arrays.copyOf(objects, objects.length);
 
-        //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(items, 0, newArray, 0, size);
-
-        return newArray;
+        return objects;
     }
 
     @Override
@@ -355,8 +349,6 @@ public class ArrayList<T> implements List<T> {
         - в первом if нужно передать третий аргумент objects.getClass()
         - нет логики про null, см. документацию
         - можно обойтись без создания массива для случая, когда длины переданного массива хватает
-
-        15. lastIndexOf реализован неэффективно
 
 
         17. addAll'ы:
