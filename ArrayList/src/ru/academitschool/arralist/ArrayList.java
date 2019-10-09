@@ -36,7 +36,9 @@ public class ArrayList<T> implements List<T> {
     }
 
     private void trimToSize() {
-        items = Arrays.copyOf(items, size);
+        if (items.length > 10) {
+            items = Arrays.copyOf(items, size);
+        }
     }
 
     private class MyListIterator implements Iterator<T> {
@@ -135,16 +137,23 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        if (collection.size() + size >= items.length) {
-            increaseCapacity();
+        if (collection.size() > 0) {
+            if (collection.size() + size >= items.length) {
+                increaseCapacity();
+            }
+            int i = size;
+
+            for (T element : collection) {
+                items[i] = element;
+                i++;
+            }
+            size += collection.size();
+            modCount++;
+
+            return true;
         }
 
-        System.arraycopy(collection.toArray(), 0, items, size, collection.size());
-
-        size += collection.size();
-        modCount++;
-
-        return true;
+        return false;
     }
 
     @Override
@@ -152,20 +161,29 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
+        if (collection.size() > 0) {
+            if (collection.size() + size >= items.length) {
+                increaseCapacity();
+            }
+            int i = index;
 
-        if (collection.size() + size >= items.length) {
-            increaseCapacity();
+            T[] temp = Arrays.copyOfRange(items, index, size);
+
+            for (T element : collection) {
+                items[i + collection.size() - 1] = items[i];
+                items[i] = element;
+
+                i++;
+            }
+            size += collection.size();
+
+            System.arraycopy(temp, 0, items, size - temp.length, temp.length);
+            modCount++;
+
+            return true;
         }
-        T[] temp = Arrays.copyOfRange(items, index, size);
 
-        System.arraycopy(collection.toArray(), 0, items, index, collection.size());
-        size += collection.size();
-
-        System.arraycopy(temp, 0, items, size - temp.length, temp.length);
-
-        modCount++;
-
-        return true;
+        return false;
     }
 
     @Override
@@ -206,7 +224,7 @@ public class ArrayList<T> implements List<T> {
             increaseCapacity();
         }
 
-        System.arraycopy(items, index , items, index + 1, size);
+        System.arraycopy(items, index, items, index + 1, size);
         items[index] = data;
 
         size++;
@@ -226,7 +244,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object element) {
-        for (int i = size - 1; i > - 1; i--) {
+        for (int i = size - 1; i > -1; i--) {
             if (Objects.equals(element, items[i])) {
                 return i;
             }
@@ -281,16 +299,15 @@ public class ArrayList<T> implements List<T> {
     @SuppressWarnings("TypeParameterHidesVisibleType")
     @Override
     public <T> T[] toArray(T[] objects) {
-        if(items == null){
-            throw new NullPointerException ("Указанный список пуст");
-        }
-
-        if (objects.getClass() != items.getClass()) {
-            throw new ArrayStoreException("Тип данных в списке и переданном массиве не совпадают!");
-        }
-
         if (objects.length < size) {
-            return (T[]) Arrays.copyOf(items, size);
+            return (T[]) Arrays.copyOf(items, size, objects.getClass());
+        }
+        System.arraycopy(items, 0, objects, 0, size);
+
+        if (objects.length > size) {
+            for (int i = size; i < objects.length; i++) {
+                objects[i] = null;
+            }
         }
 
         return objects;
@@ -301,9 +318,9 @@ public class ArrayList<T> implements List<T> {
         StringBuilder list = new StringBuilder();
         list.append("[");
 
-        for(Iterator iterator = iterator(); iterator.hasNext();){
+        for (Iterator iterator = iterator(); iterator.hasNext(); ) {
             list.append(iterator.next());
-            if(iterator.hasNext()){
+            if (iterator.hasNext()) {
                 list.append(", ");
             }
         }
@@ -333,26 +350,3 @@ public class ArrayList<T> implements List<T> {
         return null;
     }
 }
-   /* В теме письма нужно указывать фамилию, имя и название задачи.
-
-
-        4. trimToSize должен не всегда пересоздавать массив
-
-        5. Сейчас можно создать список вместимости 0, и тогда будут проблемы
-
-        6. В целом коллекция должна нормально работать с null данными в списке
-
-
-        10. У многих методов сейчас не generic сигнатуры
-
-        12. toArray(T[]).
-        - в первом if нужно передать третий аргумент objects.getClass()
-        - нет логики про null, см. документацию
-        - можно обойтись без создания массива для случая, когда длины переданного массива хватает
-
-
-        17. addAll'ы:
-        - нужно, чтобы массив за 1 раз увеличивался, если в этом будет необходимость
-        - нужно обойтись без преобразования коллекции в массив
-        - не всегда выдается верный boolean
-        - делается изменение modcount даже если это не нужно */
