@@ -141,6 +141,7 @@ public class ArrayList<T> implements List<T> {
             if (collection.size() + size >= items.length) {
                 increaseCapacity();
             }
+            
             int i = size;
 
             for (T element : collection) {
