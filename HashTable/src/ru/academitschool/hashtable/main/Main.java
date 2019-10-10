@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Integer> list1 = new ArrayList<>();
+    /*    ArrayList<Integer> list1 = new ArrayList<>();
         list1.add(2);
         list1.add(3);
         list1.add(4);
@@ -107,7 +107,7 @@ public class Main {
         }
         System.out.println();
 
-        MyHashTable hashTable3 = new MyHashTable<>(2);
+        MyHashTable hashTable3 = new MyHashTable<>();
         System.out.println(hashTable3);
         System.out.println("Пустая? " + hashTable3.isEmpty());
         System.out.println();
@@ -124,5 +124,50 @@ public class Main {
         System.out.println(hashTable1);
         //noinspection SuspiciousToArrayCall
         System.out.println(Arrays.toString(hashTable1.toArray(objects)));
+       */ System.out.println("------------------------------------");
+       MyHashTable test1 = new MyHashTable(11);
+        test1.add(1);
+        test1.add(6);
+        test1.add(7);
+        test1.add(9);
+        System.out.println(test1);
+
+        ArrayList<Integer> list3 = new ArrayList<>();
+        list3.add(12);
+        list3.add(31);
+        list3.add(51);
+        list3.add(51);
+
+        test1.addAll(list3);
+        System.out.println(test1);
+
+        System.out.println(test1.remove(5100));
+        System.out.println(test1);
+
+        ArrayList<Integer> list4 = new ArrayList<>();
+        list4.add(1);
+        list4.add(31);
+        list4.add(51);
+        list4.add(0);
+
+        ArrayList<Integer> list5 = new ArrayList<>();
+        list5.add(1);
+       list5.add(31);
+       // list5.add(51);
+        //list5.add(0);
+        test1.add(231232);
+        test1.add(19);
+        test1.add(9999);
+        test1.add(49999);
+        System.out.println(test1);
+
+
+
+        for(Iterator iterator = test1.iterator(); iterator.hasNext();){
+            System.out.print(iterator.next());
+            System.out.print(" ");
+        }
+        //System.out.println(Arrays.toString(test1.toArray()));
+
     }
 }
