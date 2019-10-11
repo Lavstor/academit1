@@ -3,6 +3,7 @@ package ru.academitschool.hashtable.main;
 import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -105,6 +106,7 @@ public class Main {
         MyHashTable hashTable3 = new MyHashTable<>();
         System.out.println(hashTable3);
         System.out.println("Пустая? " + hashTable3.isEmpty());
-        System.out.println();
+        System.out.println(hashTable1);
+        System.out.println(Arrays.toString(hashTable1.toArray()));
     }
 }

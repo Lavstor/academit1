@@ -151,7 +151,7 @@ public class Matrix {
         Vector result = new Vector(rowsAmount);
 
         for (int i = 0; i < rowsAmount; i++) {
-            result.setComponent(i, Vector.getScalarProduct(getRow(i), vector));
+            result.setComponent(i, Vector.getScalarProduct(rows[i], vector));
         }
 
         return result;
