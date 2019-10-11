@@ -101,7 +101,7 @@ public class MyHashTable<T> implements Collection<T> {
             return false;
         }
 
-        int index = getHashCode(element);
+        int index = getIndex(element);
 
         if (hashTable[index] == null) {
             return false;
@@ -124,7 +124,7 @@ public class MyHashTable<T> implements Collection<T> {
         return array;
     }
 
-    private int getHashCode(Object object) {
+    private int getIndex(Object object) {
         return Math.abs(object.hashCode() % hashTable.length);
     }
 
@@ -134,12 +134,12 @@ public class MyHashTable<T> implements Collection<T> {
             return false;
         }
 
-        int index = getHashCode(element);
+        int index = getIndex(element);
 
         if (hashTable[index] == null) {
             hashTable[index] = new ArrayList<>();
         }
-        hashTable[getHashCode(element)].add(element);
+        hashTable[getIndex(element)].add(element);
 
         size++;
         modCount++;
@@ -153,13 +153,13 @@ public class MyHashTable<T> implements Collection<T> {
             return false;
         }
 
-        int index = getHashCode(element);
+        int index = getIndex(element);
 
         if (hashTable[index] == null) {
             return false;
         }
 
-        if (hashTable[getHashCode(element)].remove(element)) {
+        if (hashTable[getIndex(element)].remove(element)) {
             modCount++;
             size--;
 
@@ -217,7 +217,7 @@ public class MyHashTable<T> implements Collection<T> {
 
         for (Object element : collection) {
             if (element != null) {
-                int index = getHashCode(element);
+                int index = getIndex(element);
 
                 //noinspection SuspiciousMethodCalls
                 while (hashTable[index] != null && hashTable[index].remove(element)) {
