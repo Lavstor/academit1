@@ -3,9 +3,6 @@ package ru.academitschool.hashtable.main;
 import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -82,11 +79,9 @@ public class Main {
         System.out.println();
 
         ArrayList<Integer> list5 = new ArrayList<>();
-        // list5.add(2);
         list5.add(3);
         list5.add(4);
         list5.add(5);
-        //list5.add(30);
 
         System.out.println("Лист: " + list5);
         System.out.println("Таблица: " + hashTable1);
