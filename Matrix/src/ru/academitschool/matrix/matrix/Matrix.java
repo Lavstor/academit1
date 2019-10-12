@@ -165,6 +165,7 @@ public class Matrix {
         if (rows.length == 1) {
             return rows[0].getComponent(0);
         }
+        
         Matrix matrix2 = new Matrix(rows);
 
         double determinant = 1;
