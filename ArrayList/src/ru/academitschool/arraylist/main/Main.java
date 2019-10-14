@@ -108,13 +108,17 @@ public class Main {
         System.out.println();
         */
 
-        ArrayList newA = new ArrayList(6);
+        ArrayList newA = new ArrayList(0);
         System.out.println(newA);
 
-        Integer[] array1 = {1, 2, 3, 3, 4};
-        ArrayList<Integer> list2 = new ArrayList<>(array1);
 
-        newA.addAll(list2);
+        newA.add(2);
+        newA.add(3);
+        newA.add(4);
+        newA.add(5);
+        newA.add(6);
+        newA.add(7);
+        newA.add(2, 99);
         System.out.println(newA);
         System.out.println(newA.size());
     }

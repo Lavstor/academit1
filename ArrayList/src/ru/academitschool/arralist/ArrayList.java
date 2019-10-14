@@ -140,54 +140,37 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        if (collection.size() > 0) {
-            if (collection.size() + size > items.length) {
-                ensureCapacity(collection.size() + size);
-            }
-
-            int i = size;
-
-            for (T element : collection) {
-                items[i] = element;
-                i++;
-            }
-            size += collection.size();
-            modCount++;
-
-            return true;
-        }
-
-        return false;
+        return addAll(size, collection);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> collection) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
-        if (collection.size() > 0) {
-            if (collection.size() + size > items.length) {
-                ensureCapacity(collection.size() + size);
-            }
-            int i = index;
 
-            T[] temp = Arrays.copyOfRange(items, index, size);
-
-            for (T element : collection) {
-                items[i + collection.size() - 1] = items[i];
-                items[i] = element;
-
-                i++;
-            }
-            size += collection.size();
-
-            System.arraycopy(temp, 0, items, size - temp.length, temp.length);
-            modCount++;
-
-            return true;
+        if (collection.size() == 0) {
+            return false;
         }
 
-        return false;
+        if (collection.size() + size > items.length) {
+            ensureCapacity(collection.size() + size);
+        }
+
+        if(index!= size){
+            System.arraycopy(items, index, items, index + collection.size(), size - index);
+        }
+        size += collection.size();
+
+        for (T element : collection) {
+            items[index] = element;
+
+            index++;
+        }
+
+        modCount++;
+
+        return true;
     }
 
     @Override
@@ -224,15 +207,18 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
-        if (size + 1 >= items.length) {
-            increaseCapacity();
+        if (size != index) {
+            if (size + 1 >= items.length) {
+                increaseCapacity();
+            }
+            System.arraycopy(items, index, items, index + 1, size);
+
+            items[index] = data;
+            size++;
+            modCount++;
+        } else {
+            add(data);
         }
-
-        System.arraycopy(items, index, items, index + 1, size);
-        items[index] = data;
-
-        size++;
-        modCount++;
     }
 
     @Override
@@ -265,7 +251,7 @@ public class ArrayList<T> implements List<T> {
             if (!collection.contains(items[i])) {
                 remove(i);
                 isCleared = true;
-                modCount++;
+
                 i--;
             }
         }
@@ -282,7 +268,6 @@ public class ArrayList<T> implements List<T> {
                 remove(i);
                 isCleared = true;
                 i--;
-                modCount++;
             }
         }
 
@@ -354,3 +339,14 @@ public class ArrayList<T> implements List<T> {
         return null;
     }
 }
+/*Добрый вечер!
+
+
+8. В методе add(int, T) есть ошибка.
+Программа падает при индексе > 0
+
+
+
+11. В методе toArray нужно присвоить null только элементу массива, следующему за последним заполненным значениями из списка
+
+12. В конструкторах и toArray нужно заглушить warning'и, т.к. их не исправить*/
