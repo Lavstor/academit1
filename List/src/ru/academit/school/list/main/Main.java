@@ -73,6 +73,11 @@ public class Main {
         list3.deleteElementByData(2);
         System.out.println(list3);
         System.out.println(list3.getLength());
-        System.out.println();
+        System.out.println("___________________");
+
+        SinglyLinkedList<Integer> newL = new SinglyLinkedList<>();
+        System.out.println(newL);
+        newL.deleteElementByData(123);
+        System.out.println(newL);
     }
 }

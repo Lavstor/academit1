@@ -20,9 +20,9 @@ public class SinglyLinkedList<T> {
         head = new ListElement<>(listElement.getData());
         count++;
 
-        for (ListElement<T> nextElement = listElement.getNext(), head = this.head; nextElement != null; nextElement = nextElement.getNext()) {
-            head.setNext(new ListElement<>(nextElement.getData()));
-            head = head.getNext();
+        for (ListElement<T> nextElement = listElement.getNext(), element = this.head; nextElement != null; nextElement = nextElement.getNext()) {
+            element.setNext(new ListElement<>(nextElement.getData()));
+            element = element.getNext();
 
             count++;
         }
@@ -96,6 +96,10 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteElementByData(T deleteData) {
+        if(head == null){
+            return false;
+        }
+
         if (Objects.equals(head.getData(), deleteData)) {
             head = head.getNext();
             count--;
