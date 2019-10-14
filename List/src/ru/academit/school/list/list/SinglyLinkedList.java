@@ -96,7 +96,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteElementByData(T deleteData) {
-        if(head == null){
+        if (head == null) {
             return false;
         }
 
