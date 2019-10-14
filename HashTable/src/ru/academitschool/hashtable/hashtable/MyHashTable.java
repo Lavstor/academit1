@@ -4,8 +4,8 @@ import java.util.*;
 
 public class MyHashTable<T> implements Collection<T> {
     private ArrayList<T>[] hashTable;
-    private int modCount = 0;
-    private int size = 0;
+    private int modCount;
+    private int size;
 
     public MyHashTable() {
         hashTable = new ArrayList[10];

@@ -5,11 +5,9 @@ import java.util.*;
 public class ArrayList<T> implements List<T> {
     private T[] items;
     private int size;
-
-    private int modCount = 0;
+    private int modCount;
 
     public ArrayList() {
-        size = 0;
         items = (T[]) new Object[10];
     }
 
@@ -18,7 +16,6 @@ public class ArrayList<T> implements List<T> {
             throw new IllegalArgumentException("Размер должен быть больше, либо равна 0");
         }
 
-        this.size = size;
         items = (T[]) new Object[size];
     }
 
@@ -35,8 +32,14 @@ public class ArrayList<T> implements List<T> {
         items = Arrays.copyOf(items, items.length * 2 + 1);
     }
 
-    private void trimToSize() {
-        if (items.length > 10) {
+    private void ensureCapacity(int newSize) {
+        if (newSize != items.length) {
+            items = Arrays.copyOf(items, newSize);
+        }
+    }
+
+    public void trimToSize() {
+        if (size != items.length) {
             items = Arrays.copyOf(items, size);
         }
     }
@@ -138,8 +141,8 @@ public class ArrayList<T> implements List<T> {
     @Override
     public boolean addAll(Collection<? extends T> collection) {
         if (collection.size() > 0) {
-            if (collection.size() + size >= items.length) {
-                increaseCapacity();
+            if (collection.size() + size > items.length) {
+                ensureCapacity(collection.size() + size);
             }
 
             int i = size;
@@ -163,8 +166,8 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
         if (collection.size() > 0) {
-            if (collection.size() + size >= items.length) {
-                increaseCapacity();
+            if (collection.size() + size > items.length) {
+                ensureCapacity(collection.size() + size);
             }
             int i = index;
 
