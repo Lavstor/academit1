@@ -8,6 +8,7 @@ public class ArrayList<T> implements List<T> {
     private int modCount;
 
     public ArrayList() {
+        //noinspection unchecked
         items = (T[]) new Object[10];
     }
 
@@ -15,7 +16,7 @@ public class ArrayList<T> implements List<T> {
         if (size < 0) {
             throw new IllegalArgumentException("Размер должен быть больше, либо равна 0");
         }
-
+        //noinspection unchecked
         items = (T[]) new Object[size];
     }
 
@@ -157,9 +158,10 @@ public class ArrayList<T> implements List<T> {
             ensureCapacity(collection.size() + size);
         }
 
-        if(index!= size){
+        if (index != size) {
             System.arraycopy(items, index, items, index + collection.size(), size - index);
         }
+
         size += collection.size();
 
         for (T element : collection) {
@@ -167,7 +169,6 @@ public class ArrayList<T> implements List<T> {
 
             index++;
         }
-
         modCount++;
 
         return true;
@@ -289,14 +290,14 @@ public class ArrayList<T> implements List<T> {
     @Override
     public <T> T[] toArray(T[] objects) {
         if (objects.length < size) {
+            //noinspection unchecked
             return (T[]) Arrays.copyOf(items, size, objects.getClass());
         }
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, objects, 0, size);
 
         if (objects.length > size) {
-            for (int i = size; i < objects.length; i++) {
-                objects[i] = null;
-            }
+            objects[size] = null;
         }
 
         return objects;
@@ -339,14 +340,4 @@ public class ArrayList<T> implements List<T> {
         return null;
     }
 }
-/*Добрый вечер!
 
-
-8. В методе add(int, T) есть ошибка.
-Программа падает при индексе > 0
-
-
-
-11. В методе toArray нужно присвоить null только элементу массива, следующему за последним заполненным значениями из списка
-
-12. В конструкторах и toArray нужно заглушить warning'и, т.к. их не исправить*/

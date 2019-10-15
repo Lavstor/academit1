@@ -1,12 +1,13 @@
 package ru.academitschool.arraylist.main;
 
 import ru.academitschool.arralist.ArrayList;
+import sun.plugin.javascript.navig.Array;
 
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-      /*  Double[] array1 = {};
+        Double[] array1 = {66.3, 33.53, 6.7, 52236.77};
         ArrayList<Double> list1 = new ArrayList<>(array1);
 
         System.out.println("Наш список на массиве: " + list1);
@@ -29,7 +30,7 @@ public class Main {
         System.out.println("Проверка на содержание эл-та в списке: " + list1.contains(2.3));
         System.out.println();
 
-        System.out.println("Убираем 2");
+        System.out.println("Убираем 0");
         System.out.println(list1.remove(0));
         System.out.println("Убрали элемент: " + list1);
         System.out.println();
@@ -50,7 +51,6 @@ public class Main {
         System.out.println("Добавили список в конец" + list1);
         System.out.println();
 
-
         list2.add(3.2);
         // list2.add(3.9);
 
@@ -67,7 +67,7 @@ public class Main {
         System.out.println("Новый список: " + list1);
         System.out.println();
 
-       list1.clear();
+        list1.clear();
         System.out.println("Очистили список: " + list1);
         System.out.println();
 
@@ -76,13 +76,13 @@ public class Main {
         System.out.println();
 
         list1.add(99.9);
-        System.out.println("Первй индекс элемента 99.9: " + list1.indexOf(99.9));
+        System.out.println("Первый индекс элемента 99.9: " + list1.indexOf(99.9));
         System.out.println();
 
         System.out.println("Последний индекс элемента 3.9: " + list1.lastIndexOf(3.9));
         System.out.println();
 
-
+        list1.add(66.3);
         System.out.println("Коллекция из которой удаляем " + list1);
         System.out.println("Коллекция по которой сверяемся " + list2);
         list1.retainAll(list2);
@@ -91,7 +91,10 @@ public class Main {
 
         ArrayList list3 = new ArrayList<>(array1);
 
+        list1.add(67.3);
         System.out.println("Коллекция по которой сверяемся " + list3);
+        System.out.println("Коллекция из которой удаляем " + list1);
+
         list1.removeAll(list2);
         System.out.println("Очищенная коллекция " + list1);
         System.out.println();
@@ -106,20 +109,5 @@ public class Main {
         System.out.println("Массив до: " + Arrays.toString(array));
         System.out.println("Скопировали список в массив " + Arrays.toString(list1.toArray(array)));
         System.out.println();
-        */
-
-        ArrayList newA = new ArrayList(0);
-        System.out.println(newA);
-
-
-        newA.add(2);
-        newA.add(3);
-        newA.add(4);
-        newA.add(5);
-        newA.add(6);
-        newA.add(7);
-        newA.add(2, 99);
-        System.out.println(newA);
-        System.out.println(newA.size());
     }
 }
