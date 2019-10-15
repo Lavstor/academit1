@@ -1,5 +1,7 @@
 package ru.academit.school.tree.ru.academit.school.Tree;
 
+import java.util.Comparator;
+
 public class Tree {
     private BinaryTreeElement root;
 
@@ -14,11 +16,12 @@ public class Tree {
     }
 
     private class BinaryTreeElement<T> {
-        public Comparable data;
+        public T data;
         public BinaryTreeElement<T> leftChild;
         public BinaryTreeElement<T> rightChild;
 
-        private BinaryTreeElement<T> add(Comparable data, BinaryTreeElement<T> element) {
+        private BinaryTreeElement<T> add(T data, BinaryTreeElement<T> element) {
+
             if (element == null) {
                 element = new BinaryTreeElement<>();
                 element.data = data;
@@ -26,11 +29,10 @@ public class Tree {
                 return element;
             }
 
-            while (data.CompareTo(data) == 0){
-                data.nextNumber();
+            while (data == this.data){
                 throw new ArrayStoreException();
             }
-            if (data.CompareTo(element.data) > 0) {
+            if (data < element.data) {
                 //добавить справа
                 element.rightChild = add(data, element.rightChild);
             } else {
@@ -42,4 +44,5 @@ public class Tree {
             return null;
         }
     }
+
 }

@@ -4,6 +4,7 @@ import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -107,6 +108,23 @@ public class Main {
         System.out.println(hashTable3);
         System.out.println("Пустая? " + hashTable3.isEmpty());
         System.out.println(hashTable1);
-        System.out.println(Arrays.toString(hashTable1.toArray()));
+
+        Integer[] testArray = {2, 3, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5, 2, 3};
+        System.out.println(testArray.length);
+        System.out.println(hashTable1.size());
+        hashTable1.add(null);
+        hashTable1.add(null);
+        hashTable1.add(null);
+        hashTable1.add(null);
+        System.out.println(Arrays.toString(hashTable1.toArray(testArray)));
+
+        ArrayList<Integer> list55 = new ArrayList<>();
+        list55.add(null);
+        list55.add(null);
+        list55.add(null);
+System.out.println(list55);
+        System.out.println(hashTable1.containsAll(list55));
+
+        System.out.println(hashTable1);
     }
 }
