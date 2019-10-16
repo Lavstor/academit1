@@ -213,7 +213,8 @@ public class MyHashTable<T> implements Collection<T> {
     }
 
     @Override
-    public Object[] toArray() {
+    public T[] toArray() {
+        //noinspection unchecked
         T[] array = (T[]) new Object[size];
 
         int i = 0;

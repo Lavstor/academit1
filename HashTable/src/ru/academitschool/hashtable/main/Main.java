@@ -126,8 +126,6 @@ public class Main {
         list55.add(null);
         list55.add(null);
 
-        System.out.println(hashTable1.size());
-        System.out.println(testArray.length);
         System.out.println(Arrays.toString(hashTable1.toArray(testArray)));
     }
 }
