@@ -8,6 +8,7 @@ public class Main {
         Tree tree1 = new Tree();
         Double i = 2.3;
         tree1.add(i);
+        System.out.println(tree1);
 
     }
 }
