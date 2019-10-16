@@ -30,16 +30,24 @@ public class MyHashTable<T> implements Collection<T> {
         private int currentIndex = getNextIndex(0);
         private int changeCount = modCount;
         private int iteration;
-        private Iterator<T> listIterator = hashTable[currentIndex].iterator();
+        private Iterator<T> listIterator = elementIterator();
 
         @Override
         public boolean hasNext() {
             return iteration < size;
         }
 
+        private Iterator<T> elementIterator() {
+            if (size == 0) {
+                return null;
+            }
+
+            return hashTable[currentIndex].iterator();
+        }
+
         private int getNextIndex(int index) {
-            while (index < hashTable.length && (hashTable[index] == null || hashTable[index].isEmpty())) {
-                index++;
+            while (index + 1 < hashTable.length && (hashTable[index] == null || hashTable[index].isEmpty())) {
+                ++index;
             }
 
             return index;
@@ -54,6 +62,7 @@ public class MyHashTable<T> implements Collection<T> {
             if (changeCount != modCount) {
                 throw new NoSuchElementException("Коллекция изменилась");
             }
+
             iteration++;
 
             if (listIterator.hasNext()) {

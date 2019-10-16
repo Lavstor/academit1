@@ -4,7 +4,6 @@ import ru.academitschool.hashtable.hashtable.MyHashTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -84,6 +83,7 @@ public class Main {
         list5.add(3);
         list5.add(4);
         list5.add(5);
+        list5.add(null);
 
         System.out.println("Лист: " + list5);
         System.out.println("Таблица: " + hashTable1);
@@ -99,17 +99,20 @@ public class Main {
         System.out.println("Таблица: " + hashTable1);
         System.out.println("Итератор: ");
 
-        for (Object element : hashTable1) {
+        MyHashTable hashTable3 = new MyHashTable<>();
+        hashTable3.add(null);
+        System.out.println(hashTable3);
+
+        for (Object element : hashTable3) {
             System.out.print(element + " ");
         }
         System.out.println();
 
-        MyHashTable hashTable3 = new MyHashTable<>();
         System.out.println(hashTable3);
         System.out.println("Пустая? " + hashTable3.isEmpty());
         System.out.println(hashTable1);
 
-        Integer[] testArray = {2, 3, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5, 2, 3};
+        Integer[] testArray = {2, 3, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5, 2, 3, 3, 4, 5, 2, 3, 3, 4, 5, 2, 3};
         System.out.println(testArray.length);
         System.out.println(hashTable1.size());
         hashTable1.add(null);
@@ -122,9 +125,9 @@ public class Main {
         list55.add(null);
         list55.add(null);
         list55.add(null);
-System.out.println(list55);
-        System.out.println(hashTable1.containsAll(list55));
 
-        System.out.println(hashTable1);
+        System.out.println(hashTable1.size());
+        System.out.println(testArray.length);
+        System.out.println(Arrays.toString(hashTable1.toArray(testArray)));
     }
 }
