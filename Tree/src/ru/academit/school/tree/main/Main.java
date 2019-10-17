@@ -6,8 +6,17 @@ public class Main {
     public static void main(String[] args) {
 
         Tree tree1 = new Tree();
-        Double i = 2.3;
-        tree1.add(i);
+        tree1.add(10);
+        tree1.add(10);
+        tree1.add(10);
+        tree1.add(22);
+        tree1.add(4);
+        tree1.add(6);
+        tree1.add(1);
+        tree1.add(0);
+        tree1.add(4);
+        tree1.add(16);
+        tree1.add(19);
         System.out.println(tree1);
 
     }

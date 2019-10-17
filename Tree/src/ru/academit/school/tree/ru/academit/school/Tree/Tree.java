@@ -1,5 +1,6 @@
 package ru.academit.school.tree.ru.academit.school.Tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,8 +10,10 @@ public class Tree {
 
     public boolean add(Comparable data) {
         value++;
+
         if (root == null) {
             root = new BinaryTreeElement(data);
+            return true;
         }
         root.add(data, root);
 
@@ -36,12 +39,10 @@ public class Tree {
 
                 return element;
             } else {
-                if (data.compareTo(this.data) > 0) {
-                    //добавить справа
+                if (data.compareTo(element.data) > 0) {
                     element.rightChild = add(data, element.rightChild);
                     return element;
                 } else {
-                    //добавить слева
                     element.leftChild = add(data, element.leftChild);
                     return element;
                 }
@@ -62,12 +63,39 @@ public class Tree {
         BinaryTreeElement element = root;
         queue.add(element);
 
+        int i = 0;
+        int k = 1;
+        int count = 0;
+
         while (!queue.isEmpty()) {
-            line.append(queue.remove(element));
+            if (queue.element() != null) {
+                queue.add(queue.element().leftChild);
+                queue.add(queue.element().rightChild);
+            } else if (count < value) {
+                queue.add(null);
+                queue.add(null);
+              
+            }
 
-            queue.add(element.leftChild);
-            queue.add(element.rightChild);
+            for (int j = i + k; j <= value; j++) {
+                line.append(" ");
+            }
 
+            if (queue.element() != null) {
+                line.append(queue.remove().getData());
+            } else {
+                line.append(" ");
+                queue.remove();
+            }
+            count++;
+            i++;
+
+            if (i % k == 0) {
+                k *= 2;
+                line.append("\n");
+
+                i = 0;
+            }
         }
 
         return line.toString();
