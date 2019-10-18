@@ -17,7 +17,10 @@ public class Main {
         tree1.add(4);
         tree1.add(16);
         tree1.add(19);
+        tree1.add(7);
+        tree1.add(5);
+        tree1.add(9);
         System.out.println(tree1);
-
+        System.out.println(tree1.findX(10));
     }
 }

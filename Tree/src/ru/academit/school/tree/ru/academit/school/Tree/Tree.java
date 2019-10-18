@@ -1,6 +1,5 @@
 package ru.academit.school.tree.ru.academit.school.Tree;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -20,6 +19,14 @@ public class Tree {
         return true;
     }
 
+    public boolean findX(Comparable x) {
+        if (root == null) {
+            return false;
+        }
+
+        return root.findX(x, root) != null;
+    }
+
     private class BinaryTreeElement<T extends Comparable<T>> {
         public T data;
         public BinaryTreeElement<T> leftChild;
@@ -27,10 +34,6 @@ public class Tree {
 
         private BinaryTreeElement(T data) {
             this.data = data;
-        }
-
-        public T getData() {
-            return data;
         }
 
         private BinaryTreeElement<T> add(T data, BinaryTreeElement<T> element) {
@@ -49,6 +52,21 @@ public class Tree {
             }
         }
 
+        private BinaryTreeElement<T> findX(T x, BinaryTreeElement<T> element) {
+            if(element == null){
+                return null;
+            }
+            if (element.data == x) {
+                return element;
+            } else {
+                if (x.compareTo(element.data) > 0) {
+                    return findX(data, element.rightChild);
+                } else {
+                    return findX(data, element.leftChild);
+                }
+            }
+        }
+
     }
 
     public boolean isEmpty() {
@@ -63,38 +81,35 @@ public class Tree {
         BinaryTreeElement element = root;
         queue.add(element);
 
-        int i = 0;
-        int k = 1;
-        int count = 0;
+        int currentLineIndex = 0;
+        int lineSize = 1;
+        value = 16;
 
         while (!queue.isEmpty()) {
             if (queue.element() != null) {
                 queue.add(queue.element().leftChild);
                 queue.add(queue.element().rightChild);
-            } else if (count < value) {
+            } else if (currentLineIndex < value) {
                 queue.add(null);
                 queue.add(null);
-              
             }
 
-            for (int j = i + k; j <= value; j++) {
+            for (int j = currentLineIndex; j <= value / lineSize + currentLineIndex; j++) {
                 line.append(" ");
             }
 
             if (queue.element() != null) {
-                line.append(queue.remove().getData());
+                line.append(queue.remove().data);
             } else {
-                line.append(" ");
                 queue.remove();
             }
-            count++;
-            i++;
+            currentLineIndex++;
 
-            if (i % k == 0) {
-                k *= 2;
+            if (currentLineIndex >= lineSize) {
+                lineSize *= 2;
                 line.append("\n");
 
-                i = 0;
+                currentLineIndex = 0;
             }
         }
 
