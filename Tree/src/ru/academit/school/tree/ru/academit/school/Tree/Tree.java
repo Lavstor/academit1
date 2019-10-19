@@ -27,11 +27,22 @@ public class Tree {
         return root.findX(x, root) != null;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public boolean delete(Comparable x) {
+        return root.delete(x, root) != null;
+    }
+
     private class BinaryTreeElement<T extends Comparable<T>> {
         public T data;
         public BinaryTreeElement<T> leftChild;
         public BinaryTreeElement<T> rightChild;
 
+        private BinaryTreeElement() {
+
+        }
         private BinaryTreeElement(T data) {
             this.data = data;
         }
@@ -53,7 +64,7 @@ public class Tree {
         }
 
         private BinaryTreeElement<T> findX(T x, BinaryTreeElement<T> element) {
-            if(element == null){
+            if (element == null) {
                 return null;
             }
             if (element.data == x) {
@@ -67,7 +78,32 @@ public class Tree {
             }
         }
 
+        private BinaryTreeElement<T> delete(T x, BinaryTreeElement element) {
+            if (element.data != x) {
+              element = findX(x, element);
+            }
+            if (element.rightChild == null) {
+                element = element.leftChild;
+            } else if (element.leftChild == null) {
+                element = element.rightChild;
+            } else {
+                BinaryTreeElement el = findMinLeft(element);
+                element.data = el.leftChild.data;
+                el.leftChild = el.leftChild.rightChild;
+            }
+
+            return element;
+        }
+
+        private BinaryTreeElement<T> findMinLeft(BinaryTreeElement<T> element) {
+            if (element.leftChild.leftChild == null) {
+                return element;
+            } else {
+                return findMinLeft(element.leftChild);
+            }
+        }
     }
+
 
     public boolean isEmpty() {
         return root == null;

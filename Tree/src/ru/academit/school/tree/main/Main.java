@@ -20,7 +20,14 @@ public class Main {
         tree1.add(7);
         tree1.add(5);
         tree1.add(9);
+        tree1.add(15);
+
         System.out.println(tree1);
         System.out.println(tree1.findX(10));
+        System.out.println();
+        tree1.delete(10);
+        tree1.delete(10);
+       // tree1.delete(6);
+        System.out.println(tree1);
     }
 }
