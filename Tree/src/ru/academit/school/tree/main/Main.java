@@ -24,10 +24,8 @@ public class Main {
 
         System.out.println(tree1);
         System.out.println(tree1.findX(10));
-        System.out.println();
-        tree1.delete(10);
-        tree1.delete(10);
-       // tree1.delete(6);
+       // System.out.println();
+   tree1.delete(16);
         System.out.println(tree1);
     }
 }

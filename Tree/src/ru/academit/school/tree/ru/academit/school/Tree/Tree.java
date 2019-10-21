@@ -37,12 +37,13 @@ public class Tree {
 
     private class BinaryTreeElement<T extends Comparable<T>> {
         public T data;
-        public BinaryTreeElement<T> leftChild;
-        public BinaryTreeElement<T> rightChild;
+        public BinaryTreeElement<T> leftChild = null;
+        public BinaryTreeElement<T> rightChild = null;
 
         private BinaryTreeElement() {
 
         }
+
         private BinaryTreeElement(T data) {
             this.data = data;
         }
@@ -71,32 +72,77 @@ public class Tree {
                 return element;
             } else {
                 if (x.compareTo(element.data) > 0) {
-                    return findX(data, element.rightChild);
+                    return findX(x, element.rightChild);
                 } else {
-                    return findX(data, element.leftChild);
+                    return findX(x, element.leftChild);
                 }
             }
         }
 
-        private BinaryTreeElement<T> delete(T x, BinaryTreeElement element) {
-            if (element.data != x) {
-              element = findX(x, element);
-            }
-            if (element.rightChild == null) {
-                element = element.leftChild;
-            } else if (element.leftChild == null) {
-                element = element.rightChild;
-            } else {
-                BinaryTreeElement el = findMinLeft(element);
+        private BinaryTreeElement<T> delete(T x, BinaryTreeElement<T> element) {
+            if (element.data == x) {
+                BinaryTreeElement<T> el = findMinLeft(element.rightChild);
                 element.data = el.leftChild.data;
                 el.leftChild = el.leftChild.rightChild;
+
+                return element;
+            }
+            if (element.rightChild!= null && element.rightChild.data == x) {
+                if (element.rightChild.rightChild == null) {
+                    element.rightChild = element.rightChild.leftChild;
+                    return element.rightChild;
+                } else if (element.rightChild.leftChild == null) {
+                    element.rightChild = element.rightChild.rightChild;
+                    return element.rightChild;
+                }
+                BinaryTreeElement<T> el = findMinLeft(element.rightChild.rightChild);
+
+                if(element.rightChild.leftChild != null){
+                    el.leftChild = element.leftChild.leftChild;
+                }
+                element.rightChild = el;
+
+                if (el.rightChild != null) {
+                    delete(el.data, el);
+                }
+
+                return element;
             }
 
-            return element;
+            if (element.leftChild.data == x) {
+                if (element.leftChild.rightChild == null) {
+                    element.leftChild = element.leftChild.leftChild;
+
+                    return element.leftChild;
+                }
+                if (element.leftChild.leftChild == null) {
+                    element.leftChild = element.leftChild.rightChild;
+
+                    return element.leftChild;
+                }
+                BinaryTreeElement<T> el = findMinLeft(element.leftChild.rightChild);
+
+                if(element.leftChild.leftChild != null){
+                    el.leftChild = element.leftChild.leftChild;
+                }
+                element.leftChild = el;
+
+                if (el.rightChild!= null) {
+                    delete(el.data, el);
+                }
+
+                return element;
+            }
+
+            if (x.compareTo(element.data) > 0) {
+                return delete(x, element.rightChild);
+            } else {
+                return delete(x, element.leftChild);
+            }
         }
 
-        private BinaryTreeElement<T> findMinLeft(BinaryTreeElement<T> element) {
-            if (element.leftChild.leftChild == null) {
+        private BinaryTreeElement findMinLeft(BinaryTreeElement<T> element) {
+            if (element.leftChild == null || element.leftChild.leftChild == null) {
                 return element;
             } else {
                 return findMinLeft(element.leftChild);
