@@ -33,9 +33,9 @@ public class ArrayList<T> implements List<T> {
         items = Arrays.copyOf(items, items.length * 2 + 1);
     }
 
-    private void ensureCapacity(int newSize) {
-        if (newSize != items.length) {
-            items = Arrays.copyOf(items, newSize);
+    private void ensureCapacity(int minCapacity) {
+        while (minCapacity > items.length) {
+            increaseCapacity();
         }
     }
 
@@ -208,8 +208,10 @@ public class ArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Выход за границы списка!");
         }
 
-        if (size != index) {
-            if (size + 1 >= items.length) {
+        if (size == index) {
+            add(data);
+        } else {
+            if (size + 1 > items.length) {
                 increaseCapacity();
             }
             System.arraycopy(items, index, items, index + 1, size);
@@ -217,8 +219,6 @@ public class ArrayList<T> implements List<T> {
             items[index] = data;
             size++;
             modCount++;
-        } else {
-            add(data);
         }
     }
 
