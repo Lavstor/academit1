@@ -129,6 +129,7 @@ public class Tree<T extends Comparable<T>> {
                 if (stack.element().leftChild != null) {
                     stack.addLast(stack.element().leftChild);
                 }
+
                 if (stack.element().rightChild != null) {
                     stack.addLast(stack.element().rightChild);
                 }
