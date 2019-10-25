@@ -58,6 +58,10 @@ public class Tree<T extends Comparable<T>> {
     }
 
     public boolean delete(Comparable element) {
+        if(root == null){
+            throw new IndexOutOfBoundsException("Пустое дерево");
+        }
+
         if (root.delete(element, root) != null) {
             value--;
 
