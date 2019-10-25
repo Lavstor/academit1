@@ -141,6 +141,10 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
+        if (collection.size() == 0) {
+            return false;
+        }
+
         boolean addedAll = true;
 
         for (T element : collection) {
@@ -213,9 +217,9 @@ public class MyHashTable<T> implements Collection<T> {
     }
 
     @Override
-    public T[] toArray() {
+    public Object[] toArray() {
         //noinspection unchecked
-        T[] array = (T[]) new Object[size];
+        Object[] array = new Object[size];
 
         int i = 0;
 
@@ -230,12 +234,15 @@ public class MyHashTable<T> implements Collection<T> {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] objects) {
-        if (objects.length <= size) {
+        if (objects.length < size) {
             return (T[]) Arrays.copyOf(toArray(), size, objects.getClass());
         }
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(toArray(), 0, objects, 0, size);
-        objects[size] = null;
+
+        if (objects.length > size) {
+            objects[size] = null;
+        }
 
         return objects;
     }
