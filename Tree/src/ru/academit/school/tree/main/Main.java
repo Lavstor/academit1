@@ -13,6 +13,10 @@ public class Main {
         tree1.add(144);
         tree1.add(144);
         tree1.add(145);
+        tree1.add(125);
+        tree1.add(144);
+        tree1.add(144);
+        tree1.add(145);
 
         System.out.println(tree1.isEmpty());
         System.out.println(tree1.getValue());

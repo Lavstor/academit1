@@ -144,7 +144,7 @@ public class MyHashTable<T> implements Collection<T> {
         if(collection.isEmpty()){
             return false;
         }
-        
+
         int newModCount = modCount;
 
         for (T element : collection) {

@@ -34,8 +34,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     private void ensureCapacity(int minCapacity) {
-        while (minCapacity > items.length) {
-            increaseCapacity();
+       if (minCapacity > items.length) {
+           items = Arrays.copyOf(items, minCapacity);
         }
     }
 
