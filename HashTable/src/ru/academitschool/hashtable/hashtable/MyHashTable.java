@@ -141,19 +141,17 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        if (collection.size() == 0) {
+        if(collection.isEmpty()){
             return false;
         }
-
-        boolean addedAll = true;
+        
+        int newModCount = modCount;
 
         for (T element : collection) {
-            if (!add(element)) {
-                addedAll = false;
-            }
+            add(element);
         }
 
-        return addedAll;
+        return newModCount != modCount;
     }
 
     @Override

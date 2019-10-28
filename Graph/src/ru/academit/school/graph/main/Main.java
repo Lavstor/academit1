@@ -5,9 +5,11 @@ import ru.academit.school.graph.graph.Graph;
 public class Main {
     public static void main(String[] args) {
 
-        Integer[][] array1= {{1,3,5,6}, {22,73,1}, {1}, {255,2}};
+        int[][] array1 = {{0, 1, 0, 0, 0, 0, 0}, {1, 0, 1, 1, 1, 1, 0}, {0, 1, 0, 0, 0, 0, 1}, {0, 1, 0, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 1, 0}, {0, 1, 0, 0, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 0}};
         Graph graph1 = new Graph(array1);
-        System.out.println(graph1);
-        System.out.println(graph1.getValue());
+      //  System.out.println(graph1);
+      //  System.out.println(graph1.getValue());
+        graph1.widthBypass();
     }
 }
