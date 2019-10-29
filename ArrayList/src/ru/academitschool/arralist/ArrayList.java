@@ -214,7 +214,7 @@ public class ArrayList<T> implements List<T> {
             if (size + 1 > items.length) {
                 increaseCapacity();
             }
-            System.arraycopy(items, index, items, index + 1, size);
+            System.arraycopy(items, index, items, index + 1, size - index);
 
             items[index] = data;
             size++;

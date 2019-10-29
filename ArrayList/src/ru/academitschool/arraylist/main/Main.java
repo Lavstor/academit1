@@ -110,13 +110,8 @@ public class Main {
         System.out.println("Скопировали список в массив " + Arrays.toString(list1.toArray(array)));
         System.out.println();
 
-        System.out.println(list1);
-        list1.add(5.2);
-        list1.add(9.2);
-        list1.add(2.6);
-        list1.add(88.2);
-        System.out.println(list1);
-        list1.add(2, 9.9);
-        System.out.println(list1);
+        System.out.println(list2);
+        list2.add(3, 3.3);
+        System.out.println(list2);
     }
 }
