@@ -13,7 +13,7 @@ public class Graph {
                 throw new IllegalArgumentException("Массив должен быть квадратным");
             }
         }
-        
+
         graph = Arrays.copyOf(array, array.length);
     }
 
