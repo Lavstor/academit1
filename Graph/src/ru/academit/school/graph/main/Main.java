@@ -8,8 +8,12 @@ public class Main {
         int[][] array1 = {{0, 1, 0, 0, 0, 0, 0}, {1, 0, 1, 1, 1, 1, 0}, {0, 1, 0, 0, 0, 0, 1}, {0, 1, 0, 0, 0, 0, 0},
                 {0, 1, 0, 0, 0, 1, 0}, {0, 1, 0, 0, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 0}};
         Graph graph1 = new Graph(array1);
-      //  System.out.println(graph1);
-      //  System.out.println(graph1.getValue());
+
+        System.out.println("Обход в ширину");
         graph1.widthBypass();
+        System.out.println();
+
+        System.out.println("Обход в глубину");
+        graph1.deepBypass();
     }
 }

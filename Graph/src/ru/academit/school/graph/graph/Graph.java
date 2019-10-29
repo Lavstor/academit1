@@ -4,22 +4,28 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Graph<T extends Comparable<T>> {
+public class Graph {
     private int[][] graph;
-    private int value;
 
     public Graph(int[][] array) {
+        for (int[] row : array) {
+            if (row.length != array.length) {
+                throw new IllegalArgumentException("Массив должен быть квадратным");
+            }
+        }
+        
         graph = Arrays.copyOf(array, array.length);
-        value = array.length;
     }
 
     public void widthBypass() {
         boolean[] visited = new boolean[graph.length];
         Queue<Integer> queue = new LinkedList<>();
 
-        queue.add(0);
-
         for (int i = 0; i < graph.length; i++) {
+            if (!visited[i]) {
+                queue.add(i);
+            }
+
             while (!queue.isEmpty()) {
                 int index = queue.remove();
 
@@ -34,15 +40,33 @@ public class Graph<T extends Comparable<T>> {
                     System.out.print(index + 1 + " ");
                 }
             }
-
-            if (!visited[i]) {
-                queue.add(i);
-            }
         }
     }
 
-    public int getValue() {
-        return value;
+    public void deepBypass() {
+        boolean[] visited = new boolean[graph.length];
+        LinkedList<Integer> stack = new LinkedList<>();
+
+        for (int i = 0; i < graph.length; i++) {
+            if (!visited[i]) {
+                stack.add(i);
+            }
+
+            while (!stack.isEmpty()) {
+                int index = stack.removeLast();
+
+                if (!visited[index]) {
+                    for (int j = 0; j < graph.length; j++) {
+                        if (graph[index][j] != 0) {
+                            stack.add(j);
+                        }
+                    }
+
+                    System.out.print(index + 1 + " ");
+                    visited[index] = true;
+                }
+            }
+        }
     }
 
 
@@ -50,8 +74,8 @@ public class Graph<T extends Comparable<T>> {
     public String toString() {
         StringBuilder line = new StringBuilder();
 
-        for (int i = 0; i < graph.length; i++) {
-            line.append(Arrays.toString(graph[i]));
+        for (int[] aGraph : graph) {
+            line.append(Arrays.toString(aGraph));
             line.append("\n");
         }
 
