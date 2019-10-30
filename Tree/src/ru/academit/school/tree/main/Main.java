@@ -5,33 +5,61 @@ import ru.academit.school.tree.ru.academit.school.Tree.Tree;
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        Tree tree1 = new Tree();
+        Object x = 9;
 
-        tree1.add(124);
+        Tree tree1 = new Tree(x);
+
         tree1.add(134);
         tree1.add(125);
         tree1.add(144);
         tree1.add(144);
-        tree1.add(145);
+        tree1.add(148);
         tree1.add(125);
-        tree1.add(144);
-        tree1.add(144);
+        tree1.add(125);
+        tree1.add(125);
+        tree1.add(146);
+        tree1.add(147);
         tree1.add(145);
 
-        System.out.println(tree1.isEmpty());
-        System.out.println(tree1.getValue());
-        System.out.println(tree1.findData(170));
-        System.out.println(tree1.delete(170));
+        tree1.add(125);
+        tree1.add(146);
+        tree1.add(147);
+        tree1.add(145);
 
+        System.out.println("Дерево");
         System.out.println(tree1);
         System.out.println();
 
+
+        System.out.println("Пустое?");
+        System.out.println(tree1.isEmpty());
+        System.out.println();
+
+        System.out.println("Кол-во вершин");
+        System.out.println(tree1.getValue());
+        System.out.println();
+
+        System.out.println("Присутсвие эелемента");
+        System.out.println(tree1.findData(144));
+        System.out.println();
+
+        System.out.println("Удаление");
+        System.out.println(tree1.delete(144));
+        System.out.println();
+
+        System.out.println("Дерево");
+        System.out.println(tree1);
+        System.out.println();
+
+        System.out.println("Обход в глубину с рекурисей");
         tree1.deepRecursionBypass();
         System.out.println();
 
+        System.out.println("Обход в глубину");
         tree1.deepBypass();
         System.out.println();
 
+        System.out.println("Обход в ширину");
         tree1.widthBypass();
         System.out.println();
     }
