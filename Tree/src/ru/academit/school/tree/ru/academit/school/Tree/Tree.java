@@ -16,15 +16,15 @@ public class Tree<T> {
         root.data = data;
 
         comparator = (o1, o2) -> {
-            String object1 = o1.toString();
-            String object2 = o2.toString();
+            Comparable object1 = (Comparable) o1;
+            Comparable object2 = (Comparable) o2;
 
             return object1.compareTo(object2);
         };
     }
 
-    public Tree(Comparator<T> c, T data) {
-        comparator = c;
+    public Tree(Comparator<T> comparator, T data) {
+        this.comparator = comparator;
 
         root = new BinaryTreeElement();
         root.data = data;
@@ -282,66 +282,10 @@ public class Tree<T> {
             rowCount++;
             maxSize *= 2;
         }
-
-        while (!queue.isEmpty()){
-            if (queue.element() != null) {
-                queue.add(queue.element().leftChild);
-                queue.add(queue.element().rightChild);
-            } else if (currentLineIndex < value) {
-                queue.add(null);
-                queue.add(null);
-            }
-            for (int j = 0; j <= maxSize / lineSize * 2 + currentLineIndex; j++) {
-                line.append(" ");
-            }
-
-            if (queue.element() != null) {
-                line.append(queue.remove().data);
-            } else {
-                queue.remove();
-            }
-            line.append(" ");
-
-            currentLineIndex++;
-            if (currentLineIndex == lineSize) {
-                lineSize *= 2;
-                line.append(System.lineSeparator());
-
-                currentLineIndex = 0;
-            }
-        }
-
-        return line.toString();
-    }
-
-    private class BinaryTreeElement {
-        private T data;
-        private BinaryTreeElement leftChild = null;
-        private BinaryTreeElement rightChild = null;
-    }
-}
-
-/*    @Override
-    public String toString() {
-        StringBuilder line = new StringBuilder();
-        Queue<BinaryTreeElement> queue = new LinkedList<>();
-
-        BinaryTreeElement element = root;
-        queue.add(element);
-
-        int currentLineIndex = 0;
-        int lineSize = 1;
-        int maxSize = 1;
-        int rowCount = 0;
-
-        while (maxSize < value) {
-            rowCount++;
-            maxSize *= 2;
-        }
-
+        maxSize *= 2;
 
         if (rowCount % 2 == 0) {
-            maxSize--;
+            maxSize -= 1;
         }
 
         while (!queue.isEmpty()) {
@@ -358,20 +302,28 @@ public class Tree<T> {
             }
 
             if (queue.element() != null) {
-                line.append(queue.remove().data).append(" ");
+                line.append(queue.remove().data);
             } else {
-                line.append(" ");
                 queue.remove();
             }
+
+            line.append(" ");
+
             currentLineIndex++;
 
-            if (currentLineIndex == lineSize) {
+            if (currentLineIndex >= lineSize) {
                 lineSize *= 2;
                 line.append(System.lineSeparator());
-
                 currentLineIndex = 0;
             }
         }
 
         return line.toString();
-    } */
+    }
+
+    private class BinaryTreeElement {
+        private T data;
+        private BinaryTreeElement leftChild = null;
+        private BinaryTreeElement rightChild = null;
+    }
+}
