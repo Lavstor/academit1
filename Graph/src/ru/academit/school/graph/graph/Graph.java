@@ -3,6 +3,7 @@ package ru.academit.school.graph.graph;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 public class Graph {
     private int[][] graph;
@@ -14,7 +15,11 @@ public class Graph {
             }
         }
 
-        graph = Arrays.copyOf(array, array.length);
+        graph = new int[array.length][array.length];
+
+        for (int i = 0; i < array.length; i++){
+            graph[i] = Arrays.copyOf(array[i], array.length);
+        }
     }
 
     public void widthBypass() {
@@ -22,9 +27,11 @@ public class Graph {
         Queue<Integer> queue = new LinkedList<>();
 
         for (int i = 0; i < graph.length; i++) {
-            if (!visited[i]) {
-                queue.add(i);
+            if (visited[i]) {
+                continue;
             }
+
+            queue.add(i);
 
             while (!queue.isEmpty()) {
                 int index = queue.remove();
@@ -43,20 +50,22 @@ public class Graph {
         }
     }
 
-    public void deepBypass() {
+    public void deepBypass(Consumer<Integer> c) {
         boolean[] visited = new boolean[graph.length];
         LinkedList<Integer> stack = new LinkedList<>();
 
         for (int i = 0; i < graph.length; i++) {
-            if (!visited[i]) {
-                stack.add(i);
+            if (visited[i]) {
+                continue;
             }
+
+            stack.add(i);
 
             while (!stack.isEmpty()) {
                 int index = stack.removeLast();
 
                 if (!visited[index]) {
-                    for (int j = 0; j < graph.length; j++) {
+                    for (int j = graph.length - 1; j >= 0; j--) {
                         if (graph[index][j] != 0) {
                             stack.add(j);
                         }
@@ -74,9 +83,9 @@ public class Graph {
     public String toString() {
         StringBuilder line = new StringBuilder();
 
-        for (int[] aGraph : graph) {
-            line.append(Arrays.toString(aGraph));
-            line.append("\n");
+        for (int[] row : graph) {
+            line.append(Arrays.toString(row));
+            line.append(System.lineSeparator());
         }
 
         return line.toString();
