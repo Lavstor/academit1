@@ -1,6 +1,7 @@
 package ru.academit.school.graph.graph;
 
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -50,7 +51,7 @@ public class Graph {
         }
     }
 
-    public void deepBypass(Consumer<Integer> c) {
+    public void deepBypass() {
         boolean[] visited = new boolean[graph.length];
         LinkedList<Integer> stack = new LinkedList<>();
 
@@ -75,6 +76,24 @@ public class Graph {
                     visited[index] = true;
                 }
             }
+        }
+    }
+
+    public void deepRecursionBypass(int ind) {
+        boolean[] visited = new boolean[graph.length];
+
+        Deque<Integer> stack = new LinkedList();
+
+        for (Integer left = root; left != null; left = left.leftChild) {
+            System.out.print(left.data + " ");
+
+            if (left.rightChild != null) {
+                stack.addLast(left.rightChild);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            deepRecursionBypass(stack.removeLast());
         }
     }
 
