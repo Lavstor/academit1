@@ -18,7 +18,7 @@ public class Graph {
 
         graph = new int[array.length][array.length];
 
-        for (int i = 0; i < array.length; i++){
+        for (int i = 0; i < array.length; i++) {
             graph[i] = Arrays.copyOf(array[i], array.length);
         }
     }
@@ -79,24 +79,17 @@ public class Graph {
         }
     }
 
-    public void deepRecursionBypass(int ind) {
+    public int deepRecursionBypass(int index) {
         boolean[] visited = new boolean[graph.length];
 
-        Deque<Integer> stack = new LinkedList();
-
-        for (Integer left = root; left != null; left = left.leftChild) {
-            System.out.print(left.data + " ");
-
-            if (left.rightChild != null) {
-                stack.addLast(left.rightChild);
+        for (int i = 0; i < visited.length; i++) {
+            if(!visited[index]){
+               for(int j = graph.length - 1; j > 0; j--) {
+                   stack.add(j);
+               }
             }
         }
-
-        while (!stack.isEmpty()) {
-            deepRecursionBypass(stack.removeLast());
-        }
     }
-
 
     @Override
     public String toString() {
