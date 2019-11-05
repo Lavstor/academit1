@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 @SuppressWarnings("unchecked")
 public class Tree<T> {
@@ -55,19 +56,19 @@ public class Tree<T> {
         return element;
     }
 
-    public void deepRecursionBypass() {
+    public void deepRecursionBypass(Consumer<T> consumer) {
         if (root == null) {
             throw new IndexOutOfBoundsException("Пустое дерево");
         }
 
-        deepRecursionBypass(root);
+        deepRecursionBypass(root, consumer);
     }
 
-    private void deepRecursionBypass(BinaryTreeElement root) {
+    private void deepRecursionBypass(BinaryTreeElement root, Consumer<T> consumer) {
         Deque<BinaryTreeElement> stack = new LinkedList<>();
 
         for (BinaryTreeElement left = root; left != null; left = left.leftChild) {
-            System.out.print(left.data + " ");
+            consumer.accept(left.data);
 
             if (left.rightChild != null) {
                 stack.addLast(left.rightChild);
@@ -75,25 +76,25 @@ public class Tree<T> {
         }
 
         while (!stack.isEmpty()) {
-            deepRecursionBypass(stack.removeLast());
+            deepRecursionBypass(stack.removeLast(), consumer);
         }
     }
 
-    public void deepBypass() {
+    public void deepBypass(Consumer<T> consumer) {
         if (root == null) {
             throw new IndexOutOfBoundsException("Пустое дерево");
         }
 
-        deepBypass(root);
+        deepBypass(root, consumer);
     }
 
-    private void deepBypass(BinaryTreeElement root) {
+    private void deepBypass(BinaryTreeElement root, Consumer<T> consumer) {
         LinkedList<BinaryTreeElement> stack = new LinkedList<>();
 
         stack.addLast(root);
 
         while (!stack.isEmpty()) {
-            System.out.print(stack.getLast().data + " ");
+            consumer.accept(stack.getLast().data);
 
             int size = stack.size() - 1;
 
@@ -109,21 +110,21 @@ public class Tree<T> {
         }
     }
 
-    public void widthBypass() {
+    public void widthBypass(Consumer<T> consumer) {
         if (root == null) {
             throw new IndexOutOfBoundsException("Пустое дерево");
         }
 
-        widthBypass(root);
+        widthBypass(root, consumer);
     }
 
-    private void widthBypass(BinaryTreeElement root) {
+    private void widthBypass(BinaryTreeElement root, Consumer<T> consumer) {
         Deque<BinaryTreeElement> stack = new LinkedList<>();
 
         stack.addLast(root);
 
         while (!stack.isEmpty()) {
-            System.out.print(stack.element().data + " ");
+            consumer.accept(stack.element().data);
 
             if (stack.element().leftChild != null) {
                 stack.addLast(stack.element().leftChild);
