@@ -1,7 +1,6 @@
 package ru.academit.school.graph.graph;
 
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -23,7 +22,7 @@ public class Graph {
         }
     }
 
-    public void widthBypass() {
+    public void widthBypass(Consumer<Integer> consumer) {
         boolean[] visited = new boolean[graph.length];
         Queue<Integer> queue = new LinkedList<>();
 
@@ -45,13 +44,13 @@ public class Graph {
                     }
                     visited[index] = true;
 
-                    System.out.print(index + 1 + " ");
+                    consumer.accept(index);
                 }
             }
         }
     }
 
-    public void deepBypass() {
+    public void deepBypass(Consumer<Integer> consumer) {
         boolean[] visited = new boolean[graph.length];
         LinkedList<Integer> stack = new LinkedList<>();
 
@@ -71,22 +70,47 @@ public class Graph {
                             stack.add(j);
                         }
                     }
+                    consumer.accept(index);
 
-                    System.out.print(index + 1 + " ");
                     visited[index] = true;
                 }
             }
         }
     }
 
-    public int deepRecursionBypass(int index) {
-        boolean[] visited = new boolean[graph.length];
+    public void deepRecursionBypass(Consumer<Integer> consumer) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        stack.add(0);
 
-        for (int i = 0; i < visited.length; i++) {
-            if(!visited[index]){
-               for(int j = graph.length - 1; j > 0; j--) {
-                   stack.add(j);
-               }
+        deepRecursionBypass(new boolean[graph.length], stack, consumer);
+    }
+
+    private void deepRecursionBypass(boolean[] visited, LinkedList<Integer> stack, Consumer<Integer> consumer) {
+        if (!stack.isEmpty()) {
+            int index = stack.removeLast();
+
+            while (visited[index] && !stack.isEmpty()) {
+                index = stack.removeLast();
+            }
+            if (!visited[index]) {
+                for (int j = graph.length - 1; j >= 0; j--) {
+                    if (graph[index][j] != 0) {
+                        stack.add(j);
+                    }
+                }
+                consumer.accept(index);
+
+                visited[index] = true;
+
+                deepRecursionBypass(visited, stack, consumer);
+            }
+        }
+
+        for (int i = 0; i < graph.length; i++) {
+            if (!visited[i]) {
+                stack.addLast(i);
+
+                deepRecursionBypass(visited, stack, consumer);
             }
         }
     }
