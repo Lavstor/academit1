@@ -7,8 +7,6 @@ import java.util.function.Consumer;
 public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        Object x = 9;
-
         Tree tree1 = new Tree();
 
         tree1.add(134);

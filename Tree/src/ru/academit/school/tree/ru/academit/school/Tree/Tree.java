@@ -352,6 +352,7 @@ public class Tree<T> {
             if (currentLineIndex >= lineSize) {
                 lineSize *= 2;
                 line.append(System.lineSeparator());
+
                 currentLineIndex = 0;
             }
         }
