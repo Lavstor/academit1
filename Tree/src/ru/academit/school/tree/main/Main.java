@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Object x = 9;
 
-        Tree tree1 = new Tree(x);
+        Tree tree1 = new Tree();
 
         tree1.add(134);
         tree1.add(125);
@@ -34,7 +34,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Кол-во вершин");
-        System.out.println(tree1.getValue());
+        System.out.println(tree1.getNodeCount());
         System.out.println();
 
         System.out.println("Присутсвие эелемента");
@@ -59,6 +59,18 @@ public class Main {
 
         System.out.println("Обход в ширину");
         tree1.widthBypass(consumer);
+        System.out.println();
+        System.out.println("--------------------------");
+
+        Tree t2 = new Tree();
+
+        System.out.println(t2.getNodeCount());
+        System.out.println(t2.delete(null));
+        System.out.println(t2.delete(1));
+
+        t2.deepBypass(consumer);
+        t2.widthBypass(consumer);
+        t2.deepRecursionBypass(consumer);
         System.out.println();
     }
 }
