@@ -66,7 +66,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите кол-во итераций: ");
 
-        DoubleStream ceilStream = DoubleStream.iterate(0, x -> x + 1).map(Math::ceil).limit(scanner.nextLong());
+        DoubleStream ceilStream = DoubleStream.iterate(0, x -> x + 1)
+                .map(Math::ceil)
+                .limit(scanner.nextLong());
 
         ceilStream.forEach(s -> System.out.print(s + " "));
         System.out.println();
@@ -75,7 +77,8 @@ public class Main {
 
         System.out.print(Stream.iterate(new int[]{0, 1}, num -> new int[]{num[1], num[0] + num[1]})
                 .limit(scanner.nextLong())
-                .map(t -> t[0]).collect(Collectors.toList())
+                .map(t -> t[0])
+                .collect(Collectors.toList())
                 .toString());
     }
 }
