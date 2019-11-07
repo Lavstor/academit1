@@ -1,7 +1,6 @@
 package ru.academit.school.labda.main;
 
 import ru.academit.school.labda.person.Person;
-
 import java.util.*;
 import java.util.stream.*;
 
