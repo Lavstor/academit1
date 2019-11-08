@@ -1,7 +1,6 @@
 package ru.academit.school.reflecton.main;
 
 import ru.academit.school.reflecton.class2.Cat;
-
 import java.lang.reflect.*;
 import java.util.Arrays;
 
