@@ -92,6 +92,7 @@ public class Graph {
             while (visited[index] && !stack.isEmpty()) {
                 index = stack.removeLast();
             }
+
             if (!visited[index]) {
                 for (int j = graph.length - 1; j >= 0; j--) {
                     if (graph[index][j] != 0) {
