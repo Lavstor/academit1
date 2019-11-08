@@ -19,5 +19,13 @@ public class Main {
             outputStream2.write(res2, 0, off);
         }
 
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(args[2]))) {
+            for (int i = 1; i <= 100; i++) {
+                printWriter.println("Строка " + i);
+            }
+            printWriter.println("Это println");
+            printWriter.printf(" Это %S! %n", "printf");
+            printWriter.print(" Это print");
+        }
     }
 }
