@@ -40,7 +40,7 @@ public class Main {
             t.start();
             threads.add(t);
         }
-        
+
         Thread t = new Thread(() -> {
             for (int j = 1; j <= 20000; j++) {
                 synchronized (numbers){
@@ -49,6 +49,7 @@ public class Main {
             }
 
         });
+
         t.start();
         threads.add(t);
 
