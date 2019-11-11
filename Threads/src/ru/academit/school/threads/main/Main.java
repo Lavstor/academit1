@@ -31,15 +31,30 @@ public class Main {
 
         for (int i = 0; i < 2; i++) {
             Thread t = new Thread(() -> {
-                for (int j = 1; j <= 100; j++) {
-                    numbers.add(j);
+                for (int j = 1; j <= 20000; j++) {
+                    synchronized (numbers){
+                        numbers.add(j);
+                    }
                 }
             });
             t.start();
             threads.add(t);
         }
+        
+        Thread t = new Thread(() -> {
+            for (int j = 1; j <= 20000; j++) {
+                synchronized (numbers){
+                    numbers.add(j);
+                }
+            }
+
+        });
+        t.start();
+        threads.add(t);
+
         threads.get(0).join();
         threads.get(1).join();
+        threads.get(2).join();
 
         System.out.println(numbers.size());
         System.out.println(numbers);
