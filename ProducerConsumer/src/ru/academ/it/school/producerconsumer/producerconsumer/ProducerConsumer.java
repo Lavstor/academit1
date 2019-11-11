@@ -2,11 +2,11 @@ package ru.academ.it.school.producerconsumer.producerconsumer;
 
 import ru.academ.it.school.producerconsumer.consumer.Consumer;
 import ru.academ.it.school.producerconsumer.producer.Producer;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ProducerConsumer {
-    private final ArrayList<String> list = new ArrayList<>();
+    private final List<String> list = new LinkedList<>();
     private final static int CAPACITY = 5;
     private final static int PRODUCERS_COUNT = 2;
     private final static int CONSUMERS_COUNT = 2;
