@@ -11,17 +11,6 @@ public class Matrix implements Serializable {
     static final long serialVersionUID = 1L;
 
     public Matrix(int[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (array.length != array[i].length) {
-                throw new IllegalArgumentException("Нужна симметричная матрица!!!");
-            }
-
-            for (int j = 0; j < array.length; j++) {
-                if (array[i][j] != array[j][i]) {
-                    throw new IllegalArgumentException("Нужна симметричная матрица!!!");
-                }
-            }
-        }
         matrix = new int[array.length][array.length];
 
         for (int i = 0; i < array.length; i++) {
@@ -48,7 +37,11 @@ public class Matrix implements Serializable {
             out.writeInt(matrix[0][i]);
         }
 
-        out.writeInt(matrix[matrix.length - 1][matrix.length - 2]);
+        if (matrix.length > 2) {
+            for (int i = 1; i < matrix.length - 1; i++) {
+                out.writeInt(matrix[i][matrix.length - 1]);
+            }
+        }
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -73,9 +66,14 @@ public class Matrix implements Serializable {
                 }
             }
         }
-        int x = in.readInt();
 
-        matrix[matrix.length - 1][matrix.length - 2] = x;
-        matrix[matrix.length - 2][matrix.length - 1] = x;
+        if (matrix.length > 2) {
+            for (int i = 1; i < matrix.length - 1; i++) {
+                int x = in.readInt();
+
+                matrix[i][matrix.length - 1] = x;
+                matrix[matrix.length - 1][i] = x;
+            }
+        }
     }
 }
