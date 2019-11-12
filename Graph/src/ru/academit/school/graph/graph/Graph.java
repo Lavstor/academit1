@@ -78,40 +78,20 @@ public class Graph {
         }
     }
 
-    public void deepRecursionBypass(Consumer<Integer> consumer) {
-        LinkedList<Integer> stack = new LinkedList<>();
-        stack.add(0);
+    public void deepRecursion(Consumer<Integer> consumer) {
+        boolean[] index = new boolean[graph.length];
 
-        deepRecursionBypass(new boolean[graph.length], stack, consumer);
+        deepRecursion(0, index, consumer);
     }
 
-    private void deepRecursionBypass(boolean[] visited, LinkedList<Integer> stack, Consumer<Integer> consumer) {
-        if (!stack.isEmpty()) {
-            int index = stack.removeLast();
+    private void deepRecursion(int pos, boolean[] index, Consumer<Integer> consumer) {
+        index[pos] = true;
 
-            while (visited[index] && !stack.isEmpty()) {
-                index = stack.removeLast();
-            }
-
-            if (!visited[index]) {
-                for (int j = graph.length - 1; j >= 0; j--) {
-                    if (graph[index][j] != 0) {
-                        stack.add(j);
-                    }
-                }
-                consumer.accept(index);
-
-                visited[index] = true;
-
-                deepRecursionBypass(visited, stack, consumer);
-            }
-        }
+        consumer.accept(pos);
 
         for (int i = 0; i < graph.length; i++) {
-            if (!visited[i]) {
-                stack.addLast(i);
-
-                deepRecursionBypass(visited, stack, consumer);
+            if (graph[pos][i] != 0 && !index[i]) {
+                deepRecursion(i, index, consumer);
             }
         }
     }
