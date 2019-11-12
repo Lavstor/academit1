@@ -22,7 +22,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Обход в глубину рекурсивный");
-        graph1.deepRecursion(consumer1);
+        graph1.deepRecursionBypass(consumer1);
         System.out.println();
     }
 }

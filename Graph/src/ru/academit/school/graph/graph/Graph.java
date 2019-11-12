@@ -78,20 +78,20 @@ public class Graph {
         }
     }
 
-    public void deepRecursion(Consumer<Integer> consumer) {
+    public void deepRecursionBypass(Consumer<Integer> consumer) {
         boolean[] index = new boolean[graph.length];
 
-        deepRecursion(0, index, consumer);
+        deepRecursionBypass(0, index, consumer);
     }
 
-    private void deepRecursion(int pos, boolean[] index, Consumer<Integer> consumer) {
-        index[pos] = true;
+    private void deepRecursionBypass(int index, boolean[] visited, Consumer<Integer> consumer) {
+        visited[index] = true;
 
-        consumer.accept(pos);
+        consumer.accept(index);
 
         for (int i = 0; i < graph.length; i++) {
-            if (graph[pos][i] != 0 && !index[i]) {
-                deepRecursion(i, index, consumer);
+            if (graph[index][i] != 0 && !visited[i]) {
+                deepRecursionBypass(i, visited, consumer);
             }
         }
     }
