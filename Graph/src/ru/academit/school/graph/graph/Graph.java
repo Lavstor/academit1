@@ -79,9 +79,9 @@ public class Graph {
     }
 
     public void deepRecursionBypass(Consumer<Integer> consumer) {
-        boolean[] index = new boolean[graph.length];
+        boolean[] visited = new boolean[graph.length];
 
-        deepRecursionBypass(0, index, consumer);
+        deepRecursionBypass(0, visited, consumer);
     }
 
     private void deepRecursionBypass(int index, boolean[] visited, Consumer<Integer> consumer) {
