@@ -30,6 +30,7 @@ public class Tree<T> {
 
     public Tree(T data) {
         root = new BinaryTreeNode(data);
+        
         nodesCount++;
     }
 
@@ -42,8 +43,6 @@ public class Tree<T> {
 
     public Tree(Comparator<T> comparator) {
         this.comparator = comparator;
-
-        nodesCount++;
     }
 
     public void add(T data) {
