@@ -30,7 +30,7 @@ public class Tree<T> {
 
     public Tree(T data) {
         root = new BinaryTreeNode(data);
-        
+
         nodesCount++;
     }
 
@@ -189,6 +189,8 @@ public class Tree<T> {
         int compared = comparator.compare(element.getData(), data);
 
         if (compared == 0) {
+            nodesCount--;
+
             if (root.getRightChild() != null) {
                 changeElement(root, findMinLeft(root.getRightChild()));
 
@@ -199,19 +201,17 @@ public class Tree<T> {
 
                 return true;
             }
-
             root = null;
 
             return true;
         }
-
-        while (compared != 0) {
+        while (true) {
             if (compared < 0 && element.getRightChild() != null) {
                 if (comparator.compare(element.getRightChild().data, data) != 0) {
                     element = element.getRightChild();
-
-                    compared = comparator.compare(element.getData(), data);
                 } else {
+                    nodesCount--;
+
                     if (element.getRightChild().getRightChild() == null) {
                         element.setRight(element.getRightChild().getLeftChild());
 
@@ -227,10 +227,10 @@ public class Tree<T> {
                     return true;
                 }
             } else if (element.getLeftChild() != null) {
+                nodesCount--;
+
                 if (comparator.compare(element.getLeftChild().data, data) != 0) {
                     element = element.getLeftChild();
-
-                    compared = comparator.compare(element.getData(), data);
                 } else {
                     if (element.getLeftChild().getRightChild() == null) {
                         element.setLeft(element.getLeftChild().getLeftChild());
@@ -250,8 +250,6 @@ public class Tree<T> {
                 return false;
             }
         }
-
-        return false;
     }
 
     private void changeElement(BinaryTreeNode element1, BinaryTreeNode element2) {

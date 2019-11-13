@@ -1,6 +1,7 @@
 package ru.academit.school.tree.main;
 
 import ru.academit.school.tree.ru.academit.school.Tree.Tree;
+
 import java.util.function.Consumer;
 
 public class Main {
@@ -71,10 +72,14 @@ public class Main {
 
         Tree tree2 = new Tree((o1, o2) -> ((Comparable) o1).compareTo(o2));
 
-        System.out.println(tree2);
+        System.out.println(tree1);
 
         tree2.add(2);
         tree2.delete(2);
         System.out.println(tree2);
+
+        System.out.println(tree1.delete(126));
+        System.out.println(tree1.delete(125));
+        System.out.println(tree1);
     }
 }
