@@ -2,7 +2,10 @@ package ru.academ.it.school.swing.main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,118 +24,103 @@ public class Main {
             frame.setVisible(true);
             frame.setIconImage(img);
 
-            JLabel label1 = new JLabel("");
-            JButton celsius = new JButton("Цельсий");
-            JButton fahrenheit = new JButton("Фаренгейт");
-            JButton kelvin = new JButton("Кельвин");
-            JButton toCelsius = new JButton("Цельсий");
-            JButton toFahrenheit = new JButton("Фаренгейт");
-            JButton toKelvin = new JButton("Кельвин");
-            JButton[] options = {celsius, fahrenheit, kelvin};
-
             JButton exit = new JButton("Выход");
-            JTextField textField = new JTextField(15);
+            JTextField textField = new JTextField("0");
             JLabel label2 = new JLabel();
             //textField.setVisible(false);
 
             AtomicInteger temp = new AtomicInteger();
-            celsius.addActionListener(actionEvent -> {
-                label1.setText("Цельсии: ");
-                temp.set(0);
-            });
 
-            fahrenheit.addActionListener(actionEvent -> {
-                label1.setText("Фаренгейты: ");
-                temp.set(1);
-            });
-
-            kelvin.addActionListener(actionEvent -> {
-                label1.setText("Кельвины: ");
-                temp.set(2);
-            });
-
-            toCelsius.addActionListener(actionEvent -> {
-                try {
-                    double text = Double.parseDouble(textField.getText());
-
-                    if (temp.get() == 0) {
-                        label2.setText(textField.getText());
-                    }
-
-                    if (temp.get() == 1) {
-                        label2.setText(String.valueOf((text - 32) * 1.8));
-                    }
-                    if (temp.get() == 2) {
-                        label2.setText(String.valueOf(text - 273.15));
-                    }
-                } catch (NumberFormatException e) {
-                    textField.setText("Нужно ввести число");
-                }
-            });
-
-            toFahrenheit.addActionListener(actionEvent -> {
-                try {
-                    double text = Double.parseDouble(textField.getText());
-
-                    if (temp.get() == 0) {
-                        label2.setText(String.valueOf(text * 1.8 + 32));
-                    }
-
-                    if (temp.get() == 1) {
-                        label2.setText(textField.getText());
-                    }
-
-                    if (temp.get() == 2) {
-                        label2.setText(String.valueOf((text - 273.15) * 1.8 + 32));
-                    }
-                } catch (NumberFormatException e) {
-                    textField.setText("Нужно ввести число");
-                }
-            });
-
-            toKelvin.addActionListener(actionEvent -> {
-                try {
-                    double text = Double.parseDouble(textField.getText());
-
-                    if (temp.get() == 0) {
-                        label2.setText(String.valueOf(text + 273.15));
-                    }
-
-                    if (temp.get() == 1) {
-                        label2.setText((String.valueOf((text + 459.67) * 5 / 9)));
-                    }
-
-                    if (temp.get() == 2) {
-                        label2.setText(textField.getText());
-                    }
-
-                } catch (NumberFormatException e) {
-                    textField.setText("Нужно ввести число");
-                }
-            });
+            Consumer<String> answer = o -> label2.setText("= " + o);
 
             exit.addActionListener(actionEvent -> frame.dispose());
 
 
             JPanel pannel = new JPanel();
 
-          /*  pannel.add(celsius);
-            pannel.add(fahrenheit);
-            pannel.add(kelvin);*/
+            String[] temperatures = {"Цельсий", "Фаренгейт", "Кельвины"};
+            JComboBox temperatureComboBox = new JComboBox<>(temperatures);
 
-            JList<JButton> listJ = new JList<>(options);
+            temperatureComboBox.addActionListener(actionEvent -> {
+                if (temperatureComboBox.getSelectedIndex() == 0) {
+                    try {
+                        double text = Double.parseDouble(textField.getText());
 
-            listJ.addListSelectionListener(listSelectionEvent -> {
-             System.out.println(listSelectionEvent.toString());
+                        if (temp.get() == 0) {
+                            answer.accept(textField.getText());
+                        }
+
+                        if (temp.get() == 1) {
+                            answer.accept(String.valueOf((text - 32) * 1.8));
+                        }
+                        if (temp.get() == 2) {
+                            answer.accept(String.valueOf(text - 273.15));
+                        }
+                    } catch (NumberFormatException e) {
+                        answer.accept("Ошибка, неправильный тип данных!");
+                    }
+                }
+                if (temperatureComboBox.getSelectedIndex() == 1) {
+                    try {
+                        double text = Double.parseDouble(textField.getText());
+
+                        if (temp.get() == 0) {
+                            answer.accept(String.valueOf(text * 1.8 + 32));
+                        }
+
+                        if (temp.get() == 1) {
+                            answer.accept(textField.getText());
+                        }
+
+                        if (temp.get() == 2) {
+                            answer.accept(String.valueOf((text - 273.15) * 1.8 + 32));
+                        }
+                    } catch (NumberFormatException e) {
+                        answer.accept("Ошибка, неправильный тип данных!");
+                    }
+                }
+                if (temperatureComboBox.getSelectedIndex() == 2) {
+                    try {
+                        double text = Double.parseDouble(textField.getText());
+
+                        if (temp.get() == 0) {
+                            answer.accept(String.valueOf(text + 273.15));
+                        }
+
+                        if (temp.get() == 1) {
+                            answer.accept((String.valueOf((text + 459.67) * 5 / 9)));
+                        }
+
+                        if (temp.get() == 2) {
+                            answer.accept(textField.getText());
+                        }
+                    } catch (NumberFormatException e) {
+                        answer.accept("Ошибка, неправильный тип данных!");
+                    }
+                }
             });
-            pannel.add(listJ);
 
-            pannel.add(label1);
+            JComboBox temperatureComboBox2 = new JComboBox<>(temperatures);
+
+            temperatureComboBox2.addActionListener(actionEvent -> {
+                if (temperatureComboBox.getSelectedIndex() == 0) {
+                    temp.set(0);
+                }
+                if (temperatureComboBox.getSelectedIndex() == 1) {
+                    temp.set(1);
+                }
+                if (temperatureComboBox.getSelectedIndex() == 2) {
+                    temp.set(2);
+                }
+            });
+
+
+
             pannel.add(textField);
             pannel.add(label2);
-            pannel.add(toCelsius);
-            pannel.add(toFahrenheit);
-            pannel.add(toKelvin);
+            pannel.add(temperatureComboBox);
+            pannel.add(temperatureComboBox2);
+
             pannel.add(exit);
 
             frame.add(pannel);
