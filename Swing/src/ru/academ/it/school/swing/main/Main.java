@@ -136,7 +136,6 @@ public class Main {
             pannel.add(exit);
 
             frame.add(pannel);
-
         });
     }
 }

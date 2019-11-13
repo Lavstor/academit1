@@ -1,7 +1,6 @@
 package ru.academit.school.tree.main;
 
 import ru.academit.school.tree.ru.academit.school.Tree.Tree;
-
 import java.util.function.Consumer;
 
 public class Main {
@@ -40,7 +39,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Удаление");
-        System.out.println(tree1.delete(144));
+        System.out.println(tree1.delete(134));
         System.out.println();
 
         System.out.println("Дерево");
@@ -60,15 +59,22 @@ public class Main {
         System.out.println();
         System.out.println("--------------------------");
 
-        Tree t2 = new Tree();
+        tree1.add(137);
+        tree1.add(128);
+        tree1.add(127);
+        tree1.add(126);
+        tree1.add(128);
+        tree1.add(129);
+        tree1.add(129);
+        tree1.add(128);
+        tree1.add(130);
 
-        System.out.println(t2.getNodeCount());
-        System.out.println(t2.delete(null));
-        System.out.println(t2.delete(1));
+        Tree tree2 = new Tree((o1, o2) -> ((Comparable) o1).compareTo(o2));
 
-        t2.deepBypass(consumer);
-        t2.widthBypass(consumer);
-        t2.deepRecursionBypass(consumer);
-        System.out.println();
+        System.out.println(tree2);
+
+        tree2.add(2);
+        tree2.delete(2);
+        System.out.println(tree2);
     }
 }

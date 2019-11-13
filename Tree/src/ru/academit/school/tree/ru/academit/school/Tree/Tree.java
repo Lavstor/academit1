@@ -8,63 +8,46 @@ import java.util.function.Consumer;
 
 public class Tree<T> {
     private BinaryTreeNode root;
-    private int nodeCount;
-    private Comparator<T> comparator;
+    private int nodesCount;
+    private Comparator<T> comparator = (o1, o2) -> {
+        if (o1 == null && o2 == null) {
+            return 0;
+        }
+        if (o1 == null) {
+            return -1;
+        }
+        if (o2 == null) {
+            return 1;
+        }
+        //noinspection unchecked
+        Comparable<T> object1 = (Comparable<T>) o1;
+
+        return object1.compareTo(o2);
+    };
 
     public Tree() {
-        comparator = (o1, o2) -> {
-            if (o1 == null && o2 == null) {
-                return 0;
-            }
-
-            if (o1 == null) {
-                return -1;
-            }
-
-            if (o2 == null) {
-                return 1;
-            }
-
-            //noinspection unchecked
-            Comparable<T> object1 = (Comparable<T>) o1;
-
-            return object1.compareTo(o2);
-        };
     }
 
     public Tree(T data) {
         root = new BinaryTreeNode(data);
-        nodeCount++;
-
-        comparator = (o1, o2) -> {
-            if (o1 == null && o2 == null) {
-                return 0;
-            }
-
-            if (o1 == null) {
-                return -1;
-            }
-
-            if (o2 == null) {
-                return 1;
-            }
-
-            //noinspection unchecked
-            Comparable<T> object1 = (Comparable<T>) o1;
-
-            return object1.compareTo(o2);
-        };
+        nodesCount++;
     }
 
     public Tree(Comparator<T> comparator, T data) {
         this.comparator = comparator;
 
         root = new BinaryTreeNode(data);
-        nodeCount++;
+        nodesCount++;
+    }
+
+    public Tree(Comparator<T> comparator) {
+        this.comparator = comparator;
+
+        nodesCount++;
     }
 
     public void add(T data) {
-        nodeCount++;
+        nodesCount++;
 
         if (root != null) {
             add(data, root);
@@ -73,22 +56,24 @@ public class Tree<T> {
         }
     }
 
-    private BinaryTreeNode add(T data, BinaryTreeNode element) {
-        if (element == null) {
-            element = new BinaryTreeNode(data);
+    private void add(T data, BinaryTreeNode element) {
+        while (element != null) {
+            if (comparator.compare(element.getData(), data) < 0) {
+                if (element.getRightChild() == null) {
+                    element.setRight(new BinaryTreeNode(data));
 
-            return element;
+                    return;
+                }
+                element = element.getRightChild();
+            } else {
+                if (element.getLeftChild() == null) {
+                    element.setLeft(new BinaryTreeNode(data));
+
+                    return;
+                }
+                element = element.getLeftChild();
+            }
         }
-
-        if (comparator.compare(element.getData(), data) < 0) {
-            element.setRight(add(data, element.getRightChild()));
-
-            return element;
-        }
-
-        element.setLeft(add(data, element.getLeftChild()));
-
-        return element;
     }
 
     public void deepRecursionBypass(Consumer<T> consumer) {
@@ -100,18 +85,13 @@ public class Tree<T> {
     }
 
     private void deepRecursionBypass(BinaryTreeNode root, Consumer<T> consumer) {
-        Deque<BinaryTreeNode> stack = new LinkedList<>();
+        consumer.accept(root.getData());
 
-        for (BinaryTreeNode left = root; left != null; left = left.getLeftChild()) {
-            consumer.accept(left.getData());
-
-            if (left.getRightChild() != null) {
-                stack.addLast(left.getRightChild());
-            }
+        if (root.getLeftChild() != null) {
+            deepRecursionBypass(root.getLeftChild(), consumer);
         }
-
-        while (!stack.isEmpty()) {
-            deepRecursionBypass(stack.removeLast(), consumer);
+        if (root.getRightChild() != null) {
+            deepRecursionBypass(root.getRightChild(), consumer);
         }
     }
 
@@ -129,19 +109,16 @@ public class Tree<T> {
         stack.addLast(root);
 
         while (!stack.isEmpty()) {
-            consumer.accept(stack.getLast().getData());
+            BinaryTreeNode node = stack.removeLast();
 
-            int size = stack.size() - 1;
+            consumer.accept(node.getData());
 
-            if (stack.get(size).getRightChild() != null) {
-                stack.addLast(stack.get(size).getRightChild());
+            if (node.getRightChild() != null) {
+                stack.addLast(node.getRightChild());
             }
-
-            if (stack.get(size).getLeftChild() != null) {
-                stack.addLast(stack.get(size).getLeftChild());
+            if (node.getLeftChild() != null) {
+                stack.addLast(node.getLeftChild());
             }
-
-            stack.remove(size);
         }
     }
 
@@ -154,22 +131,21 @@ public class Tree<T> {
     }
 
     private void widthBypass(BinaryTreeNode root, Consumer<T> consumer) {
-        Deque<BinaryTreeNode> stack = new LinkedList<>();
+        Deque<BinaryTreeNode> deque = new LinkedList<>();
 
-        stack.addLast(root);
+        deque.addLast(root);
 
-        while (!stack.isEmpty()) {
-            consumer.accept(stack.element().getData());
+        while (!deque.isEmpty()) {
+            BinaryTreeNode node = deque.remove();
 
-            if (stack.element().getLeftChild() != null) {
-                stack.addLast(stack.element().getLeftChild());
+            consumer.accept(node.getData());
+
+            if (node.getLeftChild() != null) {
+                deque.addLast(node.getLeftChild());
             }
-
-            if (stack.element().getRightChild() != null) {
-                stack.addLast(stack.element().getRightChild());
+            if (node.getRightChild() != null) {
+                deque.addLast(node.getRightChild());
             }
-
-            stack.remove();
         }
     }
 
@@ -178,27 +154,28 @@ public class Tree<T> {
             return false;
         }
 
-        return findData(element, root) != null;
+        return findData(element, root);
     }
 
-    private BinaryTreeNode findData(T data, BinaryTreeNode element) {
-        if (element == null) {
-            return null;
+    private boolean findData(T data, BinaryTreeNode element) {
+        while (element != null) {
+            int compared = comparator.compare(element.getData(), data);
+
+            if (compared == 0) {
+                return true;
+            }
+            if (compared < 0) {
+                element = element.getRightChild();
+            } else {
+                element = element.getLeftChild();
+            }
         }
 
-        if (comparator.compare(element.getData(), data) == 0) {
-            return element;
-        }
-
-        if (comparator.compare(element.getData(), data) < 0) {
-            return findData(data, element.getRightChild());
-        }
-
-        return findData(data, element.getLeftChild());
+        return false;
     }
 
     public int getNodeCount() {
-        return nodeCount;
+        return nodesCount;
     }
 
     public boolean delete(T element) {
@@ -206,83 +183,81 @@ public class Tree<T> {
             return false;
         }
 
-        if (delete(element, root) != null) {
-            nodeCount--;
+        return delete(element, root);
+    }
+
+    private boolean delete(T data, BinaryTreeNode element) {
+        int compared = comparator.compare(element.getData(), data);
+
+        if (compared == 0) {
+            if (root.getRightChild() != null) {
+                changeElement(root, findMinLeft(root.getRightChild()));
+
+                return true;
+            }
+            if (root.getLeftChild() != null) {
+                changeElement(root, findMinLeft(root));
+
+                return true;
+            }
+
+            root = null;
 
             return true;
+        }
+
+        while (compared != 0) {
+            if (compared < 0 && element.getRightChild() != null) {
+                if (comparator.compare(element.getRightChild().data, data) != 0) {
+                    element = element.getRightChild();
+
+                    compared = comparator.compare(element.getData(), data);
+                } else {
+                    if (element.getRightChild().getRightChild() == null) {
+                        element.setRight(element.getRightChild().getLeftChild());
+
+                        return true;
+                    }
+                    if (element.getRightChild().getLeftChild() == null) {
+                        element.setRight(element.getRightChild().getRightChild());
+
+                        return true;
+                    }
+                    changeElement(element.getRightChild(), findMinLeft(element.getRightChild().getRightChild()));
+
+                    return true;
+                }
+            } else if (element.getLeftChild() != null) {
+                if (comparator.compare(element.getLeftChild().data, data) != 0) {
+                    element = element.getLeftChild();
+
+                    compared = comparator.compare(element.getData(), data);
+                } else {
+                    if (element.getLeftChild().getRightChild() == null) {
+                        element.setLeft(element.getLeftChild().getLeftChild());
+
+                        return true;
+                    }
+                    if (element.getLeftChild().getLeftChild() == null) {
+                        element.setLeft(element.getLeftChild().getRightChild());
+
+                        return true;
+                    }
+                    changeElement(element.getLeftChild(), findMinLeft(element.getLeftChild().getRightChild()));
+
+                    return true;
+                }
+            } else {
+                return false;
+            }
         }
 
         return false;
     }
 
-    private BinaryTreeNode delete(T data, BinaryTreeNode element) {
-        if (comparator.compare(root.getData(), data) == 0) {
-            if (root.getRightChild() != null) {
-                changeElement(root, findMinLeft(root.getRightChild()));
-
-                return element;
-            }
-
-            if (root.getLeftChild() != null) {
-                changeElement(root, findMinLeft(root));
-
-                return element;
-            }
-
-            root = null;
-
-            return element;
-        }
-
-        if (element.getRightChild() != null && comparator.compare(element.getRightChild().getData(), data) == 0) {
-            if (element.getRightChild().getRightChild() == null) {
-                element.setRight(element.getRightChild().getLeftChild());
-
-                return element;
-            }
-
-            if (element.getRightChild().getLeftChild() == null) {
-                element.setRight(element.getRightChild().getRightChild());
-            }
-
-            changeElement(element.getRightChild(), findMinLeft(element.getRightChild().getRightChild()));
-
-            return element;
-        }
-
-        if (element.getLeftChild() != null && comparator.compare(element.getLeftChild().getData(), data) == 0) {
-            if (element.getLeftChild().getRightChild() == null) {
-                element.setLeft(element.getLeftChild().getLeftChild());
-
-                return element;
-            }
-
-            if (element.getLeftChild().getLeftChild() == null) {
-                element.setLeft(element.getLeftChild().getRightChild());
-
-                return element;
-            }
-
-            changeElement(element.getLeftChild(), findMinLeft(element.getLeftChild().getRightChild()));
-
-            return element;
-        }
-
-        if (element.getRightChild() != null && comparator.compare(element.getData(), data) < 0) {
-            return delete(data, element.getRightChild());
-        }
-
-        if (element.getLeftChild() != null && comparator.compare(element.getData(), data) > 0) {
-            return delete(data, element.getLeftChild());
-        }
-
-        return null;
-    }
-
     private void changeElement(BinaryTreeNode element1, BinaryTreeNode element2) {
         if (element2.getLeftChild() != null) {
             element1.setData(element2.getLeftChild().getData());
-
             element2.setLeft(element2.getLeftChild().getRightChild());
         } else {
             element1.setData(element2.getData());
@@ -292,7 +267,6 @@ public class Tree<T> {
 
     private BinaryTreeNode findMinLeft(BinaryTreeNode element) {
         if (element.getLeftChild() == null || element.getLeftChild().getLeftChild() == null) {
-
             return element;
         }
 
@@ -313,38 +287,22 @@ public class Tree<T> {
 
         int currentLineIndex = 0;
         int lineSize = 1;
-        int maxSize = 1;
-        int rowCount = 0;
-
-        while (maxSize < nodeCount) {
-            rowCount++;
-            maxSize *= 2;
-        }
-        maxSize *= 2;
-
-        if (rowCount % 2 == 0) {
-            maxSize -= 1;
-        }
 
         while (!queue.isEmpty()) {
             if (queue.element() != null) {
                 queue.add(queue.element().getLeftChild());
                 queue.add(queue.element().getRightChild());
-            } else if (currentLineIndex < nodeCount) {
+            } else if (currentLineIndex < nodesCount) {
                 queue.add(null);
                 queue.add(null);
-            }
-
-            for (int j = currentLineIndex; j <= maxSize / lineSize + currentLineIndex; j++) {
-                line.append(" ");
             }
 
             if (queue.element() != null) {
                 line.append(queue.remove().getData());
             } else {
+                line.append("   ");
                 queue.remove();
             }
-
             line.append(" ");
 
             currentLineIndex++;
@@ -366,41 +324,33 @@ public class Tree<T> {
         private BinaryTreeNode rightChild;
 
         private BinaryTreeNode() {
-
         }
 
         private BinaryTreeNode(T data) {
-
             this.data = data;
         }
 
         private T getData() {
-
             return data;
         }
 
         private void setData(T data) {
-
             this.data = data;
         }
 
         private void setLeft(BinaryTreeNode left) {
-
             leftChild = left;
         }
 
         private void setRight(BinaryTreeNode right) {
-
             rightChild = right;
         }
 
         private BinaryTreeNode getLeftChild() {
-
             return leftChild;
         }
 
         private BinaryTreeNode getRightChild() {
-
             return rightChild;
         }
     }
