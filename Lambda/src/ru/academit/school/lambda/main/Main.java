@@ -1,6 +1,7 @@
-package ru.academit.school.labda.main;
+package ru.academit.school.lambda.main;
 
-import ru.academit.school.labda.person.Person;
+import ru.academit.school.lambda.person.Person;
+
 import java.util.*;
 import java.util.stream.*;
 
@@ -28,7 +29,7 @@ public class Main {
                 .collect(Collectors.joining(", ", "Names: ", "."));
 
         System.out.println(printNames);
-        System.out.println();
+        System.out.println("__________________");
 
         List<Person> filteredByAge = persons.stream()
                 .filter(x -> x.getAge() < 18)
@@ -46,32 +47,33 @@ public class Main {
                 .getAsDouble();
 
         System.out.println("Average: " + age);
-        System.out.println();
+        System.out.println("__________________");
 
-        Map<String, DoubleSummaryStatistics> personsByNames = persons.stream()
-                .collect(Collectors.groupingBy(Person::getName, Collectors.summarizingDouble(Person::getAge)));
+        Map<String, Double> personsByNames = persons.stream()
+                .collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
 
-        personsByNames.forEach((name, ageSum) ->
-                System.out.printf("Average age %s = %s%n", name, ageSum.getAverage()));
-        System.out.println();
+        personsByNames.forEach((name, averageAge) ->
+                System.out.printf("Average age %s = %s%n", name, averageAge));
 
+        System.out.println("__________________");
         List<Person> persons3 = persons.stream()
                 .filter(p -> p.getAge() > 20 && p.getAge() < 45)
                 .sorted(Comparator.comparingInt(Person::getAge).reversed())
                 .collect(Collectors.toList());
 
         persons3.forEach(p -> System.out.println(p.getName()));
-        System.out.println();
+        System.out.println("__________________");
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите кол-во итераций: ");
 
-        DoubleStream ceilStream = DoubleStream.iterate(0, x -> x + 1)
-                .map(Math::ceil)
+        DoubleStream sqrtStream = DoubleStream.iterate(1, x -> x + 1)
+                .map(Math::sqrt)
                 .limit(scanner.nextLong());
 
-        ceilStream.forEach(s -> System.out.print(s + " "));
+        sqrtStream.forEach(s -> System.out.print(s + " "));
         System.out.println();
+        System.out.println("________________________");
 
         System.out.println("Числа Фибоначчи. Введите кол-во итераций: ");
 

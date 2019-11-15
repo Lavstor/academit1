@@ -1,4 +1,4 @@
-package ru.academit.school.labda.person;
+package ru.academit.school.lambda.person;
 
 public class Person {
     private String name;
