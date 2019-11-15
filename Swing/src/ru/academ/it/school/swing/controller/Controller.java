@@ -7,9 +7,9 @@ public class Controller {
     private View view;
     private Model model;
 
-    public Controller(Model m, View v) {
-        this.view = v;
-        this.model = m;
+    public Controller(Model model, View view) {
+        this.view = view;
+        this.model = model;
 
         initController();
         initView();
