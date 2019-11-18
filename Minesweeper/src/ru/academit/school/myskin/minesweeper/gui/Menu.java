@@ -3,13 +3,17 @@ package ru.academit.school.myskin.minesweeper.gui;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.OptionPaneUI;
+import javax.swing.plaf.TextUI;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Menu {
     JFrame menu;
     JButton[] buttons;
     JLabel[] gifLabelArray;
     String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
+    String pass3 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif";
 
 
     public Menu(String title) {
@@ -17,10 +21,17 @@ public class Menu {
         JFrame frame = new JFrame(title);
         JPanel panel = new JPanel();
         JButton exit = new JButton("EXIT");
+        exit.setForeground(Color.BLACK);
 
         JButton info = new JButton("INFO");
+        info.setForeground(Color.BLACK);
+
         JButton newGame = new JButton("NEW GAME");
+        newGame.setForeground(Color.BLACK);
+
         JButton records = new JButton("RECORDS");
+        records.setForeground(Color.BLACK);
+
 
         panel.setLayout(new GridBagLayout());
         JLabel newLabel = new JLabel();
@@ -96,6 +107,21 @@ public class Menu {
         panel.setBackground(Color.black);
 
         frame.add(panel);
+
+        ArrayList<Object> gradients = new ArrayList();
+        gradients.add(0.3);
+        gradients.add(0.0);
+        gradients.add(Color.RED);
+        gradients.add(Color.RED);
+        gradients.add(Color.BLACK);
+
+        UIManager.put("Button.gradient", gradients);
+
+        UIManager.put("Button.foreground", new ColorUIResource(Color.BLACK));
+        UIManager.put("OptionPane.background", new ColorUIResource(Color.BLACK));
+        UIManager.put("Panel.background", new ColorUIResource(Color.BLACK));
+
+
     }
 
     private JLabel createGifLabel(String pass) {
@@ -129,11 +155,8 @@ public class Menu {
     }
 
     public int massageDialog() {
-        ImageIcon icon = new ImageIcon(pass);
+        ImageIcon icon = new ImageIcon(pass3);
 
-        UIManager.put("OptionPane.background", new ColorUIResource(Color.BLACK));
-        UIManager.put("Panel.background", new ColorUIResource(Color.BLACK));
-
-        return JOptionPane.showConfirmDialog(menu, "YOU SHURE?", "EXIT",JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
+        return JOptionPane.showConfirmDialog(menu, "           YOU SHURE?", "EXIT",JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
     }
 }
