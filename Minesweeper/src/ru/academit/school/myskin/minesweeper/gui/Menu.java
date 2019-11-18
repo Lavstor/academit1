@@ -1,13 +1,16 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.OptionPaneUI;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Menu {
+    JFrame menu;
+    JButton[] buttons;
+    JLabel[] gifLabelArray;
+    String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
+
 
     public Menu(String title) {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
@@ -22,7 +25,12 @@ public class Menu {
         panel.setLayout(new GridBagLayout());
         JLabel newLabel = new JLabel();
 
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\123.gif");
+        // String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
+
+        String pass2 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg";
+
+
+        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
         icon.setImageObserver(newLabel);
 
         newLabel.setIcon(icon);
@@ -41,49 +49,47 @@ public class Menu {
         c1.gridy = 0;
 
         c1.gridx = 0;
-        panel.add(newLabel, c1);
 
-        c1.gridx = 1;
-        panel.add(newGame, c1);
+        JLabel[] gifLabelArray = new JLabel[8];
 
-        c1.gridx = 2;
-        panel.add(new JLabel(), c1);
 
-        c1.gridy = 1;
+        JLabel[] blackLabelArray = new JLabel[8];
 
-        c1.gridx = 0;
-        panel.add(new JLabel(), c1);
+        JButton[] buttons = {newGame, records, info, exit};
 
-        c1.gridx = 1;
-        panel.add(info, c1);
+        this.gifLabelArray = gifLabelArray;
+        this.buttons = buttons;
+        this.menu = frame;
 
-        c1.gridx = 2;
-        panel.add(new JLabel(),c1);
+        for (int i = 0; i < 8; i++) {
+            gifLabelArray[i] = createGifLabel(pass);
+            blackLabelArray[i] = createBlackLabel(pass2);
+        }
 
-        c1.gridy = 2;
 
-        c1.gridx = 0;
-        panel.add(new JLabel(), c1);
+        int j = 0;
 
-        c1.gridx = 1;
-        panel.add(records, c1);
+        for (int i = 0; i < 4; i++) {
+            c1.gridy = i;
 
-        c1.gridx = 2;
-        panel.add(new JLabel(), c1);
+            c1.gridx = 0;
 
-        c1.gridy = 3;
+            panel.add(gifLabelArray[j], c1);
+            panel.add(blackLabelArray[j], c1);
+            j++;
 
-        c1.gridx = 0;
-        panel.add(new JLabel(), c1);
+            c1.gridx = 1;
+            panel.add(buttons[i], c1);
 
-        c1.gridx = 1;
-        panel.add(exit, c1);
-
-        c1.gridx = 2;
-        panel.add(new JLabel(), c1);
+            c1.gridx = 2;
+            panel.add(gifLabelArray[j], c1);
+            panel.add(blackLabelArray[j], c1);
+            j++;
+        }
 
         panel.setVisible(true);
-        frame.setSize(180, 160);
+        frame.setSize(235, 260);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setIconImage(img);
@@ -91,5 +97,43 @@ public class Menu {
 
         frame.add(panel);
     }
-}
 
+    private JLabel createGifLabel(String pass) {
+        ImageIcon icon = new ImageIcon(pass);
+        JLabel newLabel = new JLabel();
+        icon.setImageObserver(newLabel);
+        newLabel.setVisible(false);
+        newLabel.setIcon(icon);
+
+        return newLabel;
+    }
+
+    private JLabel createBlackLabel(String pass) {
+        ImageIcon icon = new ImageIcon(pass);
+
+        JLabel newLabel = new JLabel(icon);
+
+        return newLabel;
+    }
+
+    public JButton[] getButtons() {
+        return buttons;
+    }
+
+    public JLabel[] getLables() {
+        return gifLabelArray;
+    }
+
+    public JFrame getMenu() {
+        return menu;
+    }
+
+    public int massageDialog() {
+        ImageIcon icon = new ImageIcon(pass);
+
+        UIManager.put("OptionPane.background", new ColorUIResource(Color.BLACK));
+        UIManager.put("Panel.background", new ColorUIResource(Color.BLACK));
+
+        return JOptionPane.showConfirmDialog(menu, "YOU SHURE?", "EXIT",JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
+    }
+}
