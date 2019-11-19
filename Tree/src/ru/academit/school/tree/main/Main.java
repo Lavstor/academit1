@@ -5,12 +5,12 @@ import ru.academit.school.tree.ru.academit.school.Tree.Tree;
 import java.util.function.Consumer;
 
 public class Main {
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        Tree tree1 = new Tree();
+        Tree<Integer> tree1 = new Tree<>();
 
         tree1.add(134);
         tree1.add(125);
+        tree1.add(144);
         tree1.add(144);
         tree1.add(144);
         tree1.add(148);
@@ -20,7 +20,7 @@ public class Main {
         tree1.add(147);
         tree1.add(145);
 
-        Consumer consumer = c1 -> System.out.print(c1 + " ");
+        Consumer<Integer> consumer = c1 -> System.out.print(c1 + " ");
 
         System.out.println("Дерево");
         System.out.println(tree1);
@@ -32,7 +32,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Кол-во вершин");
-        System.out.println(tree1.getNodeCount());
+        System.out.println(tree1.getNodesCount());
         System.out.println();
 
         System.out.println("Присутсвие эелемента");
@@ -52,6 +52,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Обход в глубину");
+
         tree1.deepBypass(consumer);
         System.out.println();
 
@@ -70,7 +71,7 @@ public class Main {
         tree1.add(128);
         tree1.add(130);
 
-        Tree tree2 = new Tree((o1, o2) -> ((Comparable) o1).compareTo(o2));
+        Tree<Integer> tree2 = new Tree<>((o1, o2) -> ((Comparable<Integer>) o1).compareTo(o2));
 
         System.out.println(tree1);
 
