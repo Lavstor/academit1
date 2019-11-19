@@ -41,6 +41,7 @@ public class Main {
 
         System.out.println(printNames2);
 
+        @SuppressWarnings("OptionalGetWithoutIsPresent")
         double age = filteredByAge.stream()
                 .mapToInt(Person::getAge)
                 .average()
