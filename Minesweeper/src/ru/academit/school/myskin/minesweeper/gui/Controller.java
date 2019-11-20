@@ -8,10 +8,12 @@ import java.awt.event.WindowEvent;
 public class Controller {
     private View view;
     private Menu menu;
+    private Info info;
 
-    public Controller(Menu menu, View view) {
-        this.view = view;
-        this.menu = menu;
+    public Controller() {
+        this.view = new View();
+        this.menu = new Menu();
+        this.info = new Info();
 
         mouseEvents();
         buttonsEvents();
@@ -93,7 +95,16 @@ public class Controller {
 
         menu.getButtons()[2].addActionListener(actionEvent -> {
             menu.getMenu().setVisible(false);
-            menu.info();
+
+            info.getInfo().setVisible(true);
         });
+
+        info.getInfoBack().addActionListener(actionEvent -> {
+            menu.getMenu().setVisible(true);
+
+            info.getInfo().setVisible(false);
+        });
+
+
     }
 }

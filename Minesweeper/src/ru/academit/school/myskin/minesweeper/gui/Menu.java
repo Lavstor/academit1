@@ -6,20 +6,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Menu {
-    JPanel panel;
-    JFrame menu;
-    JButton[] buttons;
+    private JFrame menu;
+    private JButton[] buttons;
     JLabel[] gifLabelArray;
-    String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
-    String pass3 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif";
 
-
-    public Menu(String title) {
+    Menu() {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-        JFrame frame = new JFrame(title);
+        JFrame frame = new JFrame("MENU");
         menu = frame;
         JPanel panel = new JPanel();
-        this.panel = panel;
         JButton exit = new JButton("EXIT");
         exit.setForeground(Color.BLACK);
 
@@ -61,9 +56,9 @@ public class Menu {
 
         this.gifLabelArray = gifLabelArray;
         this.buttons = buttons;
-        this.menu = frame;
 
         for (int i = 0; i < 8; i++) {
+            String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
             gifLabelArray[i] = createGifLabel(pass);
             blackLabelArray[i] = createBlackLabel(pass2);
         }
@@ -136,7 +131,7 @@ public class Menu {
         return new JLabel(icon);
     }
 
-    public JButton[] getButtons() {
+    JButton[] getButtons() {
         return buttons;
     }
 
@@ -149,33 +144,9 @@ public class Menu {
     }
 
     public int massageDialog() {
+        String pass3 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif";
         ImageIcon icon = new ImageIcon(pass3);
 
         return JOptionPane.showConfirmDialog(menu, "           YOU SHURE?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
-    }
-
-    public void info() {
-        JFrame info = new JFrame("INFO");
-        JPanel panelInfo = new JPanel();
-        StringBuilder text = new StringBuilder();
-        text.append("<html>MINESWEEPER<br><br>Game was crated by Myshkin Nikita Alekseevich.");
-        text.append("<br><br>Some tips how to beat this:<br> 1:");
-        text.append(" Click a square, you get a number.<br> That number is the number ");
-        text.append("of how many mines<br> are surrounding it.<br><br>2: Mark all the mines<");
-        text.append("that are downright OBVIOUS. <br>Such as eight 1's surrounding a unopened<br>square, it's obviously a mine.");
-        text.append("<br><br>3: Finding the mines in 1 blocks helps a lot,<br> because it opens many squares and<br> good hints to 2's and 3's.");
-        text.append("<br><br> Have fun!</html>");
-        JLabel textArea = new JLabel(text.toString());
-
-        panelInfo.add(textArea);
-
-        info.add(panelInfo);
-        info.setSize(350, 400);
-        info.setResizable(false);
-        info.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        info.setVisible(true);
-        JButton back = new JButton();
-
-        info.add(buttons[3])
     }
 }
