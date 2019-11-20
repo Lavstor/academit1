@@ -47,6 +47,8 @@ public class Main {
 
         if (age.isPresent()) {
             System.out.println("Average: " + age.getAsDouble());
+        } else{
+            System.out.println("Пусто!");
         }
         System.out.println("__________________");
 
@@ -79,8 +81,8 @@ public class Main {
         System.out.println("Числа Фибоначчи. Введите кол-во итераций: ");
 
         System.out.print(Stream.iterate(new int[]{0, 1}, num -> new int[]{num[1], num[0] + num[1]})
-                .limit(scanner.nextLong())
                 .map(t -> t[0])
+                .limit(scanner.nextLong())
                 .collect(Collectors.toList())
                 .toString());
     }

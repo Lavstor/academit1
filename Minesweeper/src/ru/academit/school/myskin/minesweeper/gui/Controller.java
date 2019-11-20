@@ -81,13 +81,19 @@ public class Controller {
         });
     }
 
-    private void buttonsEvents(){
+    private void buttonsEvents() {
         menu.getButtons()[3].addActionListener(actionEvent -> {
-           if(menu.massageDialog() == 0) {
-               menu.getMenu().dispatchEvent(new WindowEvent(menu.getMenu(), WindowEvent.WINDOW_CLOSING));
-           }
+            menu.getMenu().setVisible(false);
+
+            if (menu.massageDialog() == 0) {
+                menu.getMenu().dispatchEvent(new WindowEvent(menu.getMenu(), WindowEvent.WINDOW_CLOSING));
+            }
+            menu.getMenu().setVisible(true);
         });
 
-
+        menu.getButtons()[2].addActionListener(actionEvent -> {
+            menu.getMenu().setVisible(false);
+            menu.info();
+        });
     }
 }
