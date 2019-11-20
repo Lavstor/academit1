@@ -41,13 +41,13 @@ public class Main {
 
         System.out.println(printNames2);
 
-        @SuppressWarnings("OptionalGetWithoutIsPresent")
-        double age = filteredByAge.stream()
+        OptionalDouble age = filteredByAge.stream()
                 .mapToInt(Person::getAge)
-                .average()
-                .getAsDouble();
+                .average();
 
-        System.out.println("Average: " + age);
+        if (age.isPresent()) {
+            System.out.println("Average: " + age.getAsDouble());
+        }
         System.out.println("__________________");
 
         Map<String, Double> personsByNames = persons.stream()
