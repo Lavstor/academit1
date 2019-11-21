@@ -9,11 +9,13 @@ public class Controller {
     private View view;
     private Menu menu;
     private Info info;
+    private Records records;
 
     public Controller() {
         this.view = new View();
         this.menu = new Menu();
         this.info = new Info();
+        this.records = new Records();
 
         mouseEvents();
         buttonsEvents();
@@ -81,6 +83,20 @@ public class Controller {
                 labelArray[7].setVisible(false);
             }
         });
+
+        records.getScoreBack().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                records.getExitGif()[0].setVisible(true);
+                records.getExitGif()[1].setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                records.getExitGif()[0].setVisible(false);
+                records.getExitGif()[1].setVisible(false);
+            }
+        });
     }
 
     private void buttonsEvents() {
@@ -103,6 +119,18 @@ public class Controller {
             menu.getMenu().setVisible(true);
 
             info.getInfo().setVisible(false);
+        });
+
+        menu.getButtons()[1].addActionListener(actionEvent -> {
+            menu.getMenu().setVisible(false);
+
+            records.getRecordsFrame().setVisible(true);
+        });
+
+        records.getScoreBack().addActionListener(actionEvent -> {
+            menu.getMenu().setVisible(true);
+
+            records.getRecordsFrame().setVisible(false);
         });
 
 

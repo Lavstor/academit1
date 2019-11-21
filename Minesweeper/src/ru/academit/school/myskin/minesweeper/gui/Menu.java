@@ -45,10 +45,6 @@ public class Menu {
         c1.ipadx = 40;
         c1.weighty = 1;
         c1.weightx = 5;
-        c1.gridx = 1;
-        c1.gridy = 0;
-
-        c1.gridx = 0;
 
         JLabel[] gifLabelArray = new JLabel[8];
         JLabel[] blackLabelArray = new JLabel[8];
