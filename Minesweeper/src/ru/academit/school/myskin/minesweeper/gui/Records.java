@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Records {
     private JButton back;
-    private JFrame records;
+    private JDialog records;
     JLabel[][] users;
     JLabel[] exitGif;
 
@@ -66,22 +66,22 @@ public class Records {
 
         recordPanel.add(back, c1);
 
-        records.add(recordPanel);
+        JDialog rec = new JDialog();
+        this.records = rec;
 
-        records.setSize(350, 550);
-         records.setResizable(false);
-        records.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        records.setIconImage(img);
+        rec.setSize(350, 550);
 
-        records.setVisible(false);
-        this.records = records;
+        rec.setIconImage(img);
+
+        rec.add(recordPanel);
+        rec.setVisible(false);
     }
 
     public JButton getScoreBack() {
         return back;
     }
 
-    public JFrame getRecordsFrame() {
+    public JDialog getRecordsFrame() {
         return records;
     }
 
@@ -129,5 +129,10 @@ public class Records {
         ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg");
 
         return new JLabel(icon);
+    }
+
+    public void newRecord(int i){
+
+
     }
 }

@@ -6,8 +6,8 @@ import ru.academ.it.school.swing.view.View;
 
 public class Main {
     public static void main(String[] args) {
-        Model model = new Model();
-        View view = new View("проверка");
-        new Controller(model, view);
+        Model m1 = new Model();
+       new Controller(new View("dqd"), m1);
     }
 }
+

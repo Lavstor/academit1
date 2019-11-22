@@ -1,17 +1,27 @@
 package ru.academ.it.school.swing.view;
 
+import ru.academ.it.school.swing.interfaces.Observable;
+import ru.academ.it.school.swing.interfaces.Observer;
+import ru.academ.it.school.swing.model.Model;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class View {
+public class View implements Observable, Observer {
     private JButton enter;
     private JTextField textField;
     private JLabel answer;
-    private JComboBox convertedTo, convertible;
+    private JComboBox convertedTo;
+    private JComboBox convertible;
+    private String result;
+    private ArrayList<Observer> observers = new ArrayList<>();
+    Model model;
 
     public View(String title) {
-        Image img = Toolkit.getDefaultToolkit().getImage("Swing/Без названия (2).jpg");
-        JFrame frame = new JFrame(title);
+        model = new Model();
+
+        Image img = Toolkit.getDefaultToolkit().getImage("Swing/Картинка фрейма.jpg");
 
         JLabel from = new JLabel(" Из ");
         JLabel to = new JLabel(" В ");
@@ -21,7 +31,7 @@ public class View {
         JPanel panel = new JPanel();
 
         enter = new JButton("ОТВЕТ");
-        textField = new JTextField("0", 25);
+        textField = new JTextField("55", 25);
         answer = new JLabel("= ");
 
         String[] temperatures = {"Цельсий", "Фаренгейт", "Кельвины"};
@@ -42,32 +52,45 @@ public class View {
         mainPanel.add(panel);
         mainPanel.add(enter);
 
-        frame.setSize(360, 280);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setIconImage(img);
-        frame.setMinimumSize(new Dimension(360, 280));
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame(title);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setBounds((screenSize.width - 360) / 2, (screenSize.height - 280) / 2, 360, 280);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+            frame.setIconImage(img);
+            frame.setMinimumSize(new Dimension(360, 280));
 
-        frame.add(mainPanel);
+            frame.add(mainPanel);
+        });
+
+        registerObserver(model);
+
+        enter.addActionListener(actionEvent -> observers.get(0).update(getTextField().getText(), String.valueOf(convertible.getSelectedIndex()), String.valueOf(convertedTo.getSelectedIndex())));
     }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observers.forEach(Object::notify);
+    }
+
 
     public JTextField getTextField() {
         return textField;
     }
 
-    public JLabel getAnswer() {
-        return answer;
-    }
-
-    public JComboBox getConvertible() {
-        return convertible;
-    }
-
-    public JComboBox getConvertedTo() {
-        return convertedTo;
-    }
-
-    public JButton getEnterButton() {
-        return enter;
+    @Override
+    public void update(String text, String from, String to) {
+        answer.setText(text);
     }
 }

@@ -5,11 +5,11 @@ import java.awt.*;
 
 class Info {
     private JButton back;
-    private JFrame info;
+    private JDialog info;
 
     Info() {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-        JFrame info = new JFrame("INFO");
+        JDialog info = new JDialog();
         JPanel panelInfo = new JPanel();
         StringBuilder text = new StringBuilder();
         text.append("<html>MINESWEEPER<br><br>Game was crated by Myshkin Nikita Alekseevich.");
@@ -30,7 +30,6 @@ class Info {
         info.add(panelInfo);
         info.setSize(350, 400);
         info.setResizable(false);
-        info.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         info.setVisible(true);
         info.setIconImage(img);
 
@@ -40,7 +39,7 @@ class Info {
         this.info = info;
     }
 
-    JFrame getInfo() {
+    JDialog getInfo() {
         return info;
     }
 

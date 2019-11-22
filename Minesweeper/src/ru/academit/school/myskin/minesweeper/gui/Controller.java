@@ -101,7 +101,7 @@ public class Controller {
 
     private void buttonsEvents() {
         menu.getButtons()[3].addActionListener(actionEvent -> {
-            menu.getMenu().setVisible(false);
+         //   menu.getMenu().setVisible(false);
 
             if (menu.massageDialog() == 0) {
                 menu.getMenu().dispatchEvent(new WindowEvent(menu.getMenu(), WindowEvent.WINDOW_CLOSING));
@@ -110,25 +110,25 @@ public class Controller {
         });
 
         menu.getButtons()[2].addActionListener(actionEvent -> {
-            menu.getMenu().setVisible(false);
+         //   menu.getMenu().setVisible(false);
 
             info.getInfo().setVisible(true);
         });
 
         info.getInfoBack().addActionListener(actionEvent -> {
-            menu.getMenu().setVisible(true);
+          //  menu.getMenu().setVisible(true);
 
             info.getInfo().setVisible(false);
         });
 
         menu.getButtons()[1].addActionListener(actionEvent -> {
-            menu.getMenu().setVisible(false);
+           // menu.getMenu().setVisible(false);
 
             records.getRecordsFrame().setVisible(true);
         });
 
         records.getScoreBack().addActionListener(actionEvent -> {
-            menu.getMenu().setVisible(true);
+       //     menu.getMenu().setVisible(true);
 
             records.getRecordsFrame().setVisible(false);
         });
