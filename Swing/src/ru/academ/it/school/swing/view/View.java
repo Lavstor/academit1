@@ -5,6 +5,7 @@ import ru.academ.it.school.swing.controller.Controller;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class View {
@@ -68,10 +69,17 @@ public class View {
                     textField.setText("Ошибка! Неверный тип данных!");
                 }
             });
+            ArrayList<Object> gradients = new ArrayList<>();
+            gradients.add(0.3);
+            gradients.add(0.0);
+            gradients.add(Color.PINK);
+            gradients.add(Color.PINK);
+            gradients.add(Color.PINK);
+
+            UIManager.put("Button.gradient", gradients);
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-            UIManager.put("Button.select", Color.red);
-            UIManager.put("OptionPane.massage", new ColorUIResource(Color.RED));
-            UIManager.put("Label.foreground", new ColorUIResource(Color.RED));
+            UIManager.put("Button.select", Color.PINK);
+            UIManager.put("OptionPane.massage", new ColorUIResource(Color.PINK));
         });
     }
 }

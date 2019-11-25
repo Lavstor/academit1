@@ -63,12 +63,12 @@ public class Menu {
 
             c1.gridx = 0;
             c1.fill = GridBagConstraints.NONE;
- c1.anchor = GridBagConstraints.EAST;
+            c1.anchor = GridBagConstraints.EAST;
             panel.add(gifLabelArray[j], c1);
             panel.add(blackLabelArray[j], c1);
             j++;
 
-           c1.gridx = 1;
+            c1.gridx = 1;
 
             c1.fill = GridBagConstraints.HORIZONTAL;
             panel.add(buttons[i], c1);
@@ -83,7 +83,7 @@ public class Menu {
 
         panel.setVisible(true);
         frame.setSize(235, 260);
-      //  frame.setResizable(false);
+        //  frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setIconImage(img);
