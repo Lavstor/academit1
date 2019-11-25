@@ -1,6 +1,7 @@
 package ru.academ.it.school.swing.view;
 
 import ru.academ.it.school.swing.controller.Controller;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
@@ -12,9 +13,10 @@ public class View {
 
     public View(String[] temperatures) {
         this.temperatures = temperatures;
+        this.controller = new Controller();
 
         SwingUtilities.invokeLater(() -> {
-            controller = new Controller();
+
 
             Image img = Toolkit.getDefaultToolkit().getImage("Swing/Картинка фрейма.jpg");
 
@@ -62,9 +64,7 @@ public class View {
                 try {
                     answer.setText("= " + controller.getAnswer(Objects.requireNonNull(convertible.getSelectedItem()).toString(),
                             Objects.requireNonNull(convertedTo.getSelectedItem()).toString(), Double.parseDouble(textField.getText())));
-
                 } catch (NumberFormatException e) {
-
                     textField.setText("Ошибка! Неверный тип данных!");
                 }
             });
