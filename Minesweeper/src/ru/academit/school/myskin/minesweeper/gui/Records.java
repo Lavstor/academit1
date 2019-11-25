@@ -11,6 +11,13 @@ public class Records {
 
     Records() {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
+
+        String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\656.gif";
+        String loser = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\loser.png";
+        String second = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\second.png";
+        String third = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\third.png";
+        String[] gifs2 = {firstPlace, second, third, loser, loser, loser, loser, loser, loser, loser};
+
         JFrame records = new JFrame("RECORDS");
         JPanel recordPanel = new JPanel();
         JLabel[] upperPanel = {new JLabel("#####"), new JLabel("NAME"), new JLabel("SCORE"), new JLabel("")};
@@ -45,7 +52,8 @@ public class Records {
             recordPanel.add(new JLabel("#" + i), c1);
 
             c1.gridx = 3;
-            recordPanel.add(new JLabel("Icon" + i), c1);
+                recordPanel.add(createGifs(gifs2[i]), c1);
+
         }
         c1.gridy++;
         c1.gridx = 0;
@@ -131,8 +139,13 @@ public class Records {
         return new JLabel(icon);
     }
 
-    public void newRecord(int i){
+    private JLabel createGifs(String pass) {
+        ImageIcon icon = new ImageIcon(pass);
+        JLabel newLabel = new JLabel();
+        icon.setImageObserver(newLabel);
 
+        newLabel.setIcon(icon);
 
+        return newLabel;
     }
 }

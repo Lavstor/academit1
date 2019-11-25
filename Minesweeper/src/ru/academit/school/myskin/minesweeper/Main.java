@@ -4,6 +4,6 @@ import ru.academit.school.myskin.minesweeper.gui.Controller;
 
 public class Main {
     public static void main(String[] args){
-        Controller c = new Controller();
+        new Controller();
     }
 }

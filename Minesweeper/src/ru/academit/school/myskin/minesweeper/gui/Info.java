@@ -35,26 +35,22 @@ class Info {
         JLabel[] exitGifs = {createGifLabel(), createGifLabel()};
         JLabel[] blackLabel = {createBlackLabel(), createBlackLabel()};
 
-        c1.fill = GridBagConstraints.CENTER;
-
-        c1.weighty = 4;
-        c1.weightx = 5;
         c1.gridy = 0;
         c1.gridx = 0;
         panelExit.add(exitGifs[0],c1);
         panelExit.add(blackLabel[0], c1);
 
         c1.gridx = 1;
-        panelExit.add(back);
+        panelExit.add(back,c1);
         c1.gridx = 2;
-        c1.anchor = GridBagConstraints.EAST;
+
         panelExit.add(exitGifs[1],c1);
         panelExit.add(blackLabel[1],c1);
 
         panelInfo.add(panelExit, BorderLayout.SOUTH);
 
         info.add(panelInfo);
-        info.setSize(350, 400);
+        info.setSize(350, 420);
         info.setResizable(false);
         info.setVisible(true);
         info.setIconImage(img);
