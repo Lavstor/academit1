@@ -14,7 +14,6 @@ public class Records implements Serializable{
 
     Records() {
         readRecords();
-
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
         String topLabel = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot7.png";
         String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot10.png";
@@ -167,10 +166,10 @@ public class Records implements Serializable{
         return newLabel;
     }
 
-    private void readRecords() {
+    private void readRecords(){
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
             players = (Player[]) in.readObject();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("RECORDS.txt"))) {
                 players[0] = new Player("Jesus Christ", 5000000.0);
                 players[1] = new Player("Mr. Hankey", 900000.0);
@@ -184,22 +183,10 @@ public class Records implements Serializable{
                 players[9] = new Player("Mr. Herbert Garrison", 60.0);
 
                 out.writeObject(players);
-
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
             } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
-                players = (Player[]) in.readObject();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
