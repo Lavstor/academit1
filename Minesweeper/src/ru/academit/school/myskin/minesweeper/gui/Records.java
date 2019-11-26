@@ -2,25 +2,37 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.Arrays;
 
-public class Records {
+public class Records implements Serializable{
     private JButton back;
     private JDialog records;
     JLabel[][] users;
     JLabel[] exitGif;
+    private Player[] players = new Player[10];
 
     Records() {
+        readRecords();
+
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-
-        String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\656.gif";
+        String topLabel = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot7.png";
+        String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot10.png";
         String loser = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\loser.png";
-        String second = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\second.png";
-        String third = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\third.png";
-        String[] gifs2 = {firstPlace, second, third, loser, loser, loser, loser, loser, loser, loser};
+        String second = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\animeS.gif";
+        String third = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\234.gif";
+        String forth = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot.png";
+        String fiv = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot2.png";
+        String six = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot3.png";
+        String seven = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot4.png";
+        String eight = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot5.png";
+        String nine = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot8.png";
+        String ten = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot9.png";
 
-        JFrame records = new JFrame("RECORDS");
+        String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
+
         JPanel recordPanel = new JPanel();
-        JLabel[] upperPanel = {new JLabel("#####"), new JLabel("NAME"), new JLabel("SCORE"), new JLabel("")};
+        JLabel[] upperPanel = {new JLabel("#####"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
         JLabel[][] users = new JLabel[10][4];
         this.users = users;
 
@@ -33,7 +45,6 @@ public class Records {
         recordPanel.setLayout(new GridBagLayout());
 
         c1.fill = GridBagConstraints.CENTER;
-
         c1.weighty = 1;
         c1.weightx = 5;
         c1.gridy = 0;
@@ -51,8 +62,14 @@ public class Records {
             c1.gridx = 0;
             recordPanel.add(new JLabel("#" + i), c1);
 
+            c1.gridx = 1;
+            recordPanel.add(new JLabel(players[i - 1].getName()), c1);
+
+            c1.gridx = 2;
+            recordPanel.add(new JLabel(String.valueOf(players[i - 1].getScore())), c1);
+
             c1.gridx = 3;
-                recordPanel.add(createGifs(gifs2[i]), c1);
+            recordPanel.add(createGifs(gifs2[i - 1]), c1);
 
         }
         c1.gridy++;
@@ -77,12 +94,13 @@ public class Records {
         JDialog rec = new JDialog();
         this.records = rec;
 
-        rec.setSize(350, 550);
-
+        rec.setSize(350, 700);
+        rec.setMinimumSize(new Dimension(350, 700));
         rec.setIconImage(img);
 
         rec.add(recordPanel);
         rec.setVisible(false);
+
     }
 
     public JButton getScoreBack() {
@@ -147,5 +165,42 @@ public class Records {
         newLabel.setIcon(icon);
 
         return newLabel;
+    }
+
+    private void readRecords() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
+            players = (Player[]) in.readObject();
+        } catch (FileNotFoundException e) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("RECORDS.txt"))) {
+                players[0] = new Player("Jesus Christ", 5000000.0);
+                players[1] = new Player("Mr. Hankey", 900000.0);
+                players[2] = new Player("Leopold Stotch", 500000.0);
+                players[3] = new Player("Jack Tenorman", 100000.0);
+                players[4] = new Player("John Connor", 90000.0);
+                players[5] = new Player("Kenny McCormick", 10000.0);
+                players[6] = new Player("Eric Cartman", 9000.0);
+                players[7] = new Player("God", 6000.0);
+                players[8] = new Player("Satan", 100.0);
+                players[9] = new Player("Mr. Herbert Garrison", 60.0);
+
+                out.writeObject(players);
+
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
+                players = (Player[]) in.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
