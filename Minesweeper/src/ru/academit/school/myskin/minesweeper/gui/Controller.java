@@ -7,11 +7,14 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.Serializable;
 
+import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
+
 public class Controller implements Serializable {
     private View view;
     private Menu menu;
     private Info info;
     private Records records;
+    private Password password;
 
     public Controller() {
         this.view = new View();
@@ -149,6 +152,9 @@ public class Controller implements Serializable {
             records.getRecordsFrame().setVisible(false);
         });
 
+        menu.getButtons()[0].addActionListener(actionEvent -> {
 
+            createAndShowGUI();
+        });
     }
 }

@@ -1,35 +1,37 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Player implements Serializable {
     private String name;
     private double score;
-    private int password;
+    private char[] pass;
+    static final long serialVersionUID = 1L;
 
-    public Player(String name, double score){
+    Player(String name, double score) {
         this.name = name;
         this.score = score;
     }
 
-    public Player(String name, int password){
+    public Player(String name, char[] password) {
         this.name = name;
-        this.password = password;
+        this.pass = password;
     }
 
-    public boolean checkPassword(int password){
-        return this.password == password;
+    public boolean checkPassword(char[] password) {
+        return Arrays.equals(this.pass, password);
     }
 
-    public String getName(){
+    String getName() {
         return name;
     }
 
-    public double getScore(){
+    double getScore() {
         return score;
     }
 
-    public void setScore(double score){
+    public void setScore(double score) {
         this.score = score;
     }
 }

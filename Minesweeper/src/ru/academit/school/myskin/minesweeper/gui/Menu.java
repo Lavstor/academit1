@@ -134,10 +134,6 @@ public class Menu {
         return buttons;
     }
 
-    public JLabel[] getLables() {
-        return gifLabelArray;
-    }
-
     public JFrame getMenu() {
         return menu;
     }

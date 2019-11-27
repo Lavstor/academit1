@@ -4,13 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Records implements Serializable{
     private JButton back;
     private JDialog records;
     JLabel[][] users;
     JLabel[] exitGif;
-    private Player[] players = new Player[10];
+    private LinkedList<Player> players = new LinkedList<>();
 
     Records() {
         readRecords();
@@ -31,7 +33,7 @@ public class Records implements Serializable{
         String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
 
         JPanel recordPanel = new JPanel();
-        JLabel[] upperPanel = {new JLabel("#####"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
+        JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
         JLabel[][] users = new JLabel[10][4];
         this.users = users;
 
@@ -62,10 +64,10 @@ public class Records implements Serializable{
             recordPanel.add(new JLabel("#" + i), c1);
 
             c1.gridx = 1;
-            recordPanel.add(new JLabel(players[i - 1].getName()), c1);
+            recordPanel.add(new JLabel(players.get(i - 1).getName()), c1);
 
             c1.gridx = 2;
-            recordPanel.add(new JLabel(String.valueOf(players[i - 1].getScore())), c1);
+            recordPanel.add(new JLabel(String.valueOf(players.get(i - 1).getScore())), c1);
 
             c1.gridx = 3;
             recordPanel.add(createGifs(gifs2[i - 1]), c1);
@@ -98,8 +100,6 @@ public class Records implements Serializable{
         rec.setIconImage(img);
 
         rec.add(recordPanel);
-        rec.setVisible(false);
-
     }
 
     public JButton getScoreBack() {
@@ -168,19 +168,19 @@ public class Records implements Serializable{
 
     private void readRecords(){
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
-            players = (Player[]) in.readObject();
+            players = (LinkedList<Player>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("RECORDS.txt"))) {
-                players[0] = new Player("Jesus Christ", 5000000.0);
-                players[1] = new Player("Mr. Hankey", 900000.0);
-                players[2] = new Player("Leopold Stotch", 500000.0);
-                players[3] = new Player("Jack Tenorman", 100000.0);
-                players[4] = new Player("John Connor", 90000.0);
-                players[5] = new Player("Kenny McCormick", 10000.0);
-                players[6] = new Player("Eric Cartman", 9000.0);
-                players[7] = new Player("God", 6000.0);
-                players[8] = new Player("Satan", 100.0);
-                players[9] = new Player("Mr. Herbert Garrison", 60.0);
+                players.add( new Player("Jesus Christ", 5000000.0));
+                players.add(new Player("Mr. Hankey", 900000.0));
+                players.add(new Player("Leopold Stotch", 500000.0));
+                players.add(new Player("Jack Tenorman", 100000.0));
+                players.add(new Player("John Connor", 90000.0));
+                players.add(new Player("Kenny McCormick", 10000.0));
+                players.add(new Player("Eric Cartman", 9000.0));
+                players.add(new Player("God", 6000.0));
+                players.add(new Player("Satan", 100.0));
+                players.add(new Player("Mr. Herbert Garrison", 60.0));
 
                 out.writeObject(players);
             } catch (IOException ex) {
