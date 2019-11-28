@@ -2,11 +2,12 @@ package ru.academit.school.myskin.minesweeper;
 
 import ru.academit.school.myskin.minesweeper.gui.BattleField;
 import ru.academit.school.myskin.minesweeper.gui.Controller;
+import ru.academit.school.myskin.minesweeper.gui.Player;
 
 public class Main {
     public static void main(String[] args){
-      //  new Controller();
-        new BattleField(9,9, "Lavstor");
+       // new Controller();
+        char[] name = {'2', '2', '2', '2'};
+        new BattleField(9, 9, 9, new Player("name"));
     }
-
 }

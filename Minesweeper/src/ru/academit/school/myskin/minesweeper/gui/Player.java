@@ -9,6 +9,10 @@ public class Player implements Serializable {
     private char[] pass;
     static final long serialVersionUID = 1L;
 
+    public Player(String name) {
+        this.name = name;
+    }
+
     Player(String name, double score) {
         this.name = name;
         this.score = score;

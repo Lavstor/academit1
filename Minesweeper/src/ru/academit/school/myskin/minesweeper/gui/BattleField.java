@@ -1,15 +1,24 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Model;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BattleField {
     private JFrame battleField;
     private JButton[] buttons;
-    JLabel[] gifLabelArray;
+    JLabel[][] cellLabels;
+    Model m;
+    Cell[][] map;
+    Player player;
+    String cellSkinPass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cellSkin.jpg";
 
-    public BattleField(int size, int mines, String name) {
+    public BattleField(int x, int y, int mines, Player player) {
         String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
 
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
@@ -34,7 +43,7 @@ public class BattleField {
         c2.anchor = GridBagConstraints.WEST;
 
         c2.gridx = 0;
-        topPanel.add(new JLabel(name), c2);
+        topPanel.add(new JLabel(player.getName()), c2);
 
         c2.weightx = 10;
         c2.gridx = 5;
@@ -51,13 +60,20 @@ public class BattleField {
         c1.weightx = 1;
         c1.weighty = 1;
         gamePanel.setLayout(new GridBagLayout());
-        for (int i = 0; i < size; i++) {
-            c1.gridx = i;
 
-            for (int j = 0; j < size; j++) {
-                c1.gridy = j;
+        m = new Model(x, y, mines);
 
-                gamePanel.add(new JLabel("" + i), c1);
+        map = m.getCell();
+
+        cellLabels = new JLabel[x][y];
+
+        for (int i = 0; i < x; i++) {
+            c1.gridy = i;
+
+            for (int j = 0; j < y; j++) {
+                c1.gridx = j;
+                cellLabels[i][j] = createGifLabel(cellSkinPass);
+                gamePanel.add(cellLabels[i][j], c1);
             }
         }
 
@@ -74,16 +90,26 @@ public class BattleField {
 
         frame.add(allPanel);
 
+        exit.addActionListener(a -> {
+            frame.setVisible(false);
+        });
+
     }
 
     private JLabel createGifLabel(String pass) {
-        ImageIcon icon = new ImageIcon(pass);
         JLabel newLabel = new JLabel();
-        icon.setImageObserver(newLabel);
-        newLabel.setVisible(false);
-        newLabel.setIcon(icon);
+        newLabel.setSize(30, 30);
+        try {
+            BufferedImage img = ImageIO.read(new File(pass));
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(newLabel.getWidth(), newLabel.getHeight(), BufferedImage.SCALE_DEFAULT));
+icon.setImageObserver(newLabel);
+newLabel.setIcon(icon);
+            return newLabel;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        return newLabel;
+        return new JLabel("");
     }
 
     private JLabel createBlackLabel(String pass) {
@@ -91,5 +117,6 @@ public class BattleField {
 
         return new JLabel(icon);
     }
+
 }
 

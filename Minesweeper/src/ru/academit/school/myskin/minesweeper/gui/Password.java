@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
 import static ru.academit.school.myskin.minesweeper.gui.NewPassword.createAndShowGI;
 
 public class Password extends JPanel implements ActionListener {
@@ -84,7 +85,8 @@ public class Password extends JPanel implements ActionListener {
 
                 if (ourUser.size() != 0) {
                     if (ourUser.get(0).checkPassword(input)) {
-                        JOptionPane.showMessageDialog(controllingFrame, "Success! You typed the right password.");
+                        controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
+                        createAndShowGUI3(ourUser.get(0));
                     }
                 } else {
                     JOptionPane.showMessageDialog(controllingFrame, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);

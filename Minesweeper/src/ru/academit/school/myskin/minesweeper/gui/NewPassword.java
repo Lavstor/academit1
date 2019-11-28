@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
 import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
 
 public class NewPassword extends JPanel implements ActionListener {
@@ -97,9 +98,15 @@ public class NewPassword extends JPanel implements ActionListener {
                     if (!Arrays.equals(password, input2)) {
                         JOptionPane.showMessageDialog(controllingFrame, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        players.add(new Player(login, password));
-
+                        Player newPlayer = new Player(login, password);
+                        players.add(newPlayer);
                         out.writeObject(players);
+
+                        JOptionPane.showMessageDialog(controllingFrame, "Nice! You have been registered!", "Congratulations", JOptionPane.INFORMATION_MESSAGE);
+
+                        controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
+
+                      createAndShowGUI3(newPlayer);
                     }
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
