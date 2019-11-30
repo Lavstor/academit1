@@ -5,15 +5,15 @@ import java.util.Random;
 
 public class Model {
     private Cell[][] cell;
-    private int CELLS_COUNT_X;
-    private int CELLS_COUNT_Y;
+    private int HEIGHT;
+    private int WIDTH;
     private int countOfMines;
 
-    public Model(int x, int y, int countOfMines) {
-        CELLS_COUNT_X = x;
-        CELLS_COUNT_Y = y;
+    public Model(int height, int width, int countOfMines) {
+        HEIGHT = height;
+        WIDTH = width;
         this.countOfMines = countOfMines;
-        cell = new Cell[x][y];
+        cell = new Cell[height][width];
 
         generateMap();
     }
@@ -21,13 +21,13 @@ public class Model {
     public void generateMap() {
         Random rnd = new Random();
 
-        Cell[][] map = new Cell[CELLS_COUNT_X][CELLS_COUNT_Y];
+        Cell[][] map = new Cell[HEIGHT][WIDTH];
 
         int minesCount = 0;
-        int[][] counts = new int[CELLS_COUNT_X][CELLS_COUNT_Y];
+        int[][] counts = new int[HEIGHT][WIDTH];
 
-        for (int x = 0; x < CELLS_COUNT_X; x++) {
-            for (int y = 0; y < CELLS_COUNT_Y; y++) {
+        for (int x = 0; x < HEIGHT; x++) {
+            for (int y = 0; y < WIDTH; y++) {
                 boolean isMine = false;
 
                 if (minesCount != countOfMines) {
@@ -52,8 +52,8 @@ public class Model {
                 }
             }
         }
-        for (int i = 0; i < CELLS_COUNT_X; i++) {
-            for (int j = 0; j < CELLS_COUNT_Y; j++) {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 try {
                     map[i][j].increaseNearMines(counts[i][j]);
                 } catch (NullPointerException ignored) {

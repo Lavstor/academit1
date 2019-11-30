@@ -2,10 +2,10 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 
 public class Cell {
-   private boolean isMine;
+    private boolean isMine;
     boolean isMarked = false;
     boolean isHidden = false;
-   private int nearMinesCount;
+    private int nearMinesCount = 0;
 
     public Cell(boolean isMine) {
         this.isMine = isMine;
@@ -25,5 +25,12 @@ public class Cell {
 
     public int getMines() {
         return nearMinesCount;
+    }
+    public boolean getHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(boolean b) {
+       isHidden = b;
     }
 }

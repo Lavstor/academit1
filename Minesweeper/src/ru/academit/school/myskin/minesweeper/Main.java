@@ -6,8 +6,8 @@ import ru.academit.school.myskin.minesweeper.gui.Player;
 
 public class Main {
     public static void main(String[] args){
-       // new Controller();
+        new Controller();
         char[] name = {'2', '2', '2', '2'};
-        new BattleField(9, 9, 9, new Player("name"));
+      //  new BattleField(9, 10, 9, new Player("name"));
     }
 }
