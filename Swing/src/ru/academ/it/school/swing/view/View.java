@@ -1,28 +1,28 @@
 package ru.academ.it.school.swing.view;
 
+import ru.academ.it.school.swing.classes.Celsius;
+import ru.academ.it.school.swing.classes.Fahrenheit;
+import ru.academ.it.school.swing.classes.Kelvin;
+import ru.academ.it.school.swing.classes.Temperature;
 import ru.academ.it.school.swing.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class View {
     private Controller controller;
-    private String[] temperatures;
+    private String[] temperatures = {"Kelvin", "Celsius", "Fahrenheit"};
 
-    public View(String[] temperatures) {
-        this.temperatures = temperatures;
+    public View() {
         this.controller = new Controller();
 
         SwingUtilities.invokeLater(() -> {
+            Image img = Toolkit.getDefaultToolkit().getImage("Swing/FrameImage.jpg");
 
-
-            Image img = Toolkit.getDefaultToolkit().getImage("Swing/Картинка фрейма.jpg");
-
-            JLabel from = new JLabel(" Из ");
-            JLabel to = new JLabel(" В ");
+            JLabel from = new JLabel(" From ");
+            JLabel to = new JLabel(" To ");
 
             JPanel mainPanel = new JPanel(new GridLayout(3, 1));
             JPanel textPanel = new JPanel(new GridLayout(1, 2));
@@ -30,7 +30,7 @@ public class View {
 
             JLabel answer = new JLabel("= ");
 
-            JButton enter = new JButton("ОТВЕТ");
+            JButton enter = new JButton("ANSWER");
 
             JTextField textField = new JTextField("55", 25);
 
@@ -41,7 +41,6 @@ public class View {
 
             textPanel.add(textField);
             textPanel.add(answer);
-
             panel.add(from);
             panel.add(convertible);
             panel.add(to);
@@ -54,32 +53,39 @@ public class View {
             JFrame frame = new JFrame("Temperature converter");
 
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            frame.setBounds((screenSize.width - 360) / 2, (screenSize.height - 280) / 2, 360, 280);
+            frame.setBounds((screenSize.width - 360) / 2, (screenSize.height - 280) / 2, 400, 280);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
             frame.setIconImage(img);
-            frame.setMinimumSize(new Dimension(360, 280));
+            frame.setMinimumSize(new Dimension(400, 280));
             frame.add(mainPanel);
 
             enter.addActionListener(actionEvent -> {
                 try {
-                    answer.setText("= " + controller.getAnswer(Objects.requireNonNull(convertible.getSelectedItem()).toString(),
-                            Objects.requireNonNull(convertedTo.getSelectedItem()).toString(), Double.parseDouble(textField.getText())));
+                    Temperature temperatureFrom = getTemperature(Objects.requireNonNull(convertible.getSelectedItem()).toString());
+                    Temperature temperatureTo = getTemperature(Objects.requireNonNull(convertedTo.getSelectedItem()).toString());
+
+                    answer.setText("= " + controller.getAnswer(temperatureFrom, temperatureTo, Double.parseDouble(textField.getText())));
                 } catch (NumberFormatException e) {
-                    textField.setText("Ошибка! Неверный тип данных!");
+                    answer.setText("ERROR! NOT RIGHT TYPE!");
+                } catch (NullPointerException ignored) {
                 }
             });
-            ArrayList<Object> gradients = new ArrayList<>();
-            gradients.add(0.3);
-            gradients.add(0.0);
-            gradients.add(Color.PINK);
-            gradients.add(Color.PINK);
-            gradients.add(Color.PINK);
-
-            UIManager.put("Button.gradient", gradients);
+            UIManager.put("ComboBox.selectionForeground", new ColorUIResource(Color.RED));
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-            UIManager.put("Button.select", Color.PINK);
-            UIManager.put("OptionPane.massage", new ColorUIResource(Color.PINK));
         });
+    }
+
+    private Temperature getTemperature(String text) {
+        if (text.equals("Celsius")) {
+            return new Celsius();
+        }
+        if (text.equals("Fahrenheit")) {
+            return new Fahrenheit();
+        }
+        if (text.equals("Kelvin")) {
+            return new Kelvin();
+        }
+        return null;
     }
 }

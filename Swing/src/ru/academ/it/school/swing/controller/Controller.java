@@ -1,5 +1,6 @@
 package ru.academ.it.school.swing.controller;
 
+import ru.academ.it.school.swing.classes.Temperature;
 import ru.academ.it.school.swing.model.Model;
 
 public class Controller {
@@ -9,7 +10,7 @@ public class Controller {
         this.model = new Model();
     }
 
-    public double getAnswer(String from, String to, double textField) {
+    public double getAnswer(Temperature from, Temperature to, double textField) {
         return model.getAnswer(from, to, textField);
     }
 }
