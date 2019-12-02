@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
-        Tree<Integer> tree1 = new Tree<>();
+  /*      Tree<Integer> tree1 = new Tree<>();
 
         tree1.add(134);
         tree1.add(125);
@@ -69,5 +69,17 @@ public class Main {
         tree1.add(130);
 
         System.out.println(tree1);
+*/
+        Tree<Integer> t2 = new Tree<>();
+        t2.add(3);
+        t2.add(4);
+        t2.add(3);
+        t2.add(5);
+        t2.add(6);
+        t2.add(6);
+
+        System.out.println(t2);
+        t2.delete(3);
+        System.out.println(t2);
     }
 }
