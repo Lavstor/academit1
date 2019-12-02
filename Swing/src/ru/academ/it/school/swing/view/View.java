@@ -71,7 +71,6 @@ public class View {
                 } catch (NullPointerException ignored) {
                 }
             });
-            UIManager.put("ComboBox.selectionForeground", new ColorUIResource(Color.RED));
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         });
     }
