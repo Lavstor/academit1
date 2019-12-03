@@ -59,20 +59,27 @@ public class Main {
         System.out.println();
         System.out.println("--------------------------");
 
-        Tree<Integer> t2 = new Tree<>();
-        t2.add(1);
-        t2.add(148);
-        t2.add(130);
-        t2.add(128);
-        t2.add(127);
-        t2.add(129);
-        t2.add(128);
-        t2.add(129);
-        t2.add(128);
-        t2.add(130);
+        Tree<Integer> tree2 = new Tree<>();
+        tree2.add(1);
+        tree2.add(3);
+        tree2.add(2);
+        tree2.add(5);
 
-        System.out.println(t2);
-        t2.delete(128);
-        System.out.println(t2);
+        System.out.println(tree2);
+        tree2.delete(1);
+        System.out.println(tree2);
+
+        tree2.delete(3);
+        tree2.delete(2);
+        tree2.delete(5);
+
+        tree2.add(10);
+        tree2.add(3);
+        tree2.add(2);
+        tree2.add(5);
+
+        System.out.println(tree2);
+        tree2.delete(10);
+        System.out.println(tree2);
     }
 }

@@ -49,7 +49,6 @@ public class Tree<T> {
 
             @SuppressWarnings("unchecked")
             Comparable<T> object1 = (Comparable<T>) o1;
-
             return object1.compareTo(o2);
         };
     }
@@ -211,9 +210,9 @@ public class Tree<T> {
             }
 
             root = null;
-
             return true;
         }
+
         BinaryTreeNode element = root;
 
         while (true) {
@@ -341,13 +340,13 @@ public class Tree<T> {
             } else {
                 queue.remove();
             }
-            
-            line.append(" ");
 
+            line.append(" ");
             currentLineIndex++;
 
             if (currentLineIndex >= lineSize) {
                 lineSize *= 2;
+
                 line.append(System.lineSeparator());
                 currentLineIndex = 0;
             }
