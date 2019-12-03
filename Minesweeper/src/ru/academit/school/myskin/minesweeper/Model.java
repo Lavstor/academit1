@@ -9,16 +9,16 @@ public class Model {
     private int WIDTH;
     private int countOfMines;
 
-    public Model(int height, int width, int countOfMines) {
+    public Model(int height, int width, int countOfMines, int firstY, int firstX) {
         HEIGHT = height;
         WIDTH = width;
         this.countOfMines = countOfMines;
         cell = new Cell[height][width];
 
-        generateMap();
+        generateMap(firstY, firstX);
     }
 
-    public void generateMap() {
+    public void generateMap(int height, int width) {
         Random rnd = new Random();
 
         Cell[][] map = new Cell[HEIGHT][WIDTH];
@@ -30,7 +30,7 @@ public class Model {
             for (int y = 0; y < WIDTH; y++) {
                 boolean isMine = false;
 
-                if (minesCount != countOfMines) {
+                if (minesCount != countOfMines && x != height && y != width) {
                     isMine = rnd.nextInt(100) < 15;
                 }
 
