@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 public class Tree<T> {
     private BinaryTreeNode root;
@@ -204,7 +205,7 @@ public class Tree<T> {
             }
 
             if (root.getLeftChild() != null) {
-                changeElement(root, root.getLeftChild());
+                root = root.getLeftChild();
 
                 return true;
             }
@@ -301,66 +302,29 @@ public class Tree<T> {
         return root == null;
     }
 
-    /*  @Override
-      public String toString() {
-          StringBuilder line = new StringBuilder();
-          Queue<BinaryTreeNode> queue = new LinkedList<>();
-
-          BinaryTreeNode element = root;
-          queue.add(element);
-
-          int currentLineIndex = 0;
-          int lineSize = 1;
-
-          while (!queue.isEmpty()) {
-              if (queue.element() != null) {
-                  queue.add(queue.element().getLeftChild());
-                  queue.add(queue.element().getRightChild());
-              } else if (currentLineIndex < nodesCount) {
-                  queue.add(null);
-                  queue.add(null);
-              }
-
-              if (queue.element() != null) {
-                  line.append(queue.remove().getData());
-              } else {
-                  line.append("   ");
-                  queue.remove();
-              }
-
-              line.append(" ");
-
-              currentLineIndex++;
-
-              if (currentLineIndex >= lineSize) {
-                  lineSize *= 2;
-                  line.append(System.lineSeparator());
-
-                  currentLineIndex = 0;
-              }
-          }
-
-          return line.toString();
-      }
-  */
     @Override
     public String toString() {
         StringBuilder line = new StringBuilder();
+
         Queue<BinaryTreeNode> queue = new LinkedList<>();
         BinaryTreeNode element = root;
         queue.add(element);
+
         int currentLineIndex = 0;
         int lineSize = 1;
         int maxSize = 1;
         int rowCount = 0;
+
         while (maxSize < nodesCount) {
             rowCount++;
             maxSize *= 2;
         }
         maxSize *= 2;
+
         if (rowCount % 2 == 0) {
             maxSize -= 1;
         }
+
         while (!queue.isEmpty()) {
             if (queue.element() != null) {
                 queue.add(queue.element().leftChild);
@@ -369,22 +333,26 @@ public class Tree<T> {
                 queue.add(null);
                 queue.add(null);
             }
-            for (int j = currentLineIndex; j <= maxSize / lineSize + currentLineIndex; j++) {
-                line.append(" ");
-            }
+
+            IntStream.rangeClosed(currentLineIndex, maxSize / lineSize + currentLineIndex).mapToObj(j -> " ").forEach(line::append);
+
             if (queue.element() != null) {
                 line.append(queue.remove().data);
             } else {
                 queue.remove();
             }
+            
             line.append(" ");
+
             currentLineIndex++;
+
             if (currentLineIndex >= lineSize) {
                 lineSize *= 2;
                 line.append(System.lineSeparator());
                 currentLineIndex = 0;
             }
         }
+
         return line.toString();
     }
 

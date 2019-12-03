@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
-  /*      Tree<Integer> tree1 = new Tree<>();
+        Tree<Integer> tree1 = new Tree<>();
 
         tree1.add(134);
         tree1.add(125);
@@ -16,6 +16,8 @@ public class Main {
         tree1.add(148);
         tree1.add(125);
         tree1.add(125);
+        tree1.add(124);
+        tree1.add(128);
 
         Consumer<Integer> consumer = c1 -> System.out.print(c1 + " ");
 
@@ -36,7 +38,6 @@ public class Main {
         System.out.println();
 
         System.out.println("Удаление");
-        System.out.println(tree1.delete(148));
         System.out.println(tree1.delete(134));
         System.out.println();
 
@@ -58,28 +59,20 @@ public class Main {
         System.out.println();
         System.out.println("--------------------------");
 
-        tree1.add(137);
-        tree1.add(128);
-        tree1.add(127);
-        tree1.add(126);
-        tree1.add(128);
-        tree1.add(129);
-        tree1.add(129);
-        tree1.add(128);
-        tree1.add(130);
-
-        System.out.println(tree1);
-*/
         Tree<Integer> t2 = new Tree<>();
-        t2.add(3);
-        t2.add(4);
-        t2.add(3);
-        t2.add(5);
-        t2.add(6);
-        t2.add(6);
+        t2.add(1);
+        t2.add(148);
+        t2.add(130);
+        t2.add(128);
+        t2.add(127);
+        t2.add(129);
+        t2.add(128);
+        t2.add(129);
+        t2.add(128);
+        t2.add(130);
 
         System.out.println(t2);
-        t2.delete(3);
+        t2.delete(128);
         System.out.println(t2);
     }
 }
