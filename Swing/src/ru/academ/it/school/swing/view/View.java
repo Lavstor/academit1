@@ -1,9 +1,5 @@
 package ru.academ.it.school.swing.view;
 
-import ru.academ.it.school.swing.classes.Celsius;
-import ru.academ.it.school.swing.classes.Fahrenheit;
-import ru.academ.it.school.swing.classes.Kelvin;
-import ru.academ.it.school.swing.classes.Temperature;
 import ru.academ.it.school.swing.controller.Controller;
 
 import javax.swing.*;
@@ -62,29 +58,16 @@ public class View {
 
             enter.addActionListener(actionEvent -> {
                 try {
-                    Temperature temperatureFrom = getTemperature(Objects.requireNonNull(convertible.getSelectedItem()).toString());
-                    Temperature temperatureTo = getTemperature(Objects.requireNonNull(convertedTo.getSelectedItem()).toString());
-
-                    answer.setText("= " + controller.getAnswer(temperatureFrom, temperatureTo, Double.parseDouble(textField.getText())));
+                    answer.setText("= " + controller.getAnswer(Objects.requireNonNull(convertible.getSelectedItem()).toString(),
+                            Objects.requireNonNull(convertedTo.getSelectedItem()).toString(),
+                            Double.parseDouble(textField.getText())));
                 } catch (NumberFormatException e) {
                     answer.setText("ERROR! NOT RIGHT TYPE!");
                 } catch (NullPointerException ignored) {
                 }
             });
+
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         });
-    }
-
-    private Temperature getTemperature(String text) {
-        if (text.equals("Celsius")) {
-            return new Celsius();
-        }
-        if (text.equals("Fahrenheit")) {
-            return new Fahrenheit();
-        }
-        if (text.equals("Kelvin")) {
-            return new Kelvin();
-        }
-        return null;
     }
 }

@@ -9,11 +9,13 @@ public class Celsius implements Temperature {
 
             return textField;
         }
+
         if (to instanceof Kelvin) {
             textField = textField + 273.15;
 
             return textField;
         }
+
         return textField;
     }
 }

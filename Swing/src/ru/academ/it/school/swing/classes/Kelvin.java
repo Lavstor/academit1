@@ -9,11 +9,13 @@ public class Kelvin implements Temperature {
 
             return textField;
         }
+
         if (to instanceof Fahrenheit) {
             textField = (textField - 273.15) * 1.8 + 32;
 
             return textField;
         }
+
         return textField;
     }
 }
