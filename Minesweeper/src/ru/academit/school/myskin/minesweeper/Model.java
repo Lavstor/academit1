@@ -1,6 +1,7 @@
 package ru.academit.school.myskin.minesweeper;
 
 import ru.academit.school.myskin.minesweeper.gui.Cell;
+
 import java.util.Random;
 
 public class Model {
@@ -24,47 +25,48 @@ public class Model {
         Cell[][] map = new Cell[HEIGHT][WIDTH];
 
         int minesCount = 0;
+
         int[][] counts = new int[HEIGHT][WIDTH];
 
         for (int x = 0; x < HEIGHT; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                boolean isMine = false;
+                map[x][y] = new Cell(false);
+            }
+        }
 
-                if (minesCount != countOfMines && x != height && y != width) {
-                    isMine = rnd.nextInt(100) < 15;
-                }
+        while (minesCount != countOfMines) {
+            int x = rnd.nextInt(HEIGHT);
+            int y = rnd.nextInt(WIDTH);
 
-                if (isMine) {
-                    minesCount++;
+            if (minesCount != countOfMines && x != height && y != width && !map[x][y].isMine()) {
+                minesCount++;
 
-                    map[x][y] = new Cell(true);
+                map[x][y].setAsMine(true);
 
-                    for (int i = -1; i < 2; i++) {
-                        for (int j = -1; j < 2; j++) {
-                            try {
-                                counts[x + i][y + j] += 1;
-                            } catch (ArrayIndexOutOfBoundsException ignored) {
-                            }
+                for (int i = -1; i < 2; i++) {
+                    for (int j = -1; j < 2; j++) {
+                        try {
+                            counts[x + i][y + j] += 1;
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
                         }
                     }
-                } else {
-                    map[x][y] = new Cell(false);
                 }
             }
         }
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                try {
-                    map[i][j].increaseNearMines(counts[i][j]);
-                } catch (NullPointerException ignored) {
+
+            for (int i = 0; i < HEIGHT; i++) {
+                for (int j = 0; j < WIDTH; j++) {
+                    try {
+                        map[i][j].increaseNearMines(counts[i][j]);
+                    } catch (NullPointerException ignored) {
+                    }
                 }
             }
-        }
 
         this.cell = map;
     }
 
-    public Cell[][] getCell(){
+    public Cell[][] getCell() {
         return cell;
     }
 

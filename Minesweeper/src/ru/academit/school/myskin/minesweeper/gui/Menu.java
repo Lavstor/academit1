@@ -102,6 +102,10 @@ public class Menu {
             button.setBorderPainted(false);
         }
 
+        UIManager.put("RadioButton.background", new ColorUIResource(Color.RED));
+        UIManager.put("RadioButton.foreground", new ColorUIResource(Color.BLACK));
+        UIManager.put("RadioButton.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
+
         UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         UIManager.put("Button.select", Color.red);
         UIManager.put("Button.gradient", gradients);
