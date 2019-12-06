@@ -23,9 +23,10 @@ public class NewPassword extends JPanel implements ActionListener {
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
-    private LinkedList<Player> players = new LinkedList<>();
+    private static LinkedList<Player> players = new LinkedList<>();
 
     public NewPassword(JDialog f) {
+
         controllingFrame = f;
 
         passwordField = new JPasswordField(10);
@@ -77,6 +78,7 @@ public class NewPassword extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
+        getPlayers();
 
         if (OK.equals(cmd)) {
             char[] password = passwordField.getPassword();
@@ -132,7 +134,7 @@ public class NewPassword extends JPanel implements ActionListener {
         passwordField.requestFocusInWindow();
     }
 
-    public static void createAndShowGI() {
+    public static void createAndShowGI(LinkedList<Player> players) {
         JDialog frame = new JDialog();
 
         final NewPassword newContentPane = new NewPassword(frame);
@@ -146,5 +148,14 @@ public class NewPassword extends JPanel implements ActionListener {
         });
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private void getPlayers() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+            players = (LinkedList<Player>) in.readObject();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        } catch (ClassNotFoundException e) {
+        }
     }
 }

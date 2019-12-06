@@ -2,20 +2,25 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Records implements Serializable{
+public class Records implements Serializable {
     private JButton back;
     private JDialog records;
     JLabel[][] users;
     JLabel[] exitGif;
-    private LinkedList<Player> players = new LinkedList<>();
+    private List<Player> players = new LinkedList<>();
 
     Records() {
         readRecords();
+
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
         String topLabel = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot7.png";
         String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot10.png";
@@ -55,6 +60,9 @@ public class Records implements Serializable{
 
             recordPanel.add(upperPanel[i], c1);
         }
+
+        players = players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
+
         setDefaultUsers();
         setDefaultRecords();
 
@@ -100,6 +108,27 @@ public class Records implements Serializable{
         rec.setIconImage(img);
 
         rec.add(recordPanel);
+
+        back.addActionListener(actionEvent -> {
+            records.dispose();
+        });
+
+        records.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                exitGif[0].setVisible(true);
+                exitGif[1].setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                exitGif[0].setVisible(false);
+                exitGif[1].setVisible(false);
+            }
+        });
+
+        rec.setVisible(true);
+
     }
 
     public JButton getScoreBack() {
@@ -166,21 +195,21 @@ public class Records implements Serializable{
         return newLabel;
     }
 
-    private void readRecords(){
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("RECORDS.txt"))) {
+    private void readRecords() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
             players = (LinkedList<Player>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("RECORDS.txt"))) {
-                players.add( new Player("Jesus Christ", 5000000.0));
-                players.add(new Player("Mr. Hankey", 900000.0));
-                players.add(new Player("Leopold Stotch", 500000.0));
-                players.add(new Player("Jack Tenorman", 100000.0));
-                players.add(new Player("John Connor", 90000.0));
-                players.add(new Player("Kenny McCormick", 10000.0));
-                players.add(new Player("Eric Cartman", 9000.0));
-                players.add(new Player("God", 6000.0));
-                players.add(new Player("Satan", 100.0));
-                players.add(new Player("Mr. Herbert Garrison", 60.0));
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+                players.add(new Player("Jesus Christ", 65.0));
+                players.add(new Player("Mr. Hankey", 94.0));
+                players.add(new Player("Leopold Stotch", 81.0));
+                players.add(new Player("Jack Tenorman", 76.0));
+                players.add(new Player("John Connor", 61.0));
+                players.add(new Player("Kenny McCormick", 1.0));
+                players.add(new Player("Eric Cartman", 499.0));
+                players.add(new Player("God", 33.0));
+                players.add(new Player("Satan", 34.0));
+                players.add(new Player("Mr. Herbert Garrison", 31.0));
 
                 out.writeObject(players);
             } catch (IOException ex) {

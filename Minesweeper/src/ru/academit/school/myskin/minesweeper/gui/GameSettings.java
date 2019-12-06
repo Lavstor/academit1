@@ -132,13 +132,13 @@ public class GameSettings extends JPanel implements ActionListener {
         if (OK.equals(cmd)) {
             if (deafultPane.isVisible()) {
                 if (easy.isSelected()) {
-                    new BattleField(9, 9, 9, player);
+                    new BattleField(9, 9, 41, player);
                 }
                 if (normal.isSelected()) {
-                    new BattleField(15, 15, 17, player);
+                    new BattleField(15, 15, 113, player);
                 }
                 if (high.isSelected()) {
-                    new BattleField(30, 30, 35, player);
+                    new BattleField(30, 30, 450, player);
                 }
 
             } else {
@@ -147,7 +147,7 @@ public class GameSettings extends JPanel implements ActionListener {
                     int height = Integer.parseInt(heightField.getText());
                     int mines = Integer.parseInt(this.mines.getText());
 
-                    if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 &&  mines <  (weight * height)/2) {
+                    if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 && mines <= (weight * height) * 0.75) {
 
                         new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
                                 Integer.parseInt(this.mines.getText()), player);
@@ -159,46 +159,46 @@ public class GameSettings extends JPanel implements ActionListener {
                 }
             }
         }
-            if (CANCEL.equals(cmd)) {
-                controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
-                createAndShowGUI();
-            }
-
-            if (DEFAULT.equals(cmd)) {
-                deafultPane.setVisible(true);
-                customPane.setVisible(false);
-                customButton.setVisible(true);
-                defaultButton.setVisible(false);
-            }
-
-            if (CUSTOM.equals(cmd)) {
-                deafultPane.setVisible(false);
-                customPane.setVisible(true);
-                defaultButton.setVisible(true);
-                customButton.setVisible(false);
-            }
-
+        if (CANCEL.equals(cmd)) {
+            controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
+            createAndShowGUI();
         }
 
-        protected void resetFocus () {
-            weightField.requestFocusInWindow();
+        if (DEFAULT.equals(cmd)) {
+            deafultPane.setVisible(true);
+            customPane.setVisible(false);
+            customButton.setVisible(true);
+            defaultButton.setVisible(false);
         }
 
-        public static void createAndShowGUI3 (Player player){
-            GameSettings.player = player;
-
-            JDialog frame = new JDialog();
-
-            final GameSettings newContentPane = new GameSettings(frame);
-            newContentPane.setOpaque(true); //content panes must be opaque
-            frame.setContentPane(newContentPane);
-
-            frame.addWindowListener(new WindowAdapter() {
-                public void windowActivated(WindowEvent e) {
-                    newContentPane.resetFocus();
-                }
-            });
-            frame.pack();
-            frame.setVisible(true);
+        if (CUSTOM.equals(cmd)) {
+            deafultPane.setVisible(false);
+            customPane.setVisible(true);
+            defaultButton.setVisible(true);
+            customButton.setVisible(false);
         }
+
     }
+
+    protected void resetFocus() {
+        weightField.requestFocusInWindow();
+    }
+
+    public static void createAndShowGUI3(Player player) {
+        GameSettings.player = player;
+
+        JDialog frame = new JDialog();
+
+        final GameSettings newContentPane = new GameSettings(frame);
+        newContentPane.setOpaque(true); //content panes must be opaque
+        frame.setContentPane(newContentPane);
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowActivated(WindowEvent e) {
+                newContentPane.resetFocus();
+            }
+        });
+        frame.pack();
+        frame.setVisible(true);
+    }
+}

@@ -20,7 +20,6 @@ public class Controller implements Serializable {
         this.view = new View();
         this.menu = new Menu();
         this.info = new Info();
-        this.records = new Records();
 
         mouseEvents();
         buttonsEvents();
@@ -89,20 +88,6 @@ public class Controller implements Serializable {
             }
         });
 
-        records.getScoreBack().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-                records.getExitGif()[0].setVisible(true);
-                records.getExitGif()[1].setVisible(true);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-                records.getExitGif()[0].setVisible(false);
-                records.getExitGif()[1].setVisible(false);
-            }
-        });
-
         info.getInfoBack().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
@@ -143,13 +128,7 @@ public class Controller implements Serializable {
         menu.getButtons()[1].addActionListener(actionEvent -> {
            // menu.getMenu().setVisible(false);
 
-            records.getRecordsFrame().setVisible(true);
-        });
-
-        records.getScoreBack().addActionListener(actionEvent -> {
-       //     menu.getMenu().setVisible(true);
-
-            records.getRecordsFrame().setVisible(false);
+            new Records();
         });
 
         menu.getButtons()[0].addActionListener(actionEvent -> {

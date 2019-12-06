@@ -8,24 +8,27 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
+
 public class BattleField {
-    private int scoree;
+    private double scoree;
     private int clicks;
     private int cells;
-    private JFrame battleField;
+    private JDialog battleField;
     private JButton[] buttons;
     private JLabel score;
     JPanel allPanel;
     JPanel gamePanel;
+    JPanel topPanel;
     JLabel[][] cellLabels;
     Model m;
     Cell[][] map;
-    Player player;
+    private Player player;
+
     String cellSkinPass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cellSkin.jpg";
     String krest = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest3.png";
     String pint = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\pint 50.gif";
@@ -40,13 +43,14 @@ public class BattleField {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
         JDialog frame = new JDialog();
         // battleField = frame;
-        JPanel topPanel = new JPanel();
+        topPanel = new JPanel();
         gamePanel = new JPanel();
         allPanel = new JPanel();
         JButton exit = new JButton("EXIT");
         score = new JLabel("Your score: ");
         JLabel timer = new JLabel("Timer: ");
         exit.setForeground(Color.BLACK);
+        this.player = player;
 
         GridBagConstraints c1 = new GridBagConstraints();
 
@@ -110,6 +114,9 @@ public class BattleField {
                             changeImage(cellLabels[i][j], pint);
 
                             showBombs();
+                            endGame("U LOSE");
+                            setScore(scoree);
+
                         } else if (map[i][j].getMines() == 0) {
                             openAllZero(i, j);
 
@@ -128,8 +135,12 @@ public class BattleField {
                             score.setText("Your score: " + scoree);
 
                             if (scoree == cells) {
+                                topPanel.setVisible(false);
                                 gamePanel.setVisible(false);
-                                allPanel.add(winPanel(), BorderLayout.CENTER);
+
+                                allPanel.add(winPanel("SCORE: " + scoree));
+
+                                setScore(scoree);
                             }
                         }
 
@@ -143,7 +154,7 @@ public class BattleField {
             }
         });
 
-        frame.setSize(500, 500);
+        frame.setSize(700, 700);
         //  frame.setResizable(false);
         frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -159,6 +170,7 @@ public class BattleField {
         exit.addActionListener(a -> {
             frame.dispose();
         });
+        battleField = frame;
 
     }
 
@@ -242,8 +254,12 @@ public class BattleField {
                             scoree++;
 
                             if (scoree == cells) {
+                                topPanel.setVisible(false);
                                 gamePanel.setVisible(false);
-                                allPanel.add(winPanel(), BorderLayout.CENTER);
+
+                                allPanel.add(winPanel("SCORE: " + scoree));
+
+                                setScore(scoree);
                             }
                         }
 
@@ -258,17 +274,17 @@ public class BattleField {
         }
     }
 
-    private JPanel  winPanel() {
+    private JPanel winPanel(String text) {
         JPanel winPanel = new JPanel();
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
         changeImage(image, sukkuba);
 
-       JLabel centerLabel = new JLabel("SCORE: " + scoree, JLabel.CENTER);
+        JLabel centerLabel = new JLabel(text, JLabel.CENTER);
         centerLabel.setFont(new Font("Arial Black", Font.BOLD, 20));
 
-        centerLabel.setSize(400, 100);
+        centerLabel.setSize(600, 200);
         centerLabel.setForeground(Color.BLACK);
 
         image.add(centerLabel);
@@ -279,6 +295,73 @@ public class BattleField {
         image.updateUI();
 
         return winPanel;
+    }
+
+    private JDialog endGame(String string) {
+        JDialog dialog = new JDialog();
+        JLabel label = new JLabel(string);
+        JPanel infoPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
+        JPanel flow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton newGame = new JButton("NEW GAME");
+        JButton menu = new JButton("MENU");
+
+        label.setFont(new Font("Arial Black", Font.BOLD, 20));
+
+
+        dialog.setLayout(new BorderLayout());
+
+        dialog.add(infoPanel, BorderLayout.CENTER);
+
+
+        infoPanel.add(label);
+
+        buttonPanel.setLayout(new GridLayout(1, 2, 5, 0));
+        buttonPanel.add(newGame);
+        buttonPanel.add(menu);
+
+        flow.add(buttonPanel);
+        dialog.add(flow, BorderLayout.SOUTH);
+
+        dialog.setVisible(true);
+        dialog.setSize(450, 150);
+
+        newGame.addActionListener(a -> {
+            dialog.dispose();
+            battleField.dispose();
+            createAndShowGUI3(player);
+        });
+
+        menu.addActionListener(a -> {
+            dialog.dispose();
+            battleField.dispose();
+        });
+
+        return dialog;
+    }
+
+    private void setScore(double score) {
+        if (player.getScore() < score) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+                LinkedList players = (LinkedList) in.readObject();
+
+                players.remove(player);
+                player.setScore(scoree);
+                players.add(player);
+
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+                    out.writeObject(players);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
 

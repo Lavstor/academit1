@@ -100,7 +100,7 @@ public class Password extends JPanel implements ActionListener {
             resetFocus();
         } else {
             controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
-            createAndShowGI();
+            createAndShowGI(players);
         }
     }
 
