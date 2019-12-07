@@ -1,125 +1,149 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 
-public class Menu {
-    private JFrame menu;
-    private JButton[] buttons;
-    JLabel[] gifLabelArray;
+import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
 
+class Menu extends JPanel {
     Menu() {
-        Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-        JFrame frame = new JFrame("MENU");
-        menu = frame;
-        JPanel panel = new JPanel();
-        JButton exit = new JButton("EXIT");
-        exit.setForeground(Color.BLACK);
+        setLayout(new GridBagLayout());
 
-        JButton info = new JButton("INFO");
-        info.setForeground(Color.BLACK);
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JButton newGame = new JButton("NEW GAME");
-        newGame.setForeground(Color.BLACK);
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 5;
 
-        JButton records = new JButton("RECORDS");
-        records.setForeground(Color.BLACK);
+        JButton[] buttons = {createButton("NEW GAME"), createButton("RECORDS"),
+                createButton("INFO"), createButton("EXIT")};
 
-        panel.setLayout(new GridBagLayout());
-        JLabel newLabel = new JLabel();
+        JLabel[] gifLabelArray = new JLabel[buttons.length * 2];
+        JLabel[] blackLabelArray = new JLabel[gifLabelArray.length];
 
-        String pass2 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg";
-
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
-        icon.setImageObserver(newLabel);
-
-        newLabel.setIcon(icon);
-        newLabel.setBackground(Color.RED);
-        newLabel.setIcon(icon);
-
-        GridBagConstraints c1 = new GridBagConstraints();
-
-        c1.weighty = 1;
-        c1.weightx = 5;
-
-        JLabel[] gifLabelArray = new JLabel[8];
-        JLabel[] blackLabelArray = new JLabel[8];
-        JButton[] buttons = {newGame, records, info, exit};
-
-        this.gifLabelArray = gifLabelArray;
-        this.buttons = buttons;
-
-        for (int i = 0; i < 8; i++) {
-            String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
-            gifLabelArray[i] = createGifLabel(pass);
-            blackLabelArray[i] = createBlackLabel(pass2);
+        for (int i = 0; i < gifLabelArray.length; i++) {
+            gifLabelArray[i] = createGifLabel();
+            blackLabelArray[i] = createBlackLabel();
         }
         int j = 0;
 
-        for (int i = 0; i < 4; i++) {
-            c1.gridy = i;
+        for (int i = 0; i < buttons.length; i++) {
+            gridBagConstraints.gridy = i;
 
-            c1.gridx = 0;
-            c1.fill = GridBagConstraints.NONE;
-            c1.anchor = GridBagConstraints.EAST;
-            panel.add(gifLabelArray[j], c1);
-            panel.add(blackLabelArray[j], c1);
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.fill = GridBagConstraints.NONE;
+            gridBagConstraints.anchor = GridBagConstraints.EAST;
+            add(gifLabelArray[j], gridBagConstraints);
+            add(blackLabelArray[j], gridBagConstraints);
             j++;
 
-            c1.gridx = 1;
+            gridBagConstraints.gridx = 1;
 
-            c1.fill = GridBagConstraints.HORIZONTAL;
-            panel.add(buttons[i], c1);
+            gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+            add(buttons[i], gridBagConstraints);
 
-            c1.gridx = 2;
-            c1.fill = GridBagConstraints.NONE;
-            c1.anchor = GridBagConstraints.WEST;
-            panel.add(gifLabelArray[j], c1);
-            panel.add(blackLabelArray[j], c1);
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.fill = GridBagConstraints.NONE;
+            gridBagConstraints.anchor = GridBagConstraints.WEST;
+            add(gifLabelArray[j], gridBagConstraints);
+            add(blackLabelArray[j], gridBagConstraints);
             j++;
         }
 
-        panel.setVisible(true);
-        frame.setSize(235, 260);
-        //  frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setIconImage(img);
-        panel.setBackground(Color.black);
+        setVisible(true);
+        setBackground(Color.black);
 
-        frame.add(panel);
+        buttons[0].addMouseListener(new MouseAdapter() {
 
-        ArrayList<Object> gradients = new ArrayList<>();
-        gradients.add(0.3);
-        gradients.add(0.0);
-        gradients.add(Color.RED);
-        gradients.add(Color.RED);
-        gradients.add(Color.BLACK);
+           @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                gifLabelArray[0].setVisible(true);
+                gifLabelArray[1].setVisible(true);
+            }
 
-        for (JButton button : buttons) {
-            button.setBorderPainted(false);
-        }
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                gifLabelArray[0].setVisible(false);
+                gifLabelArray[1].setVisible(false);
+            }
+        });
 
-        UIManager.put("RadioButton.background", new ColorUIResource(Color.RED));
-        UIManager.put("RadioButton.foreground", new ColorUIResource(Color.BLACK));
-        UIManager.put("RadioButton.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
+        buttons[1].addMouseListener(new MouseAdapter() {
 
-        UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-        UIManager.put("Button.select", Color.red);
-        UIManager.put("Button.gradient", gradients);
-        UIManager.put("Button.foreground", new ColorUIResource(Color.BLACK));
-        UIManager.put("OptionPane.background", new ColorUIResource(Color.BLACK));
-        UIManager.put("OptionPane.noButtonText", "NOPE");
-        UIManager.put("OptionPane.yesButtonText", "YUP");
-        UIManager.put("OptionPane.massage", new ColorUIResource(Color.RED));
-        UIManager.put("Panel.background", new ColorUIResource(Color.BLACK));
-        UIManager.put("Label.foreground", new ColorUIResource(Color.RED));
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                gifLabelArray[2].setVisible(true);
+                gifLabelArray[3].setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                gifLabelArray[2].setVisible(false);
+                gifLabelArray[3].setVisible(false);
+            }
+        });
+
+        buttons[2].addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                gifLabelArray[4].setVisible(true);
+                gifLabelArray[5].setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                gifLabelArray[4].setVisible(false);
+                gifLabelArray[5].setVisible(false);
+            }
+        });
+
+        buttons[3].addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                gifLabelArray[6].setVisible(true);
+                gifLabelArray[7].setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                gifLabelArray[6].setVisible(false);
+                gifLabelArray[7].setVisible(false);
+            }
+        });
     }
 
-    private JLabel createGifLabel(String pass) {
-        ImageIcon icon = new ImageIcon(pass);
+    private void actionPerformed(ActionEvent event) {
+        String command = event.getActionCommand();
+
+        if (command.equals("EXIT")) {
+            if (massageDialog() == 0) {
+                setVisible(false);
+            }
+        }
+
+        if (command.equals("RECORDS")) {
+            new Records();
+        }
+
+        if (command.equals("INFO")) {
+          new Info();
+        }
+
+        if (command.equals("NEW GAME")) {
+            createAndShowGUI();
+        }
+    }
+
+    private JLabel createGifLabel() {
+        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads" +
+                "\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper" +
+                "\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
+
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
         newLabel.setVisible(false);
@@ -128,24 +152,30 @@ public class Menu {
         return newLabel;
     }
 
-    private JLabel createBlackLabel(String pass) {
-        ImageIcon icon = new ImageIcon(pass);
+    private JLabel createBlackLabel() {
+        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\" +
+                "gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\" +
+                "src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg");
 
         return new JLabel(icon);
     }
 
-    JButton[] getButtons() {
-        return buttons;
+    private int massageDialog() {
+        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\" +
+                "academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif");
+
+        return JOptionPane.showConfirmDialog(this, "           YOU SHURE?", "EXIT",
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
     }
 
-    public JFrame getMenu() {
-        return menu;
-    }
+    private JButton createButton(String name) {
+        JButton newButton = new JButton(name);
 
-    public int massageDialog() {
-        String pass3 = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif";
-        ImageIcon icon = new ImageIcon(pass3);
+        newButton.setActionCommand(name);
+        newButton.addActionListener(this::actionPerformed);
+        newButton.setForeground(Color.BLACK);
+        newButton.setBorderPainted(false);
 
-        return JOptionPane.showConfirmDialog(menu, "           YOU SHURE?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
+        return newButton;
     }
 }

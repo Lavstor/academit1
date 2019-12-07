@@ -132,14 +132,15 @@ public class GameSettings extends JPanel implements ActionListener {
         if (OK.equals(cmd)) {
             if (deafultPane.isVisible()) {
                 if (easy.isSelected()) {
-                    new BattleField(9, 9, 41, player);
+                    new BattleField(9, 9, 20, player);
                 }
                 if (normal.isSelected()) {
-                    new BattleField(15, 15, 113, player);
+                    new BattleField(15, 15, 50, player);
                 }
                 if (high.isSelected()) {
-                    new BattleField(30, 30, 450, player);
+                    new BattleField(30, 30, 110, player);
                 }
+                controllingFrame.dispose();
 
             } else {
                 try {
@@ -148,9 +149,9 @@ public class GameSettings extends JPanel implements ActionListener {
                     int mines = Integer.parseInt(this.mines.getText());
 
                     if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 && mines <= (weight * height) * 0.75) {
-
                         new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
                                 Integer.parseInt(this.mines.getText()), player);
+                        controllingFrame.dispose();
                     } else {
                         JOptionPane.showMessageDialog(controllingFrame, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                     }

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Records implements Serializable {
+public class Records extends JPanel implements Serializable {
     private JButton back;
     private JDialog records;
     JLabel[][] users;

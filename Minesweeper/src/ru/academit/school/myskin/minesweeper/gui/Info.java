@@ -3,7 +3,7 @@ package ru.academit.school.myskin.minesweeper.gui;
 import javax.swing.*;
 import java.awt.*;
 
-class Info {
+class Info extends JPanel {
     private JButton back;
     private JDialog info;
     private JLabel[] exitGifs;

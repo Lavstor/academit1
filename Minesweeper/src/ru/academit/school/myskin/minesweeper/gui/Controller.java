@@ -26,9 +26,9 @@ public class Controller implements Serializable {
     }
 
     private void mouseEvents() {
-        JLabel[] labelArray = menu.gifLabelArray;
+        //JLabel[] labelArray = menu.gifLabelArray;
 
-        menu.getButtons()[0].addMouseListener(new MouseAdapter() {
+    /*    menu.getButtons()[0].addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
@@ -86,7 +86,7 @@ public class Controller implements Serializable {
                 labelArray[6].setVisible(false);
                 labelArray[7].setVisible(false);
             }
-        });
+        });*/
 
         info.getInfoBack().addMouseListener(new MouseAdapter() {
             @Override
@@ -104,7 +104,7 @@ public class Controller implements Serializable {
     }
 
     private void buttonsEvents() {
-        menu.getButtons()[3].addActionListener(actionEvent -> {
+     /*   menu.getButtons()[3].addActionListener(actionEvent -> {
          //   menu.getMenu().setVisible(false);
 
             if (menu.massageDialog() == 0) {
@@ -117,23 +117,12 @@ public class Controller implements Serializable {
          //   menu.getMenu().setVisible(false);
 
             info.getInfo().setVisible(true);
-        });
+        });*/
 
         info.getInfoBack().addActionListener(actionEvent -> {
           //  menu.getMenu().setVisible(true);
 
             info.getInfo().setVisible(false);
-        });
-
-        menu.getButtons()[1].addActionListener(actionEvent -> {
-           // menu.getMenu().setVisible(false);
-
-            new Records();
-        });
-
-        menu.getButtons()[0].addActionListener(actionEvent -> {
-
-            createAndShowGUI();
         });
     }
 }
