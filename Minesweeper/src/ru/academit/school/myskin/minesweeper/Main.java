@@ -1,9 +1,7 @@
 package ru.academit.school.myskin.minesweeper;
 
-import ru.academit.school.myskin.minesweeper.gui.BattleField;
-import ru.academit.school.myskin.minesweeper.gui.Controller;
 import ru.academit.school.myskin.minesweeper.gui.MineSweeper;
-import ru.academit.school.myskin.minesweeper.gui.Player;
+
 
 public class Main {
     public static void main(String[] args){

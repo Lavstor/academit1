@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Records extends JPanel implements Serializable {
-    private JButton back;
+    private static JButton back;
     private JDialog records;
     JLabel[][] users;
     JLabel[] exitGif;
@@ -37,7 +37,7 @@ public class Records extends JPanel implements Serializable {
 
         String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
 
-        JPanel recordPanel = new JPanel();
+        //JPanel recordPanel = new JPanel();
         JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
         JLabel[][] users = new JLabel[10][4];
         this.users = users;
@@ -48,7 +48,7 @@ public class Records extends JPanel implements Serializable {
 
         GridBagConstraints c1 = new GridBagConstraints();
 
-        recordPanel.setLayout(new GridBagLayout());
+       setLayout(new GridBagLayout());
 
         c1.fill = GridBagConstraints.CENTER;
         c1.weighty = 1;
@@ -58,7 +58,7 @@ public class Records extends JPanel implements Serializable {
         for (int i = 0; i < 4; i++) {
             c1.gridx = i;
 
-            recordPanel.add(upperPanel[i], c1);
+            add(upperPanel[i], c1);
         }
 
         players = players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
@@ -69,16 +69,16 @@ public class Records extends JPanel implements Serializable {
         for (int i = 1; i <= 10; i++) {
             c1.gridy = i;
             c1.gridx = 0;
-            recordPanel.add(new JLabel("#" + i), c1);
+            add(new JLabel("#" + i), c1);
 
             c1.gridx = 1;
-            recordPanel.add(new JLabel(players.get(i - 1).getName()), c1);
+           add(new JLabel(players.get(i - 1).getName()), c1);
 
             c1.gridx = 2;
-            recordPanel.add(new JLabel(String.valueOf(players.get(i - 1).getScore())), c1);
+            add(new JLabel(String.valueOf(players.get(i - 1).getScore())), c1);
 
             c1.gridx = 3;
-            recordPanel.add(createGifs(gifs2[i - 1]), c1);
+            add(createGifs(gifs2[i - 1]), c1);
 
         }
         c1.gridy++;
@@ -87,33 +87,27 @@ public class Records extends JPanel implements Serializable {
 
         exitGif = gifs;
 
-        recordPanel.add(exitGif[0], c1);
-        recordPanel.add(createBlackLabel(), c1);
+       add(exitGif[0], c1);
+       add(createBlackLabel(), c1);
         c1.gridx = 3;
 
-        recordPanel.add(exitGif[1], c1);
-        recordPanel.add(createBlackLabel(), c1);
+       add(exitGif[1], c1);
+        add(createBlackLabel(), c1);
         c1.gridx = 1;
 
         c1.gridwidth = GridBagConstraints.RELATIVE;
         c1.fill = GridBagConstraints.HORIZONTAL;
 
-        recordPanel.add(back, c1);
+        add(back, c1);
 
-        JDialog rec = new JDialog();
-        this.records = rec;
-
-        rec.setSize(350, 700);
-        rec.setMinimumSize(new Dimension(350, 700));
-        rec.setIconImage(img);
-
-        rec.add(recordPanel);
+        setSize(350, 700);
+        setMinimumSize(new Dimension(350, 700));
 
         back.addActionListener(actionEvent -> {
-            records.dispose();
+            setVisible(false);
         });
 
-        records.addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 exitGif[0].setVisible(true);
@@ -127,16 +121,12 @@ public class Records extends JPanel implements Serializable {
             }
         });
 
-        rec.setVisible(true);
+       setVisible(false);
 
     }
 
-    public JButton getScoreBack() {
+    public static JButton getScoreBack() {
         return back;
-    }
-
-    public JDialog getRecordsFrame() {
-        return records;
     }
 
     private void setDefaultRecords() {
@@ -174,10 +164,6 @@ public class Records extends JPanel implements Serializable {
         return newLabel;
     }
 
-    public JLabel[] getExitGif() {
-
-        return exitGif;
-    }
 
     private JLabel createBlackLabel() {
         ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg");

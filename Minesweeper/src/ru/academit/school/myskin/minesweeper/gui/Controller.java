@@ -87,20 +87,6 @@ public class Controller implements Serializable {
                 labelArray[7].setVisible(false);
             }
         });*/
-
-        info.getInfoBack().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-                info.getGif()[0].setVisible(true);
-                info.getGif()[1].setVisible(true);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-                info.getGif()[0].setVisible(false);
-                info.getGif()[1].setVisible(false);
-            }
-        });
     }
 
     private void buttonsEvents() {
@@ -118,11 +104,5 @@ public class Controller implements Serializable {
 
             info.getInfo().setVisible(true);
         });*/
-
-        info.getInfoBack().addActionListener(actionEvent -> {
-          //  menu.getMenu().setVisible(true);
-
-            info.getInfo().setVisible(false);
-        });
     }
 }

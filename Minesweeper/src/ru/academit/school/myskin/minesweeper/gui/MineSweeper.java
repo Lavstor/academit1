@@ -1,30 +1,54 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MineSweeper {
+import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
+
+public class MineSweeper extends JFrame {
     private Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-    private JFrame mainFrame;
     private JPanel menu;
+    private JPanel records;
     private JPanel info;
 
-
     public MineSweeper() {
+        GridBagConstraints c1 = new GridBagConstraints();
+
+        c1.gridwidth = GridBagConstraints.RELATIVE;
+        c1.gridheight =  GridBagConstraints.RELATIVE;
+
+        c1.gridx = 1;
+        c1.gridy = 1;
+
+        c1.fill = GridBagConstraints.BOTH;
+
+
+        setLayout(new GridBagLayout());
+
         customUI();
+
+        setVisible(true);
+        setIconImage(img);
+
         menu = new Menu();
+        records = new Records();
+        info = new Info();
 
-        menu.setVisible(true);
-        mainFrame = new JFrame();
-        mainFrame.add(menu);
-        mainFrame.setSize(235, 260);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-        mainFrame.setIconImage(img);
 
-        System.out.println(menu.getComponent(0).getName());
+
+       add(records, c1);
+       add(info, c1);
+        add(menu, c1);
+
+        getButtons();
+
+        setSize(900, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void customUI() {
@@ -49,5 +73,45 @@ public class MineSweeper {
         UIManager.put("OptionPane.massage", new ColorUIResource(Color.RED));
         UIManager.put("Panel.background", new ColorUIResource(Color.BLACK));
         UIManager.put("Label.foreground", new ColorUIResource(Color.RED));
+    }
+
+    private void getButtons() {
+        Arrays.stream(Menu.getButtons()).forEach(b -> b.addActionListener(this::actionPerformed));
+        Info.getButton().addActionListener(this::actionPerformed);
+        Records.getScoreBack().addActionListener(this::actionPerformed);
+    }
+
+    private void actionPerformed(ActionEvent event) {
+        String command = event.getActionCommand();
+
+        if (command.equals("EXIT")) {
+            ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\" +
+                    "academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif");
+
+            if (JOptionPane.showConfirmDialog(this, "           YOU SHURE?", "EXIT",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {
+                dispose();
+            }
+        }
+
+        if (command.equals("RECORDS")) {
+            menu.setVisible(false);
+            records.setVisible(true);
+        }
+
+        if (command.equals("INFO")) {
+            menu.setVisible(false);
+            info.setVisible(true);
+        }
+
+        if (command.equals("NEW GAME")) {
+            createAndShowGUI();
+        }
+
+        if (command.equals("BACK")) {
+            menu.setVisible(true);
+            info.setVisible(false);
+            records.setVisible(false);
+        }
     }
 }
