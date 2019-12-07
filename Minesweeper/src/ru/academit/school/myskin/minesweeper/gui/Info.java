@@ -89,6 +89,7 @@ class Info extends JPanel {
         });
 
         Info.back = back;
+        setVisible(true);
 
         return panelExit;
     }

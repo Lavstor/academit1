@@ -17,33 +17,15 @@ public class MineSweeper extends JFrame {
     private JPanel info;
 
     public MineSweeper() {
-        GridBagConstraints c1 = new GridBagConstraints();
-
-        c1.gridwidth = GridBagConstraints.RELATIVE;
-        c1.gridheight =  GridBagConstraints.RELATIVE;
-
-        c1.gridx = 1;
-        c1.gridy = 1;
-
-        c1.fill = GridBagConstraints.BOTH;
-
-
-        setLayout(new GridBagLayout());
-
+        setLayout(new BorderLayout());
         customUI();
 
         setVisible(true);
         setIconImage(img);
 
         menu = new Menu();
-        records = new Records();
-        info = new Info();
 
-
-
-       add(records, c1);
-       add(info, c1);
-        add(menu, c1);
+        add(menu, BorderLayout.CENTER);
 
         getButtons();
 
@@ -100,8 +82,13 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("INFO")) {
-            menu.setVisible(false);
+            remove(menu);
+
+            JPanel info = new Info();
             info.setVisible(true);
+            add(info, BorderLayout.CENTER);
+            
+            info.updateUI();
         }
 
         if (command.equals("NEW GAME")) {
