@@ -15,6 +15,7 @@ public class MineSweeper extends JFrame {
     private JPanel menu;
     private JPanel records;
     private JPanel info;
+    private JPanel password;
 
     public MineSweeper() {
         setLayout(new BorderLayout());
@@ -24,13 +25,15 @@ public class MineSweeper extends JFrame {
         setIconImage(img);
 
         menu = new Menu();
+        info = new Info();
+       records =  new Records();
+       //password = new Password();
 
         add(menu, BorderLayout.CENTER);
 
-        getButtons();
-
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getButtons();
     }
 
     private void customUI() {
@@ -77,17 +80,18 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("RECORDS")) {
-            menu.setVisible(false);
+            remove(menu);
+            add(records, BorderLayout.CENTER);
             records.setVisible(true);
+            repaint();
+            records.updateUI();
         }
 
         if (command.equals("INFO")) {
             remove(menu);
-
-            JPanel info = new Info();
-            info.setVisible(true);
             add(info, BorderLayout.CENTER);
-            
+            info.setVisible(true);
+            repaint();
             info.updateUI();
         }
 
@@ -96,9 +100,10 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK")) {
-            menu.setVisible(true);
-            info.setVisible(false);
-            records.setVisible(false);
+            remove(info);
+
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
         }
     }
 }

@@ -171,7 +171,7 @@ public class BattleField {
             frame.dispose();
         });
         battleField = frame;
-
+battleField.repaint();
     }
 
     private JLabel createGifLabel(String pass) {
