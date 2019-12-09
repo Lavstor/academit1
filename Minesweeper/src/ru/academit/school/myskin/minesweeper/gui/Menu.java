@@ -121,12 +121,12 @@ class Menu extends JPanel {
 
     private JLabel createGifLabel() {
         ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\IdeaProjects\\academit1\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
-        ImageIcon icon2 = new ImageIcon("Minesweeper/555.gif");
+        //ImageIcon icon2 = new ImageIcon("Minesweeper/555.gif");
 
         JLabel newLabel = new JLabel();
-        icon2.setImageObserver(newLabel);
+        icon.setImageObserver(newLabel);
         newLabel.setVisible(false);
-        newLabel.setIcon(icon2);
+        newLabel.setIcon(icon);
 
         return newLabel;
     }
