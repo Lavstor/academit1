@@ -1,14 +1,11 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
 
 public class MineSweeper extends JFrame {
     private Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
@@ -18,6 +15,9 @@ public class MineSweeper extends JFrame {
     private JPanel password;
 
     public MineSweeper() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width) / 2, (screenSize.height) / 2, 400, 280);
+
         setLayout(new BorderLayout());
         customUI();
 
@@ -26,8 +26,8 @@ public class MineSweeper extends JFrame {
 
         menu = new Menu();
         info = new Info();
-       records =  new Records();
-       //password = new Password();
+        records = new Records();
+        password = new Password();
 
         add(menu, BorderLayout.CENTER);
 
@@ -64,6 +64,7 @@ public class MineSweeper extends JFrame {
         Arrays.stream(Menu.getButtons()).forEach(b -> b.addActionListener(this::actionPerformed));
         Info.getButton().addActionListener(this::actionPerformed);
         Records.getScoreBack().addActionListener(this::actionPerformed);
+        Password.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
     }
 
     private void actionPerformed(ActionEvent event) {
@@ -80,6 +81,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("RECORDS")) {
+
             remove(menu);
             add(records, BorderLayout.CENTER);
             records.setVisible(true);
@@ -96,14 +98,28 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("NEW GAME")) {
-            createAndShowGUI();
+            remove(menu);
+            add(password, BorderLayout.CENTER);
+            password.setVisible(true);
+            repaint();
+            password.updateUI();
         }
 
         if (command.equals("BACK")) {
+            remove(password);
             remove(info);
+            remove(records);
 
             add(menu, BorderLayout.CENTER);
             menu.updateUI();
+        }
+
+        if (command.equals("NEW USER")) {
+System.out.println("new user");
+        }
+
+        if (command.equals("OK")) {
+            System.out.println("OK");
         }
     }
 }

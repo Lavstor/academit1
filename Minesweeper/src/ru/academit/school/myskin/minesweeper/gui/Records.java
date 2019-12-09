@@ -1,5 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Model;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -182,7 +184,9 @@ public class Records extends JPanel implements Serializable {
     }
 
     private void readRecords() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+        players = Model.readPlayers();
+
+    /*    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
             players = (LinkedList<Player>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
@@ -203,6 +207,6 @@ public class Records extends JPanel implements Serializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

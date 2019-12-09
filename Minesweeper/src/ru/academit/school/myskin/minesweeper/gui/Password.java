@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -16,32 +14,25 @@ import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndSh
 import static ru.academit.school.myskin.minesweeper.gui.NewPassword.createAndShowGI;
 
 public class Password extends JPanel implements ActionListener {
-
-    private static String OK = "Ok";
-    private static String NEWUSER = "New User";
-
-    private JDialog controllingFrame; //needed for dialogs
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private LinkedList<Player> players = new LinkedList<>();
+    private static List<JButton> buttons = new LinkedList<>();
 
-    public Password(JDialog dialog) {
-        controllingFrame = dialog;
-
+    Password() {
         passwordField = new JPasswordField(10);
         nickNameField = new JTextField(10);
-        passwordField.setActionCommand(OK);
+        passwordField.setActionCommand("OK");
         passwordField.addActionListener(this);
 
-        JLabel enterPassword = new JLabel("Enter the password: ");
+        JLabel enterPassword = new JLabel("Password: ");
         enterPassword.setLabelFor(passwordField);
 
-        JLabel enterNickName = new JLabel("Enter your Login: ");
+        JLabel enterNickName = new JLabel("Login: ");
         enterNickName.setLabelFor(nickNameField);
 
-        JComponent buttonPane = createButtonPanel();
+        JComponent buttonPanel = createButtonPanel();
 
-        //Lay out everything.
         JPanel textPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
         textPane.add(enterNickName);
         textPane.add(nickNameField);
@@ -49,23 +40,36 @@ public class Password extends JPanel implements ActionListener {
         textPane.add(enterPassword);
         textPane.add(passwordField);
 
-        add(textPane);
-        add(buttonPane);
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        add(textPane, c);
+        c.gridy = 1;
+        c.insets = new Insets(25, 5, 5, 5);
+
+        add(buttonPanel, c);
     }
 
-    protected JComponent createButtonPanel() {
+    private JComponent createButtonPanel() {
         getPlayers();
-        JPanel p = new JPanel(new GridLayout(0, 1));
-        JButton okButton = new JButton("Ok");
-        JButton newUser = new JButton("New User");
+        GridLayout gl = new GridLayout(0, 3);
+        gl.setHgap(30);
 
-        okButton.setActionCommand(OK);
-        newUser.setActionCommand(NEWUSER);
-        okButton.addActionListener(this);
-        newUser.addActionListener(this);
+        JPanel p = new JPanel(gl);
+        JButton okButton = new JButton("OK");
+        JButton newUser = new JButton("NEW USER");
+        JButton menu = new JButton("MENU");
+        buttons.add(okButton);
+        buttons.add(newUser);
+        buttons.add(menu);
+
+        okButton.setActionCommand("OK");
+        newUser.setActionCommand("NEW USER");
+        menu.setActionCommand("BACK");
 
         p.add(okButton);
         p.add(newUser);
+        p.add(menu);
 
         return p;
     }
@@ -73,23 +77,23 @@ public class Password extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
 
-        if (OK.equals(cmd)) { //Process the password.
+        if (cmd.equals("OK")) { //Process the password.
             char[] input = passwordField.getPassword();
             String login = nickNameField.getText();
             List<Player> ourUser;
 
             if (players.size() == 0) {
-                JOptionPane.showMessageDialog(controllingFrame, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
             } else {
                 ourUser = players.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
 
                 if (ourUser.size() != 0) {
                     if (ourUser.get(0).checkPassword(input)) {
-                        controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
+                        // this.dispatchEvent(new WindowEvent(new Password(), WindowEvent.WINDOW_CLOSING));
                         createAndShowGUI3(ourUser.get(0));
                     }
                 } else {
-                    JOptionPane.showMessageDialog(controllingFrame, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -99,7 +103,6 @@ public class Password extends JPanel implements ActionListener {
             passwordField.selectAll();
             resetFocus();
         } else {
-            controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
             createAndShowGI(players);
         }
     }
@@ -108,13 +111,8 @@ public class Password extends JPanel implements ActionListener {
         passwordField.requestFocusInWindow();
     }
 
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event dispatch thread.
-     */
     public static void createAndShowGUI() {
-        JDialog frame = new JDialog();
+      /*  JDialog frame = new JDialog();
 
         final Password newContentPane = new Password(frame);
         newContentPane.setOpaque(true); //content panes must be opaque
@@ -126,7 +124,7 @@ public class Password extends JPanel implements ActionListener {
             }
         });
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 
     private void getPlayers() {
@@ -136,5 +134,9 @@ public class Password extends JPanel implements ActionListener {
         } catch (IOException e) {
         } catch (ClassNotFoundException e) {
         }
+    }
+
+    public static List<JButton> getButtons() {
+        return buttons;
     }
 }

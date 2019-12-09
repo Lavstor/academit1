@@ -13,7 +13,7 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    Player(String name, double score) {
+   public  Player(String name, double score) {
         this.name = name;
         this.score = score;
     }

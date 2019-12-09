@@ -1,7 +1,11 @@
 package ru.academit.school.myskin.minesweeper;
 
 import ru.academit.school.myskin.minesweeper.gui.Cell;
+import ru.academit.school.myskin.minesweeper.gui.Player;
 
+import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class Model {
@@ -68,6 +72,35 @@ public class Model {
 
     public Cell[][] getCell() {
         return cell;
+    }
+
+    public static LinkedList<Player> readPlayers() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+            return  (LinkedList<Player>) in.readObject();
+        } catch (FileNotFoundException | ClassNotFoundException e) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+                LinkedList<Player> newPlayers = new LinkedList<>();
+                newPlayers.add(new Player("Jesus Christ", 65.0));
+                newPlayers.add(new Player("Mr. Hankey", 94.0));
+                newPlayers.add(new Player("Leopold Stotch", 81.0));
+                newPlayers.add(new Player("Jack Tenorman", 76.0));
+                newPlayers.add(new Player("John Connor", 61.0));
+                newPlayers.add(new Player("Kenny McCormick", 1.0));
+                newPlayers.add(new Player("Eric Cartman", 499.0));
+                newPlayers.add(new Player("God", 33.0));
+                newPlayers.add(new Player("Satan", 34.0));
+                newPlayers.add(new Player("Mr. Herbert Garrison", 31.0));
+
+                out.writeObject(newPlayers);
+
+                return newPlayers;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
