@@ -1,6 +1,10 @@
 package ru.academ.it.school.swing.view;
 
-import ru.academ.it.school.swing.controller.Controller;
+import ru.academ.it.school.swing.classes.CelsiusScale;
+import ru.academ.it.school.swing.classes.FahrenheitScale;
+import ru.academ.it.school.swing.classes.KelvinScale;
+import ru.academ.it.school.swing.classes.Scale;
+import ru.academ.it.school.swing.model.Model;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -8,12 +12,10 @@ import java.awt.*;
 import java.util.Objects;
 
 public class View {
-    private Controller controller;
-    private String[] temperatures = {"Kelvin", "Celsius", "Fahrenheit"};
+    private Model model = new Model();
+    private Scale[] scales = {new KelvinScale(), new CelsiusScale(), new FahrenheitScale()};
 
     public View() {
-        this.controller = new Controller();
-
         SwingUtilities.invokeLater(() -> {
             Image img = Toolkit.getDefaultToolkit().getImage("Swing/FrameImage.jpg");
 
@@ -30,8 +32,8 @@ public class View {
 
             JTextField textField = new JTextField("55", 25);
 
-            JComboBox convertedTo = new JComboBox<>(this.temperatures);
-            JComboBox convertible = new JComboBox<>(this.temperatures);
+            JComboBox<Scale> convertedTo = new JComboBox<>(this.scales);
+            JComboBox<Scale> convertible = new JComboBox<>(this.scales);
 
             panel.setLayout(new GridLayout(4, 2));
 
@@ -56,16 +58,8 @@ public class View {
             frame.setMinimumSize(new Dimension(400, 280));
             frame.add(mainPanel);
 
-            enter.addActionListener(actionEvent -> {
-                try {
-                    answer.setText("= " + controller.getAnswer(Objects.requireNonNull(convertible.getSelectedItem()).toString(),
-                            Objects.requireNonNull(convertedTo.getSelectedItem()).toString(),
-                            Double.parseDouble(textField.getText())));
-                } catch (NumberFormatException e) {
-                    answer.setText("ERROR! NOT RIGHT TYPE!");
-                } catch (NullPointerException ignored) {
-                }
-            });
+            enter.addActionListener(actionEvent -> answer.setText(model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
+                    (Scale) convertedTo.getSelectedItem(), textField.getText())));
 
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         });
