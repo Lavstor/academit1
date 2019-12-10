@@ -1,7 +1,6 @@
 package ru.academ.it.school.swing.classes;
 
 public class KelvinScale implements Scale {
-
     @Override
     public double transfer(Scale to, double value) {
         if (to instanceof CelsiusScale) {
