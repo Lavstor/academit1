@@ -1,13 +1,10 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Model;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,14 +12,11 @@ import java.util.stream.Collectors;
 
 public class Records extends JPanel implements Serializable {
     private static JButton back;
-    private JDialog records;
-    JLabel[][] users;
-    JLabel[] exitGif;
-    private List<Player> players = new LinkedList<>();
+    private JLabel[][] users;
+    private JLabel[] exitGif;
+    private static List<Player> players;
 
-    Records() {
-        readRecords();
-
+    Records(List<Player> players) {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
         String topLabel = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot7.png";
         String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot10.png";
@@ -36,16 +30,13 @@ public class Records extends JPanel implements Serializable {
         String eight = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot5.png";
         String nine = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot8.png";
         String ten = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot9.png";
-
         String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
 
-        //JPanel recordPanel = new JPanel();
         JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
-        JLabel[][] users = new JLabel[10][4];
-        this.users = users;
+        this.users = new JLabel[10][4];
 
         JButton back = new JButton("BACK");
-        this.back = back;
+        Records.back = back;
         back.setBorderPainted(false);
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -63,7 +54,8 @@ public class Records extends JPanel implements Serializable {
             add(upperPanel[i], c1);
         }
 
-        players = players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
+        Records.players = players;
+        players =  players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
 
         setDefaultUsers();
         setDefaultRecords();
@@ -85,9 +77,8 @@ public class Records extends JPanel implements Serializable {
         }
         c1.gridy++;
         c1.gridx = 0;
-        JLabel[] gifs = {createGifLabel(), createGifLabel()};
 
-        exitGif = gifs;
+        exitGif = new JLabel[]{createGifLabel(), createGifLabel()};
 
        add(exitGif[0], c1);
        add(createBlackLabel(), c1);
@@ -105,9 +96,7 @@ public class Records extends JPanel implements Serializable {
         setSize(350, 700);
         setMinimumSize(new Dimension(350, 700));
 
-        back.addActionListener(actionEvent -> {
-            setVisible(false);
-        });
+        back.addActionListener(actionEvent -> setVisible(false));
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -127,7 +116,7 @@ public class Records extends JPanel implements Serializable {
 
     }
 
-    public static JButton getScoreBack() {
+    static JButton getBackButton() {
         return back;
     }
 
@@ -183,30 +172,7 @@ public class Records extends JPanel implements Serializable {
         return newLabel;
     }
 
-    private void readRecords() {
-        players = Model.readPlayers();
-
-    /*    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
-            players = (LinkedList<Player>) in.readObject();
-        } catch (FileNotFoundException | ClassNotFoundException e) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-                players.add(new Player("Jesus Christ", 65.0));
-                players.add(new Player("Mr. Hankey", 94.0));
-                players.add(new Player("Leopold Stotch", 81.0));
-                players.add(new Player("Jack Tenorman", 76.0));
-                players.add(new Player("John Connor", 61.0));
-                players.add(new Player("Kenny McCormick", 1.0));
-                players.add(new Player("Eric Cartman", 499.0));
-                players.add(new Player("God", 33.0));
-                players.add(new Player("Satan", 34.0));
-                players.add(new Player("Mr. Herbert Garrison", 31.0));
-
-                out.writeObject(players);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+    public static void updatePlayers(LinkedList<Player> players) {
+        Records.players = players;
     }
 }

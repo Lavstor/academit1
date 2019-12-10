@@ -58,14 +58,14 @@ public class Model {
             }
         }
 
-            for (int i = 0; i < HEIGHT; i++) {
-                for (int j = 0; j < WIDTH; j++) {
-                    try {
-                        map[i][j].increaseNearMines(counts[i][j]);
-                    } catch (NullPointerException ignored) {
-                    }
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                try {
+                    map[i][j].increaseNearMines(counts[i][j]);
+                } catch (NullPointerException ignored) {
                 }
             }
+        }
 
         this.cell = map;
     }
@@ -76,7 +76,7 @@ public class Model {
 
     public static LinkedList<Player> readPlayers() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
-            return  (LinkedList<Player>) in.readObject();
+            return (LinkedList<Player>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
                 LinkedList<Player> newPlayers = new LinkedList<>();
@@ -100,7 +100,21 @@ public class Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
+    }
+
+    public static void writePlayers(Player player) {
+        LinkedList<Player> players = readPlayers();
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+            players.remove(player);
+            players.add(player);
+
+            out.writeObject(players);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

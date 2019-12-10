@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
+
 
 public class GameSettings extends JPanel implements ActionListener {
     private static String OK = "Ok";
@@ -162,7 +162,6 @@ public class GameSettings extends JPanel implements ActionListener {
         }
         if (CANCEL.equals(cmd)) {
             controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
-            createAndShowGUI();
         }
 
         if (DEFAULT.equals(cmd)) {

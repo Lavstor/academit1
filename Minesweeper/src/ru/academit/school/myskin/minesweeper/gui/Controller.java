@@ -1,13 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.io.Serializable;
-
-import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
 
 public class Controller implements Serializable {
     private View view;

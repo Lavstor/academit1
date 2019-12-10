@@ -1,18 +1,25 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Model;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class MineSweeper extends JFrame {
     private Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-    private JPanel menu;
-    private JPanel records;
-    private JPanel info;
-    private JPanel password;
+    private Menu menu;
+    private Records records;
+    private Info info;
+    private Password password;
+    private NewPassword newPassword;
+    private Model model;
+    private LinkedList<Player> players;
+    private Player ourPlayer;
 
     public MineSweeper() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -24,10 +31,13 @@ public class MineSweeper extends JFrame {
         setVisible(true);
         setIconImage(img);
 
+        players = Model.readPlayers();
+
         menu = new Menu();
         info = new Info();
-        records = new Records();
-        password = new Password();
+        records = new Records(players);
+        password = new Password(players);
+        newPassword = new NewPassword(players);
 
         add(menu, BorderLayout.CENTER);
 
@@ -63,8 +73,9 @@ public class MineSweeper extends JFrame {
     private void getButtons() {
         Arrays.stream(Menu.getButtons()).forEach(b -> b.addActionListener(this::actionPerformed));
         Info.getButton().addActionListener(this::actionPerformed);
-        Records.getScoreBack().addActionListener(this::actionPerformed);
+        Records.getBackButton().addActionListener(this::actionPerformed);
         Password.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
+        NewPassword.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
     }
 
     private void actionPerformed(ActionEvent event) {
@@ -81,7 +92,6 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("RECORDS")) {
-
             remove(menu);
             add(records, BorderLayout.CENTER);
             records.setVisible(true);
@@ -109,17 +119,51 @@ public class MineSweeper extends JFrame {
             remove(password);
             remove(info);
             remove(records);
+            remove(newPassword);
 
             add(menu, BorderLayout.CENTER);
             menu.updateUI();
         }
 
+        if (command.equals("BACK TO PASSWORD")) {
+            remove(newPassword);
+
+            add(password, BorderLayout.CENTER);
+            password.updateUI();
+        }
+
         if (command.equals("NEW USER")) {
-System.out.println("new user");
+            remove(password);
+            add(newPassword, BorderLayout.CENTER);
+            newPassword.updateUI();
         }
 
         if (command.equals("OK")) {
-            System.out.println("OK");
+            if (!password.checkPassword()) {
+                System.out.println("Ошибка");
+            } else {
+                System.out.println("Норм");
+                ourPlayer = Password.getPlayer();
+            }
         }
+
+        if (command.equals("GAME SETTINGS")) {
+            if (!newPassword.checkData()) {
+                System.out.println("Нормfedfdf");
+            } else {
+                updatePlayersList(Model.readPlayers());
+                ourPlayer = NewPassword.getPlayer();
+            }
+        }
+    }
+
+    private void updatePlayersList(LinkedList<Player> players) {
+        Password.updatePlayers(players);
+        NewPassword.updatePlayers(players);
+        Records.updatePlayers(players);
+
+        password.updateUI();
+        newPassword.updateUI();
+        records.updateUI();
     }
 }

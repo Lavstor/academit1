@@ -1,44 +1,36 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Model;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
-import static ru.academit.school.myskin.minesweeper.gui.Password.createAndShowGUI;
-
-public class NewPassword extends JPanel implements ActionListener {
-
-    private static String OK = "Ok";
-    private static String CANCEL = "Cancel";
-    private JDialog controllingFrame;
+class NewPassword extends JPanel {
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
-    private static LinkedList<Player> players = new LinkedList<>();
+    private static LinkedList<Player> players;
+    private static List<JButton> buttons = new LinkedList<>();
+    private static Player ourPlayer;
 
-    public NewPassword(JDialog f) {
+    NewPassword(LinkedList<Player> players) {
+        NewPassword.players = players;
 
-        controllingFrame = f;
+        setVisible(true);
 
         passwordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         nickNameField = new JTextField(10);
-        confirmPasswordField.setActionCommand(OK);
-        confirmPasswordField.addActionListener(this);
+        confirmPasswordField.setActionCommand("OK");
 
         JLabel enterPassword = new JLabel("Enter new password: ");
         enterPassword.setLabelFor(passwordField);
 
-        JLabel confirmPassword = new JLabel("Enter new password: ");
+        JLabel confirmPassword = new JLabel("Confirm password: ");
         confirmPassword.setLabelFor(passwordField);
 
         JLabel enterNickName = new JLabel("Enter new Login: ");
@@ -56,66 +48,63 @@ public class NewPassword extends JPanel implements ActionListener {
         textPane.add(confirmPassword);
         textPane.add(confirmPasswordField);
 
-        add(textPane);
-        add(buttonPane);
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        add(textPane, c);
+
+        c.gridy = 1;
+        c.insets = new Insets(25, 5, 5, 5);
+
+        add(buttonPane, c);
     }
 
-    protected JComponent createButtonPanel() {
-        JPanel p = new JPanel(new GridLayout(0, 1));
-        JButton okButton = new JButton("OK");
-        JButton newUser = new JButton("CANCEL");
+    private JComponent createButtonPanel() {
+        GridLayout gl = new GridLayout(0, 3);
+        gl.setHgap(30);
 
-        okButton.setActionCommand(OK);
-        newUser.setActionCommand(CANCEL);
-        okButton.addActionListener(this);
-        newUser.addActionListener(this);
+        JPanel p = new JPanel(gl);
+        JButton okButton = new JButton("OK");
+        JButton back = new JButton("BACK");
+        JButton menu = new JButton("MENU");
+
+        okButton.setActionCommand("GAME SETTINGS");
+        back.setActionCommand("BACK TO PASSWORD");
+        menu.setActionCommand("BACK");
 
         p.add(okButton);
-        p.add(newUser);
+        p.add(back);
+        p.add(menu);
+
+        buttons.add(okButton);
+        buttons.add(back);
+        buttons.add(menu);
 
         return p;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        String cmd = e.getActionCommand();
-        getPlayers();
+    boolean checkData() {
+        char[] password = passwordField.getPassword();
+        char[] input2 = confirmPasswordField.getPassword();
+        String login = nickNameField.getText();
 
-        if (OK.equals(cmd)) {
-            char[] password = passwordField.getPassword();
-            char[] input2 = confirmPasswordField.getPassword();
-            String login = nickNameField.getText();
+        if (login.length() <= 3 || password.length <= 3) {
+            JOptionPane.showMessageDialog(this, "Too short login or password!", "Error Message", JOptionPane.ERROR_MESSAGE);
 
-            if (login.length() <= 3 || password.length <= 3) {
-                JOptionPane.showMessageDialog(controllingFrame, "Too short login or password!", "Error Message", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            List<Player> ourUser;
+            return false;
+        }
 
-            ourUser = players.stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
+        List<Player> ourUser;
+        ourUser = players.stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
 
-            if (ourUser.size() != 0) {
-                JOptionPane.showMessageDialog(controllingFrame, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
-            } else {
-                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-                    if (!Arrays.equals(password, input2)) {
-                        JOptionPane.showMessageDialog(controllingFrame, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        Player newPlayer = new Player(login, password);
-                        players.add(newPlayer);
-                        out.writeObject(players);
+        if (ourUser.size() != 0) {
+            JOptionPane.showMessageDialog(this, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
 
-                        JOptionPane.showMessageDialog(controllingFrame, "Nice! You have been registered!", "Congratulations", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
 
-                        controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
-
-                      createAndShowGUI3(newPlayer);
-                    }
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
+        if (!Arrays.equals(password, input2)) {
+            JOptionPane.showMessageDialog(this, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
             Arrays.fill(password, '0');
             Arrays.fill(input2, '0');
 
@@ -124,38 +113,29 @@ public class NewPassword extends JPanel implements ActionListener {
 
             confirmPasswordField.selectAll();
             resetFocus();
-        } else {
-            createAndShowGUI();
-            controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
+
+            return false;
         }
+        ourPlayer = new Player(login, password);
+
+        Model.writePlayers(ourPlayer);
+
+        return true;
     }
 
-    protected void resetFocus() {
+    private void resetFocus() {
         passwordField.requestFocusInWindow();
     }
 
-    public static void createAndShowGI(LinkedList<Player> players) {
-        JDialog frame = new JDialog();
-
-        final NewPassword newContentPane = new NewPassword(frame);
-        newContentPane.setOpaque(true);
-        frame.setContentPane(newContentPane);
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowActivated(WindowEvent e) {
-                newContentPane.resetFocus();
-            }
-        });
-        frame.pack();
-        frame.setVisible(true);
+    static List<JButton> getButtons() {
+        return buttons;
     }
 
-    private void getPlayers() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
-            players = (LinkedList<Player>) in.readObject();
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        } catch (ClassNotFoundException e) {
-        }
+    static void updatePlayers(LinkedList<Player> players) {
+        NewPassword.players = players;
+    }
+
+    static Player getPlayer() {
+        return ourPlayer;
     }
 }
