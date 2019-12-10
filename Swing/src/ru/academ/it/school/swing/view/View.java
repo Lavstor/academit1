@@ -9,6 +9,7 @@ import ru.academ.it.school.swing.model.Model;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.io.InvalidClassException;
 import java.util.Objects;
 
 public class View {
@@ -58,8 +59,15 @@ public class View {
             frame.setMinimumSize(new Dimension(400, 280));
             frame.add(mainPanel);
 
-            enter.addActionListener(actionEvent -> answer.setText(model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
-                    (Scale) convertedTo.getSelectedItem(), textField.getText())));
+            enter.addActionListener(actionEvent -> {
+                try {
+                    answer.setText(model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
+                            (Scale) convertedTo.getSelectedItem(), textField.getText()));
+                } catch (NullPointerException ignored) {
+                } catch (NumberFormatException e){
+                    answer.setText("Error! Invalid format!");
+                }
+            });
 
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         });
