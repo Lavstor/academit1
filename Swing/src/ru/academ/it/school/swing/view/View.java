@@ -9,7 +9,6 @@ import ru.academ.it.school.swing.model.Model;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-import java.io.InvalidClassException;
 import java.util.Objects;
 
 public class View {
