@@ -10,46 +10,41 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
-
-public class BattleField {
+class BattleField extends JPanel {
     private double scoree;
     private int clicks;
     private int cells;
-    private JDialog battleField;
-    private JButton[] buttons;
+    private static JButton endGame;
+    private static JButton newGame;
+    private static JButton menu;
+
     private JLabel score;
-    JPanel allPanel;
-    JPanel gamePanel;
-    JPanel topPanel;
-    JLabel[][] cellLabels;
-    Model m;
-    Cell[][] map;
+    private JPanel allPanel;
+    private JPanel gamePanel;
+    private JPanel topPanel;
+    private JLabel[][] cellLabels;
+    private Model m;
+    private Cell[][] map;
     private Player player;
+    private static List<JButton> buttons = new LinkedList<>();
 
-    String cellSkinPass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cellSkin.jpg";
-    String krest = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest3.png";
-    String pint = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\pint 50.gif";
-    String flag = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest2.png";
-    String sukkuba = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\sukkuba.jpg";
+    private String krest = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest3.png";
+    private String pint = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\pint 50.gif";
+    private String flag = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest2.png";
 
 
-    public BattleField(int width, int height, int mines, Player player) {
-        String pass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
-
+    BattleField(int width, int height, int mines, Player player) {
         this.cells = (width * height) - mines;
-        Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-        JDialog frame = new JDialog();
-        // battleField = frame;
+
         topPanel = new JPanel();
         gamePanel = new JPanel();
         allPanel = new JPanel();
-        JButton exit = new JButton("EXIT");
+
         score = new JLabel("Your score: ");
         JLabel timer = new JLabel("Timer: ");
-        exit.setForeground(Color.BLACK);
         this.player = player;
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -63,6 +58,7 @@ public class BattleField {
         c2.anchor = GridBagConstraints.WEST;
 
         c2.gridx = 0;
+        System.out.println(player);
         topPanel.add(new JLabel(player.getName()), c2);
 
         c2.weightx = 10;
@@ -74,7 +70,7 @@ public class BattleField {
 
         c2.anchor = GridBagConstraints.EAST;
         c2.gridx = 10;
-        topPanel.add(exit, c2);
+        topPanel.add(menu, c2);
 
 
         c1.weightx = 1;
@@ -90,6 +86,7 @@ public class BattleField {
 
             for (int j = 0; j < width; j++) {
                 c1.gridx = j;
+                String cellSkinPass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cellSkin.jpg";
                 cellLabels[i][j] = createGifLabel(cellSkinPass);
 
                 gamePanel.add(cellLabels[i][j], c1);
@@ -105,6 +102,8 @@ public class BattleField {
                 if (clicks == 0) {
                     m = new Model(height, width, mines, i, j);
                     map = m.getCell();
+
+                    repaint();
                 }
                 clicks++;
 
@@ -154,24 +153,19 @@ public class BattleField {
             }
         });
 
-        frame.setSize(700, 700);
-        //  frame.setResizable(false);
-        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setIconImage(img);
+        setVisible(true);
+
         gamePanel.setBackground(Color.black);
         allPanel.setLayout(new BorderLayout());
 
         allPanel.add(gamePanel, BorderLayout.CENTER);
         allPanel.add(topPanel, BorderLayout.NORTH);
 
-        frame.add(allPanel);
+        setLayout(new BorderLayout());
+        add(gamePanel, BorderLayout.CENTER);
+        add(topPanel, BorderLayout.NORTH);
 
-        exit.addActionListener(a -> {
-            frame.dispose();
-        });
-        battleField = frame;
-battleField.repaint();
+        repaint();
     }
 
     private JLabel createGifLabel(String pass) {
@@ -279,6 +273,7 @@ battleField.repaint();
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
+        String sukkuba = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\sukkuba.jpg";
         changeImage(image, sukkuba);
 
         JLabel centerLabel = new JLabel(text, JLabel.CENTER);
@@ -304,8 +299,8 @@ battleField.repaint();
         JPanel buttonPanel = new JPanel();
         JPanel flow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton newGame = new JButton("NEW GAME");
-        JButton menu = new JButton("MENU");
+        buttons.add(newGame);
+        buttons.add(endGame);
 
         label.setFont(new Font("Arial Black", Font.BOLD, 20));
 
@@ -319,7 +314,7 @@ battleField.repaint();
 
         buttonPanel.setLayout(new GridLayout(1, 2, 5, 0));
         buttonPanel.add(newGame);
-        buttonPanel.add(menu);
+        buttonPanel.add(endGame);
 
         flow.add(buttonPanel);
         dialog.add(flow, BorderLayout.SOUTH);
@@ -327,41 +322,30 @@ battleField.repaint();
         dialog.setVisible(true);
         dialog.setSize(450, 150);
 
-        newGame.addActionListener(a -> {
-            dialog.dispose();
-            battleField.dispose();
-            createAndShowGUI3(player);
-        });
-
-        menu.addActionListener(a -> {
-            dialog.dispose();
-            battleField.dispose();
-        });
 
         return dialog;
     }
 
     private void setScore(double score) {
-        if (player.getScore() < score) {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
-                LinkedList players = (LinkedList) in.readObject();
+        player.setScore(score);
+    }
 
-                players.remove(player);
-                player.setScore(scoree);
-                players.add(player);
+    static List<JButton> getButtons() {
+        endGame = new JButton("MENU");
+        endGame.setActionCommand("END GAME");
 
-                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-                    out.writeObject(players);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        newGame = new JButton("NEW GAME");
+        newGame.setActionCommand("OPTIONS");
 
-        }
+        menu = new JButton("MENU");
+        menu.setActionCommand("MENU");
+        menu.setForeground(Color.BLACK);
+
+        buttons.add(menu);
+        buttons.add(newGame);
+        buttons.add(endGame);
+
+        return buttons;
     }
 }
 

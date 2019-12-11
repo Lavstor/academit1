@@ -60,7 +60,7 @@ class Menu extends JPanel {
 
         buttons[0].addMouseListener(new MouseAdapter() {
 
-           @Override
+            @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 gifLabelArray[0].setVisible(true);
                 gifLabelArray[1].setVisible(true);
@@ -147,7 +147,17 @@ class Menu extends JPanel {
         return newButton;
     }
 
-    static JButton[] getButtons(){
+    static JButton[] getButtons() {
         return buttons;
+    }
+
+    public void continueButton(boolean b) {
+        if (b) {
+            buttons[0].setActionCommand("CONTINUE");
+            buttons[0].setText("CONTINUE");
+        } else {
+            buttons[0].setActionCommand("NEW GAME");
+            buttons[0].setText("NEW GAME");
+        }
     }
 }

@@ -2,21 +2,21 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.academit.school.myskin.minesweeper.gui.GameSettings.createAndShowGUI3;
-
-public class Password extends JPanel {
+class Password extends JPanel {
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private static LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
     private static Player ourPlayer;
+    private static JButton okButton;
+    private static JButton newUser;
+    private static JButton menu;
 
     Password(LinkedList<Player> players) {
         Password.players = players;
@@ -55,16 +55,10 @@ public class Password extends JPanel {
         gl.setHgap(30);
 
         JPanel p = new JPanel(gl);
-        JButton okButton = new JButton("OK");
-        JButton newUser = new JButton("NEW USER");
-        JButton menu = new JButton("MENU");
+
         buttons.add(okButton);
         buttons.add(newUser);
         buttons.add(menu);
-
-        okButton.setActionCommand("OK");
-        newUser.setActionCommand("NEW USER");
-        menu.setActionCommand("BACK");
 
         p.add(okButton);
         p.add(newUser);
@@ -116,6 +110,18 @@ public class Password extends JPanel {
     }
 
     static List<JButton> getButtons() {
+        okButton = new JButton("OK");
+        newUser = new JButton("NEW USER");
+        menu = new JButton("MENU");
+
+        okButton.setActionCommand("OK");
+        newUser.setActionCommand("NEW USER");
+        menu.setActionCommand("BACK");
+
+        buttons.add(okButton);
+        buttons.add(newUser);
+        buttons.add(menu);
+
         return buttons;
     }
 

@@ -2,20 +2,10 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.LinkedList;
+import java.util.List;
 
-
-
-public class GameSettings extends JPanel implements ActionListener {
-    private static String OK = "Ok";
-    private static String CANCEL = "Cancel";
-    private static String DEFAULT = "Default";
-    private static String CUSTOM = "Custom";
-
-    private JDialog controllingFrame; //needed for dialogs
+class GameSettings extends JPanel {
     private JTextField heightField;
     private JTextField weightField;
     private JTextField mines;
@@ -27,21 +17,18 @@ public class GameSettings extends JPanel implements ActionListener {
     private static Player player;
     private JButton customButton;
     private JButton defaultButton;
-    private ButtonGroup radioGroup = new ButtonGroup();
+    private static List<JButton> buttons = new LinkedList<>();
 
-    public GameSettings(JDialog dialog) {
-        controllingFrame = dialog;
-
+    GameSettings() {
         weightField = new JTextField(3);
         heightField = new JTextField(3);
         mines = new JTextField(2);
-        weightField.setActionCommand(OK);
-        weightField.addActionListener(this);
 
         easy = new JRadioButton("Easy", false);
         normal = new JRadioButton("Normal", true);
         high = new JRadioButton("High", false);
 
+        ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add(easy);
         radioGroup.add(normal);
         radioGroup.add(high);
@@ -73,8 +60,14 @@ public class GameSettings extends JPanel implements ActionListener {
         customPane.add(mines);
         customPane.add(this.mines);
 
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
         add(customPane);
+
+        c.gridy = 1;
+        c.insets = new Insets(25, 5, 5, 5);
+
         add(deafultPane);
 
         customPane.setVisible(false);
@@ -82,25 +75,23 @@ public class GameSettings extends JPanel implements ActionListener {
         add(buttonPane);
     }
 
-    protected JComponent createButtonPanel() {
-        JPanel p = new JPanel(new GridBagLayout());
+    private JComponent createButtonPanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
         JButton okButton = new JButton("Ok");
-        customButton = new JButton("Custom");
-        defaultButton = new JButton("Default");
         JButton cancel = new JButton("Cancel");
 
+        customButton = new JButton("Custom");
+        defaultButton = new JButton("Default");
 
-        okButton.setActionCommand(OK);
-        customButton.setActionCommand(CUSTOM);
-        defaultButton.setActionCommand(DEFAULT);
+        buttons.add(okButton);
+        buttons.add(cancel);
+        buttons.add(customButton);
+        buttons.add(defaultButton);
 
-        cancel.setActionCommand(CANCEL);
-
-        defaultButton.addActionListener(this);
-        customButton.addActionListener(this);
-
-        okButton.addActionListener(this);
-        cancel.addActionListener(this);
+        okButton.setActionCommand("CREATE BATTLEFIELD");
+        customButton.setActionCommand("CUSTOM");
+        defaultButton.setActionCommand("DEFAULT");
+        cancel.setActionCommand("BACK TO PASSWORD");
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.insets = new Insets(5, 15, 5, 5);
@@ -108,97 +99,75 @@ public class GameSettings extends JPanel implements ActionListener {
 
         c1.gridx = 0;
 
-        p.add(customButton, c1);
-        p.add(defaultButton, c1);
+        panel.add(customButton, c1);
+        panel.add(defaultButton, c1);
 
         c1.fill = GridBagConstraints.HORIZONTAL;
         c1.anchor = GridBagConstraints.EAST;
         c1.gridx = 1;
         c1.insets = new Insets(5, 5, 5, 5);
 
-        p.add(okButton, c1);
+        panel.add(okButton, c1);
 
         c1.gridx = 2;
 
         defaultButton.setVisible(false);
-        p.add(cancel, c1);
+        panel.add(cancel, c1);
 
-        return p;
+        return panel;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        String cmd = e.getActionCommand();
+    JPanel createMap() {
+        if (deafultPane.isVisible()) {
+            if (easy.isSelected()) {
+                return new BattleField(9, 9, 20, player);
+            }
+            if (normal.isSelected()) {
+                return new BattleField(15, 15, 50, player);
+            }
+            if (high.isSelected()) {
+                return new BattleField(30, 30, 110, player);
+            }
+        } else {
+            try {
+                int weight = Integer.parseInt(weightField.getText());
+                int height = Integer.parseInt(heightField.getText());
+                int mines = Integer.parseInt(this.mines.getText());
 
-        if (OK.equals(cmd)) {
-            if (deafultPane.isVisible()) {
-                if (easy.isSelected()) {
-                    new BattleField(9, 9, 20, player);
+                if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 && mines <= (weight * height) * 0.75) {
+                    return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
+                            Integer.parseInt(this.mines.getText()), player);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                if (normal.isSelected()) {
-                    new BattleField(15, 15, 50, player);
-                }
-                if (high.isSelected()) {
-                    new BattleField(30, 30, 110, player);
-                }
-                controllingFrame.dispose();
-
-            } else {
-                try {
-                    int weight = Integer.parseInt(weightField.getText());
-                    int height = Integer.parseInt(heightField.getText());
-                    int mines = Integer.parseInt(this.mines.getText());
-
-                    if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 && mines <= (weight * height) * 0.75) {
-                        new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
-                                Integer.parseInt(this.mines.getText()), player);
-                        controllingFrame.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(controllingFrame, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NumberFormatException o) {
-                    JOptionPane.showMessageDialog(controllingFrame, "Error! Wrong type!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            } catch (NumberFormatException o) {
+                JOptionPane.showMessageDialog(this, "Error! Wrong type!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        if (CANCEL.equals(cmd)) {
-            controllingFrame.dispatchEvent(new WindowEvent(controllingFrame, WindowEvent.WINDOW_CLOSING));
-        }
 
-        if (DEFAULT.equals(cmd)) {
-            deafultPane.setVisible(true);
-            customPane.setVisible(false);
-            customButton.setVisible(true);
-            defaultButton.setVisible(false);
-        }
-
-        if (CUSTOM.equals(cmd)) {
-            deafultPane.setVisible(false);
-            customPane.setVisible(true);
-            defaultButton.setVisible(true);
-            customButton.setVisible(false);
-        }
-
+        JOptionPane.showMessageDialog(this, "Error! Wrong type!", "Error", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
-    protected void resetFocus() {
-        weightField.requestFocusInWindow();
+    void customSetup() {
+        deafultPane.setVisible(false);
+        customPane.setVisible(true);
+        defaultButton.setVisible(true);
+        customButton.setVisible(false);
     }
 
-    public static void createAndShowGUI3(Player player) {
+    void defaultSetup() {
+        deafultPane.setVisible(true);
+        customPane.setVisible(false);
+        customButton.setVisible(true);
+        defaultButton.setVisible(false);
+    }
+
+    static List<JButton> getButtons() {
+        return buttons;
+    }
+
+    static void updatePlayer(Player player) {
         GameSettings.player = player;
-
-        JDialog frame = new JDialog();
-
-        final GameSettings newContentPane = new GameSettings(frame);
-        newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowActivated(WindowEvent e) {
-                newContentPane.resetFocus();
-            }
-        });
-        frame.pack();
-        frame.setVisible(true);
     }
 }

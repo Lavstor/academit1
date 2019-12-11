@@ -13,17 +13,17 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-   public  Player(String name, double score) {
+    public Player(String name, double score) {
         this.name = name;
         this.score = score;
     }
 
-    public Player(String name, char[] password) {
+    Player(String name, char[] password) {
         this.name = name;
         this.pass = password;
     }
 
-    public boolean checkPassword(char[] password) {
+    boolean checkPassword(char[] password) {
         return Arrays.equals(this.pass, password);
     }
 
@@ -35,7 +35,14 @@ public class Player implements Serializable {
         return score;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    void setScore(double score) {
+        if (this.score < score) {
+            this.score = score;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -11,15 +11,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MineSweeper extends JFrame {
-    private Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
     private Menu menu;
     private Records records;
     private Info info;
     private Password password;
     private NewPassword newPassword;
     private Model model;
-    private LinkedList<Player> players;
     private Player ourPlayer;
+    private GameSettings gameSettings;
+    private BattleField battleField;
 
     public MineSweeper() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,15 +29,19 @@ public class MineSweeper extends JFrame {
         customUI();
 
         setVisible(true);
+        Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\" +
+                "gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\" +
+                "myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
         setIconImage(img);
 
-        players = Model.readPlayers();
+        LinkedList<Player> players = Model.readPlayers();
 
         menu = new Menu();
         info = new Info();
         records = new Records(players);
         password = new Password(players);
         newPassword = new NewPassword(players);
+        gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
 
@@ -76,6 +80,8 @@ public class MineSweeper extends JFrame {
         Records.getBackButton().addActionListener(this::actionPerformed);
         Password.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
         NewPassword.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
+        GameSettings.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
+        BattleField.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
     }
 
     private void actionPerformed(ActionEvent event) {
@@ -118,7 +124,7 @@ public class MineSweeper extends JFrame {
         if (command.equals("BACK")) {
             remove(password);
             remove(info);
-            remove(records);
+               remove(records);
             remove(newPassword);
 
             add(menu, BorderLayout.CENTER);
@@ -126,7 +132,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK TO PASSWORD")) {
-            remove(newPassword);
+            remove(gameSettings);
 
             add(password, BorderLayout.CENTER);
             password.updateUI();
@@ -139,21 +145,75 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("OK")) {
-            if (!password.checkPassword()) {
-                System.out.println("Ошибка");
-            } else {
-                System.out.println("Норм");
+            if (password.checkPassword()) {
                 ourPlayer = Password.getPlayer();
+                remove(password);
+                add(gameSettings, BorderLayout.CENTER);
+                GameSettings.updatePlayer(ourPlayer);
+
+                gameSettings.updateUI();
             }
         }
 
+        if (command.equals("OPTIONS")) {
+            remove(battleField);
+            add(gameSettings, BorderLayout.CENTER);
+            repaint();
+        }
+
         if (command.equals("GAME SETTINGS")) {
-            if (!newPassword.checkData()) {
-                System.out.println("Нормfedfdf");
-            } else {
-                updatePlayersList(Model.readPlayers());
+            if (newPassword.checkData()) {
                 ourPlayer = NewPassword.getPlayer();
+                updatePlayersList(Model.readPlayers());
+
+                remove(newPassword);
+                add(gameSettings, BorderLayout.CENTER);
+
+                gameSettings.updateUI();
+
             }
+        }
+
+        if (command.equals("CREATE BATTLEFIELD")) {
+            remove(gameSettings);
+            battleField = (BattleField) gameSettings.createMap();
+
+            add(battleField, BorderLayout.CENTER);
+            battleField.updateUI();
+        }
+
+        if (command.equals("DEFAULT")) {
+            gameSettings.defaultSetup();
+        }
+
+        if (command.equals("CUSTOM")) {
+            gameSettings.customSetup();
+        }
+
+        if (command.equals("MENU")) {
+            remove(battleField);
+            add(menu, BorderLayout.CENTER);
+            menu.continueButton(true);
+            menu.updateUI();
+            repaint();
+        }
+
+        if (command.equals("CONTINUE")) {
+            remove(menu);
+
+            add(battleField, BorderLayout.CENTER);
+            battleField.updateUI();
+            menu.continueButton(false);
+            repaint();
+        }
+
+        if (command.equals("END GAME")) {
+            remove(battleField);
+
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
+            menu.continueButton(false);
+            repaint();
         }
     }
 
@@ -161,9 +221,11 @@ public class MineSweeper extends JFrame {
         Password.updatePlayers(players);
         NewPassword.updatePlayers(players);
         Records.updatePlayers(players);
+        GameSettings.updatePlayer(ourPlayer);
 
         password.updateUI();
         newPassword.updateUI();
         records.updateUI();
+        gameSettings.updateUI();
     }
 }
