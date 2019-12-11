@@ -64,6 +64,12 @@ class NewPassword extends JPanel {
         gl.setHgap(30);
 
         JPanel p = new JPanel(gl);
+        buttons.forEach(p::add);
+
+        return p;
+    }
+
+    public static void createButtons() {
         JButton okButton = new JButton("OK");
         JButton back = new JButton("BACK");
         JButton menu = new JButton("MENU");
@@ -72,15 +78,9 @@ class NewPassword extends JPanel {
         back.setActionCommand("BACK TO PASSWORD");
         menu.setActionCommand("BACK");
 
-        p.add(okButton);
-        p.add(back);
-        p.add(menu);
-
-        buttons.add(okButton);
         buttons.add(back);
+        buttons.add(okButton);
         buttons.add(menu);
-
-        return p;
     }
 
     boolean checkData() {

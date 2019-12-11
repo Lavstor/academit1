@@ -15,8 +15,11 @@ class GameSettings extends JPanel {
     private JPanel customPane;
     private JPanel deafultPane;
     private static Player player;
-    private JButton customButton;
-    private JButton defaultButton;
+    private static JButton okButton;
+    private static JButton defaultButton;
+    private static JButton customButton;
+    private static JButton cancel;
+
     private static List<JButton> buttons = new LinkedList<>();
 
     GameSettings() {
@@ -77,21 +80,6 @@ class GameSettings extends JPanel {
 
     private JComponent createButtonPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
-        JButton okButton = new JButton("Ok");
-        JButton cancel = new JButton("Cancel");
-
-        customButton = new JButton("Custom");
-        defaultButton = new JButton("Default");
-
-        buttons.add(okButton);
-        buttons.add(cancel);
-        buttons.add(customButton);
-        buttons.add(defaultButton);
-
-        okButton.setActionCommand("CREATE BATTLEFIELD");
-        customButton.setActionCommand("CUSTOM");
-        defaultButton.setActionCommand("DEFAULT");
-        cancel.setActionCommand("BACK TO PASSWORD");
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.insets = new Insets(5, 15, 5, 5);
@@ -165,6 +153,23 @@ class GameSettings extends JPanel {
 
     static List<JButton> getButtons() {
         return buttons;
+    }
+
+    static void createButtons(){
+        okButton = new JButton("Ok");
+        cancel = new JButton("Cancel");
+        customButton = new JButton("Custom");
+        defaultButton = new JButton("Default");
+
+        buttons.add(okButton);
+        buttons.add(cancel);
+        buttons.add(customButton);
+        buttons.add(defaultButton);
+
+        okButton.setActionCommand("CREATE BATTLEFIELD");
+        customButton.setActionCommand("CUSTOM");
+        defaultButton.setActionCommand("DEFAULT");
+        cancel.setActionCommand("BACK TO PASSWORD");
     }
 
     static void updatePlayer(Player player) {

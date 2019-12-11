@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 class Menu extends JPanel {
-    private static JButton[] buttons;
+    private static JButton[] buttons = new JButton[4];
 
     Menu() {
         setLayout(new GridBagLayout());
@@ -15,9 +16,6 @@ class Menu extends JPanel {
 
         gridBagConstraints.weighty = 1;
         gridBagConstraints.weightx = 5;
-
-        JButton[] buttons = {createButton("NEW GAME"), createButton("RECORDS"),
-                createButton("INFO"), createButton("EXIT")};
 
         Menu.buttons = buttons;
 
@@ -59,7 +57,6 @@ class Menu extends JPanel {
         setSize(500, 600);
 
         buttons[0].addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 gifLabelArray[0].setVisible(true);
@@ -137,21 +134,17 @@ class Menu extends JPanel {
         return new JLabel(icon);
     }
 
-    private JButton createButton(String name) {
-        JButton newButton = new JButton(name);
+    static void createButtons() {
+        buttons = new JButton[]{new JButton("NEW GAME"), new JButton("RECORDS"), new JButton("INFO"), new JButton("EXIT")};
 
-        newButton.setActionCommand(name);
-        newButton.setForeground(Color.BLACK);
-        newButton.setBorderPainted(false);
-
-        return newButton;
+        Arrays.stream(buttons).forEach(b -> b.setActionCommand(b.getText()));
     }
 
     static JButton[] getButtons() {
         return buttons;
     }
 
-    public void continueButton(boolean b) {
+    void continueButton(boolean b) {
         if (b) {
             buttons[0].setActionCommand("CONTINUE");
             buttons[0].setText("CONTINUE");

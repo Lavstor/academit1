@@ -35,13 +35,9 @@ public class Records extends JPanel implements Serializable {
         JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
         this.users = new JLabel[10][4];
 
-        JButton back = new JButton("BACK");
-        Records.back = back;
-        back.setBorderPainted(false);
-
         GridBagConstraints c1 = new GridBagConstraints();
 
-       setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
 
         c1.fill = GridBagConstraints.CENTER;
         c1.weighty = 1;
@@ -55,7 +51,7 @@ public class Records extends JPanel implements Serializable {
         }
 
         Records.players = players;
-        players =  players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
+        players = players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
 
         setDefaultUsers();
         setDefaultRecords();
@@ -66,7 +62,7 @@ public class Records extends JPanel implements Serializable {
             add(new JLabel("#" + i), c1);
 
             c1.gridx = 1;
-           add(new JLabel(players.get(i - 1).getName()), c1);
+            add(new JLabel(players.get(i - 1).getName()), c1);
 
             c1.gridx = 2;
             add(new JLabel(String.valueOf(players.get(i - 1).getScore())), c1);
@@ -80,11 +76,11 @@ public class Records extends JPanel implements Serializable {
 
         exitGif = new JLabel[]{createGifLabel(), createGifLabel()};
 
-       add(exitGif[0], c1);
-       add(createBlackLabel(), c1);
+        add(exitGif[0], c1);
+        add(createBlackLabel(), c1);
         c1.gridx = 3;
 
-       add(exitGif[1], c1);
+        add(exitGif[1], c1);
         add(createBlackLabel(), c1);
         c1.gridx = 1;
 
@@ -95,8 +91,6 @@ public class Records extends JPanel implements Serializable {
 
         setSize(350, 700);
         setMinimumSize(new Dimension(350, 700));
-
-        back.addActionListener(actionEvent -> setVisible(false));
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -112,7 +106,7 @@ public class Records extends JPanel implements Serializable {
             }
         });
 
-       setVisible(false);
+        setVisible(false);
 
     }
 
@@ -172,7 +166,13 @@ public class Records extends JPanel implements Serializable {
         return newLabel;
     }
 
-    public static void updatePlayers(LinkedList<Player> players) {
+    static void updatePlayers(LinkedList<Player> players) {
         Records.players = players;
+    }
+
+    static void createButtons() {
+        back = new JButton("BACK");
+        back.setBorderPainted(false);
+        back.setActionCommand("BACK");
     }
 }

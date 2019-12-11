@@ -14,9 +14,6 @@ class Password extends JPanel {
     private static LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
     private static Player ourPlayer;
-    private static JButton okButton;
-    private static JButton newUser;
-    private static JButton menu;
 
     Password(LinkedList<Player> players) {
         Password.players = players;
@@ -56,13 +53,7 @@ class Password extends JPanel {
 
         JPanel p = new JPanel(gl);
 
-        buttons.add(okButton);
-        buttons.add(newUser);
-        buttons.add(menu);
-
-        p.add(okButton);
-        p.add(newUser);
-        p.add(menu);
+        buttons.forEach(p::add);
 
         return p;
     }
@@ -109,10 +100,10 @@ class Password extends JPanel {
         passwordField.requestFocusInWindow();
     }
 
-    static List<JButton> getButtons() {
-        okButton = new JButton("OK");
-        newUser = new JButton("NEW USER");
-        menu = new JButton("MENU");
+    public static void createButtons() {
+       JButton okButton = new JButton("OK");
+        JButton newUser = new JButton("NEW USER");
+        JButton menu = new JButton("MENU");
 
         okButton.setActionCommand("OK");
         newUser.setActionCommand("NEW USER");
@@ -121,7 +112,9 @@ class Password extends JPanel {
         buttons.add(okButton);
         buttons.add(newUser);
         buttons.add(menu);
+    }
 
+    static List<JButton> getButtons() {
         return buttons;
     }
 

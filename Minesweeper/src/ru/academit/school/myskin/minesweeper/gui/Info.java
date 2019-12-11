@@ -49,9 +49,6 @@ class Info extends JPanel {
     private JPanel returnPanel() {
         JPanel panelExit = new JPanel();
 
-        JButton back = new JButton("BACK");
-        back.setBorderPainted(false);
-
         panelExit.setLayout(new GridBagLayout());
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -72,8 +69,6 @@ class Info extends JPanel {
         panelExit.add(exitGif[1], c1);
         panelExit.add(blackLabel[1], c1);
 
-        back.setActionCommand("BACK");
-
         back.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
@@ -88,7 +83,6 @@ class Info extends JPanel {
             }
         });
 
-        Info.back = back;
         setVisible(true);
 
         return panelExit;
@@ -96,5 +90,12 @@ class Info extends JPanel {
 
     static JButton getButton(){
         return back;
+    }
+
+    static void createButtons(){
+        back = new JButton("BACK");
+        back.setBorderPainted(false);
+
+        back.setActionCommand("BACK");
     }
 }

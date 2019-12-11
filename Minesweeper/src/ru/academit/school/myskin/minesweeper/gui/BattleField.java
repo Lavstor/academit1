@@ -331,6 +331,10 @@ class BattleField extends JPanel {
     }
 
     static List<JButton> getButtons() {
+        return buttons;
+    }
+
+    static void createButtons(){
         endGame = new JButton("MENU");
         endGame.setActionCommand("END GAME");
 
@@ -344,8 +348,6 @@ class BattleField extends JPanel {
         buttons.add(menu);
         buttons.add(newGame);
         buttons.add(endGame);
-
-        return buttons;
     }
 }
 
