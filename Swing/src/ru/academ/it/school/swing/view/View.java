@@ -61,9 +61,9 @@ public class View {
             enter.addActionListener(actionEvent -> {
                 try {
                     answer.setText(model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
-                            (Scale) convertedTo.getSelectedItem(), textField.getText()));
+                            (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText()));
                 } catch (NullPointerException ignored) {
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     answer.setText("Error! Invalid format!");
                 }
             });

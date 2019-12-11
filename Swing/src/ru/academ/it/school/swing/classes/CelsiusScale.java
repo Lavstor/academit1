@@ -2,20 +2,17 @@ package ru.academ.it.school.swing.classes;
 
 public class CelsiusScale implements Scale {
     @Override
-    public double transfer(Scale to, double value) {
-        if (to instanceof FahrenheitScale) {
-            return value * 1.8 + 32;
-        }
+    public String toString() {
+        return "Celsius";
+    }
 
-        if (to instanceof KelvinScale) {
-            return value + 273.15;
-        }
-
+    @Override
+    public double transferToCelsius(double value) {
         return value;
     }
 
     @Override
-    public String toString() {
-        return "Celsius";
+    public double transferFromCelsius(double value) {
+        return value;
     }
 }
