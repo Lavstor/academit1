@@ -60,7 +60,7 @@ public class View {
 
             enter.addActionListener(actionEvent -> {
                 try {
-                    answer.setText(model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
+                    answer.setText("= " + model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
                             (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText()));
                 } catch (NullPointerException ignored) {
                 } catch (NumberFormatException e) {
