@@ -239,6 +239,26 @@ public class MineSweeper extends JFrame {
             menu.continueButton(false);
             repaint();
         }
+
+        if (command.equals("BACK TO OPTIONS")) {
+            remove(battleField);
+
+            add(gameSettings, BorderLayout.CENTER);
+            gameSettings.setHideCancel(true);
+            repaint();
+        }
+
+        if (command.equals("BACK TO BATTLEFIELD")) {
+            remove(gameSettings);
+
+            add(battleField, BorderLayout.CENTER);
+            gameSettings.setHideCancel(false);
+            repaint();
+        }
+
+        if (command.equals("UPDATE")) {
+            updatePlayersList(players);
+        }
     }
 
     private void updatePlayersList(LinkedList<Player> players) {

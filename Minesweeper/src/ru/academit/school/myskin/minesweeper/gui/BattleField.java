@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.LinkedList;
@@ -17,12 +18,10 @@ class BattleField extends JPanel {
     private double scoree;
     private int clicks;
     private int cells;
-    private static JButton endGame;
-    private static JButton newGame;
     private static JButton menu;
+    private static JButton topPanelNewGame;
 
     private JLabel score;
-    private JPanel allPanel;
     private JPanel gamePanel;
     private JPanel topPanel;
     private JLabel[][] cellLabels;
@@ -30,6 +29,8 @@ class BattleField extends JPanel {
     private Cell[][] map;
     private Player player;
     private static List<JButton> buttons = new LinkedList<>();
+    private boolean gameOver = false;
+    private static JButton updatePlayer;
 
     private String krest = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest3.png";
     private String pint = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\pint 50.gif";
@@ -41,10 +42,8 @@ class BattleField extends JPanel {
 
         topPanel = new JPanel();
         gamePanel = new JPanel();
-        allPanel = new JPanel();
 
         score = new JLabel("Your score: ");
-        JLabel timer = new JLabel("Timer: ");
         this.player = player;
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -52,23 +51,24 @@ class BattleField extends JPanel {
         topPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints c2 = new GridBagConstraints();
-        c2.insets = new Insets(0, 5, 0, 0);
+        c2.insets = new Insets(0, 5, 1, 0);
         c2.weightx = 4;
         c2.weighty = 1;
         c2.anchor = GridBagConstraints.WEST;
 
         c2.gridx = 0;
-        System.out.println(player);
+
         topPanel.add(new JLabel(player.getName()), c2);
 
         c2.weightx = 10;
         c2.gridx = 5;
         topPanel.add(score, c2);
 
-        c2.gridx = 6;
-        topPanel.add(timer, c2);
+        c2.insets = new Insets(0, 70, 0, 0);
+        c2.fill = GridBagConstraints.BOTH;
+        c2.gridx = 9;
+        topPanel.add(topPanelNewGame, c2);
 
-        c2.anchor = GridBagConstraints.EAST;
         c2.gridx = 10;
         topPanel.add(menu, c2);
 
@@ -78,7 +78,7 @@ class BattleField extends JPanel {
         gamePanel.setLayout(new GridBagLayout());
 
         c1.anchor = GridBagConstraints.CENTER;
-        c1.insets = new Insets(0, 0, 0, 0);
+        c1.insets = new Insets(1, 1, 1, 1);
         cellLabels = new JLabel[height][width];
 
         for (int i = 0; i < height; i++) {
@@ -96,58 +96,64 @@ class BattleField extends JPanel {
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int i = e.getY() / (gamePanel.getHeight() / height);
-                int j = e.getX() / (gamePanel.getWidth() / width);
+                if (!gameOver) {
+                    int i = e.getY() / (gamePanel.getHeight() / height);
+                    int j = e.getX() / (gamePanel.getWidth() / width);
 
-                if (clicks == 0) {
-                    m = new Model(height, width, mines, i, j);
-                    map = m.getCell();
+                    if (clicks == 0) {
+                        m = new Model(height, width, mines, i, j);
+                        map = m.getCell();
 
-                    repaint();
-                }
-                clicks++;
+                        repaint();
+                    }
+                    clicks++;
 
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (!map[i][j].isHidden) {
-                        if (map[i][j].isMine()) {
-                            changeImage(cellLabels[i][j], pint);
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        if (!map[i][j].isHidden) {
+                            if (map[i][j].isMine()) {
+                                changeImage(cellLabels[i][j], pint);
 
-                            showBombs();
-                            endGame("U LOSE");
-                            setScore(scoree);
-
-                        } else if (map[i][j].getMines() == 0) {
-                            openAllZero(i, j);
-
-                            score.setText("Your score: " + scoree);
-                        } else {
-                            changeImg(cellLabels[i][j], krest);
-
-                            JLabel centerLabel = new JLabel(String.valueOf(map[i][j].getMines()), JLabel.CENTER);
-
-                            cellLabels[i][j].add(centerLabel);
-                            cellLabels[i][j].getComponent(0).setForeground(Color.RED);
-                            cellLabels[i][j].updateUI();
-                            cellLabels[i][j].setBackground(Color.BLACK);
-                            scoree++;
-
-                            score.setText("Your score: " + scoree);
-
-                            if (scoree == cells) {
+                                showBombs();
                                 topPanel.setVisible(false);
-                                gamePanel.setVisible(false);
-
-                                allPanel.add(winPanel("SCORE: " + scoree));
 
                                 setScore(scoree);
-                            }
-                        }
 
-                        map[i][j].setHidden(true);
-                    }
-                } else if (e.getButton() == MouseEvent.BUTTON3) {
-                    if (!map[i][j].isHidden) {
-                        changeImg(cellLabels[i][j], flag);
+                                topPanel.setVisible(false);
+                                remove(gamePanel);
+                                add(lostPanel(), BorderLayout.CENTER);
+                            } else if (map[i][j].getMines() == 0) {
+                                openAllZero(i, j);
+
+                                score.setText("Your score: " + scoree);
+                            } else {
+                                changeImg(cellLabels[i][j], krest);
+
+                                JLabel centerLabel = new JLabel(String.valueOf(map[i][j].getMines()), JLabel.CENTER);
+
+                                cellLabels[i][j].add(centerLabel);
+                                cellLabels[i][j].getComponent(0).setForeground(Color.RED);
+                                cellLabels[i][j].updateUI();
+                                cellLabels[i][j].setBackground(Color.BLACK);
+                                scoree++;
+
+                                score.setText("Your score: " + scoree);
+
+                                if (scoree == cells) {
+                                    topPanel.setVisible(false);
+                                    remove(gamePanel);
+
+                                    add(winPanel("SCORE: " + scoree), BorderLayout.CENTER);
+
+                                    setScore(scoree);
+                                }
+                            }
+
+                            map[i][j].setHidden(true);
+                        }
+                    } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        if (!map[i][j].isHidden) {
+                            changeImg(cellLabels[i][j], flag);
+                        }
                     }
                 }
             }
@@ -156,10 +162,6 @@ class BattleField extends JPanel {
         setVisible(true);
 
         gamePanel.setBackground(Color.black);
-        allPanel.setLayout(new BorderLayout());
-
-        allPanel.add(gamePanel, BorderLayout.CENTER);
-        allPanel.add(topPanel, BorderLayout.NORTH);
 
         setLayout(new BorderLayout());
         add(gamePanel, BorderLayout.CENTER);
@@ -193,8 +195,7 @@ class BattleField extends JPanel {
             ImageIcon icon = new ImageIcon(img.getScaledInstance(label.getWidth(), label.getHeight(), BufferedImage.SCALE_DEFAULT));
             icon.setImageObserver(label);
             label.setIcon(icon);
-        } catch (IOException e) {
-            System.out.println("dfsfs");
+        } catch (IOException ignored) {
         }
     }
 
@@ -249,9 +250,9 @@ class BattleField extends JPanel {
 
                             if (scoree == cells) {
                                 topPanel.setVisible(false);
-                                gamePanel.setVisible(false);
+                                remove(gamePanel);
 
-                                allPanel.add(winPanel("SCORE: " + scoree));
+                                add(winPanel("SCORE: " + scoree), BorderLayout.CENTER);
 
                                 setScore(scoree);
                             }
@@ -289,38 +290,55 @@ class BattleField extends JPanel {
         winPanel.setBackground(Color.RED);
         image.updateUI();
 
+        winPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                topPanel.setVisible(true);
+                remove(winPanel);
+                add(gamePanel, BorderLayout.CENTER);
+                gamePanel.updateUI();
+                updatePlayer.doClick();
+            }
+        });
+
         return winPanel;
     }
 
-    private JDialog endGame(String string) {
-        JDialog dialog = new JDialog();
-        JLabel label = new JLabel(string);
-        JPanel infoPanel = new JPanel();
-        JPanel buttonPanel = new JPanel();
-        JPanel flow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    private JPanel lostPanel() {
+        remove(gamePanel);
+        JPanel winPanel = new JPanel();
 
-        buttons.add(newGame);
-        buttons.add(endGame);
+        JLabel image = new JLabel();
+        image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
+        String cry = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\cryingGirl.jpg";
+        changeImage(image, cry);
 
-        label.setFont(new Font("Arial Black", Font.BOLD, 20));
+        JLabel centerLabel = new JLabel("                          YOU LOST", JLabel.CENTER);
+        centerLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
 
-        dialog.setLayout(new BorderLayout());
+        centerLabel.setSize(600, 200);
+        centerLabel.setForeground(Color.RED);
 
-        dialog.add(infoPanel, BorderLayout.CENTER);
+        image.add(centerLabel);
 
-        infoPanel.add(label);
 
-        buttonPanel.setLayout(new GridLayout(1, 2, 5, 0));
-        buttonPanel.add(newGame);
-        buttonPanel.add(endGame);
+        winPanel.add(image);
+        winPanel.setBackground(Color.BLACK);
+        image.updateUI();
 
-        flow.add(buttonPanel);
-        dialog.add(flow, BorderLayout.SOUTH);
+        winPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                topPanel.setVisible(true);
+                remove(winPanel);
+                add(gamePanel, BorderLayout.CENTER);
+                gamePanel.updateUI();
+                updatePlayer.doClick();
+            }
+        });
+        gameOver = true;
 
-        dialog.setVisible(true);
-        dialog.setSize(450, 150);
-
-        return dialog;
+        return winPanel;
     }
 
     private void setScore(double score) {
@@ -331,20 +349,20 @@ class BattleField extends JPanel {
         return buttons;
     }
 
-    static void createButtons(){
-        endGame = new JButton("MENU");
-        endGame.setActionCommand("END GAME");
-
-        newGame = new JButton("NEW GAME");
-        newGame.setActionCommand("OPTIONS");
-
+    static void createButtons() {
         menu = new JButton("MENU");
         menu.setActionCommand("MENU");
         menu.setForeground(Color.BLACK);
 
+        topPanelNewGame = new JButton("NEW GAME");
+        topPanelNewGame.setActionCommand("BACK TO OPTIONS");
+
+        updatePlayer = new JButton();
+        updatePlayer.setActionCommand("UPDATE");
+
         buttons.add(menu);
-        buttons.add(newGame);
-        buttons.add(endGame);
+        buttons.add(topPanelNewGame);
+        buttons.add(updatePlayer);
     }
 }
 

@@ -19,6 +19,7 @@ class GameSettings extends JPanel {
     private static JButton defaultButton;
     private static JButton customButton;
     private static JButton cancel;
+    private static JButton backToBattlefield;
 
     private static List<JButton> buttons = new LinkedList<>();
 
@@ -101,6 +102,7 @@ class GameSettings extends JPanel {
 
         defaultButton.setVisible(false);
         panel.add(cancel, c1);
+        panel.add(backToBattlefield, c1);
 
         return panel;
     }
@@ -155,21 +157,35 @@ class GameSettings extends JPanel {
         return buttons;
     }
 
-    static void createButtons(){
+    static void createButtons() {
         okButton = new JButton("Ok");
         cancel = new JButton("Cancel");
         customButton = new JButton("Custom");
         defaultButton = new JButton("Default");
+        backToBattlefield = new JButton("Back");
+        backToBattlefield.setVisible(false);
 
         buttons.add(okButton);
         buttons.add(cancel);
         buttons.add(customButton);
         buttons.add(defaultButton);
+        buttons.add(backToBattlefield);
 
         okButton.setActionCommand("CREATE BATTLEFIELD");
         customButton.setActionCommand("CUSTOM");
         defaultButton.setActionCommand("DEFAULT");
         cancel.setActionCommand("BACK TO PASSWORD");
+        backToBattlefield.setActionCommand("BACK TO BATTLEFIELD");
+    }
+
+    public void setHideCancel(boolean hide) {
+        if (hide) {
+            cancel.setVisible(false);
+            backToBattlefield.setVisible(true);
+        } else {
+            cancel.setVisible(true);
+            backToBattlefield.setVisible(false);
+        }
     }
 
     static void updatePlayer(Player player) {
