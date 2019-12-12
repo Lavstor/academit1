@@ -304,11 +304,9 @@ class BattleField extends JPanel {
 
         label.setFont(new Font("Arial Black", Font.BOLD, 20));
 
-
         dialog.setLayout(new BorderLayout());
 
         dialog.add(infoPanel, BorderLayout.CENTER);
-
 
         infoPanel.add(label);
 
@@ -321,7 +319,6 @@ class BattleField extends JPanel {
 
         dialog.setVisible(true);
         dialog.setSize(450, 150);
-
 
         return dialog;
     }

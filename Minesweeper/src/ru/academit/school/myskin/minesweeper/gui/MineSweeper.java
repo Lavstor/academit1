@@ -24,7 +24,7 @@ public class MineSweeper extends JFrame {
 
     public MineSweeper() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width) / 2, (screenSize.height) / 2, 400, 280);
+        setBounds((screenSize.width - 900) / 2, (screenSize.height - 600) / 2, 900, 600);
 
         setLayout(new BorderLayout());
         customUI();
@@ -54,8 +54,9 @@ public class MineSweeper extends JFrame {
         gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
+        menu.updateUI();
 
-        setSize(900, 600);
+      //  setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getButtons();
     }

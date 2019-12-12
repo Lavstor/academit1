@@ -51,7 +51,7 @@ public class View {
             JFrame frame = new JFrame("Temperature converter");
 
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            frame.setBounds((screenSize.width - 360) / 2, (screenSize.height - 280) / 2, 400, 280);
+            frame.setBounds((screenSize.width - 400) / 2, (screenSize.height - 280) / 2, 400, 280);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
             frame.setIconImage(img);
