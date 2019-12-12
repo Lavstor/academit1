@@ -297,7 +297,9 @@ class BattleField extends JPanel {
                 remove(winPanel);
                 add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
+                Model.writePlayers(player);
                 updatePlayer.doClick();
+
             }
         });
 
@@ -333,7 +335,9 @@ class BattleField extends JPanel {
                 remove(winPanel);
                 add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
+                Model.writePlayers(player);
                 updatePlayer.doClick();
+
             }
         });
         gameOver = true;

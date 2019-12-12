@@ -37,8 +37,6 @@ public class MineSweeper extends JFrame {
 
 
         Menu.createButtons();
-
-
         Info.createButtons();
         Records.createButtons();
         Password.createButtons();
@@ -150,7 +148,7 @@ public class MineSweeper extends JFrame {
         if (command.equals("BACK TO PASSWORD")) {
             remove(gameSettings);
             remove(newPassword);
-           // password = new Password(players);
+            password = new Password(players);
             add(password, BorderLayout.CENTER);
             password.updateUI();
         }
@@ -184,7 +182,7 @@ public class MineSweeper extends JFrame {
         if (command.equals("GAME SETTINGS")) {
             if (newPassword.checkData()) {
                 ourPlayer = NewPassword.getPlayer();
-                updatePlayersList(Model.readPlayers());
+               players = Model.readPlayers();
 
                 remove(newPassword);
                 gameSettings = new GameSettings();
@@ -257,19 +255,17 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("UPDATE")) {
-            updatePlayersList(players);
+            this.players = Model.readPlayers();
+           // updatePlayersList(players);
+            System.out.println("Ghbdtn");
         }
     }
 
     private void updatePlayersList(LinkedList<Player> players) {
-        Password.updatePlayers(players);
-        NewPassword.updatePlayers(players);
-        Records.updatePlayers(players);
+        this.players = Model.readPlayers();
+       // Password.updatePlayers(players);
+      //  NewPassword.updatePlayers(players);
+      //  Records.updatePlayers(players);
         GameSettings.updatePlayer(ourPlayer);
-
-        password.updateUI();
-        newPassword.updateUI();
-        records.updateUI();
-        gameSettings.updateUI();
     }
 }
