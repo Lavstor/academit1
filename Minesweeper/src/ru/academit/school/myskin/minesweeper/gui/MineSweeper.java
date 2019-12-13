@@ -31,7 +31,7 @@ public class MineSweeper extends JFrame {
         customUI();
 
         setVisible(true);
-        Image img = Toolkit.getDefaultToolkit().getImage("\"Minesweeper/src/ru/academit/school" +
+        Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
                 "/myskin/minesweeper/resources/1d90af957291ec212de2735e65345a40_i-3.jpg");
         setIconImage(img);
 

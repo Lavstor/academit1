@@ -73,10 +73,13 @@ public class Records extends JPanel implements Serializable {
 
         exitGif = new JLabel[]{createGifLabel(), createGifLabel()};
 
+        c1.anchor = GridBagConstraints.EAST;
+
         add(exitGif[0], c1);
         add(createBlackLabel(), c1);
         c1.gridx = 3;
 
+        c1.anchor = GridBagConstraints.WEST;
         add(exitGif[1], c1);
         add(createBlackLabel(), c1);
         c1.gridx = 1;
@@ -89,7 +92,7 @@ public class Records extends JPanel implements Serializable {
         setSize(350, 700);
         setMinimumSize(new Dimension(350, 700));
 
-        addMouseListener(new MouseAdapter() {
+        back.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 exitGif[0].setVisible(true);

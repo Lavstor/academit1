@@ -132,7 +132,7 @@ class GameSettings extends JPanel {
                     JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException o) {
-                JOptionPane.showMessageDialog(this, "Error! Wrong type!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
