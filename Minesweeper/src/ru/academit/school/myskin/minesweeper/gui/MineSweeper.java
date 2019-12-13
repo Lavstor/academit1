@@ -23,8 +23,10 @@ public class MineSweeper extends JFrame {
     private LinkedList<Player> players = Model.readPlayers();
 
     public MineSweeper() {
+        System.out.println(players);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - 900) / 2, (screenSize.height - 600) / 2, 900, 600);
+       // setSize(screenSize);
 
         setLayout(new BorderLayout());
         customUI();
@@ -47,14 +49,14 @@ public class MineSweeper extends JFrame {
         menu = new Menu();
         info = new Info();
         records = new Records(players);
-         password = new Password(players);
+        password = new Password(players);
         newPassword = new NewPassword(players);
         gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
         menu.updateUI();
 
-      //  setSize(900, 600);
+        //  setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getButtons();
     }
@@ -163,6 +165,7 @@ public class MineSweeper extends JFrame {
         if (command.equals("OK")) {
             if (password.checkPassword()) {
                 ourPlayer = Password.getPlayer();
+                System.out.println(ourPlayer.getScore());
                 remove(password);
                 gameSettings = new GameSettings();
                 add(gameSettings, BorderLayout.CENTER);
@@ -182,23 +185,25 @@ public class MineSweeper extends JFrame {
         if (command.equals("GAME SETTINGS")) {
             if (newPassword.checkData()) {
                 ourPlayer = NewPassword.getPlayer();
-               players = Model.readPlayers();
+                players = Model.readPlayers();
 
                 remove(newPassword);
+                GameSettings.updatePlayer(ourPlayer);
                 gameSettings = new GameSettings();
                 add(gameSettings, BorderLayout.CENTER);
 
                 gameSettings.updateUI();
-
             }
         }
 
         if (command.equals("CREATE BATTLEFIELD")) {
-            remove(gameSettings);
             battleField = (BattleField) gameSettings.createMap();
 
-            add(battleField, BorderLayout.CENTER);
-            battleField.updateUI();
+            if (battleField != null){
+                remove(gameSettings);
+                add(battleField, BorderLayout.CENTER);
+                battleField.updateUI();
+            }
         }
 
         if (command.equals("DEFAULT")) {
@@ -244,6 +249,7 @@ public class MineSweeper extends JFrame {
             add(gameSettings, BorderLayout.CENTER);
             gameSettings.setHideCancel(true);
             repaint();
+            gameSettings.updateUI();
         }
 
         if (command.equals("BACK TO BATTLEFIELD")) {
@@ -255,17 +261,18 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("UPDATE")) {
-            this.players = Model.readPlayers();
-           // updatePlayersList(players);
-            System.out.println("Ghbdtn");
+            System.out.println(players);
+            System.out.println(ourPlayer.getScore());
+            Model.updateList(players);
+
+            System.out.println(players);
         }
     }
 
     private void updatePlayersList(LinkedList<Player> players) {
-        this.players = Model.readPlayers();
-       // Password.updatePlayers(players);
-      //  NewPassword.updatePlayers(players);
-      //  Records.updatePlayers(players);
+        Password.updatePlayers(players);
+        NewPassword.updatePlayers(players);
+
         GameSettings.updatePlayer(ourPlayer);
     }
 }

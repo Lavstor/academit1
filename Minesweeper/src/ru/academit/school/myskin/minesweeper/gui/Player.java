@@ -31,11 +31,11 @@ public class Player implements Serializable {
         return name;
     }
 
-    double getScore() {
+   public double getScore() {
         return score;
     }
 
-    void setScore(double score) {
+    public void setScore(double score) {
         if (this.score < score) {
             this.score = score;
         }

@@ -14,7 +14,6 @@ public class Records extends JPanel implements Serializable {
     private static JButton back;
     private JLabel[][] users;
     private JLabel[] exitGif;
-    private static List<Player> players;
 
     Records(List<Player> players) {
         Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
@@ -49,8 +48,6 @@ public class Records extends JPanel implements Serializable {
 
             add(upperPanel[i], c1);
         }
-
-        Records.players = players;
         players = players.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
 
         setDefaultUsers();
@@ -164,10 +161,6 @@ public class Records extends JPanel implements Serializable {
         newLabel.setIcon(icon);
 
         return newLabel;
-    }
-
-    static void updatePlayers(LinkedList<Player> players) {
-        Records.players = players;
     }
 
     static void createButtons() {

@@ -102,6 +102,7 @@ class GameSettings extends JPanel {
 
         defaultButton.setVisible(false);
         panel.add(cancel, c1);
+        c1.gridx = 3;
         panel.add(backToBattlefield, c1);
 
         return panel;
@@ -135,7 +136,6 @@ class GameSettings extends JPanel {
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Error! Wrong type!", "Error", JOptionPane.ERROR_MESSAGE);
         return null;
     }
 
@@ -180,10 +180,10 @@ class GameSettings extends JPanel {
 
     public void setHideCancel(boolean hide) {
         if (hide) {
-            cancel.setVisible(false);
+            cancel.setText("NEW PLAYER");
             backToBattlefield.setVisible(true);
         } else {
-            cancel.setVisible(true);
+            cancel.setText("CANCEL");
             backToBattlefield.setVisible(false);
         }
     }
