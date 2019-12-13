@@ -117,7 +117,7 @@ class Menu extends JPanel {
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/555.gif");
         //ImageIcon icon2 = new ImageIcon("Minesweeper/555.gif");
 
         JLabel newLabel = new JLabel();
@@ -129,7 +129,7 @@ class Menu extends JPanel {
     }
 
     private JLabel createBlackLabel() {
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
 
         return new JLabel(icon);
     }

@@ -36,11 +36,11 @@ class BattleField extends JPanel {
     private boolean gameOver = false;
     private static JButton updatePlayer;
 
-    private String krest = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest3.png";
-    private String pint = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\pint40.gif";
-    private String flag = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\krest2.png";
-    private String sukkuba = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\sukkuba.jpg";
-    private String cry = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cells\\cryingGirl.jpg";
+    private String krest = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/krest3.png";
+    private String pint = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/pint40.gif";
+    private String flag = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/krest2.png";
+    private String sukkuba = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/sukkuba.jpg";
+    private String cry = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/cryingGirl.jpg";
 
 
     BattleField(int width, int height, int mines, Player player) {
@@ -87,7 +87,7 @@ class BattleField extends JPanel {
         c1.insets = new Insets(1, 1, 1, 1);
         cellLabels = new JLabel[height][width];
 
-        String cellSkinPass = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\cellSkin.jpg";
+        String cellSkinPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/cells/cellSkin.jpg";
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(cellSkinPass));
@@ -216,7 +216,8 @@ class BattleField extends JPanel {
 
 
     private void changeImage(JLabel label, String pass) {
-        ImageIcon icon = new ImageIcon(pass);
+        Image img = Toolkit.getDefaultToolkit().getImage(pass);
+        ImageIcon icon = new ImageIcon(img);
         icon.setImageObserver(label);
         label.setIcon(icon);
     }

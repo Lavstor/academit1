@@ -26,7 +26,7 @@ class Info extends JPanel {
     }
 
     private JLabel createGifLabel() {
-        String pass = "C:\\Users\\Nikita\\IdeaProjects\\academit1\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif";
+        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/555.gif";
         ImageIcon icon = new ImageIcon(pass);
 
         JLabel newLabel = new JLabel();
@@ -39,7 +39,7 @@ class Info extends JPanel {
     }
 
     private JLabel createBlackLabel() {
-        String pass = "C:\\Users\\Nikita\\IdeaProjects\\academit1\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg";
+        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg";
 
         ImageIcon icon = new ImageIcon(pass);
 

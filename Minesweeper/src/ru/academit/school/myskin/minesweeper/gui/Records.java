@@ -16,19 +16,19 @@ public class Records extends JPanel implements Serializable {
     private JLabel[] exitGif;
 
     Records(List<Player> players) {
-        Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
-        String topLabel = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot7.png";
-        String firstPlace = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot10.png";
-        String loser = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\loser.png";
-        String second = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\animeS.gif";
-        String third = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\234.gif";
-        String forth = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot.png";
-        String fiv = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot2.png";
-        String six = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot3.png";
-        String seven = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot4.png";
-        String eight = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot5.png";
-        String nine = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot8.png";
-        String ten = "C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\hot9.png";
+        Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/1d90af957291ec212de2735e65345a40_i-3.jpg");
+        String topLabel = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot7.png";
+        String firstPlace = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot10.png";
+        String loser = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/loser.png";
+        String second = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/animeS.gif";
+        String third = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/234.gif";
+        String forth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot.png";
+        String fiv = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot2.png";
+        String six = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot3.png";
+        String seven = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot4.png";
+        String eight = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot5.png";
+        String nine = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot8.png";
+        String ten = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot9.png";
         String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
 
         JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
@@ -137,7 +137,7 @@ public class Records extends JPanel implements Serializable {
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\555.gif");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/555.gif");
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
         newLabel.setVisible(false);
@@ -148,7 +148,7 @@ public class Records extends JPanel implements Serializable {
 
 
     private JLabel createBlackLabel() {
-        ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\Black.jpg");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
 
         return new JLabel(icon);
     }

@@ -117,10 +117,7 @@ public class Model {
 
     public static void updateList(LinkedList<Player> players) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-            System.out.println(players);
-
             out.writeObject(players);
-            System.out.println(players);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

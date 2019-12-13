@@ -23,7 +23,6 @@ public class MineSweeper extends JFrame {
     private LinkedList<Player> players = Model.readPlayers();
 
     public MineSweeper() {
-        System.out.println(players);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - 900) / 2, (screenSize.height - 600) / 2, 900, 600);
        // setSize(screenSize);
@@ -32,11 +31,9 @@ public class MineSweeper extends JFrame {
         customUI();
 
         setVisible(true);
-        Image img = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nikita\\Downloads\\" +
-                "gs-messaging-stomp-websocket-master\\academit2\\Minesweeper\\src\\ru\\academit\\school\\" +
-                "myskin\\minesweeper\\resources\\1d90af957291ec212de2735e65345a40_i-3.jpg");
+        Image img = Toolkit.getDefaultToolkit().getImage("\"Minesweeper/src/ru/academit/school" +
+                "/myskin/minesweeper/resources/1d90af957291ec212de2735e65345a40_i-3.jpg");
         setIconImage(img);
-
 
         Menu.createButtons();
         Info.createButtons();
@@ -72,7 +69,6 @@ public class MineSweeper extends JFrame {
         UIManager.put("RadioButton.background", new ColorUIResource(Color.RED));
         UIManager.put("RadioButton.foreground", new ColorUIResource(Color.BLACK));
         UIManager.put("RadioButton.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-
         UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         UIManager.put("Button.select", Color.red);
         UIManager.put("Button.gradient", gradients);
@@ -99,8 +95,7 @@ public class MineSweeper extends JFrame {
         String command = event.getActionCommand();
 
         if (command.equals("EXIT")) {
-            ImageIcon icon = new ImageIcon("C:\\Users\\Nikita\\Downloads\\gs-messaging-stomp-websocket-master\\" +
-                    "academit2\\Minesweeper\\src\\ru\\academit\\school\\myskin\\minesweeper\\resources\\EXIT.gif");
+            ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/EXIT.gif");
 
             if (JOptionPane.showConfirmDialog(this, "           YOU SHURE?", "EXIT",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {
@@ -165,7 +160,6 @@ public class MineSweeper extends JFrame {
         if (command.equals("OK")) {
             if (password.checkPassword()) {
                 ourPlayer = Password.getPlayer();
-                System.out.println(ourPlayer.getScore());
                 remove(password);
                 gameSettings = new GameSettings();
                 add(gameSettings, BorderLayout.CENTER);
@@ -261,11 +255,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("UPDATE")) {
-            System.out.println(players);
-            System.out.println(ourPlayer.getScore());
             Model.updateList(players);
-
-            System.out.println(players);
         }
     }
 
