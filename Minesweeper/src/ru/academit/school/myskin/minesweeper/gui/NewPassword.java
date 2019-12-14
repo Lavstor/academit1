@@ -13,12 +13,11 @@ class NewPassword extends JPanel {
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
-    private static LinkedList<Player> players;
+    private  LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
-    private static Player ourPlayer;
 
     NewPassword(LinkedList<Player> players) {
-        NewPassword.players = players;
+        this.players = players;
 
         setVisible(true);
 
@@ -69,12 +68,12 @@ class NewPassword extends JPanel {
         return p;
     }
 
-    public static void createButtons() {
+    static void createButtons() {
         JButton okButton = new JButton("OK");
         JButton back = new JButton("BACK");
         JButton menu = new JButton("MENU");
 
-        okButton.setActionCommand("GAME SETTINGS");
+        okButton.setActionCommand("NEW USER CREATED");
         back.setActionCommand("BACK TO PASSWORD");
         menu.setActionCommand("BACK NEW PASSWORD");
 
@@ -116,7 +115,7 @@ class NewPassword extends JPanel {
 
             return false;
         }
-        ourPlayer = new Player(login, password);
+        Player ourPlayer = new Player(login, password);
 
         Model.writePlayers(ourPlayer);
 
@@ -129,13 +128,5 @@ class NewPassword extends JPanel {
 
     static List<JButton> getButtons() {
         return buttons;
-    }
-
-    static void updatePlayers(LinkedList<Player> players) {
-        NewPassword.players = players;
-    }
-
-    static Player getPlayer() {
-        return ourPlayer;
     }
 }

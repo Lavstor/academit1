@@ -25,7 +25,7 @@ public class MineSweeper extends JFrame {
     public MineSweeper() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - 900) / 2, (screenSize.height - 600) / 2, 900, 600);
-       // setSize(screenSize);
+        // setSize(screenSize);
 
         setLayout(new BorderLayout());
         customUI();
@@ -44,11 +44,11 @@ public class MineSweeper extends JFrame {
         BattleField.createButtons();
 
         menu = new Menu();
-      //  info = new Info();
-      //  records = new Records(players);
-       // password = new Password(players);
-      //  newPassword = new NewPassword(players);
-     //   gameSettings = new GameSettings();
+        //  info = new Info();
+        //  records = new Records(players);
+        // password = new Password(players);
+        //  newPassword = new NewPassword(players);
+        //   gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
         menu.updateUI();
@@ -152,7 +152,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK INFO")) {
-             remove(info);
+            remove(info);
 
             menu = new Menu();
 
@@ -198,7 +198,6 @@ public class MineSweeper extends JFrame {
                 remove(password);
                 gameSettings = new GameSettings(ourPlayer);
                 add(gameSettings, BorderLayout.CENTER);
-             //   GameSettings.updatePlayer(ourPlayer);
 
                 gameSettings.updateUI();
             }
@@ -211,24 +210,22 @@ public class MineSweeper extends JFrame {
             repaint();
         }
 
-        if (command.equals("GAME SETTINGS")) {
+        if (command.equals("NEW USER CREATED")) {
             if (newPassword.checkData()) {
-                ourPlayer = NewPassword.getPlayer();
-                players = Model.readPlayers();
-
                 remove(newPassword);
-
-                gameSettings = new GameSettings(ourPlayer);
-                add(gameSettings, BorderLayout.CENTER);
-
-                gameSettings.updateUI();
+                players = Model.readPlayers();
+                password = new Password(players);
+                add(password, BorderLayout.CENTER);
+                password.setVisible(true);
+                repaint();
+                password.updateUI();
             }
         }
 
         if (command.equals("CREATE BATTLEFIELD")) {
             battleField = (BattleField) gameSettings.createMap();
 
-            if (battleField != null){
+            if (battleField != null) {
                 remove(gameSettings);
                 add(battleField, BorderLayout.CENTER);
                 battleField.updateUI();

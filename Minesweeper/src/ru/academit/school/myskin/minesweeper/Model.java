@@ -106,6 +106,7 @@ public class Model {
 
     public static void writePlayers(Player player) {
         LinkedList<Player> players = readPlayers();
+
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
             players.add(player);
 
