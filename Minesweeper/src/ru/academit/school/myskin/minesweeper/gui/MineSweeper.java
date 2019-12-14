@@ -44,11 +44,11 @@ public class MineSweeper extends JFrame {
         BattleField.createButtons();
 
         menu = new Menu();
-        info = new Info();
-        records = new Records(players);
-        password = new Password(players);
-        newPassword = new NewPassword(players);
-        gameSettings = new GameSettings();
+      //  info = new Info();
+      //  records = new Records(players);
+       // password = new Password(players);
+      //  newPassword = new NewPassword(players);
+     //   gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
         menu.updateUI();
@@ -105,6 +105,7 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("RECORDS")) {
             remove(menu);
+
             records = new Records(players);
             add(records, BorderLayout.CENTER);
             records.setVisible(true);
@@ -130,21 +131,55 @@ public class MineSweeper extends JFrame {
             password.updateUI();
         }
 
-        if (command.equals("BACK")) {
+        if (command.equals("BACK PASSWORD")) {
             remove(password);
-            remove(info);
-            remove(records);
+
+            menu = new Menu();
+
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
+            repaint();
+        }
+
+        if (command.equals("BACK NEW PASSWORD")) {
             remove(newPassword);
 
             menu = new Menu();
 
             add(menu, BorderLayout.CENTER);
             menu.updateUI();
+            repaint();
+        }
+
+        if (command.equals("BACK INFO")) {
+             remove(info);
+
+            menu = new Menu();
+
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
+            repaint();
+        }
+
+        if (command.equals("BACK RECORDS")) {
+            remove(records);
+
+            menu = new Menu();
+
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
+            repaint();
         }
 
         if (command.equals("BACK TO PASSWORD")) {
-            remove(gameSettings);
             remove(newPassword);
+            password = new Password(players);
+            add(password, BorderLayout.CENTER);
+            password.updateUI();
+        }
+
+        if (command.equals("BACK TO PASSWORD SETTINGS")) {
+            remove(gameSettings);
             password = new Password(players);
             add(password, BorderLayout.CENTER);
             password.updateUI();
@@ -161,9 +196,9 @@ public class MineSweeper extends JFrame {
             if (password.checkPassword()) {
                 ourPlayer = Password.getPlayer();
                 remove(password);
-                gameSettings = new GameSettings();
+                gameSettings = new GameSettings(ourPlayer);
                 add(gameSettings, BorderLayout.CENTER);
-                GameSettings.updatePlayer(ourPlayer);
+             //   GameSettings.updatePlayer(ourPlayer);
 
                 gameSettings.updateUI();
             }
@@ -171,7 +206,7 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("OPTIONS")) {
             remove(battleField);
-            gameSettings = new GameSettings();
+            gameSettings = new GameSettings(ourPlayer);
             add(gameSettings, BorderLayout.CENTER);
             repaint();
         }
@@ -182,8 +217,8 @@ public class MineSweeper extends JFrame {
                 players = Model.readPlayers();
 
                 remove(newPassword);
-                GameSettings.updatePlayer(ourPlayer);
-                gameSettings = new GameSettings();
+
+                gameSettings = new GameSettings(ourPlayer);
                 add(gameSettings, BorderLayout.CENTER);
 
                 gameSettings.updateUI();
@@ -257,12 +292,5 @@ public class MineSweeper extends JFrame {
         if (command.equals("UPDATE")) {
             Model.updateList(players);
         }
-    }
-
-    private void updatePlayersList(LinkedList<Player> players) {
-        Password.updatePlayers(players);
-        NewPassword.updatePlayers(players);
-
-        GameSettings.updatePlayer(ourPlayer);
     }
 }

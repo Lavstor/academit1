@@ -76,7 +76,7 @@ class NewPassword extends JPanel {
 
         okButton.setActionCommand("GAME SETTINGS");
         back.setActionCommand("BACK TO PASSWORD");
-        menu.setActionCommand("BACK");
+        menu.setActionCommand("BACK NEW PASSWORD");
 
         buttons.add(back);
         buttons.add(okButton);

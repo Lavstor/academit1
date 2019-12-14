@@ -107,7 +107,7 @@ class Password extends JPanel {
 
         okButton.setActionCommand("OK");
         newUser.setActionCommand("NEW USER");
-        menu.setActionCommand("BACK");
+        menu.setActionCommand("BACK PASSWORD");
 
         buttons.add(okButton);
         buttons.add(newUser);

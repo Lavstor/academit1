@@ -169,6 +169,6 @@ public class Records extends JPanel implements Serializable {
     static void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
-        back.setActionCommand("BACK");
+        back.setActionCommand("BACK RECORDS");
     }
 }

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 class GameSettings extends JPanel {
+    private Player player;
     private JTextField heightField;
     private JTextField weightField;
     private JTextField mines;
@@ -14,7 +15,6 @@ class GameSettings extends JPanel {
     private JRadioButton high;
     private JPanel customPane;
     private JPanel deafultPane;
-    private static Player player;
     private static JButton okButton;
     private static JButton defaultButton;
     private static JButton customButton;
@@ -23,7 +23,8 @@ class GameSettings extends JPanel {
 
     private static List<JButton> buttons = new LinkedList<>();
 
-    GameSettings() {
+    GameSettings(Player player) {
+        this.player = player;
         weightField = new JTextField(3);
         heightField = new JTextField(3);
         mines = new JTextField(2);
@@ -174,11 +175,11 @@ class GameSettings extends JPanel {
         okButton.setActionCommand("CREATE BATTLEFIELD");
         customButton.setActionCommand("CUSTOM");
         defaultButton.setActionCommand("DEFAULT");
-        cancel.setActionCommand("BACK TO PASSWORD");
+        cancel.setActionCommand("BACK TO PASSWORD SETTINGS");
         backToBattlefield.setActionCommand("BACK TO BATTLEFIELD");
     }
 
-    public void setHideCancel(boolean hide) {
+    void setHideCancel(boolean hide) {
         if (hide) {
             cancel.setText("NEW PLAYER");
             backToBattlefield.setVisible(true);
@@ -186,9 +187,5 @@ class GameSettings extends JPanel {
             cancel.setText("CANCEL");
             backToBattlefield.setVisible(false);
         }
-    }
-
-    static void updatePlayer(Player player) {
-        GameSettings.player = player;
     }
 }

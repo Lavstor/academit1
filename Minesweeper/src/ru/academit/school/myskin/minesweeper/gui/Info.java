@@ -96,6 +96,6 @@ class Info extends JPanel {
         back = new JButton("BACK");
         back.setBorderPainted(false);
 
-        back.setActionCommand("BACK");
+        back.setActionCommand("BACK INFO");
     }
 }
