@@ -1,6 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.Model;
+import ru.academit.school.myskin.minesweeper.Player;
 
 import javax.swing.*;
 import java.awt.*;

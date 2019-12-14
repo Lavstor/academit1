@@ -38,15 +38,8 @@ class Info extends JPanel {
         return newLabel;
     }
 
-    private JLabel createBlackLabel() {
-        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg";
-
-        ImageIcon icon = new ImageIcon(pass);
-
-        return new JLabel(icon);
-    }
-
     private JPanel returnPanel() {
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
         JPanel panelExit = new JPanel();
 
         panelExit.setLayout(new GridBagLayout());
@@ -54,7 +47,7 @@ class Info extends JPanel {
         GridBagConstraints c1 = new GridBagConstraints();
 
         JLabel[] exitGif = {createGifLabel(), createGifLabel()};
-        JLabel[] blackLabel = {createBlackLabel(), createBlackLabel()};
+        JLabel[] blackLabel = {new JLabel(icon), new JLabel(icon)};
 
         c1.gridy = 0;
         c1.gridx = 0;

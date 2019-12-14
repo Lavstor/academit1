@@ -1,6 +1,8 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Cell;
 import ru.academit.school.myskin.minesweeper.Model;
+import ru.academit.school.myskin.minesweeper.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -102,7 +104,6 @@ class BattleField extends JPanel {
                 c1.gridx = j;
                 cellLabels[i][j] = createGifLabel(img);
 
-
                 gamePanel.add(cellLabels[i][j], c1);
             }
         }
@@ -112,6 +113,7 @@ class BattleField extends JPanel {
         pintagramm = new ImageIcon(pint);
         sukkubaImage = new ImageIcon(sukkuba);
         cryGirl = new ImageIcon(cry);
+
         try {
             krest = ImageIO.read(new File(this.krest));
             flag = ImageIO.read(new File(this.flag));
@@ -138,7 +140,7 @@ class BattleField extends JPanel {
                         clicks++;
 
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            if (!map[i][j].isHidden) {
+                            if (map[i][j].isHidden()) {
                                 if (map[i][j].isMine()) {
                                     changeImage(cellLabels[i][j], pint);
 
@@ -171,12 +173,10 @@ class BattleField extends JPanel {
                                         add(winPanel("SCORE: " + scoree), BorderLayout.CENTER);
                                     }
                                 }
-
                                 map[i][j].setHidden(true);
                             }
-
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (!map[i][j].isHidden) {
+                            if (map[i][j].isHidden()) {
                                 changeImg(cellLabels[i][j], flagImage);
                             }
                         }
@@ -249,7 +249,7 @@ class BattleField extends JPanel {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
                     try {
-                        if (!map[height + i][weight + j].isHidden) {
+                        if (map[height + i][weight + j].isHidden()) {
                             if (map[height + i][weight + j].getMines() == 0) {
                                 queueHeight.add(height + i);
                                 queueWeight.add(weight + j);

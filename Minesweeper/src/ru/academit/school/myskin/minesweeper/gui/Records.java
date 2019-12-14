@@ -1,12 +1,13 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class Records extends JPanel implements Serializable {
         String nine = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot8.png";
         String ten = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/hot9.png";
         String[] gifs2 = {firstPlace, second, third, forth, fiv, six, seven, eight, nine, ten, loser};
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
 
         JLabel[] upperPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(topLabel)};
         this.users = new JLabel[10][4];
@@ -76,12 +78,12 @@ public class Records extends JPanel implements Serializable {
         c1.anchor = GridBagConstraints.EAST;
 
         add(exitGif[0], c1);
-        add(createBlackLabel(), c1);
+        add( new JLabel(icon), c1);
         c1.gridx = 3;
 
         c1.anchor = GridBagConstraints.WEST;
         add(exitGif[1], c1);
-        add(createBlackLabel(), c1);
+        add( new JLabel(icon), c1);
         c1.gridx = 1;
 
         c1.gridwidth = GridBagConstraints.RELATIVE;
@@ -107,7 +109,6 @@ public class Records extends JPanel implements Serializable {
         });
 
         setVisible(false);
-
     }
 
     static JButton getBackButton() {
@@ -147,13 +148,6 @@ public class Records extends JPanel implements Serializable {
         newLabel.setIcon(icon);
 
         return newLabel;
-    }
-
-
-    private JLabel createBlackLabel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
-
-        return new JLabel(icon);
     }
 
     private JLabel createGifs(String pass) {

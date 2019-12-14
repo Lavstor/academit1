@@ -1,11 +1,7 @@
 package ru.academit.school.myskin.minesweeper;
 
-import ru.academit.school.myskin.minesweeper.gui.Cell;
-import ru.academit.school.myskin.minesweeper.gui.Player;
-
 import java.io.*;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public class Model {

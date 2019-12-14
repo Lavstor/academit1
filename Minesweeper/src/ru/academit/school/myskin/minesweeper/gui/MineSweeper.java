@@ -1,6 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.Model;
+import ru.academit.school.myskin.minesweeper.Player;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -44,16 +45,10 @@ public class MineSweeper extends JFrame {
         BattleField.createButtons();
 
         menu = new Menu();
-        //  info = new Info();
-        //  records = new Records(players);
-        // password = new Password(players);
-        //  newPassword = new NewPassword(players);
-        //   gameSettings = new GameSettings();
 
         add(menu, BorderLayout.CENTER);
         menu.updateUI();
 
-        //  setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getButtons();
     }

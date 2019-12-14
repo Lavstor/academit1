@@ -1,4 +1,4 @@
-package ru.academit.school.myskin.minesweeper.gui;
+package ru.academit.school.myskin.minesweeper;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -18,16 +18,16 @@ public class Player implements Serializable {
         this.score = score;
     }
 
-    Player(String name, char[] password) {
+    public  Player(String name, char[] password) {
         this.name = name;
         this.pass = password;
     }
 
-    boolean checkPassword(char[] password) {
+    public boolean checkPassword(char[] password) {
         return Arrays.equals(this.pass, password);
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 

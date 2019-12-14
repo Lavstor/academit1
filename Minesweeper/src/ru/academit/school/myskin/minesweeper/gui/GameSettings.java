@@ -1,5 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -118,7 +120,7 @@ class GameSettings extends JPanel {
                 return new BattleField(15, 15, 50, player);
             }
             if (high.isSelected()) {
-                return new BattleField(30, 30, 110, player);
+                return new BattleField(20, 20, 85, player);
             }
         } else {
             try {
@@ -159,11 +161,11 @@ class GameSettings extends JPanel {
     }
 
     static void createButtons() {
-        okButton = new JButton("Ok");
-        cancel = new JButton("Cancel");
-        customButton = new JButton("Custom");
-        defaultButton = new JButton("Default");
-        backToBattlefield = new JButton("Back");
+        okButton = new JButton("OK");
+        cancel = new JButton("CANCEL");
+        customButton = new JButton("CUSTOM");
+        defaultButton = new JButton("DEFAULT");
+        backToBattlefield = new JButton("BACK");
         backToBattlefield.setVisible(false);
 
         buttons.add(okButton);
