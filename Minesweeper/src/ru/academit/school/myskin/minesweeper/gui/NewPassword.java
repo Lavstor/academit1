@@ -14,7 +14,7 @@ class NewPassword extends JPanel {
     private JTextField nickNameField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
-    private  LinkedList<Player> players;
+    private LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
 
     NewPassword(LinkedList<Player> players) {
@@ -74,9 +74,9 @@ class NewPassword extends JPanel {
         JButton back = new JButton("BACK");
         JButton menu = new JButton("MENU");
 
-        okButton.setActionCommand("NEW USER CREATED");
+        okButton.setActionCommand("CHECK DATA");
         back.setActionCommand("BACK TO PASSWORD");
-        menu.setActionCommand("BACK NEW PASSWORD");
+        menu.setActionCommand("BACK TO MENU FROM NEW PASSWORD");
 
         buttons.add(back);
         buttons.add(okButton);
@@ -116,8 +116,8 @@ class NewPassword extends JPanel {
 
             return false;
         }
-        Player ourPlayer = new Player(login, password);
 
+        Player ourPlayer = new Player(login, password);
         Model.writePlayers(ourPlayer);
 
         return true;

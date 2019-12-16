@@ -9,14 +9,17 @@ import java.util.List;
 
 class GameSettings extends JPanel {
     private Player player;
+
     private JTextField heightField;
     private JTextField weightField;
     private JTextField mines;
+
     private JRadioButton easy;
     private JRadioButton normal;
     private JRadioButton high;
     private JPanel customPane;
-    private JPanel deafultPane;
+    private JPanel defaultPane;
+
     private static JButton okButton;
     private static JButton defaultButton;
     private static JButton customButton;
@@ -52,11 +55,11 @@ class GameSettings extends JPanel {
         JComponent buttonPane = createButtonPanel();
 
         customPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        deafultPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+        defaultPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
-        deafultPane.add(easy);
-        deafultPane.add(normal);
-        deafultPane.add(high);
+        defaultPane.add(easy);
+        defaultPane.add(normal);
+        defaultPane.add(high);
 
         customPane.add(height);
         customPane.add(heightField);
@@ -75,7 +78,7 @@ class GameSettings extends JPanel {
         c.gridy = 1;
         c.insets = new Insets(25, 5, 5, 5);
 
-        add(deafultPane);
+        add(defaultPane);
 
         customPane.setVisible(false);
 
@@ -85,36 +88,36 @@ class GameSettings extends JPanel {
     private JComponent createButtonPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
 
-        GridBagConstraints c1 = new GridBagConstraints();
-        c1.insets = new Insets(5, 15, 5, 5);
-        c1.weighty = 1;
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 15, 5, 5);
+        constraints.weighty = 1;
 
-        c1.gridx = 0;
+        constraints.gridx = 0;
 
-        panel.add(customButton, c1);
-        panel.add(defaultButton, c1);
+        panel.add(customButton, constraints);
+        panel.add(defaultButton, constraints);
 
-        c1.fill = GridBagConstraints.HORIZONTAL;
-        c1.anchor = GridBagConstraints.EAST;
-        c1.gridx = 1;
-        c1.insets = new Insets(5, 5, 5, 5);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.EAST;
+        constraints.gridx = 1;
+        constraints.insets = new Insets(5, 5, 5, 5);
 
-        panel.add(okButton, c1);
+        panel.add(okButton, constraints);
 
-        c1.gridx = 2;
+        constraints.gridx = 2;
 
         defaultButton.setVisible(false);
-        panel.add(cancel, c1);
-        c1.gridx = 3;
-        panel.add(backToBattlefield, c1);
+        panel.add(cancel, constraints);
+        constraints.gridx = 3;
+        panel.add(backToBattlefield, constraints);
 
         return panel;
     }
 
     JPanel createMap() {
-        if (deafultPane.isVisible()) {
+        if (defaultPane.isVisible()) {
             if (easy.isSelected()) {
-                return new BattleField(9, 9, 20, player);
+                return new BattleField(9, 9, 10, player);
             }
             if (normal.isSelected()) {
                 return new BattleField(15, 15, 50, player);
@@ -128,7 +131,7 @@ class GameSettings extends JPanel {
                 int height = Integer.parseInt(heightField.getText());
                 int mines = Integer.parseInt(this.mines.getText());
 
-                if (weight > 0 && weight < 100 && height > 0 && height < 100 && mines > 0 && mines <= (weight * height) * 0.75) {
+                if (weight > 0 && weight < 35 && height > 0 && height < 35 && mines > 0 && mines <= (weight * height) * 0.75) {
                     return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
                             Integer.parseInt(this.mines.getText()), player);
                 } else {
@@ -143,15 +146,17 @@ class GameSettings extends JPanel {
     }
 
     void customSetup() {
-        deafultPane.setVisible(false);
+        defaultPane.setVisible(false);
         customPane.setVisible(true);
+
         defaultButton.setVisible(true);
         customButton.setVisible(false);
     }
 
     void defaultSetup() {
-        deafultPane.setVisible(true);
+        defaultPane.setVisible(true);
         customPane.setVisible(false);
+
         customButton.setVisible(true);
         defaultButton.setVisible(false);
     }
@@ -166,6 +171,7 @@ class GameSettings extends JPanel {
         customButton = new JButton("CUSTOM");
         defaultButton = new JButton("DEFAULT");
         backToBattlefield = new JButton("BACK");
+
         backToBattlefield.setVisible(false);
 
         buttons.add(okButton);
@@ -177,8 +183,8 @@ class GameSettings extends JPanel {
         okButton.setActionCommand("CREATE BATTLEFIELD");
         customButton.setActionCommand("CUSTOM");
         defaultButton.setActionCommand("DEFAULT");
-        cancel.setActionCommand("BACK TO PASSWORD SETTINGS");
-        backToBattlefield.setActionCommand("BACK TO BATTLEFIELD");
+        cancel.setActionCommand("BACK TO PASSWORD FROM OPTIONS");
+        backToBattlefield.setActionCommand("BACK TO BATTLEFIELD FROM OPTIONS");
     }
 
     void setHideCancel(boolean hide) {

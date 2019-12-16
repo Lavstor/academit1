@@ -88,7 +88,6 @@ class Info extends JPanel {
     static void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
-
-        back.setActionCommand("BACK INFO");
+        back.setActionCommand("BACK TO MENU FROM INFO");
     }
 }

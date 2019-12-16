@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Model {
-    private Cell[][] cell;
+    private Cell[][] cells;
     private int HEIGHT;
     private int WIDTH;
     private int countOfMines;
@@ -14,12 +14,12 @@ public class Model {
         HEIGHT = height;
         WIDTH = width;
         this.countOfMines = countOfMines;
-        cell = new Cell[height][width];
+        cells = new Cell[height][width];
 
         generateMap(firstY, firstX);
     }
 
-    public void generateMap(int height, int width) {
+    private void generateMap(int height, int width) {
         Random rnd = new Random();
 
         Cell[][] map = new Cell[HEIGHT][WIDTH];
@@ -33,7 +33,6 @@ public class Model {
                 map[x][y] = new Cell(false);
             }
         }
-
         while (minesCount != countOfMines) {
             int x = rnd.nextInt(HEIGHT);
             int y = rnd.nextInt(WIDTH);
@@ -53,7 +52,6 @@ public class Model {
                 }
             }
         }
-
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 try {
@@ -62,16 +60,16 @@ public class Model {
                 }
             }
         }
-
-        this.cell = map;
+        this.cells = map;
     }
 
-    public Cell[][] getCell() {
-        return cell;
+    public Cell[][] getCells() {
+        return cells;
     }
 
     public static LinkedList<Player> readPlayers() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+            //noinspection unchecked
             return (LinkedList<Player>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
@@ -104,6 +102,8 @@ public class Model {
         LinkedList<Player> players = readPlayers();
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+            assert players != null;
+
             players.add(player);
 
             out.writeObject(players);

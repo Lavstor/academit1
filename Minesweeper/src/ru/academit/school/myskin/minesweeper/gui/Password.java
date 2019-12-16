@@ -74,6 +74,7 @@ class Password extends JPanel {
 
             return false;
         }
+
         ourUser = players.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
@@ -105,9 +106,9 @@ class Password extends JPanel {
         JButton newUser = new JButton("NEW USER");
         JButton menu = new JButton("MENU");
 
-        okButton.setActionCommand("OK");
-        newUser.setActionCommand("NEW USER");
-        menu.setActionCommand("BACK PASSWORD");
+        okButton.setActionCommand("TO OPTIONS FROM PASSWORD");
+        newUser.setActionCommand("TO NEW PASSWORD FROM PASSWORD");
+        menu.setActionCommand("TO MENU FROM PASSWORD");
 
         buttons.add(okButton);
         buttons.add(newUser);

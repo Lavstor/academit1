@@ -6,12 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Records extends JPanel implements Serializable {
+class Records extends JPanel {
     private static JButton back;
     private JLabel[] exitGifArray;
 
@@ -30,7 +29,7 @@ class Records extends JPanel implements Serializable {
         ImageIcon blackImage = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/black.jpg");
 
         String[] imagesPassArray = {first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth};
-        JLabel[] topPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifs(pentagram)};
+        JLabel[] topPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifLabel(pentagram)};
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -61,7 +60,7 @@ class Records extends JPanel implements Serializable {
             add(new JLabel(String.valueOf(playerList.get(i - 1).getScore())), constraints);
 
             constraints.gridx = 3;
-            add(createGifs(imagesPassArray[i - 1]), constraints);
+            add(createGifLabel(imagesPassArray[i - 1]), constraints);
 
         }
         constraints.gridy++;
@@ -121,7 +120,7 @@ class Records extends JPanel implements Serializable {
         return newLabel;
     }
 
-    private JLabel createGifs(String pass) {
+    private JLabel createGifLabel(String pass) {
         ImageIcon icon = new ImageIcon(pass);
 
         JLabel newLabel = new JLabel();
@@ -135,6 +134,6 @@ class Records extends JPanel implements Serializable {
     static void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
-        back.setActionCommand("BACK RECORDS");
+        back.setActionCommand("BACK TO MENU FROM RECORDS");
     }
 }
