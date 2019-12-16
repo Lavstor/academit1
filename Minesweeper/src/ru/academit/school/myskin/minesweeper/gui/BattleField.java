@@ -353,7 +353,6 @@ class BattleField extends JPanel {
                 add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
                 setScore();
-                System.out.println(player.getScore());
                 updatePlayer.doClick();
             }
         });
