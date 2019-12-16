@@ -4,7 +4,6 @@ import ru.academit.school.myskin.minesweeper.Player;
 
 import javax.swing.*;
 import java.awt.*;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,16 +12,15 @@ import java.util.stream.Collectors;
 class Password extends JPanel {
     private JTextField nickNameField;
     private JPasswordField passwordField;
-    private static LinkedList<Player> players;
+    private LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
     private static Player ourPlayer;
 
     Password(LinkedList<Player> players) {
-        Password.players = players;
+        this.players = players;
 
         passwordField = new JPasswordField(10);
         nickNameField = new JTextField(10);
-        passwordField.setActionCommand("OK");
 
         JLabel enterPassword = new JLabel("Password: ");
         enterPassword.setLabelFor(passwordField);
@@ -33,6 +31,7 @@ class Password extends JPanel {
         JComponent buttonPanel = createButtonPanel();
 
         JPanel textPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+
         textPane.add(enterNickName);
         textPane.add(nickNameField);
 
@@ -40,24 +39,24 @@ class Password extends JPanel {
         textPane.add(passwordField);
 
         setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        add(textPane, c);
-        c.gridy = 1;
-        c.insets = new Insets(25, 5, 5, 5);
+        add(textPane, constraints);
+        constraints.gridy = 1;
+        constraints.insets = new Insets(25, 5, 5, 5);
 
-        add(buttonPanel, c);
+        add(buttonPanel, constraints);
     }
 
     private JComponent createButtonPanel() {
-        GridLayout gl = new GridLayout(0, 3);
-        gl.setHgap(30);
+        GridLayout gridLayout = new GridLayout(0, 3);
+        gridLayout.setHgap(30);
 
-        JPanel p = new JPanel(gl);
+        JPanel panel = new JPanel(gridLayout);
 
-        buttons.forEach(p::add);
+        buttons.forEach(panel::add);
 
-        return p;
+        return panel;
     }
 
     boolean checkPassword() {
@@ -75,7 +74,7 @@ class Password extends JPanel {
 
             return false;
         }
-            ourUser = players.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
+        ourUser = players.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
             if (ourUser.get(0).checkPassword(input)) {
@@ -97,13 +96,12 @@ class Password extends JPanel {
         return false;
     }
 
-
     private void resetFocus() {
         passwordField.requestFocusInWindow();
     }
 
-    public static void createButtons() {
-       JButton okButton = new JButton("OK");
+    static void createButtons() {
+        JButton okButton = new JButton("OK");
         JButton newUser = new JButton("NEW USER");
         JButton menu = new JButton("MENU");
 
@@ -118,10 +116,6 @@ class Password extends JPanel {
 
     static List<JButton> getButtons() {
         return buttons;
-    }
-
-    static void updatePlayers(LinkedList<Player> players) {
-        Password.players = players;
     }
 
     static Player getPlayer() {

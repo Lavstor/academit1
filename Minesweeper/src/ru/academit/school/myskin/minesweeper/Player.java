@@ -9,16 +9,12 @@ public class Player implements Serializable {
     private char[] pass;
     static final long serialVersionUID = 1L;
 
-    public Player(String name) {
-        this.name = name;
-    }
-
-    public Player(String name, double score) {
+    Player(String name, double score) {
         this.name = name;
         this.score = score;
     }
 
-    public  Player(String name, char[] password) {
+    public Player(String name, char[] password) {
         this.name = name;
         this.pass = password;
     }
@@ -31,7 +27,7 @@ public class Player implements Serializable {
         return name;
     }
 
-   public double getScore() {
+    public double getScore() {
         return score;
     }
 

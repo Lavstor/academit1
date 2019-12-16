@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 class Menu extends JPanel {
-    private static JButton[] buttons = new JButton[4];
+    private static JButton[] buttons;
 
     Menu() {
         setLayout(new GridBagLayout());
@@ -17,14 +17,14 @@ class Menu extends JPanel {
         gridBagConstraints.weighty = 1;
         gridBagConstraints.weightx = 5;
 
-        Menu.buttons = buttons;
-
         JLabel[] gifLabelArray = new JLabel[buttons.length * 2];
         JLabel[] blackLabelArray = new JLabel[gifLabelArray.length];
 
+        ImageIcon blackIcon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/black.jpg");
+
         for (int i = 0; i < gifLabelArray.length; i++) {
             gifLabelArray[i] = createGifLabel();
-            blackLabelArray[i] = createBlackLabel();
+            blackLabelArray[i] = new JLabel(blackIcon);
         }
         int j = 0;
 
@@ -53,7 +53,6 @@ class Menu extends JPanel {
             add(blackLabelArray[j], gridBagConstraints);
             j++;
         }
-
         setSize(500, 600);
 
         buttons[0].addMouseListener(new MouseAdapter() {
@@ -71,7 +70,6 @@ class Menu extends JPanel {
         });
 
         buttons[1].addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 gifLabelArray[2].setVisible(true);
@@ -86,7 +84,6 @@ class Menu extends JPanel {
         });
 
         buttons[2].addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 gifLabelArray[4].setVisible(true);
@@ -101,7 +98,6 @@ class Menu extends JPanel {
         });
 
         buttons[3].addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
                 gifLabelArray[6].setVisible(true);
@@ -117,8 +113,7 @@ class Menu extends JPanel {
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/555.gif");
-        //ImageIcon icon2 = new ImageIcon("Minesweeper/555.gif");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/pentagramGif.gif");
 
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
@@ -126,12 +121,6 @@ class Menu extends JPanel {
         newLabel.setIcon(icon);
 
         return newLabel;
-    }
-
-    private JLabel createBlackLabel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
-
-        return new JLabel(icon);
     }
 
     static void createButtons() {
@@ -144,8 +133,8 @@ class Menu extends JPanel {
         return buttons;
     }
 
-    void continueButton(boolean b) {
-        if (b) {
+    void continueButton(boolean hide) {
+        if (hide) {
             buttons[0].setActionCommand("CONTINUE");
             buttons[0].setText("CONTINUE");
         } else {

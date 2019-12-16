@@ -41,7 +41,7 @@ public class Model {
             if (minesCount != countOfMines && x != height && y != width && !map[x][y].isMine()) {
                 minesCount++;
 
-                map[x][y].setAsMine(true);
+                map[x][y].setAsMine();
 
                 for (int i = -1; i < 2; i++) {
                     for (int j = -1; j < 2; j++) {
@@ -118,19 +118,5 @@ public class Model {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < cell.length; i++) {
-            for (int j = 0; j < cell[0].length; j++) {
-                sb.append(cell[i][j].isMine());
-                sb.append(" ");
-            }
-            sb.append("\n");
-        }
-
-        return sb.toString();
     }
 }

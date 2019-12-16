@@ -49,24 +49,24 @@ class NewPassword extends JPanel {
         textPane.add(confirmPasswordField);
 
         setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        add(textPane, c);
+        add(textPane, constraints);
 
-        c.gridy = 1;
-        c.insets = new Insets(25, 5, 5, 5);
+        constraints.gridy = 1;
+        constraints.insets = new Insets(25, 5, 5, 5);
 
-        add(buttonPane, c);
+        add(buttonPane, constraints);
     }
 
     private JComponent createButtonPanel() {
-        GridLayout gl = new GridLayout(0, 3);
-        gl.setHgap(30);
+        GridLayout gridLayout = new GridLayout(0, 3);
+        gridLayout.setHgap(30);
 
-        JPanel p = new JPanel(gl);
-        buttons.forEach(p::add);
+        JPanel panel = new JPanel(gridLayout);
+        buttons.forEach(panel::add);
 
-        return p;
+        return panel;
     }
 
     static void createButtons() {

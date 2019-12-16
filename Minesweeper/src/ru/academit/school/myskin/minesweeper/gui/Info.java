@@ -11,7 +11,7 @@ class Info extends JPanel {
     Info() {
         setLayout(new BorderLayout());
 
-        String text =  "<html>MINESWEEPER<br><br>Game was crated by Myshkin Nikita Alekseevich." +
+        String text = "<html>MINESWEEPER<br><br>Game was crated by Myshkin Nikita Alekseevich." +
                 "<br><br>Some tips how to beat this:<br><br> 1:" +
                 " Click a square, you get a number.<br> That number is the number " +
                 "of how many mines<br> are surrounding it.<br><br>2: Mark all the mines<" +
@@ -26,7 +26,7 @@ class Info extends JPanel {
     }
 
     private JLabel createGifLabel() {
-        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/555.gif";
+        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/pentagramGif.gif";
         ImageIcon icon = new ImageIcon(pass);
 
         JLabel newLabel = new JLabel();
@@ -39,7 +39,7 @@ class Info extends JPanel {
     }
 
     private JPanel returnPanel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/Black.jpg");
+        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/black.jpg");
         JPanel panelExit = new JPanel();
 
         panelExit.setLayout(new GridBagLayout());
@@ -81,11 +81,11 @@ class Info extends JPanel {
         return panelExit;
     }
 
-    static JButton getButton(){
+    static JButton getButton() {
         return back;
     }
 
-    static void createButtons(){
+    static void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
 

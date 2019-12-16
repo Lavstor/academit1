@@ -90,7 +90,7 @@ public class MineSweeper extends JFrame {
         String command = event.getActionCommand();
 
         if (command.equals("EXIT")) {
-            ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/EXIT.gif");
+            ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperExit/exitGame.gif");
 
             if (JOptionPane.showConfirmDialog(this, "           YOU SHURE?", "EXIT",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {

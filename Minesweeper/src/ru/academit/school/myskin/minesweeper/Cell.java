@@ -5,7 +5,7 @@ public class Cell {
     private boolean isHidden = false;
     private int nearMinesCount = 0;
 
-    public Cell(boolean isMine) {
+    Cell(boolean isMine) {
         this.isMine = isMine;
     }
 
@@ -13,12 +13,12 @@ public class Cell {
         return isMine;
     }
 
-    public void increaseNearMines(int count) {
+    void increaseNearMines(int count) {
         nearMinesCount += count;
     }
 
-    public void setAsMine(boolean isMine) {
-        this.isMine = isMine;
+    void setAsMine() {
+        this.isMine = true;
     }
 
     public int getMines() {
