@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ class Records extends JPanel {
     private static JButton back;
     final private JLabel[] exitGifArray;
 
-    Records(List<Player> playerList) {
+    Records(List<User> userList) {
         String pentagram = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/pentagram.png";
         String first = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/first.png";
         String second = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/second.gif";
@@ -45,7 +45,7 @@ class Records extends JPanel {
 
             add(topPanel[i], constraints);
         }
-        playerList = playerList.stream().sorted(Comparator.comparingDouble(Player::getScore).reversed()).collect(Collectors.toList());
+        userList = userList.stream().sorted(Comparator.comparingDouble(User::getScore).reversed()).collect(Collectors.toList());
 
         for (int i = 1; i <= 10; i++) {
             constraints.gridy = i;
@@ -54,10 +54,10 @@ class Records extends JPanel {
             add(new JLabel("#" + i), constraints);
 
             constraints.gridx = 1;
-            add(new JLabel(playerList.get(i - 1).getName()), constraints);
+            add(new JLabel(userList.get(i - 1).getName()), constraints);
 
             constraints.gridx = 2;
-            add(new JLabel(String.valueOf(playerList.get(i - 1).getScore())), constraints);
+            add(new JLabel(String.valueOf(userList.get(i - 1).getScore())), constraints);
 
             constraints.gridx = 3;
             add(createGifLabel(imagesPassArray[i - 1]), constraints);

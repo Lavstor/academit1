@@ -1,11 +1,11 @@
-package ru.academit.school.myskin.minesweeper;
+package ru.academit.school.myskin.minesweeper.cell;
 
-public class Cell {
+public class DefaultCell implements Cell {
     private boolean isMine;
     private boolean isHidden = false;
     private int nearMinesCount;
 
-    Cell(boolean isMine) {
+    public DefaultCell(boolean isMine) {
         this.isMine = isMine;
     }
 
@@ -13,11 +13,11 @@ public class Cell {
         return isMine;
     }
 
-    void increaseNearMines(int count) {
+    public void increaseNearMines(int count) {
         nearMinesCount += count;
     }
 
-    void setAsMine() {
+    public void setAsMine() {
         this.isMine = true;
     }
 
@@ -29,7 +29,7 @@ public class Cell {
         return !isHidden;
     }
 
-    public void setHidden(boolean b) {
-        isHidden = b;
+    public void setHidden(boolean hidden) {
+        isHidden = hidden;
     }
 }

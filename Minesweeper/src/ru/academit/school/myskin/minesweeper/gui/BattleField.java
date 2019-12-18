@@ -1,8 +1,8 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Cell;
+import ru.academit.school.myskin.minesweeper.cell.Cell;
 import ru.academit.school.myskin.minesweeper.Model;
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,7 +18,7 @@ import java.util.Queue;
 class BattleField extends JPanel {
     final private BufferedImage crossImage;
     final private BufferedImage flagImage;
-    final private Player player;
+    final private User user;
     final private JLabel score;
     final private JPanel gamePanel;
     final private JPanel topPanel;
@@ -38,14 +38,14 @@ class BattleField extends JPanel {
     private boolean gameOver = false;
     private static JButton updatePlayer;
 
-    BattleField(int width, int height, int mines, Player player) {
+    BattleField(int width, int height, int mines, User user) {
         this.cells = (width * height) - mines;
 
         topPanel = new JPanel();
         gamePanel = new JPanel();
 
         score = new JLabel("Your score: ");
-        this.player = player;
+        this.user = user;
 
         GridBagConstraints constraints1 = new GridBagConstraints();
 
@@ -59,7 +59,7 @@ class BattleField extends JPanel {
 
         constraints2.gridx = 0;
 
-        topPanel.add(new JLabel(player.getName()), constraints2);
+        topPanel.add(new JLabel(user.getName()), constraints2);
 
         constraints2.weightx = 10;
         constraints2.gridx = 5;
@@ -127,7 +127,7 @@ class BattleField extends JPanel {
 
                         if (clicks == 0) {
                             model = new Model(height, width, mines, i, j);
-                            map = model.getCells();
+                            map = model.getDefaultCells();
 
                             repaint();
                         }
@@ -318,8 +318,8 @@ class BattleField extends JPanel {
     }
 
     private void setScore() {
-        if (player.getScore() < currentScore) {
-            player.setScore(currentScore);
+        if (user.getScore() < currentScore) {
+            user.setScore(currentScore);
         }
     }
 

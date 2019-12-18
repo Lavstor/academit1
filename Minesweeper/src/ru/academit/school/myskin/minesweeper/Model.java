@@ -1,11 +1,16 @@
 package ru.academit.school.myskin.minesweeper;
 
+import ru.academit.school.myskin.minesweeper.cell.Cell;
+import ru.academit.school.myskin.minesweeper.cell.DefaultCell;
+import ru.academit.school.myskin.minesweeper.user.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
+
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class Model {
-    private Cell[][] cells;
+    private Cell[][] defaultCells;
     final private int HEIGHT;
     final private int WIDTH;
     private int countOfMines;
@@ -14,15 +19,15 @@ public class Model {
         HEIGHT = height;
         WIDTH = width;
         this.countOfMines = countOfMines;
-        cells = new Cell[height][width];
+        defaultCells = new DefaultCell[height][width];
 
-        generateMap(firstY, firstX);
+        generateCellMap(firstY, firstX);
     }
 
-    private void generateMap(int height, int width) {
+    private void generateCellMap(int height, int width) {
         Random rnd = new Random();
 
-        Cell[][] map = new Cell[HEIGHT][WIDTH];
+        DefaultCell[][] map = new DefaultCell[HEIGHT][WIDTH];
 
         int minesCount = 0;
 
@@ -30,7 +35,7 @@ public class Model {
 
         for (int x = 0; x < HEIGHT; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                map[x][y] = new Cell(false);
+                map[x][y] = new DefaultCell(false);
             }
         }
         while (minesCount != countOfMines) {
@@ -60,20 +65,21 @@ public class Model {
                 }
             }
         }
-        this.cells = map;
+        this.defaultCells = map;
     }
 
-    public Cell[][] getCells() {
-        return cells;
+    public Cell[][] getDefaultCells() {
+        return defaultCells;
     }
 
-    public static LinkedList<Player> readPlayers() {
+    public static LinkedList<User> readPlayers() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
             //noinspection unchecked
-            return (LinkedList<Player>) in.readObject();
+            return (LinkedList<User>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-                LinkedList<Player> newPlayers = new LinkedList<>();
+                LinkedList<User> newPlayers = new LinkedList<>();
+
                 newPlayers.add(new Player("Jesus Christ", 65.0));
                 newPlayers.add(new Player("Mr. Hankey", 94.0));
                 newPlayers.add(new Player("Leopold Stotch", 81.0));
@@ -98,13 +104,13 @@ public class Model {
         return null;
     }
 
-    public static void writePlayers(Player player) {
-        LinkedList<Player> players = readPlayers();
+    public static void writeUsers(User user) {
+        LinkedList<User> players = readPlayers();
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
             assert players != null;
 
-            players.add(player);
+            players.add(user);
 
             out.writeObject(players);
         } catch (IOException ex) {
@@ -112,7 +118,7 @@ public class Model {
         }
     }
 
-    public static void updateList(LinkedList<Player> players) {
+    public static void updateList(LinkedList<User> players) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
             out.writeObject(players);
         } catch (IOException ex) {

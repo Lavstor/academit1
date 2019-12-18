@@ -1,7 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.Model;
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -19,7 +19,7 @@ public class MineSweeper extends JFrame {
     private NewPassword newPassword;
     private GameSettings gameSettings;
     private BattleField battleField;
-    private LinkedList<Player> players = Model.readPlayers();
+    private LinkedList<User> users = Model.readPlayers();
 
     public MineSweeper() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -97,7 +97,7 @@ public class MineSweeper extends JFrame {
         if (command.equals("RECORDS")) {
             remove(menu);
 
-            records = new Records(players);
+            records = new Records(users);
             add(records, BorderLayout.CENTER);
             records.setVisible(true);
             repaint();
@@ -115,7 +115,7 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("NEW GAME")) {
             remove(menu);
-            password = new Password(players);
+            password = new Password(users);
             add(password, BorderLayout.CENTER);
             password.setVisible(true);
             repaint();
@@ -164,30 +164,30 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("BACK TO PASSWORD")) {
             remove(newPassword);
-            password = new Password(players);
+            password = new Password(users);
             add(password, BorderLayout.CENTER);
             password.updateUI();
         }
 
         if (command.equals("BACK TO PASSWORD FROM OPTIONS")) {
             remove(gameSettings);
-            password = new Password(players);
+            password = new Password(users);
             add(password, BorderLayout.CENTER);
             password.updateUI();
         }
 
         if (command.equals("TO NEW PASSWORD FROM PASSWORD")) {
             remove(password);
-            newPassword = new NewPassword(players);
+            newPassword = new NewPassword(users);
             add(newPassword, BorderLayout.CENTER);
             newPassword.updateUI();
         }
 
         if (command.equals("TO OPTIONS FROM PASSWORD")) {
             if (password.checkPassword()) {
-                Player ourPlayer = Password.getPlayer();
+                User currentUser = Password.getPlayer();
                 remove(password);
-                gameSettings = new GameSettings(ourPlayer);
+                gameSettings = new GameSettings(currentUser);
                 gameSettings.defaultSetup();
                 gameSettings.setHideCancel(false);
                 add(gameSettings, BorderLayout.CENTER);
@@ -198,8 +198,8 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("CHECK DATA")) {
             if (newPassword.checkData()) {
-                players = Model.readPlayers();
-                password = new Password(players);
+                users = Model.readPlayers();
+                password = new Password(users);
                 remove(newPassword);
                 add(password, BorderLayout.CENTER);
                 password.updateUI();
@@ -261,7 +261,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("UPDATE")) {
-            Model.updateList(players);
+            Model.updateList(users);
         }
     }
 }

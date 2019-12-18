@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (4)" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="13" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="ru.academit.school.myskin.minesweeper.Main" />
     <module name="Minesweeper" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ru.academit.school.myskin.minesweeper.*" />
+        <option name="PATTERN" value="ru.academit.school.myskin.minesweeper.cell.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

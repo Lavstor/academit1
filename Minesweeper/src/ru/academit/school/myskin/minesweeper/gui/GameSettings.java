@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 class GameSettings extends JPanel {
-    final private Player player;
+    final private User user;
 
     final private JTextField heightField;
     final private JTextField weightField;
@@ -28,8 +28,9 @@ class GameSettings extends JPanel {
 
     private static List<JButton> buttons = new LinkedList<>();
 
-    GameSettings(Player player) {
-        this.player = player;
+    GameSettings(User player) {
+        this.user = player;
+
         weightField = new JTextField(3);
         heightField = new JTextField(3);
         mines = new JTextField(2);
@@ -117,13 +118,13 @@ class GameSettings extends JPanel {
     JPanel createMap() {
         if (defaultPane.isVisible()) {
             if (easy.isSelected()) {
-                return new BattleField(9, 9, 10, player);
+                return new BattleField(9, 9, 10, user);
             }
             if (normal.isSelected()) {
-                return new BattleField(15, 15, 50, player);
+                return new BattleField(15, 15, 50, user);
             }
             if (high.isSelected()) {
-                return new BattleField(20, 20, 85, player);
+                return new BattleField(20, 20, 85, user);
             }
         } else {
             try {
@@ -133,7 +134,7 @@ class GameSettings extends JPanel {
 
                 if (weight > 0 && weight < 35 && height > 0 && height < 35 && mines > 0 && mines <= (weight * height) * 0.75) {
                     return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
-                            Integer.parseInt(this.mines.getText()), player);
+                            Integer.parseInt(this.mines.getText()), user);
                 } else {
                     JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                 }

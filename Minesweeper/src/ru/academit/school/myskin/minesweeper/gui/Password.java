@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +13,11 @@ class Password extends JPanel {
     final private JTextField nickNameField;
     final private JPasswordField passwordField;
 
-    private LinkedList<Player> players;
+    private LinkedList<User> players;
     private static List<JButton> buttons = new LinkedList<>();
-    private static Player ourPlayer;
+    private static User ourPlayer;
 
-    Password(LinkedList<Player> players) {
+    Password(LinkedList<User> players) {
         this.players = players;
 
         passwordField = new JPasswordField(10);
@@ -63,7 +63,7 @@ class Password extends JPanel {
     boolean checkPassword() {
         char[] input = passwordField.getPassword();
         String login = nickNameField.getText();
-        List<Player> ourUser;
+        List<User> ourUser;
 
         if (players.size() == 0) {
             JOptionPane.showMessageDialog(this, "Invalid password or login. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
@@ -120,7 +120,7 @@ class Password extends JPanel {
         return buttons;
     }
 
-    static Player getPlayer() {
+    static User getPlayer() {
         return ourPlayer;
     }
 }

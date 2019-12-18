@@ -1,7 +1,8 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.Model;
-import ru.academit.school.myskin.minesweeper.Player;
+import ru.academit.school.myskin.minesweeper.user.Player;
+import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +15,12 @@ class NewPassword extends JPanel {
     final private JTextField nickNameField;
     final private JPasswordField passwordField;
     final private JPasswordField confirmPasswordField;
-    final private LinkedList<Player> players;
+    final private LinkedList<User> players;
 
     private static List<JButton> buttons = new LinkedList<>();
 
-    NewPassword(LinkedList<Player> players) {
-        this.players = players;
+    NewPassword(LinkedList<User> users) {
+        this.players = users;
 
         setVisible(true);
 
@@ -95,7 +96,7 @@ class NewPassword extends JPanel {
             return false;
         }
 
-        List<Player> ourUser;
+        List<User> ourUser;
         ourUser = players.stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
@@ -118,8 +119,7 @@ class NewPassword extends JPanel {
             return false;
         }
 
-        Player ourPlayer = new Player(login, password);
-        Model.writePlayers(ourPlayer);
+        Model.writeUsers(new Player(login, password));
 
         return true;
     }
