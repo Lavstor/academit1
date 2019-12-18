@@ -1,8 +1,5 @@
 package ru.academ.it.school.swing.view;
 
-import ru.academ.it.school.swing.classes.CelsiusScale;
-import ru.academ.it.school.swing.classes.FahrenheitScale;
-import ru.academ.it.school.swing.classes.KelvinScale;
 import ru.academ.it.school.swing.classes.Scale;
 import ru.academ.it.school.swing.model.Model;
 
@@ -12,10 +9,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class View {
-    private Model model = new Model();
-    private Scale[] scales = {new KelvinScale(), new CelsiusScale(), new FahrenheitScale()};
-
-    public View() {
+    public View(Model model, Scale[] scales) {
         SwingUtilities.invokeLater(() -> {
             Image img = Toolkit.getDefaultToolkit().getImage("Swing/FrameImage.jpg");
 
@@ -32,8 +26,8 @@ public class View {
 
             JTextField textField = new JTextField("55", 25);
 
-            JComboBox<Scale> convertedTo = new JComboBox<>(this.scales);
-            JComboBox<Scale> convertible = new JComboBox<>(this.scales);
+            JComboBox<Scale> convertedTo = new JComboBox<>(scales);
+            JComboBox<Scale> convertible = new JComboBox<>(scales);
 
             panel.setLayout(new GridLayout(4, 2));
 
@@ -59,15 +53,23 @@ public class View {
             frame.add(mainPanel);
 
             enter.addActionListener(actionEvent -> {
-                try {
-                    answer.setText("= " + model.transfer((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
-                            (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText()));
-                } catch (NullPointerException ignored) {
-                } catch (NumberFormatException e) {
-                    answer.setText("Error! Invalid format!");
+
+                Scale convertibleScale = (Scale) convertible.getSelectedItem();
+                Scale convertedScale = (Scale) convertedTo.getSelectedItem();
+
+                if (convertedScale != null && convertibleScale != null) {
+                    try {
+                        double scaleResult = model.convert((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
+                                (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText());
+
+                        answer.setText("= " + scaleResult);
+                    } catch (NumberFormatException e) {
+                        answer.setText("Error! Invalid format!");
+                    }
+                } else {
+                    answer.setText("Error! Invalid scale!");
                 }
             });
-
             UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         });
     }

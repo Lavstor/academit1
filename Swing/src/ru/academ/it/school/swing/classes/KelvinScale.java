@@ -2,12 +2,12 @@ package ru.academ.it.school.swing.classes;
 
 public class KelvinScale implements Scale {
     @Override
-    public double transferToCelsius(double value) {
+    public double convertToCelsius(double value) {
         return value - 273.15;
     }
 
     @Override
-    public double transferFromCelsius(double value) {
+    public double convertFromCelsius(double value) {
         return value + 273.15;
     }
 
