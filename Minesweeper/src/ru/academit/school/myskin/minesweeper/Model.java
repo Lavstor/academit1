@@ -105,14 +105,14 @@ public class Model {
     }
 
     public static void writeUsers(User user) {
-        LinkedList<User> players = readPlayers();
+        LinkedList<User> users = readPlayers();
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
-            assert players != null;
+            assert users != null;
 
-            players.add(user);
+            users.add(user);
 
-            out.writeObject(players);
+            out.writeObject(users);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
