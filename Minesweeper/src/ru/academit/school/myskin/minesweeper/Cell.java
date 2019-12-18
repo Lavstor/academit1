@@ -3,7 +3,7 @@ package ru.academit.school.myskin.minesweeper;
 public class Cell {
     private boolean isMine;
     private boolean isHidden = false;
-    private int nearMinesCount = 0;
+    private int nearMinesCount;
 
     Cell(boolean isMine) {
         this.isMine = isMine;

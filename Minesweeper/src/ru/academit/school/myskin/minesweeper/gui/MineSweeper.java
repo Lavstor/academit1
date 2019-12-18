@@ -42,7 +42,6 @@ public class MineSweeper extends JFrame {
         BattleField.createButtons();
 
         menu = new Menu();
-
         add(menu, BorderLayout.CENTER);
         menu.updateUI();
 

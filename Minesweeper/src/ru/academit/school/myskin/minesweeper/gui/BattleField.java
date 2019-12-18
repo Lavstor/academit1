@@ -16,24 +16,27 @@ import java.util.List;
 import java.util.Queue;
 
 class BattleField extends JPanel {
-    private BufferedImage crossImage;
-    private BufferedImage flagImage;
+    final private BufferedImage crossImage;
+    final private BufferedImage flagImage;
+    final private Player player;
+    final private JLabel score;
+    final private JPanel gamePanel;
+    final private JPanel topPanel;
+    final private JLabel[][] cellLabels;
+    final private String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
+
     private double currentScore;
     private int clicks;
     private int cells;
     private static JButton menu;
     private static JButton topPanelNewGame;
-    private JLabel score;
-    private JPanel gamePanel;
-    private JPanel topPanel;
-    private JLabel[][] cellLabels;
+
     private Model model;
     private Cell[][] map;
-    private Player player;
+
     private static List<JButton> buttons = new LinkedList<>();
     private boolean gameOver = false;
     private static JButton updatePlayer;
-    private String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
 
     BattleField(int width, int height, int mines, Player player) {
         this.cells = (width * height) - mines;
@@ -145,6 +148,7 @@ class BattleField extends JPanel {
 
                                     score.setText("Your score: " + currentScore);
                                 } else {
+                                    assert crossImage != null;
                                     setIcon(cellLabels[i][j], crossImage);
 
                                     JLabel centerLabel = new JLabel(String.valueOf(map[i][j].getMines()), JLabel.CENTER);
@@ -168,6 +172,7 @@ class BattleField extends JPanel {
                             }
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
                             if (map[i][j].isHidden()) {
+                                assert flagImage != null;
                                 setIcon(cellLabels[i][j], flagImage);
                             }
                         }

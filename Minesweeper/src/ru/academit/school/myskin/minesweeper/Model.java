@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class Model {
     private Cell[][] cells;
-    private int HEIGHT;
-    private int WIDTH;
+    final private int HEIGHT;
+    final private int WIDTH;
     private int countOfMines;
 
     public Model(int height, int width, int countOfMines, int firstY, int firstX) {

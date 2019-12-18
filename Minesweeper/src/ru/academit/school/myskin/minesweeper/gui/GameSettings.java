@@ -8,17 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 class GameSettings extends JPanel {
-    private Player player;
+    final private Player player;
 
-    private JTextField heightField;
-    private JTextField weightField;
-    private JTextField mines;
+    final private JTextField heightField;
+    final private JTextField weightField;
+    final private JTextField mines;
 
-    private JRadioButton easy;
-    private JRadioButton normal;
-    private JRadioButton high;
-    private JPanel customPane;
-    private JPanel defaultPane;
+    final private JRadioButton easy;
+    final private JRadioButton normal;
+    final private JRadioButton high;
+    final private JPanel customPane;
+    final private JPanel defaultPane;
 
     private static JButton okButton;
     private static JButton defaultButton;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class Player implements Serializable {
-    private String name;
+    final private String name;
     private double score;
     private char[] pass;
     static final long serialVersionUID = 1L;

@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class Password extends JPanel {
-    private JTextField nickNameField;
-    private JPasswordField passwordField;
+    final private JTextField nickNameField;
+    final private JPasswordField passwordField;
+
     private LinkedList<Player> players;
     private static List<JButton> buttons = new LinkedList<>();
     private static Player ourPlayer;

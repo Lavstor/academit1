@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 class Records extends JPanel {
     private static JButton back;
-    private JLabel[] exitGifArray;
+    final private JLabel[] exitGifArray;
 
     Records(List<Player> playerList) {
         String pentagram = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/pentagram.png";
