@@ -53,16 +53,13 @@ public class View {
             frame.add(mainPanel);
 
             enter.addActionListener(actionEvent -> {
-
                 Scale convertibleScale = (Scale) convertible.getSelectedItem();
                 Scale convertedScale = (Scale) convertedTo.getSelectedItem();
 
                 if (convertedScale != null && convertibleScale != null) {
                     try {
-                        double scaleResult = model.convert((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
-                                (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText());
-
-                        answer.setText("= " + scaleResult);
+                        answer.setText("= " + model.convert((Scale) Objects.requireNonNull(convertible.getSelectedItem()),
+                                (Scale) Objects.requireNonNull(convertedTo.getSelectedItem()), textField.getText()));
                     } catch (NumberFormatException e) {
                         answer.setText("Error! Invalid format!");
                     }
