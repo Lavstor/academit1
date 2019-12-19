@@ -22,31 +22,33 @@ public class MineSweeper extends JFrame {
     private LinkedList<User> users = Model.readPlayers();
 
     public MineSweeper() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width - 900) / 2, (screenSize.height - 700) / 2, 900, 700);
+        SwingUtilities.invokeLater(() -> {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds((screenSize.width - 900) / 2, (screenSize.height - 700) / 2, 900, 700);
 
-        setLayout(new BorderLayout());
-        customUI();
+            setLayout(new BorderLayout());
+            customUI();
 
-        setVisible(true);
-        Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
-                "/myskin/minesweeper/resources/minesweeperFrame/frameIcon.jpg");
-        setIconImage(img);
+            setVisible(true);
+            Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
+                    "/myskin/minesweeper/resources/minesweeperFrame/frameIcon.jpg");
+            setIconImage(img);
 
-        Menu.createButtons();
-        Info.createButtons();
-        Records.createButtons();
-        Password.createButtons();
-        NewPassword.createButtons();
-        GameSettings.createButtons();
-        BattleField.createButtons();
+            Menu.createButtons();
+            Info.createButtons();
+            Records.createButtons();
+            Password.createButtons();
+            NewPassword.createButtons();
+            GameSettings.createButtons();
+            BattleField.createButtons();
 
-        menu = new Menu();
-        add(menu, BorderLayout.CENTER);
-        menu.updateUI();
+            menu = new Menu();
+            add(menu, BorderLayout.CENTER);
+            menu.updateUI();
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getButtons();
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            getButtons();
+        });
     }
 
     private void customUI() {
