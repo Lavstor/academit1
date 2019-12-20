@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class NewPassword extends JPanel {
+    private static List<JButton> buttons = new LinkedList<>();
+
     final private JTextField nickNameField;
     final private JPasswordField passwordField;
     final private JPasswordField confirmPasswordField;
     final private LinkedList<User> players;
-
-    private static List<JButton> buttons = new LinkedList<>();
 
     NewPassword(LinkedList<User> users) {
         this.players = users;

@@ -11,13 +11,14 @@ import java.util.Random;
 
 public class Model {
     private Cell[][] defaultCells;
-    final private int HEIGHT;
-    final private int WIDTH;
     private int countOfMines;
 
+    final private int height;
+    final private int width;
+
     public Model(int height, int width, int countOfMines, int firstY, int firstX) {
-        HEIGHT = height;
-        WIDTH = width;
+        this.height = height;
+        this.width = width;
         this.countOfMines = countOfMines;
         defaultCells = new DefaultCell[height][width];
 
@@ -27,20 +28,20 @@ public class Model {
     private void generateCellMap(int height, int width) {
         Random rnd = new Random();
 
-        DefaultCell[][] map = new DefaultCell[HEIGHT][WIDTH];
+        DefaultCell[][] map = new DefaultCell[this.height][this.width];
 
         int minesCount = 0;
 
-        int[][] counts = new int[HEIGHT][WIDTH];
+        int[][] counts = new int[this.height][this.width];
 
-        for (int x = 0; x < HEIGHT; x++) {
-            for (int y = 0; y < WIDTH; y++) {
+        for (int x = 0; x < this.height; x++) {
+            for (int y = 0; y < this.width; y++) {
                 map[x][y] = new DefaultCell(false);
             }
         }
         while (minesCount != countOfMines) {
-            int x = rnd.nextInt(HEIGHT);
-            int y = rnd.nextInt(WIDTH);
+            int x = rnd.nextInt(this.height);
+            int y = rnd.nextInt(this.width);
 
             if (minesCount != countOfMines && x != height && y != width && !map[x][y].isMine()) {
                 minesCount++;
@@ -57,14 +58,16 @@ public class Model {
                 }
             }
         }
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
+
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
                 try {
                     map[i][j].increaseNearMines(counts[i][j]);
                 } catch (NullPointerException ignored) {
                 }
             }
         }
+
         this.defaultCells = map;
     }
 
@@ -94,11 +97,9 @@ public class Model {
                 out.writeObject(newPlayers);
 
                 return newPlayers;
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } catch (IOException ignored) {
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
         return null;
@@ -113,16 +114,14 @@ public class Model {
             users.add(user);
 
             out.writeObject(users);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
     public static void updateList(LinkedList<User> players) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
             out.writeObject(players);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 }

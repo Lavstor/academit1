@@ -12,4 +12,8 @@ public interface Cell {
     boolean isHidden();
 
     void setHidden(boolean hide);
+
+    void setMarked(boolean mark);
+
+    boolean isMarked();
 }

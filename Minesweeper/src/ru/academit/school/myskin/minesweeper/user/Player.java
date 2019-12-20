@@ -3,10 +3,11 @@ package ru.academit.school.myskin.minesweeper.user;
 import java.util.Arrays;
 
 public class Player implements User {
-    final private String name;
     private double score;
     private char[] pass;
+
     static final long serialVersionUID = 1L;
+    final private String name;
 
     public Player(String name, double score) {
         this.name = name;

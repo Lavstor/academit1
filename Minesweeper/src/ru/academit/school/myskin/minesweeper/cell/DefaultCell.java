@@ -3,7 +3,10 @@ package ru.academit.school.myskin.minesweeper.cell;
 public class DefaultCell implements Cell {
     private boolean isMine;
     private boolean isHidden = false;
+    private boolean isMarked = false;
+
     private int nearMinesCount;
+
 
     public DefaultCell(boolean isMine) {
         this.isMine = isMine;
@@ -31,5 +34,13 @@ public class DefaultCell implements Cell {
 
     public void setHidden(boolean hidden) {
         isHidden = hidden;
+    }
+
+    public void setMarked(boolean mark) {
+        isMarked = mark;
+    }
+
+    public boolean isMarked() {
+        return isMarked;
     }
 }

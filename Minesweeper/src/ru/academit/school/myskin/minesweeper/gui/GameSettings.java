@@ -8,25 +8,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 class GameSettings extends JPanel {
-    final private User user;
-
-    final private JTextField heightField;
-    final private JTextField weightField;
-    final private JTextField mines;
-
-    final private JRadioButton easy;
-    final private JRadioButton normal;
-    final private JRadioButton high;
-    final private JPanel customPane;
-    final private JPanel defaultPane;
-
     private static JButton okButton;
     private static JButton defaultButton;
     private static JButton customButton;
     private static JButton cancel;
     private static JButton backToBattlefield;
-
     private static List<JButton> buttons = new LinkedList<>();
+
+    final private User user;
+    final private JTextField heightField;
+    final private JTextField weightField;
+    final private JTextField mines;
+    final private JRadioButton easy;
+    final private JRadioButton normal;
+    final private JRadioButton high;
+    final private JPanel customPane;
+    final private JPanel defaultPane;
 
     GameSettings(User player) {
         this.user = player;

@@ -33,6 +33,7 @@ public class MineSweeper extends JFrame {
             Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
                     "/myskin/minesweeper/resources/minesweeperFrame/frameIcon.jpg");
             setIconImage(img);
+            setTitle("Minesweeper");
 
             Menu.createButtons();
             Info.createButtons();

@@ -16,27 +16,27 @@ import java.util.List;
 import java.util.Queue;
 
 class BattleField extends JPanel {
+    private double currentScore;
+    private int clicks;
+    private int cells;
+    private static JButton menu;
+    private static JButton topPanelNewGame;
+    private Model model;
+    private Cell[][] map;
+    private static List<JButton> buttons = new LinkedList<>();
+    private boolean gameOver = false;
+    private static JButton updatePlayer;
+
     final private BufferedImage crossImage;
     final private BufferedImage flagImage;
+    final private BufferedImage questImage;
+
     final private User user;
     final private JLabel score;
     final private JPanel gamePanel;
     final private JPanel topPanel;
     final private JLabel[][] cellLabels;
     final private String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
-
-    private double currentScore;
-    private int clicks;
-    private int cells;
-    private static JButton menu;
-    private static JButton topPanelNewGame;
-
-    private Model model;
-    private Cell[][] map;
-
-    private static List<JButton> buttons = new LinkedList<>();
-    private boolean gameOver = false;
-    private static JButton updatePlayer;
 
     BattleField(int width, int height, int mines, User user) {
         this.cells = (width * height) - mines;
@@ -84,54 +84,52 @@ class BattleField extends JPanel {
 
         String cellSkinPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/cellSkin.jpg";
 
-        try {
-            BufferedImage img = ImageIO.read(new File(cellSkinPass));
+        BufferedImage cellImage = getBufferedImage(cellSkinPass);
 
-            for (int i = 0; i < height; i++) {
-                constraints1.gridy = i;
+        for (int i = 0; i < height; i++) {
+            constraints1.gridy = i;
 
-                for (int j = 0; j < width; j++) {
-                    constraints1.gridx = j;
+            for (int j = 0; j < width; j++) {
+                constraints1.gridx = j;
 
-                    cellLabels[i][j] = createCellLabel(img);
+                assert cellImage != null;
+                cellLabels[i][j] = createCellLabel(cellImage);
 
-                    gamePanel.add(cellLabels[i][j], constraints1);
-                }
+                gamePanel.add(cellLabels[i][j], constraints1);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
-        BufferedImage krest = null;
-        BufferedImage flag = null;
-
-        try {
-            String crossImagePass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/notMine.png";
-            krest = ImageIO.read(new File(crossImagePass));
-            String flag1 = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/flag.png";
-            flag = ImageIO.read(new File(flag1));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        crossImage = krest;
-        flagImage = flag;
+        crossImage = getBufferedImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/notMine.png");
+        flagImage = getBufferedImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/flag.png");
+        questImage = getBufferedImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/question.jpg");
 
         gamePanel.addMouseListener(new MouseAdapter() {
+            boolean isPressed = false;
+
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
+            public void mousePressed(MouseEvent mouseEvent) {
                 if (!gameOver) {
                     try {
                         int i = mouseEvent.getY() / (gamePanel.getHeight() / height);
                         int j = mouseEvent.getX() / (gamePanel.getWidth() / width);
 
+                        Thread pressingThread = new Thread(() -> {
+                            try {
+                                Thread.sleep(50);
+                                if(isPressed){
+                                    setFocused(i, j);
+                                }
+                            } catch (InterruptedException ignored) {
+                            }
+                        });
+
                         if (clicks == 0) {
                             model = new Model(height, width, mines, i, j);
                             map = model.getDefaultCells();
+                            clicks++;
 
                             repaint();
                         }
-                        clicks++;
 
                         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
                             if (map[i][j].isHidden()) {
@@ -171,13 +169,40 @@ class BattleField extends JPanel {
                                 map[i][j].setHidden(true);
                             }
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
-                            if (map[i][j].isHidden()) {
+                            if (map[i][j].isHidden() && !map[i][j].isMarked()) {
                                 assert flagImage != null;
+
                                 setIcon(cellLabels[i][j], flagImage);
+                                map[i][j].setMarked(true);
+                            } else if (map[i][j].isHidden()) {
+                                assert cellImage != null;
+
+                                setIcon(cellLabels[i][j], cellImage);
+                                map[i][j].setMarked(false);
                             }
+                        } else if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
+                            isPressed = true;
+
+                       //     pressingThread.setDaemon(true);
+                            pressingThread.start();
                         }
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("fefef");
                     }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
+                    isPressed = false;
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                if (isPressed) {
+
                 }
             }
         });
@@ -191,6 +216,17 @@ class BattleField extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         repaint();
+    }
+
+    private void setFocused(int i, int j) {
+        for (int k = -1; k < 2; k++) {
+            for (int n = -1; n < 2; n++) {
+                if (j + n < cellLabels[0].length && k + i < cellLabels.length && n + j >= 0 && k + i >= 0 && map[i + k][j + n].isHidden()) {
+                    // setIcon(cellLabels[i + k][j + n], questImage);
+                    cellLabels[i + k][j + n].setVisible(false);
+                }
+            }
+        }
     }
 
     private JLabel createCellLabel(BufferedImage img) {
@@ -300,7 +336,7 @@ class BattleField extends JPanel {
 
         winPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 topPanel.setVisible(true);
                 remove(winPanel);
 
@@ -321,6 +357,15 @@ class BattleField extends JPanel {
         if (user.getScore() < currentScore) {
             user.setScore(currentScore);
         }
+    }
+
+    private BufferedImage getBufferedImage(String pass) {
+        try {
+            return ImageIO.read(new File(pass));
+
+        } catch (IOException ignored) {
+        }
+        return null;
     }
 
     private JPanel lostPanel() {
@@ -347,7 +392,7 @@ class BattleField extends JPanel {
 
         winPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 topPanel.setVisible(true);
                 remove(winPanel);
 
