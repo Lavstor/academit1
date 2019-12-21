@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -105,6 +106,8 @@ class BattleField extends JPanel {
 
         gamePanel.addMouseListener(new MouseAdapter() {
             boolean isPressed = false;
+            int x = 0;
+            int y = 0;
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
@@ -113,15 +116,6 @@ class BattleField extends JPanel {
                         int i = mouseEvent.getY() / (gamePanel.getHeight() / height);
                         int j = mouseEvent.getX() / (gamePanel.getWidth() / width);
 
-                        Thread pressingThread = new Thread(() -> {
-                            try {
-                                Thread.sleep(50);
-                                if(isPressed){
-                                    setFocused(i, j);
-                                }
-                            } catch (InterruptedException ignored) {
-                            }
-                        });
 
                         if (clicks == 0) {
                             model = new Model(height, width, mines, i, j);
@@ -180,16 +174,15 @@ class BattleField extends JPanel {
                                 setIcon(cellLabels[i][j], cellImage);
                                 map[i][j].setMarked(false);
                             }
-                        } else if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
+                        } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
                             isPressed = true;
-
-                       //     pressingThread.setDaemon(true);
-                            pressingThread.start();
+                            mouseDragged(mouseEvent);
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         System.out.println("fefef");
                     }
                 }
+
             }
 
             @Override
@@ -200,10 +193,29 @@ class BattleField extends JPanel {
             }
 
             @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-                if (isPressed) {
+            public void mouseDragged(MouseEvent mouseEvent) {
+               /* Thread t = new Thread(() -> {
+                    LinkedList<JLabel> labels = new LinkedList<>();
 
-                }
+                    try {
+                        while (isPressed) {
+                            labels.addAll(setFocused(mouseEvent.getX(), mouseEvent.getY()));
+                        }
+                        throw (new InterruptedException());
+
+                    } catch (InterruptedException e) {
+                        labels.forEach(l -> l.setVisible(true));
+                        System.out.println("XIIII");
+                    }
+                });
+
+
+                    isPressed = true;
+                    t.start();
+*/
+               if(isPressed){
+                   setFocused(mouseEvent.getX(), mouseEvent.getY());
+               }
             }
         });
 
@@ -218,15 +230,18 @@ class BattleField extends JPanel {
         repaint();
     }
 
-    private void setFocused(int i, int j) {
+    private LinkedList<JLabel> setFocused(int i, int j) {
+        LinkedList<JLabel> list = new LinkedList<>();
+
         for (int k = -1; k < 2; k++) {
             for (int n = -1; n < 2; n++) {
                 if (j + n < cellLabels[0].length && k + i < cellLabels.length && n + j >= 0 && k + i >= 0 && map[i + k][j + n].isHidden()) {
-                    // setIcon(cellLabels[i + k][j + n], questImage);
                     cellLabels[i + k][j + n].setVisible(false);
+                    list.add(cellLabels[i + k][j + n]);
                 }
             }
         }
+        return list;
     }
 
     private JLabel createCellLabel(BufferedImage img) {
