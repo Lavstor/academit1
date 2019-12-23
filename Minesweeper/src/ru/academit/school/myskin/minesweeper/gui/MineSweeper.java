@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Model;
+import ru.academit.school.myskin.minesweeper.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
@@ -19,7 +19,8 @@ public class MineSweeper extends JFrame {
     private NewPassword newPassword;
     private GameSettings gameSettings;
     private BattleField battleField;
-    private LinkedList<User> users = Model.readPlayers();
+    private LinkedList<User> users = HighScoresReader.readPlayers();
+    private JPanel infoPanel;
 
     public MineSweeper() {
         SwingUtilities.invokeLater(() -> {
@@ -110,10 +111,12 @@ public class MineSweeper extends JFrame {
         if (command.equals("INFO")) {
             remove(menu);
             info = new Info();
-            add(info, BorderLayout.CENTER);
-            info.setVisible(true);
+            infoPanel = info.getPanel();
+
+            add(infoPanel, BorderLayout.CENTER);
+            infoPanel.setVisible(true);
             repaint();
-            info.updateUI();
+            infoPanel.updateUI();
         }
 
         if (command.equals("NEW GAME")) {
@@ -146,7 +149,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK TO MENU FROM INFO")) {
-            remove(info);
+            remove(infoPanel);
 
             menu = new Menu();
 
@@ -201,7 +204,7 @@ public class MineSweeper extends JFrame {
 
         if (command.equals("CHECK DATA")) {
             if (newPassword.checkData()) {
-                users = Model.readPlayers();
+                users = HighScoresReader.readPlayers();
                 password = new Password(users);
                 remove(newPassword);
                 add(password, BorderLayout.CENTER);
@@ -264,7 +267,7 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("UPDATE")) {
-            Model.updateList(users);
+            HighScoresReader.updateList(users);
         }
     }
 }

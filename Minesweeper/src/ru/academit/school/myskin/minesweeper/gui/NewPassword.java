@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.Model;
+import ru.academit.school.myskin.minesweeper.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.Player;
 import ru.academit.school.myskin.minesweeper.user.User;
 
@@ -119,7 +119,7 @@ class NewPassword extends JPanel {
             return false;
         }
 
-        Model.writeUsers(new Player(login, password));
+        HighScoresReader.writeUsers(new Player(login, password));
 
         return true;
     }

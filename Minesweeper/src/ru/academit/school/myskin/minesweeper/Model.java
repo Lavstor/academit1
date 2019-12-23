@@ -16,7 +16,7 @@ public class Model {
     final private int height;
     final private int width;
 
-    public Model(int height, int width, int countOfMines, int firstY, int firstX) {
+    public Model(int height, int width, int countOfMines, int firstX, int firstY) {
         this.height = height;
         this.width = width;
         this.countOfMines = countOfMines;
@@ -75,7 +75,7 @@ public class Model {
         return defaultCells;
     }
 
-    public static LinkedList<User> readPlayers() {
+   /* public static LinkedList<User> readPlayers() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
             //noinspection unchecked
             return (LinkedList<User>) in.readObject();
@@ -123,5 +123,5 @@ public class Model {
             out.writeObject(players);
         } catch (IOException ignored) {
         }
-    }
+    }*/
 }

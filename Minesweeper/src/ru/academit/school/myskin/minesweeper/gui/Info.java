@@ -5,11 +5,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class Info extends JPanel {
+class Info {
     private static JButton back;
+    private JPanel infoPanel;
 
     Info() {
-        setLayout(new BorderLayout());
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new BorderLayout());
 
         String text = "<html>MINESWEEPER<br><br>Game was crated by Myshkin Nikita Alekseevich." +
                 "<br><br>Some tips how to beat this:<br><br> 1:" +
@@ -19,10 +21,10 @@ class Info extends JPanel {
                 "<br><br>3: Finding the mines in 1 blocks helps a lot,<br> because it opens many squares and<br> good hints to 2's and 3's." +
                 "<br><br> Have fun!</html>";
 
-        add(new JLabel(text, JLabel.CENTER), BorderLayout.CENTER);
-        add(returnPanel(), BorderLayout.SOUTH);
+        infoPanel.add(new JLabel(text, JLabel.CENTER), BorderLayout.CENTER);
+        infoPanel.add(returnPanel(), BorderLayout.SOUTH);
 
-        setVisible(false);
+        infoPanel.setVisible(false);
     }
 
     private JLabel createGifLabel() {
@@ -76,13 +78,17 @@ class Info extends JPanel {
             }
         });
 
-        setVisible(true);
+        infoPanel.setVisible(true);
 
         return panelExit;
     }
 
     static JButton getButton() {
         return back;
+    }
+
+    public JPanel getPanel(){
+        return infoPanel;
     }
 
     static void createButtons() {
