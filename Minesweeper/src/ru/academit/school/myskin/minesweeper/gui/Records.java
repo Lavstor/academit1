@@ -10,11 +10,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Records extends JPanel {
+class Records {
+    private JPanel recordsPanel;
     private static JButton back;
     final private JLabel[] exitGifArray;
 
     Records(List<User> userList) {
+        recordsPanel = new JPanel();
         String pentagram = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/pentagram.png";
         String first = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/first.png";
         String second = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/second.gif";
@@ -33,7 +35,7 @@ class Records extends JPanel {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        setLayout(new GridBagLayout());
+        recordsPanel.setLayout(new GridBagLayout());
 
         constraints.fill = GridBagConstraints.CENTER;
         constraints.weighty = 1;
@@ -43,7 +45,7 @@ class Records extends JPanel {
         for (int i = 0; i < 4; i++) {
             constraints.gridx = i;
 
-            add(topPanel[i], constraints);
+            recordsPanel.add(topPanel[i], constraints);
         }
         userList = userList.stream().sorted(Comparator.comparingDouble(User::getScore).reversed()).collect(Collectors.toList());
 
@@ -51,16 +53,16 @@ class Records extends JPanel {
             constraints.gridy = i;
             constraints.gridx = 0;
 
-            add(new JLabel("#" + i), constraints);
+            recordsPanel.add(new JLabel("#" + i), constraints);
 
             constraints.gridx = 1;
-            add(new JLabel(userList.get(i - 1).getName()), constraints);
+            recordsPanel.add(new JLabel(userList.get(i - 1).getName()), constraints);
 
             constraints.gridx = 2;
-            add(new JLabel(String.valueOf(userList.get(i - 1).getScore())), constraints);
+            recordsPanel.add(new JLabel(String.valueOf(userList.get(i - 1).getScore())), constraints);
 
             constraints.gridx = 3;
-            add(createGifLabel(imagesPassArray[i - 1]), constraints);
+            recordsPanel.add(createGifLabel(imagesPassArray[i - 1]), constraints);
 
         }
         constraints.gridy++;
@@ -70,22 +72,22 @@ class Records extends JPanel {
 
         constraints.anchor = GridBagConstraints.EAST;
 
-        add(exitGifArray[0], constraints);
-        add(new JLabel(blackImage), constraints);
+        recordsPanel.add(exitGifArray[0], constraints);
+        recordsPanel.add(new JLabel(blackImage), constraints);
         constraints.gridx = 3;
 
         constraints.anchor = GridBagConstraints.WEST;
-        add(exitGifArray[1], constraints);
-        add(new JLabel(blackImage), constraints);
+        recordsPanel.add(exitGifArray[1], constraints);
+        recordsPanel.add(new JLabel(blackImage), constraints);
         constraints.gridx = 1;
 
         constraints.gridwidth = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
-        add(back, constraints);
+        recordsPanel.add(back, constraints);
 
-        setSize(350, 700);
-        setMinimumSize(new Dimension(350, 700));
+        recordsPanel.setSize(350, 700);
+        recordsPanel.setMinimumSize(new Dimension(350, 700));
 
         back.addMouseListener(new MouseAdapter() {
             @Override
@@ -101,7 +103,7 @@ class Records extends JPanel {
             }
         });
 
-        setVisible(false);
+        recordsPanel.setVisible(false);
     }
 
     static JButton getBackButton() {
@@ -135,5 +137,9 @@ class Records extends JPanel {
         back = new JButton("BACK");
         back.setBorderPainted(false);
         back.setActionCommand("BACK TO MENU FROM RECORDS");
+    }
+
+    JPanel getRecordsPanel(){
+        return recordsPanel;
     }
 }

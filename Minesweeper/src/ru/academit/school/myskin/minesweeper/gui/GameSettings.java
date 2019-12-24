@@ -7,7 +7,8 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-class GameSettings extends JPanel {
+class GameSettings {
+    private JPanel gameSettingsPanel;
     private static JButton okButton;
     private static JButton defaultButton;
     private static JButton customButton;
@@ -26,6 +27,7 @@ class GameSettings extends JPanel {
     final private JPanel defaultPane;
 
     GameSettings(User player) {
+        gameSettingsPanel = new JPanel();
         this.user = player;
 
         weightField = new JTextField(3);
@@ -68,19 +70,19 @@ class GameSettings extends JPanel {
         customPane.add(mines);
         customPane.add(this.mines);
 
-        setLayout(new GridBagLayout());
+        gameSettingsPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        add(customPane);
+        gameSettingsPanel.add(customPane);
 
         c.gridy = 1;
         c.insets = new Insets(25, 5, 5, 5);
 
-        add(defaultPane);
+        gameSettingsPanel.add(defaultPane);
 
         customPane.setVisible(false);
 
-        add(buttonPane);
+        gameSettingsPanel.add(buttonPane);
     }
 
     private JComponent createButtonPanel() {
@@ -115,13 +117,13 @@ class GameSettings extends JPanel {
     JPanel createMap() {
         if (defaultPane.isVisible()) {
             if (easy.isSelected()) {
-                return new BattleField(9, 9, 10, user);
+                return new BattleField(9, 9, 10, user).getBattleFieldPanel();
             }
             if (normal.isSelected()) {
-                return new BattleField(15, 15, 50, user);
+                return new BattleField(15, 15, 50, user).getBattleFieldPanel();
             }
             if (high.isSelected()) {
-                return new BattleField(20, 20, 85, user);
+                return new BattleField(20, 20, 85, user).getBattleFieldPanel();
             }
         } else {
             try {
@@ -131,12 +133,12 @@ class GameSettings extends JPanel {
 
                 if (weight > 0 && weight < 35 && height > 0 && height < 35 && mines > 0 && mines <= (weight * height) * 0.75) {
                     return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
-                            Integer.parseInt(this.mines.getText()), user);
+                            Integer.parseInt(this.mines.getText()), user).getBattleFieldPanel();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException o) {
-                JOptionPane.showMessageDialog(this, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -193,5 +195,9 @@ class GameSettings extends JPanel {
             cancel.setText("CANCEL");
             backToBattlefield.setVisible(false);
         }
+    }
+
+    JPanel getGameSettingsPanel(){
+        return gameSettingsPanel;
     }
 }

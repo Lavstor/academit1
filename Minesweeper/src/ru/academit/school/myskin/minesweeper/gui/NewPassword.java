@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.HighScoresReader;
+import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.Player;
 import ru.academit.school.myskin.minesweeper.user.User;
 
@@ -11,7 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class NewPassword extends JPanel {
+class NewPassword {
+    private JPanel newPasswordPanel;
     private static List<JButton> buttons = new LinkedList<>();
 
     final private JTextField nickNameField;
@@ -20,9 +21,10 @@ class NewPassword extends JPanel {
     final private LinkedList<User> players;
 
     NewPassword(LinkedList<User> users) {
+        newPasswordPanel = new JPanel();
         this.players = users;
 
-        setVisible(true);
+        newPasswordPanel.setVisible(true);
 
         passwordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
@@ -50,15 +52,15 @@ class NewPassword extends JPanel {
         textPane.add(confirmPassword);
         textPane.add(confirmPasswordField);
 
-        setLayout(new GridBagLayout());
+        newPasswordPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        add(textPane, constraints);
+        newPasswordPanel.add(textPane, constraints);
 
         constraints.gridy = 1;
         constraints.insets = new Insets(25, 5, 5, 5);
 
-        add(buttonPane, constraints);
+        newPasswordPanel.add(buttonPane, constraints);
     }
 
     private JComponent createButtonPanel() {
@@ -87,11 +89,11 @@ class NewPassword extends JPanel {
 
     boolean checkData() {
         char[] password = passwordField.getPassword();
-        char[] input2 = confirmPasswordField.getPassword();
+        char[] confirmPassword = confirmPasswordField.getPassword();
         String login = nickNameField.getText();
 
-        if (login.length() <= 3 || password.length <= 3) {
-            JOptionPane.showMessageDialog(this, "Too short login or password!", "Error Message", JOptionPane.ERROR_MESSAGE);
+        if (login.length() < 4 || password.length < 4) {
+            JOptionPane.showMessageDialog(newPasswordPanel, "Too short login or password! Minimum length must be at least 4 chars", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
@@ -100,15 +102,15 @@ class NewPassword extends JPanel {
         ourUser = players.stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
-            JOptionPane.showMessageDialog(this, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(newPasswordPanel, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
 
-        if (!Arrays.equals(password, input2)) {
-            JOptionPane.showMessageDialog(this, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
+        if (!Arrays.equals(password, confirmPassword)) {
+            JOptionPane.showMessageDialog(newPasswordPanel, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
             Arrays.fill(password, '0');
-            Arrays.fill(input2, '0');
+            Arrays.fill(confirmPassword, '0');
 
             passwordField.selectAll();
             resetFocus();
@@ -130,5 +132,9 @@ class NewPassword extends JPanel {
 
     static List<JButton> getButtons() {
         return buttons;
+    }
+
+    JPanel getNewPasswordPanel(){
+        return newPasswordPanel;
     }
 }

@@ -1,7 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.model.FieldCreator;
 import ru.academit.school.myskin.minesweeper.cell.Cell;
-import ru.academit.school.myskin.minesweeper.Model;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.imageio.ImageIO;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-class BattleField extends JPanel {
+class BattleField {
 
     private double currentScore;
     private int cells;
@@ -25,6 +25,7 @@ class BattleField extends JPanel {
     private static List<JButton> buttons = new LinkedList<>();
     private boolean gameOver = false;
     private static JButton updatePlayer;
+    private JPanel battleFieldPanel;
 
     final private BufferedImage crossImage;
     final private BufferedImage flagImage;
@@ -37,6 +38,8 @@ class BattleField extends JPanel {
     final private String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
 
     BattleField(int width, int height, int mines, User user) {
+        this.battleFieldPanel = new JPanel();
+
         this.cells = (width * height) - mines;
 
         topPanel = new JPanel();
@@ -137,22 +140,22 @@ class BattleField extends JPanel {
             }
         });
 
-        setVisible(true);
+        battleFieldPanel.setVisible(true);
 
         gamePanel.setBackground(Color.black);
 
-        setLayout(new BorderLayout());
-        add(gamePanel, BorderLayout.CENTER);
-        add(topPanel, BorderLayout.NORTH);
+        battleFieldPanel.setLayout(new BorderLayout());
+        battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
+        battleFieldPanel.add(topPanel, BorderLayout.NORTH);
 
-        repaint();
+        battleFieldPanel.repaint();
     }
 
     private void massPush(int height, int width) {
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if (width + j < cellLabels[0].length && i + height < cellLabels.length && j + width >= 0 && i + height >= 0 && map[height + i][width + j].isHidden()
-                        && !map[height + i][width + j].isMarked()) {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (width + j < cellLabels[0].length && i + height < cellLabels.length && j + width >= 0 && i + height >= 0
+                        && map[height + i][width + j].isHidden() && !map[height + i][width + j].isMarked()) {
                     openCell(height + i, width + j);
                 }
             }
@@ -168,20 +171,21 @@ class BattleField extends JPanel {
             showBombs();
             topPanel.setVisible(false);
 
-            remove(gamePanel);
-            add(lostPanel(), BorderLayout.CENTER);
+            battleFieldPanel.remove(gamePanel);
+            battleFieldPanel.add(lostPanel(), BorderLayout.CENTER);
         } else {
             paintCrossCell(height, width);
             currentScore++;
-            score.setText("Your score: " + currentScore);
 
             if (currentScore == cells) {
                 topPanel.setVisible(false);
-                remove(gamePanel);
+                battleFieldPanel.remove(gamePanel);
 
-                add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
+                battleFieldPanel.add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
             }
         }
+
+        score.setText("Your score: " + currentScore);
     }
 
     private void paintCrossCell(int height, int width) {
@@ -198,10 +202,10 @@ class BattleField extends JPanel {
     }
 
     private void createField(int height, int width, int mines, int firstY, int firstX) {
-        Model model = new Model(height, width, mines, firstX, firstY);
-        map = model.getDefaultCells();
+        FieldCreator fieldCreator = new FieldCreator(height, width, mines, firstX, firstY);
+        map = fieldCreator.getCells();
 
-        repaint();
+        battleFieldPanel.repaint();
     }
 
     private JLabel createCellLabel(BufferedImage img) {
@@ -252,8 +256,8 @@ class BattleField extends JPanel {
             height = queueHeight.remove();
             weight = queueWeight.remove();
 
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
                     if (height + i >= 0 && weight + j >= 0 && height + i < cellLabels.length && weight + j < cellLabels[0].length) {
                         if (map[height + i][weight + j].isHidden()) {
                             if (map[height + i][weight + j].getMines() == 0) {
@@ -266,9 +270,9 @@ class BattleField extends JPanel {
 
                             if (currentScore == cells) {
                                 topPanel.setVisible(false);
-                                remove(gamePanel);
+                                battleFieldPanel.remove(gamePanel);
 
-                                add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
+                                battleFieldPanel.add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
                             }
                         }
 
@@ -306,9 +310,9 @@ class BattleField extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 topPanel.setVisible(true);
-                remove(winPanel);
+                battleFieldPanel.remove(winPanel);
 
-                add(gamePanel, BorderLayout.CENTER);
+                battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
 
                 setScore();
@@ -337,7 +341,7 @@ class BattleField extends JPanel {
     }
 
     private JPanel lostPanel() {
-        remove(gamePanel);
+        battleFieldPanel.remove(gamePanel);
         JPanel winPanel = new JPanel();
 
         JLabel image = new JLabel();
@@ -362,9 +366,9 @@ class BattleField extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 topPanel.setVisible(true);
-                remove(winPanel);
+                battleFieldPanel.remove(winPanel);
 
-                add(gamePanel, BorderLayout.CENTER);
+                battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
 
                 setScore();
@@ -395,6 +399,10 @@ class BattleField extends JPanel {
         buttons.add(menu);
         buttons.add(topPanelNewGame);
         buttons.add(updatePlayer);
+    }
+
+    JPanel getBattleFieldPanel(){
+        return battleFieldPanel;
     }
 }
 

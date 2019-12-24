@@ -1,4 +1,4 @@
-package ru.academit.school.myskin.minesweeper;
+package ru.academit.school.myskin.minesweeper.model;
 
 import ru.academit.school.myskin.minesweeper.user.Player;
 import ru.academit.school.myskin.minesweeper.user.User;

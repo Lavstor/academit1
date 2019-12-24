@@ -6,11 +6,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
-class Menu extends JPanel {
+class Menu {
+    private JPanel menuPanel;
     private static JButton[] buttons;
 
     Menu() {
-        setLayout(new GridBagLayout());
+        menuPanel = new JPanel();
+        menuPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -35,25 +37,25 @@ class Menu extends JPanel {
             gridBagConstraints.fill = GridBagConstraints.NONE;
             gridBagConstraints.anchor = GridBagConstraints.EAST;
 
-            add(gifLabelArray[j], gridBagConstraints);
-            add(blackLabelArray[j], gridBagConstraints);
+            menuPanel.add(gifLabelArray[j], gridBagConstraints);
+            menuPanel.add(blackLabelArray[j], gridBagConstraints);
             j++;
 
             gridBagConstraints.gridx = 1;
 
             gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-            add(buttons[i], gridBagConstraints);
+            menuPanel.add(buttons[i], gridBagConstraints);
 
             gridBagConstraints.gridx = 2;
 
             gridBagConstraints.fill = GridBagConstraints.NONE;
             gridBagConstraints.anchor = GridBagConstraints.WEST;
 
-            add(gifLabelArray[j], gridBagConstraints);
-            add(blackLabelArray[j], gridBagConstraints);
+            menuPanel.add(gifLabelArray[j], gridBagConstraints);
+            menuPanel.add(blackLabelArray[j], gridBagConstraints);
             j++;
         }
-        setSize(500, 600);
+        menuPanel.setSize(500, 600);
 
         buttons[0].addMouseListener(new MouseAdapter() {
             @Override
@@ -141,5 +143,9 @@ class Menu extends JPanel {
             buttons[0].setActionCommand("NEW GAME");
             buttons[0].setText("NEW GAME");
         }
+    }
+
+    JPanel getMenuPanel() {
+        return menuPanel;
     }
 }

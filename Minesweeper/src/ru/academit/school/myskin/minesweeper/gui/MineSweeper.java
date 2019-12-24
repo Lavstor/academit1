@@ -1,6 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.HighScoresReader;
+import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
@@ -14,13 +14,12 @@ import java.util.LinkedList;
 public class MineSweeper extends JFrame {
     private Menu menu;
     private Records records;
-    private Info info;
     private Password password;
     private NewPassword newPassword;
     private GameSettings gameSettings;
-    private BattleField battleField;
     private LinkedList<User> users = HighScoresReader.readPlayers();
     private JPanel infoPanel;
+    private JPanel battleFieldPanel;
 
     public MineSweeper() {
         SwingUtilities.invokeLater(() -> {
@@ -45,8 +44,8 @@ public class MineSweeper extends JFrame {
             BattleField.createButtons();
 
             menu = new Menu();
-            add(menu, BorderLayout.CENTER);
-            menu.updateUI();
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            menu.getMenuPanel().updateUI();
 
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             getButtons();
@@ -99,18 +98,18 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("RECORDS")) {
-            remove(menu);
+            remove(menu.getMenuPanel());
 
             records = new Records(users);
-            add(records, BorderLayout.CENTER);
-            records.setVisible(true);
+            add(records.getRecordsPanel(), BorderLayout.CENTER);
+            records.getRecordsPanel().setVisible(true);
             repaint();
-            records.updateUI();
+            records.getRecordsPanel().updateUI();
         }
 
         if (command.equals("INFO")) {
-            remove(menu);
-            info = new Info();
+            remove(menu.getMenuPanel());
+            Info info = new Info();
             infoPanel = info.getPanel();
 
             add(infoPanel, BorderLayout.CENTER);
@@ -120,31 +119,31 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("NEW GAME")) {
-            remove(menu);
+            remove(menu.getMenuPanel());
             password = new Password(users);
-            add(password, BorderLayout.CENTER);
-            password.setVisible(true);
+            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            password.getPasswordPanel().setVisible(true);
             repaint();
-            password.updateUI();
+            password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("TO MENU FROM PASSWORD")) {
-            remove(password);
+            remove(password.getPasswordPanel());
 
             menu = new Menu();
 
-            add(menu, BorderLayout.CENTER);
-            menu.updateUI();
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            menu.getMenuPanel().updateUI();
             repaint();
         }
 
         if (command.equals("BACK TO MENU FROM NEW PASSWORD")) {
-            remove(newPassword);
+            remove(newPassword.getNewPasswordPanel());
 
             menu = new Menu();
 
-            add(menu, BorderLayout.CENTER);
-            menu.updateUI();
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            menu.getMenuPanel().updateUI();
             repaint();
         }
 
@@ -153,52 +152,52 @@ public class MineSweeper extends JFrame {
 
             menu = new Menu();
 
-            add(menu, BorderLayout.CENTER);
-            menu.updateUI();
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            menu.getMenuPanel().updateUI();
             repaint();
         }
 
         if (command.equals("BACK TO MENU FROM RECORDS")) {
-            remove(records);
+            remove(records.getRecordsPanel());
 
             menu = new Menu();
 
-            add(menu, BorderLayout.CENTER);
-            menu.updateUI();
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            menu.getMenuPanel().updateUI();
             repaint();
         }
 
         if (command.equals("BACK TO PASSWORD")) {
-            remove(newPassword);
+            remove(newPassword.getNewPasswordPanel());
             password = new Password(users);
-            add(password, BorderLayout.CENTER);
-            password.updateUI();
+            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("BACK TO PASSWORD FROM OPTIONS")) {
-            remove(gameSettings);
+            remove(gameSettings.getGameSettingsPanel());
             password = new Password(users);
-            add(password, BorderLayout.CENTER);
-            password.updateUI();
+            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("TO NEW PASSWORD FROM PASSWORD")) {
-            remove(password);
+            remove(password.getPasswordPanel());
             newPassword = new NewPassword(users);
-            add(newPassword, BorderLayout.CENTER);
-            newPassword.updateUI();
+            add(newPassword.getNewPasswordPanel(), BorderLayout.CENTER);
+            newPassword.getNewPasswordPanel().updateUI();
         }
 
         if (command.equals("TO OPTIONS FROM PASSWORD")) {
             if (password.checkPassword()) {
                 User currentUser = Password.getPlayer();
-                remove(password);
+                remove(password.getPasswordPanel());
                 gameSettings = new GameSettings(currentUser);
                 gameSettings.defaultSetup();
                 gameSettings.setHideCancel(false);
-                add(gameSettings, BorderLayout.CENTER);
 
-                gameSettings.updateUI();
+                add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
+                gameSettings.getGameSettingsPanel().updateUI();
             }
         }
 
@@ -206,9 +205,9 @@ public class MineSweeper extends JFrame {
             if (newPassword.checkData()) {
                 users = HighScoresReader.readPlayers();
                 password = new Password(users);
-                remove(newPassword);
-                add(password, BorderLayout.CENTER);
-                password.updateUI();
+                remove(newPassword.getNewPasswordPanel());
+                add(password.getPasswordPanel(), BorderLayout.CENTER);
+                password.getPasswordPanel().updateUI();
             }
         }
 
@@ -216,11 +215,11 @@ public class MineSweeper extends JFrame {
             JPanel testBattleField = gameSettings.createMap();
 
             if (testBattleField != null) {
-                battleField = (BattleField) testBattleField;
+                battleFieldPanel = testBattleField;
 
-                remove(gameSettings);
-                add(battleField, BorderLayout.CENTER);
-                battleField.updateUI();
+                remove(gameSettings.getGameSettingsPanel());
+                add(battleFieldPanel, BorderLayout.CENTER);
+                battleFieldPanel.updateUI();
             }
         }
 
@@ -233,35 +232,35 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK TO MENU FROM BATTLEFIELD")) {
-            remove(battleField);
+            remove(battleFieldPanel);
             menu = new Menu();
-            add(menu, BorderLayout.CENTER);
+            add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.continueButton(true);
-            menu.updateUI();
+            menu.getMenuPanel().updateUI();
             repaint();
         }
 
         if (command.equals("CONTINUE")) {
-            remove(menu);
-            add(battleField, BorderLayout.CENTER);
-            battleField.updateUI();
+            remove(menu.getMenuPanel());
+            add(battleFieldPanel, BorderLayout.CENTER);
+            battleFieldPanel.updateUI();
             menu.continueButton(false);
             repaint();
         }
 
         if (command.equals("BACK TO OPTIONS FROM BATTLEFIELD")) {
-            remove(battleField);
+            remove(battleFieldPanel);
 
-            add(gameSettings, BorderLayout.CENTER);
+            add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
             gameSettings.setHideCancel(true);
             repaint();
-            gameSettings.updateUI();
+            gameSettings.getGameSettingsPanel().updateUI();
         }
 
         if (command.equals("BACK TO BATTLEFIELD FROM OPTIONS")) {
-            remove(gameSettings);
+            remove(gameSettings.getGameSettingsPanel());
 
-            add(battleField, BorderLayout.CENTER);
+            add(battleFieldPanel, BorderLayout.CENTER);
             gameSettings.setHideCancel(false);
             repaint();
         }

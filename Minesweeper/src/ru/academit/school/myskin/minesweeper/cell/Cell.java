@@ -1,19 +1,46 @@
 package ru.academit.school.myskin.minesweeper.cell;
 
-public interface Cell {
-    boolean isMine();
+public class Cell {
+    private boolean isMine;
+    private boolean isHidden = false;
+    private boolean isMarked = false;
 
-    void increaseNearMines(int count);
+    private int nearMinesCount;
 
-    void setAsMine();
 
-    int getMines();
+    public Cell(boolean isMine) {
+        this.isMine = isMine;
+    }
 
-    boolean isHidden();
+    public boolean isMine() {
+        return isMine;
+    }
 
-    void setHidden(boolean hide);
+    public void increaseNearMines(int count) {
+        nearMinesCount += count;
+    }
 
-    void setMarked(boolean mark);
+    public void setAsMine() {
+        this.isMine = true;
+    }
 
-    boolean isMarked();
+    public int getMines() {
+        return nearMinesCount;
+    }
+
+    public boolean isHidden() {
+        return !isHidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        isHidden = hidden;
+    }
+
+    public void setMarked(boolean mark) {
+        isMarked = mark;
+    }
+
+    public boolean isMarked() {
+        return isMarked;
+    }
 }

@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Password extends JPanel {
+class Password {
+    private JPanel passwordPanel;
     private LinkedList<User> players;
     private static List<JButton> buttons = new LinkedList<>();
     private static User ourPlayer;
@@ -18,6 +19,7 @@ class Password extends JPanel {
     final private JPasswordField passwordField;
 
     Password(LinkedList<User> players) {
+        passwordPanel = new JPanel();
         this.players = players;
 
         passwordField = new JPasswordField(10);
@@ -39,14 +41,14 @@ class Password extends JPanel {
         textPane.add(enterPassword);
         textPane.add(passwordField);
 
-        setLayout(new GridBagLayout());
+        passwordPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        add(textPane, constraints);
+        passwordPanel.add(textPane, constraints);
         constraints.gridy = 1;
         constraints.insets = new Insets(25, 5, 5, 5);
 
-        add(buttonPanel, constraints);
+        passwordPanel.add(buttonPanel, constraints);
     }
 
     private JComponent createButtonPanel() {
@@ -66,7 +68,7 @@ class Password extends JPanel {
         List<User> ourUser;
 
         if (players.size() == 0) {
-            JOptionPane.showMessageDialog(this, "Invalid password or login. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(passwordPanel, "Invalid password or login. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             Arrays.fill(input, '0');
 
@@ -85,7 +87,7 @@ class Password extends JPanel {
                 return true;
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(passwordPanel, "Invalid password. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             Arrays.fill(input, '0');
 
@@ -122,5 +124,9 @@ class Password extends JPanel {
 
     static User getPlayer() {
         return ourPlayer;
+    }
+
+    JPanel getPasswordPanel(){
+        return passwordPanel;
     }
 }
