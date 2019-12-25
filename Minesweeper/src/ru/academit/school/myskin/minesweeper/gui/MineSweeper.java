@@ -18,8 +18,8 @@ public class MineSweeper {
     private Password password;
     private NewPassword newPassword;
     private GameSettings gameSettings;
+    private Info info;
     private LinkedList<User> users = HighScoresReader.readPlayers();
-    private JPanel infoPanel;
     private JPanel battleFieldPanel;
 
     public MineSweeper() {
@@ -112,13 +112,12 @@ public class MineSweeper {
 
         if (command.equals("INFO")) {
             mainFrame.remove(menu.getMenuPanel());
-            Info info = new Info();
+            info = new Info();
 
-            infoPanel = info.getPanel();
-            mainFrame.add(infoPanel, BorderLayout.CENTER);
-            infoPanel.setVisible(true);
+            mainFrame.add(info.getPanel(), BorderLayout.CENTER);
+            info.getPanel().setVisible(true);
             mainFrame.repaint();
-            infoPanel.updateUI();
+            info.getPanel().updateUI();
         }
 
         if (command.equals("NEW GAME")) {
@@ -151,7 +150,7 @@ public class MineSweeper {
         }
 
         if (command.equals("BACK TO MENU FROM INFO")) {
-            mainFrame.remove(infoPanel);
+            mainFrame.remove(info.getPanel());
 
             menu = new Menu();
 

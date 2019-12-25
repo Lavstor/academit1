@@ -262,7 +262,7 @@ class BattleField {
                                 queueHeight.add(height + i);
                                 queueWeight.add(weight + j);
                             } else {
-                              paintCrossCell(height + i, weight + j);
+                                paintCrossCell(height + i, weight + j);
                             }
                             currentScore++;
 
@@ -399,7 +399,7 @@ class BattleField {
         buttons.add(updatePlayer);
     }
 
-    JPanel getBattleFieldPanel(){
+    JPanel getBattleFieldPanel() {
         return battleFieldPanel;
     }
 }

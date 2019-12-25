@@ -28,6 +28,7 @@ class Menu {
             gifLabelArray[i] = createGifLabel();
             blackLabelArray[i] = new JLabel(blackIcon);
         }
+
         int j = 0;
 
         for (int i = 0; i < buttons.length; i++) {
@@ -55,6 +56,7 @@ class Menu {
             menuPanel.add(blackLabelArray[j], gridBagConstraints);
             j++;
         }
+
         menuPanel.setSize(500, 600);
 
         buttons[0].addMouseListener(new MouseAdapter() {

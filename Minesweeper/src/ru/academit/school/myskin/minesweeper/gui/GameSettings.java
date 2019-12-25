@@ -120,9 +120,11 @@ class GameSettings {
             if (easy.isSelected()) {
                 return new BattleField(9, 9, 10, user).getBattleFieldPanel();
             }
+
             if (normal.isSelected()) {
                 return new BattleField(15, 15, 50, user).getBattleFieldPanel();
             }
+
             if (high.isSelected()) {
                 return new BattleField(20, 20, 85, user).getBattleFieldPanel();
             }
@@ -198,7 +200,7 @@ class GameSettings {
         }
     }
 
-    JPanel getGameSettingsPanel(){
+    JPanel getGameSettingsPanel() {
         return gameSettingsPanel;
     }
 }

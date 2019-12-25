@@ -87,7 +87,7 @@ class Info {
         return back;
     }
 
-    JPanel getPanel(){
+    JPanel getPanel() {
         return infoPanel;
     }
 
