@@ -335,6 +335,7 @@ class BattleField {
 
         } catch (IOException ignored) {
         }
+
         return null;
     }
 
