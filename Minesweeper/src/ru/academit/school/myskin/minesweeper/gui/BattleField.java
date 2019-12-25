@@ -16,20 +16,19 @@ import java.util.List;
 import java.util.Queue;
 
 class BattleField {
-
     private double currentScore;
     private int cells;
+    private Cell[][] map;
+    private boolean gameOver = false;
+    private JPanel battleFieldPanel;
+
     private static JButton menu;
     private static JButton topPanelNewGame;
-    private Cell[][] map;
     private static List<JButton> buttons = new LinkedList<>();
-    private boolean gameOver = false;
     private static JButton updatePlayer;
-    private JPanel battleFieldPanel;
 
     final private BufferedImage crossImage;
     final private BufferedImage flagImage;
-
     final private User user;
     final private JLabel score;
     final private JPanel gamePanel;
@@ -39,7 +38,6 @@ class BattleField {
 
     BattleField(int width, int height, int mines, User user) {
         this.battleFieldPanel = new JPanel();
-
         this.cells = (width * height) - mines;
 
         topPanel = new JPanel();
@@ -121,7 +119,7 @@ class BattleField {
                         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
                             openCell(i, j);
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
-                            if (map[i][j].isHidden() && !map[i][j].isMarked()) {
+                            if (map[i][j].isHidden() && map[i][j].isNotMarked()) {
                                 assert flagImage != null;
 
                                 setIcon(cellLabels[i][j], flagImage);
@@ -155,7 +153,7 @@ class BattleField {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (width + j < cellLabels[0].length && i + height < cellLabels.length && j + width >= 0 && i + height >= 0
-                        && map[height + i][width + j].isHidden() && !map[height + i][width + j].isMarked()) {
+                        && map[height + i][width + j].isHidden() && map[height + i][width + j].isNotMarked()) {
                     openCell(height + i, width + j);
                 }
             }

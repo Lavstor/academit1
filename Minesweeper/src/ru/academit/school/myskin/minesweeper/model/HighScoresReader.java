@@ -8,11 +8,13 @@ import java.util.LinkedList;
 
 public class HighScoresReader {
     public static LinkedList<User> readPlayers() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Players.txt"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Minesweeper/src/ru/academit/" +
+                "school/myskin/minesweeper/resources/userData/Players.txt"))) {
             //noinspection unchecked
             return (LinkedList<User>) in.readObject();
         } catch (FileNotFoundException | ClassNotFoundException e) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Minesweeper/src/ru/" +
+                    "academit/school/myskin/minesweeper/resources/userData/Players.txt"))) {
                 LinkedList<User> newPlayers = new LinkedList<>();
 
                 newPlayers.add(new Player("Jesus Christ", 65.0));
@@ -40,7 +42,8 @@ public class HighScoresReader {
     public static void writeUsers(User user) {
         LinkedList<User> users = readPlayers();
 
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Minesweeper/src/ru/academit/" +
+                "school/myskin/minesweeper/resources/userData/Players.txt"))) {
             assert users != null;
 
             users.add(user);
@@ -51,7 +54,8 @@ public class HighScoresReader {
     }
 
     public static void updateList(LinkedList<User> players) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Players.txt"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Minesweeper/src/ru/academit/" +
+                "school/myskin/minesweeper/resources/userData/Players.txt"))) {
             out.writeObject(players);
         } catch (IOException ignored) {
         }

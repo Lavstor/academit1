@@ -9,6 +9,7 @@ import java.util.List;
 
 class GameSettings {
     private JPanel gameSettingsPanel;
+
     private static JButton okButton;
     private static JButton defaultButton;
     private static JButton customButton;
@@ -137,7 +138,7 @@ class GameSettings {
                 } else {
                     JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException o) {
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

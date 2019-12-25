@@ -4,9 +4,7 @@ public class Cell {
     private boolean isMine;
     private boolean isHidden = false;
     private boolean isMarked = false;
-
     private int nearMinesCount;
-
 
     public Cell(boolean isMine) {
         this.isMine = isMine;
@@ -16,7 +14,7 @@ public class Cell {
         return isMine;
     }
 
-    public void increaseNearMines(int count) {
+    public void increaseNearMinesCount(int count) {
         nearMinesCount += count;
     }
 
@@ -40,7 +38,7 @@ public class Cell {
         isMarked = mark;
     }
 
-    public boolean isMarked() {
-        return isMarked;
+    public boolean isNotMarked() {
+        return !isMarked;
     }
 }

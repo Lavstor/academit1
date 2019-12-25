@@ -17,6 +17,7 @@ class Records {
 
     Records(List<User> userList) {
         recordsPanel = new JPanel();
+
         String pentagram = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/pentagram.png";
         String first = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/first.png";
         String second = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/second.gif";
@@ -47,6 +48,7 @@ class Records {
 
             recordsPanel.add(topPanel[i], constraints);
         }
+
         userList = userList.stream().sorted(Comparator.comparingDouble(User::getScore).reversed()).collect(Collectors.toList());
 
         for (int i = 1; i <= 10; i++) {
@@ -63,8 +65,8 @@ class Records {
 
             constraints.gridx = 3;
             recordsPanel.add(createGifLabel(imagesPassArray[i - 1]), constraints);
-
         }
+
         constraints.gridy++;
         constraints.gridx = 0;
 
@@ -139,7 +141,7 @@ class Records {
         back.setActionCommand("BACK TO MENU FROM RECORDS");
     }
 
-    JPanel getRecordsPanel(){
+    JPanel getRecordsPanel() {
         return recordsPanel;
     }
 }

@@ -134,7 +134,7 @@ class NewPassword {
         return buttons;
     }
 
-    JPanel getNewPasswordPanel(){
+    JPanel getNewPasswordPanel() {
         return newPasswordPanel;
     }
 }

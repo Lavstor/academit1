@@ -34,6 +34,7 @@ public class FieldCreator {
                 map[x][y] = new Cell(false);
             }
         }
+
         while (minesCount != countOfMines) {
             int x = rnd.nextInt(this.height);
             int y = rnd.nextInt(this.width);
@@ -45,9 +46,8 @@ public class FieldCreator {
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
-                        try {
+                        if (x + i < counts.length && x + i >= 0 && j + y < counts[0].length && j + y >= 0) {
                             counts[x + i][y + j]++;
-                        } catch (ArrayIndexOutOfBoundsException ignored) {
                         }
                     }
                 }
@@ -56,10 +56,7 @@ public class FieldCreator {
 
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                try {
-                    map[i][j].increaseNearMines(counts[i][j]);
-                } catch (NullPointerException ignored) {
-                }
+                map[i][j].increaseNearMinesCount(counts[i][j]);
             }
         }
 

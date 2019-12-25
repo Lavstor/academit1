@@ -6,8 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 class Info {
-    private static JButton back;
     private JPanel infoPanel;
+    private static JButton back;
 
     Info() {
         infoPanel = new JPanel();
@@ -46,23 +46,23 @@ class Info {
 
         panelExit.setLayout(new GridBagLayout());
 
-        GridBagConstraints c1 = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
 
         JLabel[] exitGif = {createGifLabel(), createGifLabel()};
         JLabel[] blackLabel = {new JLabel(icon), new JLabel(icon)};
 
-        c1.gridy = 0;
-        c1.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridx = 0;
 
-        panelExit.add(exitGif[0], c1);
-        panelExit.add(blackLabel[0], c1);
+        panelExit.add(exitGif[0], constraints);
+        panelExit.add(blackLabel[0], constraints);
 
-        c1.gridx = 1;
-        panelExit.add(back, c1);
-        c1.gridx = 2;
+        constraints.gridx = 1;
+        panelExit.add(back, constraints);
+        constraints.gridx = 2;
 
-        panelExit.add(exitGif[1], c1);
-        panelExit.add(blackLabel[1], c1);
+        panelExit.add(exitGif[1], constraints);
+        panelExit.add(blackLabel[1], constraints);
 
         back.addMouseListener(new MouseAdapter() {
             @Override
@@ -87,7 +87,7 @@ class Info {
         return back;
     }
 
-    public JPanel getPanel(){
+    JPanel getPanel(){
         return infoPanel;
     }
 

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 class Password {
     private JPanel passwordPanel;
     private LinkedList<User> players;
+
     private static List<JButton> buttons = new LinkedList<>();
     private static User ourPlayer;
 
@@ -126,7 +127,7 @@ class Password {
         return ourPlayer;
     }
 
-    JPanel getPasswordPanel(){
+    JPanel getPasswordPanel() {
         return passwordPanel;
     }
 }

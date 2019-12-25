@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class MineSweeper extends JFrame {
+public class MineSweeper {
+    private JFrame mainFrame;
     private Menu menu;
     private Records records;
     private Password password;
@@ -23,17 +24,18 @@ public class MineSweeper extends JFrame {
 
     public MineSweeper() {
         SwingUtilities.invokeLater(() -> {
+            mainFrame = new JFrame();
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            setBounds((screenSize.width - 900) / 2, (screenSize.height - 700) / 2, 900, 700);
+            mainFrame.setBounds((screenSize.width - 900) / 2, (screenSize.height - 700) / 2, 900, 700);
 
-            setLayout(new BorderLayout());
+            mainFrame.setLayout(new BorderLayout());
             customUI();
 
-            setVisible(true);
+            mainFrame.setVisible(true);
             Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
                     "/myskin/minesweeper/resources/minesweeperFrame/frameIcon.jpg");
-            setIconImage(img);
-            setTitle("Minesweeper");
+            mainFrame.setIconImage(img);
+            mainFrame.setTitle("Minesweeper");
 
             Menu.createButtons();
             Info.createButtons();
@@ -44,10 +46,10 @@ public class MineSweeper extends JFrame {
             BattleField.createButtons();
 
             menu = new Menu();
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
 
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             getButtons();
         });
     }
@@ -91,112 +93,113 @@ public class MineSweeper extends JFrame {
         if (command.equals("EXIT")) {
             ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperFrame/exitGame.gif");
 
-            if (JOptionPane.showConfirmDialog(this, "           YOU SHURE?", "EXIT",
+            if (JOptionPane.showConfirmDialog(mainFrame, "           YOU SHURE?", "EXIT",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {
-                dispose();
+                mainFrame.dispose();
             }
         }
 
         if (command.equals("RECORDS")) {
-            remove(menu.getMenuPanel());
-
+            mainFrame.remove(menu.getMenuPanel());
             records = new Records(users);
-            add(records.getRecordsPanel(), BorderLayout.CENTER);
+
+            mainFrame.add(records.getRecordsPanel(), BorderLayout.CENTER);
             records.getRecordsPanel().setVisible(true);
-            repaint();
+
+            mainFrame.repaint();
             records.getRecordsPanel().updateUI();
         }
 
         if (command.equals("INFO")) {
-            remove(menu.getMenuPanel());
+            mainFrame.remove(menu.getMenuPanel());
             Info info = new Info();
-            infoPanel = info.getPanel();
 
-            add(infoPanel, BorderLayout.CENTER);
+            infoPanel = info.getPanel();
+            mainFrame.add(infoPanel, BorderLayout.CENTER);
             infoPanel.setVisible(true);
-            repaint();
+            mainFrame.repaint();
             infoPanel.updateUI();
         }
 
         if (command.equals("NEW GAME")) {
-            remove(menu.getMenuPanel());
+            mainFrame.remove(menu.getMenuPanel());
             password = new Password(users);
-            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().setVisible(true);
-            repaint();
+            mainFrame.repaint();
             password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("TO MENU FROM PASSWORD")) {
-            remove(password.getPasswordPanel());
+            mainFrame.remove(password.getPasswordPanel());
 
             menu = new Menu();
 
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("BACK TO MENU FROM NEW PASSWORD")) {
-            remove(newPassword.getNewPasswordPanel());
+            mainFrame.remove(newPassword.getNewPasswordPanel());
 
             menu = new Menu();
 
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("BACK TO MENU FROM INFO")) {
-            remove(infoPanel);
+            mainFrame.remove(infoPanel);
 
             menu = new Menu();
 
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("BACK TO MENU FROM RECORDS")) {
-            remove(records.getRecordsPanel());
+            mainFrame.remove(records.getRecordsPanel());
 
             menu = new Menu();
 
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("BACK TO PASSWORD")) {
-            remove(newPassword.getNewPasswordPanel());
+            mainFrame.remove(newPassword.getNewPasswordPanel());
             password = new Password(users);
-            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("BACK TO PASSWORD FROM OPTIONS")) {
-            remove(gameSettings.getGameSettingsPanel());
+            mainFrame.remove(gameSettings.getGameSettingsPanel());
             password = new Password(users);
-            add(password.getPasswordPanel(), BorderLayout.CENTER);
+            mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("TO NEW PASSWORD FROM PASSWORD")) {
-            remove(password.getPasswordPanel());
+            mainFrame.remove(password.getPasswordPanel());
             newPassword = new NewPassword(users);
-            add(newPassword.getNewPasswordPanel(), BorderLayout.CENTER);
+            mainFrame.add(newPassword.getNewPasswordPanel(), BorderLayout.CENTER);
             newPassword.getNewPasswordPanel().updateUI();
         }
 
         if (command.equals("TO OPTIONS FROM PASSWORD")) {
             if (password.checkPassword()) {
                 User currentUser = Password.getPlayer();
-                remove(password.getPasswordPanel());
+                mainFrame.remove(password.getPasswordPanel());
                 gameSettings = new GameSettings(currentUser);
                 gameSettings.defaultSetup();
                 gameSettings.setHideCancel(false);
 
-                add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
+                mainFrame.add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
                 gameSettings.getGameSettingsPanel().updateUI();
             }
         }
@@ -205,8 +208,8 @@ public class MineSweeper extends JFrame {
             if (newPassword.checkData()) {
                 users = HighScoresReader.readPlayers();
                 password = new Password(users);
-                remove(newPassword.getNewPasswordPanel());
-                add(password.getPasswordPanel(), BorderLayout.CENTER);
+                mainFrame.remove(newPassword.getNewPasswordPanel());
+                mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
                 password.getPasswordPanel().updateUI();
             }
         }
@@ -217,8 +220,8 @@ public class MineSweeper extends JFrame {
             if (testBattleField != null) {
                 battleFieldPanel = testBattleField;
 
-                remove(gameSettings.getGameSettingsPanel());
-                add(battleFieldPanel, BorderLayout.CENTER);
+                mainFrame.remove(gameSettings.getGameSettingsPanel());
+                mainFrame.add(battleFieldPanel, BorderLayout.CENTER);
                 battleFieldPanel.updateUI();
             }
         }
@@ -232,37 +235,37 @@ public class MineSweeper extends JFrame {
         }
 
         if (command.equals("BACK TO MENU FROM BATTLEFIELD")) {
-            remove(battleFieldPanel);
+            mainFrame.remove(battleFieldPanel);
             menu = new Menu();
-            add(menu.getMenuPanel(), BorderLayout.CENTER);
+            mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.continueButton(true);
             menu.getMenuPanel().updateUI();
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("CONTINUE")) {
-            remove(menu.getMenuPanel());
-            add(battleFieldPanel, BorderLayout.CENTER);
+            mainFrame.remove(menu.getMenuPanel());
+            mainFrame.add(battleFieldPanel, BorderLayout.CENTER);
             battleFieldPanel.updateUI();
             menu.continueButton(false);
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("BACK TO OPTIONS FROM BATTLEFIELD")) {
-            remove(battleFieldPanel);
+            mainFrame.remove(battleFieldPanel);
 
-            add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
+            mainFrame.add(gameSettings.getGameSettingsPanel(), BorderLayout.CENTER);
             gameSettings.setHideCancel(true);
-            repaint();
+            mainFrame.repaint();
             gameSettings.getGameSettingsPanel().updateUI();
         }
 
         if (command.equals("BACK TO BATTLEFIELD FROM OPTIONS")) {
-            remove(gameSettings.getGameSettingsPanel());
+            mainFrame.remove(gameSettings.getGameSettingsPanel());
 
-            add(battleFieldPanel, BorderLayout.CENTER);
+            mainFrame.add(battleFieldPanel, BorderLayout.CENTER);
             gameSettings.setHideCancel(false);
-            repaint();
+            mainFrame.repaint();
         }
 
         if (command.equals("UPDATE")) {
