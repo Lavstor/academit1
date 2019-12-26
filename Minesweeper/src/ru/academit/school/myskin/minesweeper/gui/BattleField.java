@@ -264,6 +264,7 @@ class BattleField {
                             } else {
                                 paintCrossCell(height + i, weight + j);
                             }
+
                             currentScore++;
 
                             if (currentScore == cells) {
