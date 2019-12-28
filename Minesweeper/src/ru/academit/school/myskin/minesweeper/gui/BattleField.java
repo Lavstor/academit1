@@ -371,9 +371,6 @@ class BattleField {
                 battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
 
-                setScore();
-                updatePlayer.doClick();
-
                 gameOver = true;
             }
         });
