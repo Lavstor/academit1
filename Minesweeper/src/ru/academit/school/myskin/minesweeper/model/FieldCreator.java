@@ -2,11 +2,15 @@ package ru.academit.school.myskin.minesweeper.model;
 
 import ru.academit.school.myskin.minesweeper.cell.Cell;
 
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class FieldCreator {
     private Cell[][] cells;
     private int countOfMines;
+    private int currentScore;
 
     final private int height;
     final private int width;
@@ -65,5 +69,47 @@ public class FieldCreator {
 
     public Cell[][] getCells() {
         return cells;
+    }
+
+    public int openCell(int height, int width){
+        if (cells[height][width].getMines() == 0) {
+            return openAllZero(height, width);
+        }
+        return 1;
+    }
+    private int openAllZero(int height, int weight) {
+        int currentScore = 0;
+        Queue<Integer> queueHeight = new LinkedList<>();
+        Queue<Integer> queueWeight = new LinkedList<>();
+
+        queueHeight.add(height);
+        queueWeight.add(weight);
+
+        while (!queueHeight.isEmpty()) {
+            height = queueHeight.remove();
+            weight = queueWeight.remove();
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (height + i >= 0 && weight + j >= 0 && height + i < cells.length && weight + j < cells[0].length) {
+                        if (cells[height + i][weight + j].isHidden()) {
+                            if (cells[height + i][weight + j].getMines() == 0) {
+                                queueHeight.add(height + i);
+                                queueWeight.add(weight + j);
+                            } else {
+                                cells[height + i][ weight + j].setHidden(true);
+                            }
+
+                            currentScore++;
+                        }
+
+                        cells[height + i][weight + j].setHidden(true);
+                    }
+                }
+            }
+
+            cells[height][weight].setHidden(true);
+        }
+        return currentScore;
     }
 }

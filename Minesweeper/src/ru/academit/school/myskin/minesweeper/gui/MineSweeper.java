@@ -19,7 +19,7 @@ public class MineSweeper {
     private NewPassword newPassword;
     private GameSettings gameSettings;
     private Info info;
-    private LinkedList<User> users = HighScoresReader.readPlayers();
+    private LinkedList<User> users;
     private JPanel battleFieldPanel;
 
     public MineSweeper() {
@@ -51,6 +51,8 @@ public class MineSweeper {
 
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             getButtons();
+
+            users = HighScoresReader.readPlayers();
         });
     }
 

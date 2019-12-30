@@ -119,7 +119,7 @@ class BattleField {
                         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
                             openCell(i, j);
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
-                            if (map[i][j].isHidden() && map[i][j].isNotMarked()) {
+                            if (map[i][j].isHidden() && map[i][j].isMarked()) {
                                 assert flagImage != null;
 
                                 setIcon(cellLabels[i][j], flagImage);
@@ -153,7 +153,7 @@ class BattleField {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (width + j < cellLabels[0].length && i + height < cellLabels.length && j + width >= 0 && i + height >= 0
-                        && map[height + i][width + j].isHidden() && map[height + i][width + j].isNotMarked()) {
+                        && map[height + i][width + j].isHidden() && map[height + i][width + j].isMarked()) {
                     openCell(height + i, width + j);
                 }
             }

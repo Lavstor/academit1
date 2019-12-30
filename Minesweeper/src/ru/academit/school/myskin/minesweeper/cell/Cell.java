@@ -2,8 +2,8 @@ package ru.academit.school.myskin.minesweeper.cell;
 
 public class Cell {
     private boolean isMine;
-    private boolean isHidden = false;
-    private boolean isMarked = false;
+    private boolean isHidden;
+    private boolean isMarked;
     private int nearMinesCount;
 
     public Cell(boolean isMine) {
@@ -38,7 +38,7 @@ public class Cell {
         isMarked = mark;
     }
 
-    public boolean isNotMarked() {
+    public boolean isMarked() {
         return !isMarked;
     }
 }
