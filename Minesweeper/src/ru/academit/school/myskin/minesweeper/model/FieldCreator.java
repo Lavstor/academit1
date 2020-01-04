@@ -3,6 +3,7 @@ package ru.academit.school.myskin.minesweeper.model;
 import ru.academit.school.myskin.minesweeper.cell.Cell;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -71,13 +72,41 @@ public class FieldCreator {
         return cells;
     }
 
-    public int openCell(int height, int width){
-        if (cells[height][width].getMines() == 0) {
-            return openAllZero(height, width);
+    public Cell[][] openCell(int height, int width) {
+        if(cells == null){
+            generateCellMap(height, width);
         }
-        return 1;
+
+        if (cells[height][width].getMines() == 0) {
+            openAllZero(height, width);
+
+            return cells;
+        }
+
+        if (cells[height][width].isMine()) {
+            showBombs();
+
+            return cells;
+        }
+
+        cells[height][width].setHidden(true);
+
+        currentScore++;
+
+        return cells;
     }
-    private int openAllZero(int height, int weight) {
+
+    private void showBombs() {
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                if (value.isMine()) {
+                    value.setHidden(true);
+                }
+            }
+        }
+    }
+
+    private void openAllZero(int height, int weight) {
         int currentScore = 0;
         Queue<Integer> queueHeight = new LinkedList<>();
         Queue<Integer> queueWeight = new LinkedList<>();
@@ -97,7 +126,7 @@ public class FieldCreator {
                                 queueHeight.add(height + i);
                                 queueWeight.add(weight + j);
                             } else {
-                                cells[height + i][ weight + j].setHidden(true);
+                                cells[height + i][weight + j].setHidden(true);
                             }
 
                             currentScore++;
@@ -110,6 +139,11 @@ public class FieldCreator {
 
             cells[height][weight].setHidden(true);
         }
+
+        this.currentScore = currentScore;
+    }
+
+    public int getScore() {
         return currentScore;
     }
 }

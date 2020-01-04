@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Queue;
 
 class BattleField {
+   private FieldCreator fieldCreator;
     private double currentScore;
     private int cells;
     private Cell[][] map;
@@ -106,7 +107,7 @@ class BattleField {
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                if (!gameOver) {
+               // if (!gameOver) {
                     int i = mouseEvent.getY() / (gamePanel.getHeight() / height);
                     int j = mouseEvent.getX() / (gamePanel.getWidth() / width);
 
@@ -117,7 +118,8 @@ class BattleField {
 
                     if (i >= 0 && j >= 0 && i < cellLabels.length && j < cellLabels[i].length) {
                         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-                            openCell(i, j);
+                          //  openCell(i, j);
+                            map = fieldCreator.openCell(i, j);
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
                             if (map[i][j].isHidden() && map[i][j].isMarked()) {
                                 assert flagImage != null;
@@ -134,7 +136,7 @@ class BattleField {
                             massPush(i, j);
                         }
                     }
-                }
+             //   }
             }
         });
 
@@ -200,7 +202,7 @@ class BattleField {
     }
 
     private void createField(int height, int width, int mines, int firstY, int firstX) {
-        FieldCreator fieldCreator = new FieldCreator(height, width, mines, firstX, firstY);
+        fieldCreator = new FieldCreator(height, width, mines, firstX, firstY);
         map = fieldCreator.getCells();
 
         battleFieldPanel.repaint();
@@ -400,6 +402,18 @@ class BattleField {
 
     JPanel getBattleFieldPanel() {
         return battleFieldPanel;
+    }
+
+    private void paintField(){
+        for(int i = 0; i < map.length; i++){
+            for(int j = 0; j < map[i].length; j++){
+               if(map[i][j].isHidden()){
+                   cellLabels[i][j].
+               } else{
+
+               }
+            }
+        }
     }
 }
 
