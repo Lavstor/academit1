@@ -55,7 +55,6 @@ public class HighScoresReader {
             newPlayers.add(new Player("God", 33.0));
             newPlayers.add(new Player("Satan", 34.0));
             newPlayers.add(new Player("Mr. Herbert Garrison", 31.0));
-
             out.writeObject(newPlayers);
 
             return newPlayers;
