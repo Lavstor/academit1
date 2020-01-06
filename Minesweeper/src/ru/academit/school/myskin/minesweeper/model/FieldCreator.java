@@ -2,14 +2,11 @@ package ru.academit.school.myskin.minesweeper.model;
 
 import ru.academit.school.myskin.minesweeper.cell.Cell;
 
-import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 public class FieldCreator {
-    private Cell[][] cells;
+    private Cell[][] battlefieldMap;
     private int countOfMines;
     private int currentScore;
 
@@ -20,7 +17,7 @@ public class FieldCreator {
         this.height = height;
         this.width = width;
         this.countOfMines = countOfMines;
-        cells = new Cell[height][width];
+        battlefieldMap = new Cell[height][width];
 
         generateCellMap(firstY, firstX);
     }
@@ -28,7 +25,7 @@ public class FieldCreator {
     private void generateCellMap(int height, int width) {
         Random rnd = new Random();
 
-        Cell[][] map = new Cell[this.height][this.width];
+        battlefieldMap = new Cell[this.height][this.width];
 
         int minesCount = 0;
 
@@ -36,7 +33,7 @@ public class FieldCreator {
 
         for (int x = 0; x < this.height; x++) {
             for (int y = 0; y < this.width; y++) {
-                map[x][y] = new Cell(false);
+                battlefieldMap[x][y] = new Cell(false);
             }
         }
 
@@ -44,10 +41,10 @@ public class FieldCreator {
             int x = rnd.nextInt(this.height);
             int y = rnd.nextInt(this.width);
 
-            if (minesCount != countOfMines && x != height && y != width && !map[x][y].isMine()) {
+            if (minesCount != countOfMines && x != height && y != width && !battlefieldMap[x][y].isMine()) {
                 minesCount++;
 
-                map[x][y].setAsMine();
+                battlefieldMap[x][y].setAsMine();
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
@@ -61,86 +58,126 @@ public class FieldCreator {
 
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                map[i][j].increaseNearMinesCount(counts[i][j]);
+                battlefieldMap[i][j].increaseNearMinesCount(counts[i][j]);
             }
         }
-
-        this.cells = map;
     }
 
-    public Cell[][] getCells() {
-        return cells;
+    public LinkedList<Integer[]> openCell(int height, int width) {
+        if (battlefieldMap[height][width].isHidden()) {
+            if (battlefieldMap[height][width].getMines() == 0) {
+                return openAllZero(height, width);
+            }
+
+            if (battlefieldMap[height][width].isMine()) {
+                return showBombs();
+            }
+
+            battlefieldMap[height][width].setHidden(true);
+
+            currentScore++;
+
+            LinkedList<Integer[]> cellList = new LinkedList<>();
+            cellList.add(new Integer[]{height, width});
+
+            return cellList;
+        }
+
+        return null;
     }
 
-    public Cell[][] openCell(int height, int width) {
-        if(cells == null){
-            generateCellMap(height, width);
-        }
+    public LinkedList<Integer[]> massPush(int height, int width) {
+        LinkedList<Integer[]> cellList = new LinkedList<>();
 
-        if (cells[height][width].getMines() == 0) {
-            openAllZero(height, width);
-
-            return cells;
-        }
-
-        if (cells[height][width].isMine()) {
-            showBombs();
-
-            return cells;
-        }
-
-        cells[height][width].setHidden(true);
-
-        currentScore++;
-
-        return cells;
-    }
-
-    private void showBombs() {
-        for (Cell[] cell : cells) {
-            for (Cell value : cell) {
-                if (value.isMine()) {
-                    value.setHidden(true);
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (width + j < battlefieldMap[0].length && i + height < battlefieldMap.length && j + width >= 0 && i + height >= 0
+                        && battlefieldMap[height + i][width + j].isHidden() && battlefieldMap[height + i][width + j].isMarked()) {
+                    cellList.addAll(openCell(height + i, width + j));
                 }
             }
         }
+
+        return cellList;
     }
 
-    private void openAllZero(int height, int weight) {
+    public void markCell(int x, int y) {
+        if (battlefieldMap[x][y].isMarked()) {
+            battlefieldMap[x][y].setMarked(true);
+        } else {
+            battlefieldMap[x][y].setMarked(false);
+        }
+    }
+
+    private LinkedList<Integer[]> showBombs() {
+        LinkedList<Integer[]> cellList = new LinkedList<>();
+
+        for (int i = 0; i < battlefieldMap.length; i++) {
+            for (int j = 0; j < battlefieldMap[i].length; j++) {
+                if (battlefieldMap[i][j].isMine()) {
+                    battlefieldMap[i][j].setHidden(true);
+
+                    cellList.add(new Integer[]{i, j});
+                }
+            }
+        }
+
+        return cellList;
+    }
+
+    private LinkedList<Integer[]> openAllZero(int height, int weight) {
         int currentScore = 0;
-        Queue<Integer> queueHeight = new LinkedList<>();
-        Queue<Integer> queueWeight = new LinkedList<>();
 
-        queueHeight.add(height);
-        queueWeight.add(weight);
+        LinkedList<Integer[]> cellQueue = new LinkedList<>();
 
-        while (!queueHeight.isEmpty()) {
-            height = queueHeight.remove();
-            weight = queueWeight.remove();
+        cellQueue.add(new Integer[]{height, weight});
+
+        int currentListIndex = 0;
+
+        while (currentListIndex < cellQueue.size()) {
+            height = cellQueue.get(currentListIndex)[0];
+            weight = cellQueue.get(currentListIndex)[1];
 
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    if (height + i >= 0 && weight + j >= 0 && height + i < cells.length && weight + j < cells[0].length) {
-                        if (cells[height + i][weight + j].isHidden()) {
-                            if (cells[height + i][weight + j].getMines() == 0) {
-                                queueHeight.add(height + i);
-                                queueWeight.add(weight + j);
+                    if (height + i >= 0 && weight + j >= 0 && height + i < battlefieldMap.length && weight + j < battlefieldMap[0].length) {
+                        if (battlefieldMap[height + i][weight + j].isHidden()) {
+                            if (battlefieldMap[height + i][weight + j].getMines() == 0) {
+                                cellQueue.add(new Integer[]{height + i, weight + j});
                             } else {
-                                cells[height + i][weight + j].setHidden(true);
+                                cellQueue.addFirst(new Integer[]{height + i, weight + j});
+                                currentListIndex++;
                             }
-
                             currentScore++;
                         }
 
-                        cells[height + i][weight + j].setHidden(true);
+                        battlefieldMap[height + i][weight + j].setHidden(true);
                     }
                 }
             }
 
-            cells[height][weight].setHidden(true);
+            currentListIndex++;
+            battlefieldMap[height][weight].setHidden(true);
         }
 
-        this.currentScore = currentScore;
+        this.currentScore += currentScore;
+        return cellQueue;
+    }
+
+    public boolean cellIsMineCheck(int x, int y) {
+        return battlefieldMap[x][y].isMine();
+    }
+
+    public boolean cellIsHiddenCheck(int x, int y) {
+        return battlefieldMap[x][y].isHidden();
+    }
+
+    public boolean cellIsMarkedCheck(int x, int y) {
+        return battlefieldMap[x][y].isMarked();
+    }
+
+    public int getNearMines(int x, int y) {
+        return battlefieldMap[x][y].getMines();
     }
 
     public int getScore() {

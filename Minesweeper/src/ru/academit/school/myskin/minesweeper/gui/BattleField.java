@@ -1,7 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.model.FieldCreator;
-import ru.academit.school.myskin.minesweeper.cell.Cell;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.imageio.ImageIO;
@@ -13,13 +12,11 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 class BattleField {
-   private FieldCreator fieldCreator;
-    private double currentScore;
-    private int cells;
-    private Cell[][] map;
+    private FieldCreator fieldCreator;
+    private int currentScore;
+    private int cellsCount;
     private boolean gameOver = false;
     private JPanel battleFieldPanel;
 
@@ -28,6 +25,7 @@ class BattleField {
     private static List<JButton> buttons = new LinkedList<>();
     private static JButton updatePlayer;
 
+    final private BufferedImage cellImage;
     final private BufferedImage crossImage;
     final private BufferedImage flagImage;
     final private User user;
@@ -35,11 +33,10 @@ class BattleField {
     final private JPanel gamePanel;
     final private JPanel topPanel;
     final private JLabel[][] cellLabels;
-    final private String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
 
     BattleField(int width, int height, int mines, User user) {
         this.battleFieldPanel = new JPanel();
-        this.cells = (width * height) - mines;
+        this.cellsCount = (width * height) - mines;
 
         topPanel = new JPanel();
         gamePanel = new JPanel();
@@ -84,7 +81,7 @@ class BattleField {
 
         String cellSkinPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/cellSkin.jpg";
 
-        BufferedImage cellImage = getBufferedImage(cellSkinPass);
+        cellImage = getBufferedImage(cellSkinPass);
 
         for (int i = 0; i < height; i++) {
             constraints1.gridy = i;
@@ -107,36 +104,32 @@ class BattleField {
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-               // if (!gameOver) {
-                    int i = mouseEvent.getY() / (gamePanel.getHeight() / height);
-                    int j = mouseEvent.getX() / (gamePanel.getWidth() / width);
+                int i = mouseEvent.getY() / (gamePanel.getHeight() / height);
+                int j = mouseEvent.getX() / (gamePanel.getWidth() / width);
 
+                if (!gameOver) {
                     if (!fieldCreated) {
-                        createField(height, width, mines, i, j);
+                        fieldCreator = new FieldCreator(height, width, mines, i, j);
                         fieldCreated = true;
                     }
 
+                    LinkedList<Integer[]> cellCoordinatesList = new LinkedList<>();
+
                     if (i >= 0 && j >= 0 && i < cellLabels.length && j < cellLabels[i].length) {
                         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-                          //  openCell(i, j);
-                            map = fieldCreator.openCell(i, j);
+                            cellCoordinatesList = fieldCreator.openCell(i, j);
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
-                            if (map[i][j].isHidden() && map[i][j].isMarked()) {
-                                assert flagImage != null;
-
-                                setIcon(cellLabels[i][j], flagImage);
-                                map[i][j].setMarked(true);
-                            } else if (map[i][j].isHidden()) {
-                                assert cellImage != null;
-
-                                setIcon(cellLabels[i][j], cellImage);
-                                map[i][j].setMarked(false);
-                            }
+                            fieldCreator.markCell(i, j);
+                            cellCoordinatesList.add(new Integer[]{i, j});
                         } else if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
-                            massPush(i, j);
+                            cellCoordinatesList = fieldCreator.massPush(i, j);
                         }
                     }
-             //   }
+
+                    if (cellCoordinatesList != null) {
+                        paintField(cellCoordinatesList);
+                    }
+                }
             }
         });
 
@@ -151,61 +144,61 @@ class BattleField {
         battleFieldPanel.repaint();
     }
 
-    private void massPush(int height, int width) {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (width + j < cellLabels[0].length && i + height < cellLabels.length && j + width >= 0 && i + height >= 0
-                        && map[height + i][width + j].isHidden() && map[height + i][width + j].isMarked()) {
-                    openCell(height + i, width + j);
+    private void paintField(LinkedList<Integer[]> cellCoordinatesList) {
+        while (!cellCoordinatesList.isEmpty()) {
+            Integer[] coordinates = cellCoordinatesList.removeFirst();
+
+            if (!fieldCreator.cellIsHiddenCheck(coordinates[0], coordinates[1])) {
+                if (fieldCreator.cellIsMineCheck(coordinates[0], coordinates[1])) {
+                    String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
+                    setGifIcon(cellLabels[coordinates[0]][coordinates[1]], pentagramPass);
+
+                    gameOver = true;
+                } else {
+                    paintCrossCell(coordinates[0], coordinates[1]);
+                }
+            } else {
+                if (!fieldCreator.cellIsMarkedCheck(coordinates[0], coordinates[1])) {
+                    setIcon(cellLabels[coordinates[0]][coordinates[1]], flagImage);
+                } else {
+                    setIcon(cellLabels[coordinates[0]][coordinates[1]], cellImage);
                 }
             }
         }
-    }
 
-    private void openCell(int height, int width) {
-        if (map[height][width].getMines() == 0) {
-            openAllZero(height, width);
-        } else if (map[height][width].isMine()) {
-            setGifIcon(cellLabels[height][width], pentagramPass);
+        currentScore = fieldCreator.getScore();
+        score.setText("Score " + currentScore);
 
-            showBombs();
+        if (currentScore == cellsCount) {
+            topPanel.setVisible(false);
+
+            battleFieldPanel.remove(gamePanel);
+            battleFieldPanel.add(winPanel(), BorderLayout.CENTER);
+
+            return;
+        }
+
+        if (gameOver) {
             topPanel.setVisible(false);
 
             battleFieldPanel.remove(gamePanel);
             battleFieldPanel.add(lostPanel(), BorderLayout.CENTER);
-        } else {
-            paintCrossCell(height, width);
-            currentScore++;
-
-            if (currentScore == cells) {
-                topPanel.setVisible(false);
-                battleFieldPanel.remove(gamePanel);
-
-                battleFieldPanel.add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
-            }
         }
-
-        score.setText("Your score: " + currentScore);
     }
 
-    private void paintCrossCell(int height, int width) {
+    private void paintCrossCell(int i, int j) {
         assert crossImage != null;
-        setIcon(cellLabels[height][width], crossImage);
+        setIcon(cellLabels[i][j], crossImage);
+        int nearMinesCount = fieldCreator.getNearMines(i, j);
 
-        JLabel centerLabel = new JLabel(String.valueOf(map[height][width].getMines()), JLabel.CENTER);
+        if (nearMinesCount > 0) {
+            JLabel centerLabel = new JLabel(String.valueOf(nearMinesCount), JLabel.CENTER);
 
-        cellLabels[height][width].add(centerLabel);
-        cellLabels[height][width].getComponent(0).setForeground(Color.RED);
-        cellLabels[height][width].updateUI();
-        cellLabels[height][width].setBackground(Color.BLACK);
-        map[height][width].setHidden(true);
-    }
-
-    private void createField(int height, int width, int mines, int firstY, int firstX) {
-        fieldCreator = new FieldCreator(height, width, mines, firstX, firstY);
-        map = fieldCreator.getCells();
-
-        battleFieldPanel.repaint();
+            cellLabels[i][j].add(centerLabel);
+            cellLabels[i][j].getComponent(0).setForeground(Color.RED);
+            cellLabels[i][j].updateUI();
+            cellLabels[i][j].setBackground(Color.BLACK);
+        }
     }
 
     private JLabel createCellLabel(BufferedImage img) {
@@ -233,75 +226,20 @@ class BattleField {
         label.setIcon(icon);
     }
 
-    private void showBombs() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j].isMine()) {
-                    setGifIcon(cellLabels[i][j], pentagramPass);
-
-                    map[i][j].setHidden(true);
-                }
-            }
-        }
-    }
-
-    private void openAllZero(int height, int weight) {
-        Queue<Integer> queueHeight = new LinkedList<>();
-        Queue<Integer> queueWeight = new LinkedList<>();
-
-        queueHeight.add(height);
-        queueWeight.add(weight);
-
-        while (!queueHeight.isEmpty()) {
-            height = queueHeight.remove();
-            weight = queueWeight.remove();
-
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (height + i >= 0 && weight + j >= 0 && height + i < cellLabels.length && weight + j < cellLabels[0].length) {
-                        if (map[height + i][weight + j].isHidden()) {
-                            if (map[height + i][weight + j].getMines() == 0) {
-                                queueHeight.add(height + i);
-                                queueWeight.add(weight + j);
-                            } else {
-                                paintCrossCell(height + i, weight + j);
-                            }
-
-                            currentScore++;
-
-                            if (currentScore == cells) {
-                                topPanel.setVisible(false);
-                                battleFieldPanel.remove(gamePanel);
-
-                                battleFieldPanel.add(winPanel("SCORE: " + currentScore), BorderLayout.CENTER);
-                            }
-                        }
-
-                        map[height + i][weight + j].setHidden(true);
-                    }
-                }
-            }
-            setIcon(cellLabels[height][weight], crossImage);
-
-            map[height][weight].setHidden(true);
-        }
-    }
-
-    private JPanel winPanel(String text) {
+    private JPanel winPanel() {
         JPanel winPanel = new JPanel();
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
         setGifIcon(image, "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/winImage.jpg");
 
-        JLabel centerLabel = new JLabel(text, JLabel.CENTER);
+        JLabel centerLabel = new JLabel("YOU WIN! SCORE: " + fieldCreator.getScore(), JLabel.CENTER);
         centerLabel.setFont(new Font("Arial Black", Font.BOLD, 20));
 
         centerLabel.setSize(600, 200);
         centerLabel.setForeground(Color.BLACK);
 
         image.add(centerLabel);
-
 
         winPanel.add(image);
         winPanel.setBackground(Color.RED);
@@ -318,33 +256,15 @@ class BattleField {
 
                 setScore();
                 updatePlayer.doClick();
-
-                gameOver = true;
             }
         });
 
         return winPanel;
     }
 
-    private void setScore() {
-        if (user.getScore() < currentScore) {
-            user.setScore(currentScore);
-        }
-    }
-
-    private BufferedImage getBufferedImage(String pass) {
-        try {
-            return ImageIO.read(new File(pass));
-
-        } catch (IOException ignored) {
-        }
-
-        return null;
-    }
-
     private JPanel lostPanel() {
         battleFieldPanel.remove(gamePanel);
-        JPanel winPanel = new JPanel();
+        JPanel lostPanel = new JPanel();
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
@@ -359,25 +279,37 @@ class BattleField {
 
         image.add(centerLabel);
 
-
-        winPanel.add(image);
-        winPanel.setBackground(Color.BLACK);
+        lostPanel.add(image);
+        lostPanel.setBackground(Color.BLACK);
         image.updateUI();
 
-        winPanel.addMouseListener(new MouseAdapter() {
+        lostPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 topPanel.setVisible(true);
-                battleFieldPanel.remove(winPanel);
+                battleFieldPanel.remove(lostPanel);
 
                 battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
-
-                gameOver = true;
             }
         });
 
-        return winPanel;
+        return lostPanel;
+    }
+
+    private void setScore() {
+        if (user.getScore() < currentScore) {
+            user.setScore(currentScore);
+        }
+    }
+
+    private BufferedImage getBufferedImage(String pass) {
+        try {
+            return ImageIO.read(new File(pass));
+        } catch (IOException ignored) {
+        }
+
+        return null;
     }
 
     static List<JButton> getButtons() {
@@ -402,18 +334,6 @@ class BattleField {
 
     JPanel getBattleFieldPanel() {
         return battleFieldPanel;
-    }
-
-    private void paintField(){
-        for(int i = 0; i < map.length; i++){
-            for(int j = 0; j < map[i].length; j++){
-               if(map[i][j].isHidden()){
-                   cellLabels[i][j].
-               } else{
-
-               }
-            }
-        }
     }
 }
 
