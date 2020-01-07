@@ -109,7 +109,7 @@ class BattleField {
 
                 if (!gameOver) {
                     if (!fieldCreated) {
-                        fieldCreator = new FieldCreator(height, width, mines, i, j);
+                        fieldCreator = new FieldCreator(height, width, mines, j, i);
                         fieldCreated = true;
                     }
 
@@ -169,20 +169,18 @@ class BattleField {
         currentScore = fieldCreator.getScore();
         score.setText("Score " + currentScore);
 
-        if (currentScore == cellsCount) {
-            topPanel.setVisible(false);
-
-            battleFieldPanel.remove(gamePanel);
-            battleFieldPanel.add(winPanel(), BorderLayout.CENTER);
-
-            return;
-        }
-
         if (gameOver) {
             topPanel.setVisible(false);
 
             battleFieldPanel.remove(gamePanel);
             battleFieldPanel.add(lostPanel(), BorderLayout.CENTER);
+        } else if (currentScore == cellsCount) {
+            topPanel.setVisible(false);
+
+            battleFieldPanel.remove(gamePanel);
+            battleFieldPanel.add(winPanel(), BorderLayout.CENTER);
+
+            gameOver = true;
         }
     }
 

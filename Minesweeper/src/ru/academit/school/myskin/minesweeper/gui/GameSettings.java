@@ -44,7 +44,7 @@ class GameSettings {
         radioGroup.add(normal);
         radioGroup.add(high);
 
-        JLabel weight = new JLabel("Enter weight: ");
+        JLabel weight = new JLabel("Enter width: ");
         weight.setLabelFor(weightField);
 
         JLabel height = new JLabel("Enter height: ");

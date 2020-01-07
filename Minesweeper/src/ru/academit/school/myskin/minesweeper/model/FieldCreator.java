@@ -19,10 +19,10 @@ public class FieldCreator {
         this.countOfMines = countOfMines;
         battlefieldMap = new Cell[height][width];
 
-        generateCellMap(firstY, firstX);
+        generateCellMap(firstX, firstY);
     }
 
-    private void generateCellMap(int height, int width) {
+    private void generateCellMap(int firstX, int firstY) {
         Random rnd = new Random();
 
         battlefieldMap = new Cell[this.height][this.width];
@@ -31,25 +31,25 @@ public class FieldCreator {
 
         int[][] counts = new int[this.height][this.width];
 
-        for (int x = 0; x < this.height; x++) {
-            for (int y = 0; y < this.width; y++) {
-                battlefieldMap[x][y] = new Cell(false);
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
+                battlefieldMap[y][x] = new Cell(false);
             }
         }
 
         while (minesCount != countOfMines) {
-            int x = rnd.nextInt(this.height);
-            int y = rnd.nextInt(this.width);
+            int x = rnd.nextInt(this.width);
+            int y = rnd.nextInt(this.height);
 
-            if (minesCount != countOfMines && x != height && y != width && !battlefieldMap[x][y].isMine()) {
+            if (minesCount != countOfMines && x != firstX && y != firstY && !battlefieldMap[y][x].isMine()) {
                 minesCount++;
 
-                battlefieldMap[x][y].setAsMine();
+                battlefieldMap[y][x].setAsMine();
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
-                        if (x + i < counts.length && x + i >= 0 && j + y < counts[0].length && j + y >= 0) {
-                            counts[x + i][y + j]++;
+                        if (y + i < counts.length && y + i >= 0 && j + x < counts[0].length && j + x >= 0) {
+                            counts[y + i][x + j]++;
                         }
                     }
                 }
