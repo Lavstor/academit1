@@ -13,23 +13,25 @@ import java.util.stream.Collectors;
 class Records {
     private JPanel recordsPanel;
     private static JButton back;
+
     final private JLabel[] exitGifArray;
+    final private String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/";
 
     Records(List<User> userList) {
         recordsPanel = new JPanel();
 
-        String pentagram = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/pentagram.png";
-        String first = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/first.png";
-        String second = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/second.gif";
-        String third = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/third.gif";
-        String fourth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/fourth.png";
-        String fifth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/fifth.png";
-        String sixth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/sixth.png";
-        String seventh = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/seventh.png";
-        String eighth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/eighth.png";
-        String ninth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/ninth.png";
-        String tenth = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/highScoresImages/tenth.png";
-        ImageIcon blackImage = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/black.jpg");
+        String pentagram = imagesDirectory + "highScoresImages/pentagram.png";
+        String first = imagesDirectory + "highScoresImages/first.png";
+        String second = imagesDirectory + "highScoresImages/second.gif";
+        String third = imagesDirectory + "highScoresImages/third.gif";
+        String fourth = imagesDirectory + "highScoresImages/fourth.png";
+        String fifth = imagesDirectory + "highScoresImages/fifth.png";
+        String sixth = imagesDirectory + "highScoresImages/sixth.png";
+        String seventh = imagesDirectory + "highScoresImages/seventh.png";
+        String eighth = imagesDirectory + "highScoresImages/eighth.png";
+        String ninth = imagesDirectory + "highScoresImages/ninth.png";
+        String tenth = imagesDirectory + "highScoresImages/tenth.png";
+        ImageIcon blackImage = new ImageIcon(imagesDirectory + "buttonsImages/black.jpg");
 
         String[] imagesPassArray = {first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth};
         JLabel[] topPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifLabel(pentagram)};
@@ -113,7 +115,7 @@ class Records {
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/pentagramGif.gif");
+        ImageIcon icon = new ImageIcon(imagesDirectory + "buttonsImages/pentagramGif.gif");
 
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
