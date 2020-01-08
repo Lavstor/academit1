@@ -33,6 +33,7 @@ class BattleField {
     final private JPanel gamePanel;
     final private JPanel topPanel;
     final private JLabel[][] cellLabels;
+    final private String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/";
 
     BattleField(int width, int height, int mines, User user) {
         this.battleFieldPanel = new JPanel();
@@ -79,7 +80,7 @@ class BattleField {
         constraints1.insets = new Insets(1, 1, 1, 1);
         cellLabels = new JLabel[height][width];
 
-        String cellSkinPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/cellSkin.jpg";
+        String cellSkinPass = imagesDirectory + "cellSkin.jpg";
 
         cellImage = getBufferedImage(cellSkinPass);
 
@@ -96,8 +97,8 @@ class BattleField {
             }
         }
 
-        crossImage = getBufferedImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/notMine.png");
-        flagImage = getBufferedImage("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/flag.png");
+        crossImage = getBufferedImage(imagesDirectory + "notMine.png");
+        flagImage = getBufferedImage(imagesDirectory + "flag.png");
 
         gamePanel.addMouseListener(new MouseAdapter() {
             boolean fieldCreated;
@@ -150,7 +151,7 @@ class BattleField {
 
             if (!fieldCreator.cellIsHiddenCheck(coordinates[0], coordinates[1])) {
                 if (fieldCreator.cellIsMineCheck(coordinates[0], coordinates[1])) {
-                    String pentagramPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/mine.gif";
+                    String pentagramPass = imagesDirectory + "mine.gif";
                     setGifIcon(cellLabels[coordinates[0]][coordinates[1]], pentagramPass);
 
                     gameOver = true;
@@ -229,7 +230,7 @@ class BattleField {
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
-        setGifIcon(image, "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/winImage.jpg");
+        setGifIcon(image, imagesDirectory + "winImage.jpg");
 
         JLabel centerLabel = new JLabel("YOU WIN! SCORE: " + fieldCreator.getScore(), JLabel.CENTER);
         centerLabel.setFont(new Font("Arial Black", Font.BOLD, 20));
@@ -266,7 +267,7 @@ class BattleField {
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
-        String cry = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/looseImage.jpg";
+        String cry = imagesDirectory + "looseImage.jpg";
         setGifIcon(image, cry);
 
         JLabel centerLabel = new JLabel("                          YOU LOST", JLabel.CENTER);

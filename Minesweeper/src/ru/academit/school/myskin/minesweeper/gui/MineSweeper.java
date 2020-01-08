@@ -22,6 +22,8 @@ public class MineSweeper {
     private LinkedList<User> users;
     private JPanel battleFieldPanel;
 
+    final private String frameImagePass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperFrame/";
+
     public MineSweeper() {
         SwingUtilities.invokeLater(() -> {
             mainFrame = new JFrame();
@@ -32,8 +34,7 @@ public class MineSweeper {
             customUI();
 
             mainFrame.setVisible(true);
-            Image img = Toolkit.getDefaultToolkit().getImage("Minesweeper/src/ru/academit/school" +
-                    "/myskin/minesweeper/resources/minesweeperFrame/frameIcon.jpg");
+            Image img = Toolkit.getDefaultToolkit().getImage(frameImagePass + "frameIcon.jpg");
             mainFrame.setIconImage(img);
             mainFrame.setTitle("Minesweeper");
 
@@ -93,7 +94,7 @@ public class MineSweeper {
         String command = event.getActionCommand();
 
         if (command.equals("EXIT")) {
-            ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperFrame/exitGame.gif");
+            ImageIcon icon = new ImageIcon(frameImagePass + "exitGame.gif");
 
             if (JOptionPane.showConfirmDialog(mainFrame, "           YOU SHURE?", "EXIT",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {

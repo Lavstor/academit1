@@ -9,6 +9,8 @@ class Info {
     private JPanel infoPanel;
     private static JButton back;
 
+    final private String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
+
     Info() {
         infoPanel = new JPanel();
         infoPanel.setLayout(new BorderLayout());
@@ -28,7 +30,7 @@ class Info {
     }
 
     private JLabel createGifLabel() {
-        String pass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/pentagramGif.gif";
+        String pass = buttonImagesPass + "pentagramGif.gif";
         ImageIcon icon = new ImageIcon(pass);
 
         JLabel newLabel = new JLabel();
@@ -41,7 +43,7 @@ class Info {
     }
 
     private JPanel returnPanel() {
-        ImageIcon icon = new ImageIcon("Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/black.jpg");
+        ImageIcon icon = new ImageIcon(buttonImagesPass + "black.jpg");
         JPanel panelExit = new JPanel();
 
         panelExit.setLayout(new GridBagLayout());
