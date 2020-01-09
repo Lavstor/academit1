@@ -1,6 +1,7 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.model.FieldCreator;
+import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.imageio.ImageIO;
@@ -23,7 +24,6 @@ class BattleField {
     private static JButton menu;
     private static JButton topPanelNewGame;
     private static List<JButton> buttons = new LinkedList<>();
-    private static JButton updatePlayer;
 
     final private BufferedImage cellImage;
     final private BufferedImage crossImage;
@@ -253,8 +253,7 @@ class BattleField {
                 battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
 
-                setScore();
-                updatePlayer.doClick();
+                HighScoresReader.updatePlayerData(user, currentScore);
             }
         });
 
@@ -296,12 +295,6 @@ class BattleField {
         return lostPanel;
     }
 
-    private void setScore() {
-        if (user.getScore() < currentScore) {
-            user.setScore(currentScore);
-        }
-    }
-
     private BufferedImage getBufferedImage(String pass) {
         try {
             return ImageIO.read(new File(pass));
@@ -323,12 +316,8 @@ class BattleField {
         topPanelNewGame = new JButton("NEW GAME");
         topPanelNewGame.setActionCommand("BACK TO OPTIONS FROM BATTLEFIELD");
 
-        updatePlayer = new JButton();
-        updatePlayer.setActionCommand("UPDATE");
-
         buttons.add(menu);
         buttons.add(topPanelNewGame);
-        buttons.add(updatePlayer);
     }
 
     JPanel getBattleFieldPanel() {

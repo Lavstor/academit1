@@ -269,9 +269,5 @@ public class MineSweeper {
             gameSettings.setHideCancel(false);
             mainFrame.repaint();
         }
-
-        if (command.equals("UPDATE")) {
-            HighScoresReader.updateList(users);
-        }
     }
 }

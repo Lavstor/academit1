@@ -134,14 +134,16 @@ class GameSettings {
                 int height = Integer.parseInt(heightField.getText());
                 int mines = Integer.parseInt(this.mines.getText());
 
-                if (weight > 0 && weight < 35 && height > 0 && height < 35 && mines > 0 && mines <= (weight * height) * 0.75) {
+                if (weight > 0 && weight < 25 && height > 0 && height < 25 && mines > 0 && mines <= (weight * height) * 0.5) {
                     return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
                             Integer.parseInt(this.mines.getText()), user).getBattleFieldPanel();
                 } else {
-                    JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options! Count of " +
+                            "weight/height must be less then 25 and count of mines must be less then 50% of " +
+                            "cells count", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Use numbers!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
