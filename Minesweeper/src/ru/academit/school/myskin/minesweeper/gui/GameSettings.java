@@ -1,7 +1,5 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
-import ru.academit.school.myskin.minesweeper.user.User;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -17,7 +15,6 @@ class GameSettings {
     private static JButton backToBattlefield;
     private static List<JButton> buttons = new LinkedList<>();
 
-    final private User user;
     final private JTextField heightField;
     final private JTextField weightField;
     final private JTextField mines;
@@ -27,9 +24,8 @@ class GameSettings {
     final private JPanel customPane;
     final private JPanel defaultPane;
 
-    GameSettings(User player) {
+    GameSettings() {
         gameSettingsPanel = new JPanel();
-        this.user = player;
 
         weightField = new JTextField(3);
         heightField = new JTextField(3);
@@ -115,18 +111,18 @@ class GameSettings {
         return panel;
     }
 
-    JPanel createMap() {
+    int[] createMap() {
         if (defaultPane.isVisible()) {
             if (easy.isSelected()) {
-                return new BattleField(9, 9, 10, user).getBattleFieldPanel();
+                return new int[]{9, 9, 10};
             }
 
             if (normal.isSelected()) {
-                return new BattleField(15, 15, 50, user).getBattleFieldPanel();
+                return new int[]{15, 15, 50};
             }
 
             if (high.isSelected()) {
-                return new BattleField(20, 20, 85, user).getBattleFieldPanel();
+                return new int[]{20, 20, 85};
             }
         } else {
             try {
@@ -135,8 +131,8 @@ class GameSettings {
                 int mines = Integer.parseInt(this.mines.getText());
 
                 if (weight > 0 && weight < 25 && height > 0 && height < 25 && mines > 0 && mines <= (weight * height) * 0.5) {
-                    return new BattleField(Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
-                            Integer.parseInt(this.mines.getText()), user).getBattleFieldPanel();
+                    return new int[]{Integer.parseInt(weightField.getText()), Integer.parseInt(heightField.getText()),
+                            Integer.parseInt(this.mines.getText())};
                 } else {
                     JOptionPane.showMessageDialog(gameSettingsPanel, "Error! Wrong options! Count of " +
                             "weight/height must be less then 25 and count of mines must be less then 50% of " +

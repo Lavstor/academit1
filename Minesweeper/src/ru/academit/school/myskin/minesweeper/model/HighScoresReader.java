@@ -7,25 +7,27 @@ import java.io.*;
 import java.util.LinkedList;
 
 public class HighScoresReader {
-    private static LinkedList<User> users;
-    private static final String playersListPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/userData/Players.txt";
+    private LinkedList<User> users;
+    private final String playersListPass;
 
-    public static LinkedList<User> readPlayers() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(playersListPass))) {
-            //noinspection unchecked
-            users = (LinkedList<User>) in.readObject();
-
-            return users;
-        } catch (ClassNotFoundException | IOException ignored) {
-        }
-
-        return createDefaultPlayerList();
+    public HighScoresReader(String pass) throws IOException, ClassNotFoundException {
+        playersListPass = pass;
+        users = readPlayers();
     }
 
-    public static void writeUsers(User user) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
-            assert users != null;
+    public LinkedList<User> getUsersList(){
+        return users;
+    }
 
+    private LinkedList<User> readPlayers() throws IOException, ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("213"));
+
+        //noinspection unchecked
+       return (LinkedList<User>) in.readObject();
+    }
+
+    public  void writeUsers(User user) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
             users.add(user);
 
             out.writeObject(users);
@@ -33,21 +35,22 @@ public class HighScoresReader {
         }
     }
 
-    private static void updateList() {
+    private  void updateList() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
             out.writeObject(users);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            System.out.println("Файл не найден");
         }
     }
 
-    public static void updatePlayerData(User player, int newScore) {
+    public  void updatePlayerData(User player, int newScore) {
         if (player.getScore() < newScore) {
             player.setScore(newScore);
             updateList();
         }
     }
 
-    private static LinkedList<User> createDefaultPlayerList() {
+    private  LinkedList<User> createDefaultPlayerList() {
         users = new LinkedList<>();
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {

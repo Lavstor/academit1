@@ -32,6 +32,7 @@ public class Cell {
 
     public void setHidden(boolean hidden) {
         isHidden = hidden;
+        setMarked(false);
     }
 
     public void setMarked(boolean mark) {

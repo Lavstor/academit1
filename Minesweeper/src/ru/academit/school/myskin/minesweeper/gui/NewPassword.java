@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class NewPassword {
+    private HighScoresReader reader;
     private JPanel newPasswordPanel;
     private static List<JButton> buttons = new LinkedList<>();
 
@@ -20,9 +21,11 @@ class NewPassword {
     final private JPasswordField confirmPasswordField;
     final private LinkedList<User> players;
 
-    NewPassword(LinkedList<User> users) {
+    NewPassword(HighScoresReader reader) {
+        this.reader = reader;
+
         newPasswordPanel = new JPanel();
-        this.players = users;
+        this.players = reader.getUsersList();
 
         newPasswordPanel.setVisible(true);
 
@@ -121,8 +124,7 @@ class NewPassword {
             return false;
         }
 
-        HighScoresReader.writeUsers(new Player(login, password));
-
+        reader.writeUsers(new Player(login, password));
         return true;
     }
 

@@ -5,7 +5,7 @@ import ru.academit.school.myskin.minesweeper.cell.Cell;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class FieldCreator {
+public class GameField {
     private Cell[][] battlefieldMap;
     private int countOfMines;
     private int currentScore;
@@ -13,7 +13,7 @@ public class FieldCreator {
     final private int height;
     final private int width;
 
-    public FieldCreator(int height, int width, int countOfMines, int firstX, int firstY) {
+    public GameField(int height, int width, int countOfMines, int firstX, int firstY) {
         this.height = height;
         this.width = width;
         this.countOfMines = countOfMines;
@@ -87,12 +87,16 @@ public class FieldCreator {
     }
 
     public LinkedList<Integer[]> massPush(int height, int width) {
+        if (battlefieldMap[height][width].getMines() == 0 || !markCountCheck(height, width)) {
+            return null;
+        }
+
         LinkedList<Integer[]> cellList = new LinkedList<>();
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (width + j < battlefieldMap[0].length && i + height < battlefieldMap.length && j + width >= 0 && i + height >= 0
-                        && battlefieldMap[height + i][width + j].isHidden() && battlefieldMap[height + i][width + j].isMarked()) {
+                if (outOfBoundsCheck(i, j, height, width) && battlefieldMap[height + i][width + j].isMarked()
+                        && battlefieldMap[height + i][width + j].isHidden()) {
                     cellList.addAll(openCell(height + i, width + j));
                 }
             }
@@ -101,11 +105,29 @@ public class FieldCreator {
         return cellList;
     }
 
-    public void markCell(int x, int y) {
-        if (battlefieldMap[x][y].isMarked()) {
-            battlefieldMap[x][y].setMarked(true);
+    private boolean markCountCheck(int height, int width) {
+        int countOfMarkedCells = 0;
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if(outOfBoundsCheck(i, j, height, width) && !battlefieldMap[height + i][width + j].isMarked()){
+                    countOfMarkedCells++;
+                }
+            }
+        }
+
+        return countOfMarkedCells == battlefieldMap[height][width].getMines();
+    }
+
+    private boolean outOfBoundsCheck (int i, int j, int height, int width){
+        return width + j < battlefieldMap[0].length && i + height < battlefieldMap.length && j + width >= 0 && i + height >= 0;
+    }
+
+    public void markCell(int height, int width) {
+        if (battlefieldMap[height][width].isMarked()) {
+            battlefieldMap[height][width].setMarked(true);
         } else {
-            battlefieldMap[x][y].setMarked(false);
+            battlefieldMap[height][width].setMarked(false);
         }
     }
 
@@ -125,59 +147,59 @@ public class FieldCreator {
         return cellList;
     }
 
-    private LinkedList<Integer[]> openAllZero(int height, int weight) {
+    private LinkedList<Integer[]> openAllZero(int height, int width) {
         int currentScore = 0;
 
         LinkedList<Integer[]> cellQueue = new LinkedList<>();
 
-        cellQueue.add(new Integer[]{height, weight});
+        cellQueue.add(new Integer[]{height, width});
 
         int currentListIndex = 0;
 
         while (currentListIndex < cellQueue.size()) {
+            width = cellQueue.get(currentListIndex)[1];
             height = cellQueue.get(currentListIndex)[0];
-            weight = cellQueue.get(currentListIndex)[1];
 
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    if (height + i >= 0 && weight + j >= 0 && height + i < battlefieldMap.length && weight + j < battlefieldMap[0].length) {
-                        if (battlefieldMap[height + i][weight + j].isHidden()) {
-                            if (battlefieldMap[height + i][weight + j].getMines() == 0) {
-                                cellQueue.add(new Integer[]{height + i, weight + j});
+                    if (outOfBoundsCheck(i, j, height, width)) {
+                        if (battlefieldMap[height + i][width + j].isHidden()) {
+                            if (battlefieldMap[height + i][width + j].getMines() == 0) {
+                                cellQueue.add(new Integer[]{height + i, width + j});
                             } else {
-                                cellQueue.addFirst(new Integer[]{height + i, weight + j});
+                                cellQueue.addFirst(new Integer[]{height + i, width + j});
                                 currentListIndex++;
                             }
                             currentScore++;
                         }
 
-                        battlefieldMap[height + i][weight + j].setHidden(true);
+                        battlefieldMap[height + i][width + j].setHidden(true);
                     }
                 }
             }
 
             currentListIndex++;
-            battlefieldMap[height][weight].setHidden(true);
+            battlefieldMap[height][width].setHidden(true);
         }
 
         this.currentScore += currentScore;
         return cellQueue;
     }
 
-    public boolean cellIsMineCheck(int x, int y) {
-        return battlefieldMap[x][y].isMine();
+    public boolean cellIsMineCheck(int height, int width) {
+        return battlefieldMap[height][width].isMine();
     }
 
-    public boolean cellIsHiddenCheck(int x, int y) {
-        return battlefieldMap[x][y].isHidden();
+    public boolean cellIsHiddenCheck(int height, int width) {
+        return battlefieldMap[height][width].isHidden();
     }
 
-    public boolean cellIsMarkedCheck(int x, int y) {
-        return battlefieldMap[x][y].isMarked();
+    public boolean cellIsMarkedCheck(int height, int width) {
+        return battlefieldMap[height][width].isMarked();
     }
 
-    public int getNearMines(int x, int y) {
-        return battlefieldMap[x][y].getMines();
+    public int getNearMines(int height, int width) {
+        return battlefieldMap[height][width].getMines();
     }
 
     public int getScore() {

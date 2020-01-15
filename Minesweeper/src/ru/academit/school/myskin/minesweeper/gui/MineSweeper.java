@@ -7,11 +7,13 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MineSweeper {
+    private User currentUser;
     private JFrame mainFrame;
     private Menu menu;
     private Records records;
@@ -21,10 +23,11 @@ public class MineSweeper {
     private Info info;
     private LinkedList<User> users;
     private JPanel battleFieldPanel;
+    private HighScoresReader reader;
 
     final private String frameImagePass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperFrame/";
 
-    public MineSweeper() {
+    public MineSweeper(String userListPass) {
         SwingUtilities.invokeLater(() -> {
             mainFrame = new JFrame();
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -53,7 +56,16 @@ public class MineSweeper {
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             getButtons();
 
-            users = HighScoresReader.readPlayers();
+            try {
+                reader = new HighScoresReader(userListPass);
+                users = reader.getUsersList();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(mainFrame, "Error! Try another file path!",
+                        "Error Message", JOptionPane.ERROR_MESSAGE);
+            } catch (ClassNotFoundException e){
+                JOptionPane.showMessageDialog(mainFrame, "Error! Not right data in this file!",
+                        "Error Message", JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
 
@@ -188,16 +200,16 @@ public class MineSweeper {
 
         if (command.equals("TO NEW PASSWORD FROM PASSWORD")) {
             mainFrame.remove(password.getPasswordPanel());
-            newPassword = new NewPassword(users);
+            newPassword = new NewPassword(reader);
             mainFrame.add(newPassword.getNewPasswordPanel(), BorderLayout.CENTER);
             newPassword.getNewPasswordPanel().updateUI();
         }
 
         if (command.equals("TO OPTIONS FROM PASSWORD")) {
             if (password.checkPassword()) {
-                User currentUser = Password.getPlayer();
+                currentUser = Password.getPlayer();
                 mainFrame.remove(password.getPasswordPanel());
-                gameSettings = new GameSettings(currentUser);
+                gameSettings = new GameSettings();
                 gameSettings.defaultSetup();
                 gameSettings.setHideCancel(false);
 
@@ -208,7 +220,7 @@ public class MineSweeper {
 
         if (command.equals("CHECK DATA")) {
             if (newPassword.checkData()) {
-                users = HighScoresReader.readPlayers();
+                users = reader.getUsersList();
                 password = new Password(users);
                 mainFrame.remove(newPassword.getNewPasswordPanel());
                 mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
@@ -217,10 +229,11 @@ public class MineSweeper {
         }
 
         if (command.equals("CREATE BATTLEFIELD")) {
-            JPanel testBattleField = gameSettings.createMap();
+            int[] fieldOptions = gameSettings.createMap();
 
-            if (testBattleField != null) {
-                battleFieldPanel = testBattleField;
+            if (fieldOptions != null) {
+                battleFieldPanel = new BattleField(fieldOptions[0], fieldOptions[1], fieldOptions[2], currentUser,
+                        reader).getBattleFieldPanel();
 
                 mainFrame.remove(gameSettings.getGameSettingsPanel());
                 mainFrame.add(battleFieldPanel, BorderLayout.CENTER);
