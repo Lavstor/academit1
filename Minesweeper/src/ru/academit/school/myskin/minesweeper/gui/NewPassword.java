@@ -6,6 +6,7 @@ import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -124,7 +125,11 @@ class NewPassword {
             return false;
         }
 
-        reader.writeUsers(new Player(login, password));
+        try {
+            reader.writeUsers(new Player(login, password));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

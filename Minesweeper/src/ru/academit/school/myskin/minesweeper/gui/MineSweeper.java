@@ -26,6 +26,7 @@ public class MineSweeper {
     private HighScoresReader reader;
 
     final private String frameImagePass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/minesweeperFrame/";
+    final private ImageIcon icon = new ImageIcon(frameImagePass + "exitGame.gif");
 
     public MineSweeper(String userListPass) {
         SwingUtilities.invokeLater(() -> {
@@ -56,17 +57,28 @@ public class MineSweeper {
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             getButtons();
 
-            try {
-                reader = new HighScoresReader(userListPass);
-                users = reader.getUsersList();
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(mainFrame, "Error! Try another file path!",
-                        "Error Message", JOptionPane.ERROR_MESSAGE);
-            } catch (ClassNotFoundException e){
-                JOptionPane.showMessageDialog(mainFrame, "Error! Not right data in this file!",
-                        "Error Message", JOptionPane.ERROR_MESSAGE);
-            }
+            getUserList(userListPass);
         });
+    }
+
+    private void getUserList(String pass) {
+        try {
+            reader = new HighScoresReader(pass);
+            users = reader.getUsersList();
+        } catch (IOException | ClassNotFoundException e) {
+            if (JOptionPane.showConfirmDialog(mainFrame, "Wrong file pass or data type! Create default save file?", "ERROR",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {
+                try {
+                    reader = new HighScoresReader();
+                    users = reader.getUsersList();
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(mainFrame, "Game crushes :(", "Error Message", JOptionPane.ERROR_MESSAGE);
+                    mainFrame.dispose();
+                }
+            } else {
+                mainFrame.dispose();
+            }
+        }
     }
 
     private void customUI() {
@@ -106,8 +118,6 @@ public class MineSweeper {
         String command = event.getActionCommand();
 
         if (command.equals("EXIT")) {
-            ImageIcon icon = new ImageIcon(frameImagePass + "exitGame.gif");
-
             if (JOptionPane.showConfirmDialog(mainFrame, "           YOU SHURE?", "EXIT",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon) == 0) {
                 mainFrame.dispose();

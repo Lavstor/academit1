@@ -258,7 +258,11 @@ class BattleField {
                 battleFieldPanel.add(gamePanel, BorderLayout.CENTER);
                 gamePanel.updateUI();
 
-                reader.updatePlayerData(user, currentScore);
+                try {
+                    reader.updatePlayerData(user, currentScore);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
