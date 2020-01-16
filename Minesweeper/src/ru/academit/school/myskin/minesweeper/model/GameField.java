@@ -87,7 +87,7 @@ public class GameField {
     }
 
     public LinkedList<Integer[]> massPush(int height, int width) {
-        if (battlefieldMap[height][width].getMines() == 0 || !markCountCheck(height, width)) {
+        if (!battlefieldMap[height][width].isMarked() || battlefieldMap[height][width].getMines() == 0 || !markCountCheck(height, width)) {
             return null;
         }
 
@@ -110,7 +110,7 @@ public class GameField {
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if(outOfBoundsCheck(i, j, height, width) && !battlefieldMap[height + i][width + j].isMarked()){
+                if (outOfBoundsCheck(i, j, height, width) && !battlefieldMap[height + i][width + j].isMarked()) {
                     countOfMarkedCells++;
                 }
             }
@@ -119,7 +119,7 @@ public class GameField {
         return countOfMarkedCells == battlefieldMap[height][width].getMines();
     }
 
-    private boolean outOfBoundsCheck (int i, int j, int height, int width){
+    private boolean outOfBoundsCheck(int i, int j, int height, int width) {
         return width + j < battlefieldMap[0].length && i + height < battlefieldMap.length && j + width >= 0 && i + height >= 0;
     }
 

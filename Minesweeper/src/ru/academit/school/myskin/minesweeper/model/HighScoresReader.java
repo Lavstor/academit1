@@ -40,8 +40,8 @@ public class HighScoresReader {
 
     public void writeUsers(User user) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass));
-        users.add(user);
 
+        users.add(user);
         out.writeObject(users);
     }
 

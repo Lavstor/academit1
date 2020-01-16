@@ -261,7 +261,8 @@ class BattleField {
                 try {
                     reader.updatePlayerData(user, currentScore);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(battleFieldPanel, "Cnt save ur score! Try to reboot game :(",
+                            "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
