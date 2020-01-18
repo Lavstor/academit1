@@ -87,7 +87,7 @@ public class GameField {
     }
 
     public LinkedList<Integer[]> massPush(int height, int width) {
-        if (!battlefieldMap[height][width].isMarked() || battlefieldMap[height][width].getMines() == 0 || !markCountCheck(height, width)) {
+        if (!battlefieldMap[height][width].isMarked() || battlefieldMap[height][width].getMines() == 0 || !isReadyToMassPush(height, width)) {
             return null;
         }
 
@@ -95,7 +95,7 @@ public class GameField {
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (outOfBoundsCheck(i, j, height, width) && battlefieldMap[height + i][width + j].isMarked()
+                if (isOutOfBounds(i, j, height, width) && battlefieldMap[height + i][width + j].isMarked()
                         && battlefieldMap[height + i][width + j].isHidden()) {
                     cellList.addAll(openCell(height + i, width + j));
                 }
@@ -105,12 +105,12 @@ public class GameField {
         return cellList;
     }
 
-    private boolean markCountCheck(int height, int width) {
+    private boolean isReadyToMassPush(int height, int width) {
         int countOfMarkedCells = 0;
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (outOfBoundsCheck(i, j, height, width) && !battlefieldMap[height + i][width + j].isMarked()) {
+                if (isOutOfBounds(i, j, height, width) && !battlefieldMap[height + i][width + j].isMarked()) {
                     countOfMarkedCells++;
                 }
             }
@@ -119,7 +119,7 @@ public class GameField {
         return countOfMarkedCells == battlefieldMap[height][width].getMines();
     }
 
-    private boolean outOfBoundsCheck(int i, int j, int height, int width) {
+    private boolean isOutOfBounds(int i, int j, int height, int width) {
         return width + j < battlefieldMap[0].length && i + height < battlefieldMap.length && j + width >= 0 && i + height >= 0;
     }
 
@@ -162,7 +162,7 @@ public class GameField {
 
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    if (outOfBoundsCheck(i, j, height, width)) {
+                    if (isOutOfBounds(i, j, height, width)) {
                         if (battlefieldMap[height + i][width + j].isHidden()) {
                             if (battlefieldMap[height + i][width + j].getMines() == 0) {
                                 cellQueue.add(new Integer[]{height + i, width + j});

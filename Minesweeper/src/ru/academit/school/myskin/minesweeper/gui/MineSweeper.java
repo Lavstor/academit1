@@ -93,7 +93,7 @@ public class MineSweeper {
         UIManager.put("RadioButton.foreground", new ColorUIResource(Color.BLACK));
         UIManager.put("RadioButton.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
         UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-        UIManager.put("Button.select", Color.red);
+        UIManager.put("Button.select", Color.RED);
         UIManager.put("Button.gradient", gradients);
         UIManager.put("Button.foreground", new ColorUIResource(Color.BLACK));
         UIManager.put("OptionPane.background", new ColorUIResource(Color.BLACK));

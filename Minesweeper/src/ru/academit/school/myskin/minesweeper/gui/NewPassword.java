@@ -129,6 +129,7 @@ class NewPassword {
             reader.writeUsers(new Player(login, password));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(newPasswordPanel, "Cnt save ur data! Reboot game!", "Error Message", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
 
         return true;

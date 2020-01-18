@@ -34,7 +34,6 @@ public class HighScoresReader {
 
         //noinspection unchecked
         users = (LinkedList<User>) in.readObject();
-
         return users;
     }
 
