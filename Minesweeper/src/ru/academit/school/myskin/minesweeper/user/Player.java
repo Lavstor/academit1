@@ -7,7 +7,7 @@ public class Player implements User {
     private char[] pass;
 
     static final long serialVersionUID = 1L;
-    final private String name;
+    private final String name;
 
     public Player(String name, double score) {
         this.name = name;

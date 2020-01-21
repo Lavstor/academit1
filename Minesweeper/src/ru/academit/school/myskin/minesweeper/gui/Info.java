@@ -4,14 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 class Info {
     private JPanel infoPanel;
-    private static JButton back;
+    private JButton back;
+    private JLabel[] exitGifArray;
 
-    final private String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
+    private static final String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
 
     Info() {
+        createButtons();
+
         infoPanel = new JPanel();
         infoPanel.setLayout(new BorderLayout());
 
@@ -25,8 +29,6 @@ class Info {
 
         infoPanel.add(new JLabel(text, JLabel.CENTER), BorderLayout.CENTER);
         infoPanel.add(returnPanel(), BorderLayout.SOUTH);
-
-        infoPanel.setVisible(false);
     }
 
     private JLabel createGifLabel() {
@@ -50,33 +52,33 @@ class Info {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        JLabel[] exitGif = {createGifLabel(), createGifLabel()};
+        exitGifArray = new JLabel[]{createGifLabel(), createGifLabel()};
         JLabel[] blackLabel = {new JLabel(icon), new JLabel(icon)};
 
         constraints.gridy = 0;
         constraints.gridx = 0;
 
-        panelExit.add(exitGif[0], constraints);
+        panelExit.add(exitGifArray[0], constraints);
         panelExit.add(blackLabel[0], constraints);
 
         constraints.gridx = 1;
         panelExit.add(back, constraints);
         constraints.gridx = 2;
 
-        panelExit.add(exitGif[1], constraints);
+        panelExit.add(exitGifArray[1], constraints);
         panelExit.add(blackLabel[1], constraints);
 
         back.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-                exitGif[0].setVisible(true);
-                exitGif[1].setVisible(true);
+                exitGifArray[0].setVisible(true);
+                exitGifArray[1].setVisible(true);
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-                exitGif[0].setVisible(false);
-                exitGif[1].setVisible(false);
+                exitGifArray[0].setVisible(false);
+                exitGifArray[1].setVisible(false);
             }
         });
 
@@ -85,7 +87,7 @@ class Info {
         return panelExit;
     }
 
-    static JButton getButton() {
+    JButton getButton() {
         return back;
     }
 
@@ -93,9 +95,13 @@ class Info {
         return infoPanel;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
         back.setActionCommand("BACK TO MENU FROM INFO");
+    }
+
+    void setDefault() {
+        Arrays.stream(exitGifArray).forEach(e -> e.setVisible(false));
     }
 }

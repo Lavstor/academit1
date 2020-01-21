@@ -14,8 +14,8 @@ class Records {
     private JPanel recordsPanel;
     private static JButton back;
 
-    final private JLabel[] exitGifArray;
-    final private String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/";
+    private final JLabel[] exitGifArray;
+    private final String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/";
 
     Records(List<User> userList) {
         recordsPanel = new JPanel();

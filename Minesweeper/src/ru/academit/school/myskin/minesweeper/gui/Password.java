@@ -16,8 +16,8 @@ class Password {
     private static List<JButton> buttons = new LinkedList<>();
     private static User ourPlayer;
 
-    final private JTextField nickNameField;
-    final private JPasswordField passwordField;
+    private final JTextField nickNameField;
+    private final JPasswordField passwordField;
 
     Password(LinkedList<User> players) {
         passwordPanel = new JPanel();

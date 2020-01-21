@@ -17,10 +17,10 @@ class NewPassword {
     private JPanel newPasswordPanel;
     private static List<JButton> buttons = new LinkedList<>();
 
-    final private JTextField nickNameField;
-    final private JPasswordField passwordField;
-    final private JPasswordField confirmPasswordField;
-    final private LinkedList<User> players;
+    private final JTextField nickNameField;
+    private final JPasswordField passwordField;
+    private final JPasswordField confirmPasswordField;
+    private final LinkedList<User> players;
 
     NewPassword(HighScoresReader reader) {
         this.reader = reader;

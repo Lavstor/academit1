@@ -21,22 +21,23 @@ class BattleField {
     private boolean gameOver;
     private JPanel battleFieldPanel;
 
-    private static JButton menu;
-    private static JButton topPanelNewGame;
-    private static List<JButton> buttons = new LinkedList<>();
+    private JButton menu;
+    private JButton topPanelNewGame;
+    private List<JButton> buttons = new LinkedList<>();
 
-    final private HighScoresReader reader;
-    final private BufferedImage cellImage;
-    final private BufferedImage crossImage;
-    final private BufferedImage flagImage;
-    final private User user;
-    final private JLabel score;
-    final private JPanel gamePanel;
-    final private JPanel topPanel;
-    final private JLabel[][] cellLabels;
-    final private String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/";
+    private final HighScoresReader reader;
+    private final BufferedImage cellImage;
+    private final BufferedImage crossImage;
+    private final BufferedImage flagImage;
+    private final User user;
+    private final JLabel score;
+    private final JPanel gamePanel;
+    private final JPanel topPanel;
+    private final JLabel[][] cellLabels;
+    private static final String IMAGES_DIRECTORY = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/";
 
     BattleField(int width, int height, int mines, User user, HighScoresReader reader) {
+        createButtons();
         this.reader = reader;
         this.battleFieldPanel = new JPanel();
         this.cellsCount = (width * height) - mines;
@@ -82,7 +83,7 @@ class BattleField {
         constraints1.insets = new Insets(1, 1, 1, 1);
         cellLabels = new JLabel[height][width];
 
-        String cellSkinPass = imagesDirectory + "cellSkin.jpg";
+        String cellSkinPass = IMAGES_DIRECTORY + "cellSkin.jpg";
 
         cellImage = getBufferedImage(cellSkinPass);
 
@@ -99,8 +100,8 @@ class BattleField {
             }
         }
 
-        crossImage = getBufferedImage(imagesDirectory + "notMine.png");
-        flagImage = getBufferedImage(imagesDirectory + "flag.png");
+        crossImage = getBufferedImage(IMAGES_DIRECTORY + "notMine.png");
+        flagImage = getBufferedImage(IMAGES_DIRECTORY + "flag.png");
 
         gamePanel.addMouseListener(new MouseAdapter() {
             boolean fieldCreated;
@@ -156,7 +157,7 @@ class BattleField {
 
             if (!gameField.cellIsHiddenCheck(height, width)) {
                 if (gameField.cellIsMineCheck(height, width)) {
-                    String pentagramPass = imagesDirectory + "mine.gif";
+                    String pentagramPass = IMAGES_DIRECTORY + "mine.gif";
                     setGifIcon(cellLabels[height][width], pentagramPass);
 
                     gameOver = true;
@@ -235,7 +236,7 @@ class BattleField {
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
-        setGifIcon(image, imagesDirectory + "winImage.jpg");
+        setGifIcon(image, IMAGES_DIRECTORY + "winImage.jpg");
 
         JLabel centerLabel = new JLabel("YOU WIN! SCORE: " + gameField.getScore(), JLabel.CENTER);
         centerLabel.setFont(new Font("Arial Black", Font.BOLD, 20));
@@ -276,7 +277,7 @@ class BattleField {
 
         JLabel image = new JLabel();
         image.setSize(gamePanel.getWidth(), gamePanel.getHeight());
-        String cry = imagesDirectory + "looseImage.jpg";
+        String cry = IMAGES_DIRECTORY + "looseImage.jpg";
         setGifIcon(image, cry);
 
         JLabel centerLabel = new JLabel("                          YOU LOST", JLabel.CENTER);
@@ -314,11 +315,11 @@ class BattleField {
         return null;
     }
 
-    static List<JButton> getButtons() {
+   List<JButton> getButtons() {
         return buttons;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         menu = new JButton("MENU");
         menu.setActionCommand("BACK TO MENU FROM BATTLEFIELD");
         menu.setForeground(Color.BLACK);

@@ -10,8 +10,8 @@ public class GameField {
     private int countOfMines;
     private int currentScore;
 
-    final private int height;
-    final private int width;
+    private final int height;
+    private final int width;
 
     public GameField(int height, int width, int countOfMines, int firstX, int firstY) {
         this.height = height;

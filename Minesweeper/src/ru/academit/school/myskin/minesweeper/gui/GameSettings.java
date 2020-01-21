@@ -7,24 +7,24 @@ import java.util.List;
 
 class GameSettings {
     private JPanel gameSettingsPanel;
+    private JButton okButton;
+    private JButton defaultButton;
+    private JButton customButton;
+    private JButton cancel;
+    private JButton backToBattlefield;
+    private List<JButton> buttons = new LinkedList<>();
 
-    private static JButton okButton;
-    private static JButton defaultButton;
-    private static JButton customButton;
-    private static JButton cancel;
-    private static JButton backToBattlefield;
-    private static List<JButton> buttons = new LinkedList<>();
-
-    final private JTextField heightField;
-    final private JTextField weightField;
-    final private JTextField mines;
-    final private JRadioButton easy;
-    final private JRadioButton normal;
-    final private JRadioButton high;
-    final private JPanel customPane;
-    final private JPanel defaultPane;
+    private final JTextField heightField;
+    private final JTextField weightField;
+    private final JTextField mines;
+    private final JRadioButton easy;
+    private final JRadioButton normal;
+    private final JRadioButton high;
+    private final JPanel customPane;
+    private final JPanel defaultPane;
 
     GameSettings() {
+        createButtons();
         gameSettingsPanel = new JPanel();
 
         weightField = new JTextField(3);
@@ -118,11 +118,11 @@ class GameSettings {
             }
 
             if (normal.isSelected()) {
-                return new int[]{15, 15, 50};
+                return new int[]{15, 15, 30};
             }
 
             if (high.isSelected()) {
-                return new int[]{20, 20, 85};
+                return new int[]{20, 20, 50};
             }
         } else {
             try {
@@ -162,11 +162,11 @@ class GameSettings {
         defaultButton.setVisible(false);
     }
 
-    static List<JButton> getButtons() {
+    List<JButton> getButtons() {
         return buttons;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         okButton = new JButton("OK");
         cancel = new JButton("CANCEL");
         customButton = new JButton("CUSTOM");

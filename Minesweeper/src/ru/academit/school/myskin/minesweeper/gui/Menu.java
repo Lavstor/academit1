@@ -8,11 +8,13 @@ import java.util.Arrays;
 
 class Menu {
     private JPanel menuPanel;
-    private static JButton[] buttons;
+    private JButton[] buttons;
 
-    final private String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
+    private static String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
 
     Menu() {
+        createButtons();
+
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridBagLayout());
 
@@ -129,13 +131,13 @@ class Menu {
         return newLabel;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         buttons = new JButton[]{new JButton("NEW GAME"), new JButton("RECORDS"), new JButton("INFO"), new JButton("EXIT")};
 
         Arrays.stream(buttons).forEach(b -> b.setActionCommand(b.getText()));
     }
 
-    static JButton[] getButtons() {
+    JButton[] getButtons() {
         return buttons;
     }
 
