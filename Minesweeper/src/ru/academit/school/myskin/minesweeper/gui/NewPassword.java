@@ -20,15 +20,12 @@ class NewPassword {
     private final JTextField nickNameField;
     private final JPasswordField passwordField;
     private final JPasswordField confirmPasswordField;
-    private final LinkedList<User> players;
 
     NewPassword(HighScoresReader reader) {
         createButtons();
         this.reader = reader;
 
         newPasswordPanel = new JPanel();
-        this.players = reader.getUsersList();
-
         newPasswordPanel.setVisible(true);
 
         passwordField = new JPasswordField(10);
@@ -104,7 +101,7 @@ class NewPassword {
         }
 
         List<User> ourUser;
-        ourUser = players.stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
+        ourUser = reader.getUsersList().stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
             JOptionPane.showMessageDialog(newPasswordPanel, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
