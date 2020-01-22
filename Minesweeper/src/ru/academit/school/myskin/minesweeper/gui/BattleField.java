@@ -2,7 +2,6 @@ package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.model.GameField;
 import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
-import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,14 +28,13 @@ class BattleField {
     private final BufferedImage cellImage;
     private final BufferedImage crossImage;
     private final BufferedImage flagImage;
-    private final User user;
     private final JLabel score;
     private final JPanel gamePanel;
     private final JPanel topPanel;
     private final JLabel[][] cellLabels;
     private static final String IMAGES_DIRECTORY = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/battlefield/";
 
-    BattleField(int width, int height, int mines, User user, HighScoresReader reader) {
+    BattleField(int width, int height, int mines, HighScoresReader reader) {
         createButtons();
         this.reader = reader;
         this.battleFieldPanel = new JPanel();
@@ -46,7 +44,6 @@ class BattleField {
         gamePanel = new JPanel();
 
         score = new JLabel("Your score: ");
-        this.user = user;
 
         GridBagConstraints constraints1 = new GridBagConstraints();
 
@@ -60,7 +57,7 @@ class BattleField {
 
         constraints2.gridx = 0;
 
-        topPanel.add(new JLabel(user.getName()), constraints2);
+        topPanel.add(new JLabel(reader.getCurrentUser().getName()), constraints2);
 
         constraints2.weightx = 10;
         constraints2.gridx = 5;
@@ -260,7 +257,7 @@ class BattleField {
                 gamePanel.updateUI();
 
                 try {
-                    reader.updatePlayerData(user, currentScore);
+                    reader.updatePlayerData(currentScore);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(battleFieldPanel, "Cnt save ur score! Try to reboot game :(",
                             "Error Message", JOptionPane.ERROR_MESSAGE);
@@ -315,7 +312,7 @@ class BattleField {
         return null;
     }
 
-   List<JButton> getButtons() {
+    List<JButton> getButtons() {
         return buttons;
     }
 

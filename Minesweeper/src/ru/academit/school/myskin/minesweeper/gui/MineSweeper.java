@@ -1,7 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
 import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
-import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -10,10 +9,8 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class MineSweeper {
-    private User currentUser;
     private JFrame mainFrame;
     private Menu menu;
     private Records records;
@@ -21,7 +18,6 @@ public class MineSweeper {
     private NewPassword newPassword;
     private GameSettings gameSettings;
     private Info info;
-    private LinkedList<User> users;
     private JPanel battleFieldPanel;
     private HighScoresReader reader;
 
@@ -45,10 +41,6 @@ public class MineSweeper {
             menu = new Menu();
             info = new Info();
 
-            Records.createButtons();
-            Password.createButtons();
-            NewPassword.createButtons();
-
             gameSettings = new GameSettings();
             gameSettings.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
 
@@ -57,22 +49,23 @@ public class MineSweeper {
             menu.getMenuPanel().updateUI();
 
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            getButtons();
 
             getUserList(userListPass);
+            password = new Password(reader);
+            newPassword = new NewPassword(reader);
+            records = new Records(reader);
+            getButtons();
         });
     }
 
     private void getUserList(String pass) {
         try {
             reader = new HighScoresReader(pass);
-            users = reader.getUsersList();
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             if (JOptionPane.showConfirmDialog(mainFrame, "Wrong file pass or data type! Create default save file?", "ERROR",
                     JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, IMAGE_ICON) == 0) {
                 try {
                     reader = new HighScoresReader();
-                    users = reader.getUsersList();
                 } catch (IOException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(mainFrame, "Game crushes :(", "Error Message", JOptionPane.ERROR_MESSAGE);
                     mainFrame.dispose();
@@ -108,9 +101,8 @@ public class MineSweeper {
 
     private void getButtons() {
         Arrays.stream(menu.getButtons()).forEach(b -> b.addActionListener(this::actionPerformed));
-        Records.getBackButton().addActionListener(this::actionPerformed);
-        Password.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
-        NewPassword.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
+        password.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
+        newPassword.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
         info.getButton().addActionListener(this::actionPerformed);
     }
 
@@ -126,7 +118,9 @@ public class MineSweeper {
 
         if (command.equals("RECORDS")) {
             mainFrame.remove(menu.getMenuPanel());
-            records = new Records(users);
+
+            records = new Records(reader);
+            records.getBackButton().addActionListener(this::actionPerformed);
 
             mainFrame.add(records.getRecordsPanel(), BorderLayout.CENTER);
             records.getRecordsPanel().setVisible(true);
@@ -137,7 +131,6 @@ public class MineSweeper {
 
         if (command.equals("INFO")) {
             mainFrame.remove(menu.getMenuPanel());
-
             mainFrame.add(info.getPanel(), BorderLayout.CENTER);
 
             info.setDefault();
@@ -147,7 +140,7 @@ public class MineSweeper {
 
         if (command.equals("NEW GAME")) {
             mainFrame.remove(menu.getMenuPanel());
-            password = new Password(users);
+            password.setDefault();
             mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().setVisible(true);
             mainFrame.repaint();
@@ -156,7 +149,7 @@ public class MineSweeper {
 
         if (command.equals("TO MENU FROM PASSWORD")) {
             mainFrame.remove(password.getPasswordPanel());
-            menu = new Menu();
+            menu.setDefault();
 
             mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
@@ -165,7 +158,7 @@ public class MineSweeper {
 
         if (command.equals("BACK TO MENU FROM NEW PASSWORD")) {
             mainFrame.remove(newPassword.getNewPasswordPanel());
-            menu = new Menu();
+            menu.setDefault();
 
             mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
@@ -174,8 +167,7 @@ public class MineSweeper {
 
         if (command.equals("BACK TO MENU FROM INFO")) {
             mainFrame.remove(info.getPanel());
-
-            menu = new Menu();
+            menu.setDefault();
 
             mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
@@ -184,8 +176,7 @@ public class MineSweeper {
 
         if (command.equals("BACK TO MENU FROM RECORDS")) {
             mainFrame.remove(records.getRecordsPanel());
-
-            menu = new Menu();
+            menu.setDefault();
 
             mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.getMenuPanel().updateUI();
@@ -194,28 +185,26 @@ public class MineSweeper {
 
         if (command.equals("BACK TO PASSWORD")) {
             mainFrame.remove(newPassword.getNewPasswordPanel());
-            password = new Password(users);
+            password.setDefault();
             mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("BACK TO PASSWORD FROM OPTIONS")) {
             mainFrame.remove(gameSettings.getGameSettingsPanel());
-            password = new Password(users);
+            password.setDefault();
             mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().updateUI();
         }
 
         if (command.equals("TO NEW PASSWORD FROM PASSWORD")) {
             mainFrame.remove(password.getPasswordPanel());
-            newPassword = new NewPassword(reader);
             mainFrame.add(newPassword.getNewPasswordPanel(), BorderLayout.CENTER);
             newPassword.getNewPasswordPanel().updateUI();
         }
 
         if (command.equals("TO OPTIONS FROM PASSWORD")) {
             if (password.checkPassword()) {
-                currentUser = Password.getPlayer();
                 mainFrame.remove(password.getPasswordPanel());
 
                 gameSettings.defaultSetup();
@@ -228,11 +217,11 @@ public class MineSweeper {
 
         if (command.equals("CHECK DATA")) {
             if (newPassword.checkData()) {
-                users = reader.getUsersList();
-                password = new Password(users);
+                password.setDefault();
                 mainFrame.remove(newPassword.getNewPasswordPanel());
                 mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
                 password.getPasswordPanel().updateUI();
+                newPassword.setDefault();
             }
         }
 
@@ -240,8 +229,7 @@ public class MineSweeper {
             int[] fieldOptions = gameSettings.createMap();
 
             if (fieldOptions != null) {
-                BattleField battlefield = new BattleField(fieldOptions[0], fieldOptions[1], fieldOptions[2], currentUser,
-                        reader);
+                BattleField battlefield = new BattleField(fieldOptions[0], fieldOptions[1], fieldOptions[2], reader);
                 battleFieldPanel = battlefield.getBattleFieldPanel();
                 battlefield.getButtons().forEach(b -> b.addActionListener(this::actionPerformed));
 
@@ -261,7 +249,7 @@ public class MineSweeper {
 
         if (command.equals("BACK TO MENU FROM BATTLEFIELD")) {
             mainFrame.remove(battleFieldPanel);
-            menu = new Menu();
+            menu.setDefault();
             mainFrame.add(menu.getMenuPanel(), BorderLayout.CENTER);
             menu.continueButton(true);
             menu.getMenuPanel().updateUI();

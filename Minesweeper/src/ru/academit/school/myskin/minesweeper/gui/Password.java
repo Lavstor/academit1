@@ -1,5 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
@@ -11,17 +12,18 @@ import java.util.stream.Collectors;
 
 class Password {
     private JPanel passwordPanel;
-    private LinkedList<User> players;
+    private HighScoresReader reader;
 
-    private static List<JButton> buttons = new LinkedList<>();
-    private static User ourPlayer;
+    private List<JButton> buttons = new LinkedList<>();
 
     private final JTextField nickNameField;
     private final JPasswordField passwordField;
 
-    Password(LinkedList<User> players) {
+    Password(HighScoresReader reader) {
+        createButtons();
+        this.reader = reader;
+
         passwordPanel = new JPanel();
-        this.players = players;
 
         passwordField = new JPasswordField(10);
         nickNameField = new JTextField(10);
@@ -64,11 +66,13 @@ class Password {
     }
 
     boolean checkPassword() {
+        List<User> users = reader.getUsersList();
+
         char[] input = passwordField.getPassword();
         String login = nickNameField.getText();
         List<User> ourUser;
 
-        if (players.size() == 0) {
+        if (users.size() == 0) {
             JOptionPane.showMessageDialog(passwordPanel, "Invalid password or login. Try again.", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             Arrays.fill(input, '0');
@@ -79,11 +83,11 @@ class Password {
             return false;
         }
 
-        ourUser = players.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
+        ourUser = users.stream().filter(x -> x.getName().equals(login)).filter(x -> x.checkPassword(input)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
             if (ourUser.get(0).checkPassword(input)) {
-                ourPlayer = ourUser.get(0);
+                reader.setCurrentUser(ourUser.get(0));
 
                 return true;
             }
@@ -105,7 +109,7 @@ class Password {
         passwordField.requestFocusInWindow();
     }
 
-    static void createButtons() {
+    private void createButtons() {
         JButton okButton = new JButton("OK");
         JButton newUser = new JButton("NEW USER");
         JButton menu = new JButton("MENU");
@@ -119,15 +123,16 @@ class Password {
         buttons.add(menu);
     }
 
-    static List<JButton> getButtons() {
+    List<JButton> getButtons() {
         return buttons;
-    }
-
-    static User getPlayer() {
-        return ourPlayer;
     }
 
     JPanel getPasswordPanel() {
         return passwordPanel;
+    }
+
+    void setDefault() {
+        nickNameField.setText("");
+        passwordField.setText("");
     }
 }

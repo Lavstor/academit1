@@ -9,8 +9,9 @@ import java.util.Arrays;
 class Menu {
     private JPanel menuPanel;
     private JButton[] buttons;
+    private JLabel[] gifLabelArray;
 
-    private static String buttonImagesPass = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
+    private static final String BUTTON_IMAGES_PASS = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/buttonsImages/";
 
     Menu() {
         createButtons();
@@ -23,10 +24,10 @@ class Menu {
         gridBagConstraints.weighty = 1;
         gridBagConstraints.weightx = 5;
 
-        JLabel[] gifLabelArray = new JLabel[buttons.length * 2];
+        gifLabelArray = new JLabel[buttons.length * 2];
         JLabel[] blackLabelArray = new JLabel[gifLabelArray.length];
 
-        ImageIcon blackIcon = new ImageIcon(buttonImagesPass + "black.jpg");
+        ImageIcon blackIcon = new ImageIcon(BUTTON_IMAGES_PASS + "black.jpg");
 
         for (int i = 0; i < gifLabelArray.length; i++) {
             gifLabelArray[i] = createGifLabel();
@@ -121,7 +122,7 @@ class Menu {
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon(buttonImagesPass + "pentagramGif.gif");
+        ImageIcon icon = new ImageIcon(BUTTON_IMAGES_PASS + "pentagramGif.gif");
 
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
@@ -153,5 +154,9 @@ class Menu {
 
     JPanel getMenuPanel() {
         return menuPanel;
+    }
+
+    void setDefault() {
+        Arrays.stream(gifLabelArray).forEach(gif -> gif.setVisible(false));
     }
 }

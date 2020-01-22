@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 public class HighScoresReader {
     private LinkedList<User> users;
+    private User currentUser;
     private final String playersListPass;
 
     public HighScoresReader() throws IOException, ClassNotFoundException {
@@ -49,9 +50,9 @@ public class HighScoresReader {
         out.writeObject(users);
     }
 
-    public void updatePlayerData(User player, int newScore) throws IOException {
-        if (player.getScore() < newScore) {
-            player.setScore(newScore);
+    public void updatePlayerData(int newScore) throws IOException {
+        if (currentUser.getScore() < newScore) {
+            currentUser.setScore(newScore);
             updateList();
         }
     }
@@ -71,5 +72,13 @@ public class HighScoresReader {
         users.add(new Player("Satan", 34.0));
         users.add(new Player("Mr. Herbert Garrison", 31.0));
         out.writeObject(users);
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

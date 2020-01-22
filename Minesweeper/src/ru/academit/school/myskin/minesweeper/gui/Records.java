@@ -1,5 +1,6 @@
 package ru.academit.school.myskin.minesweeper.gui;
 
+import ru.academit.school.myskin.minesweeper.model.HighScoresReader;
 import ru.academit.school.myskin.minesweeper.user.User;
 
 import javax.swing.*;
@@ -12,26 +13,27 @@ import java.util.stream.Collectors;
 
 class Records {
     private JPanel recordsPanel;
-    private static JButton back;
+    private JButton back;
 
     private final JLabel[] exitGifArray;
-    private final String imagesDirectory = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/";
+    private static final String IMAGES_DIRECTORY = "Minesweeper/src/ru/academit/school/myskin/minesweeper/resources/";
 
-    Records(List<User> userList) {
+    Records(HighScoresReader reader) {
+        createButtons();
         recordsPanel = new JPanel();
 
-        String pentagram = imagesDirectory + "highScoresImages/pentagram.png";
-        String first = imagesDirectory + "highScoresImages/first.png";
-        String second = imagesDirectory + "highScoresImages/second.gif";
-        String third = imagesDirectory + "highScoresImages/third.gif";
-        String fourth = imagesDirectory + "highScoresImages/fourth.png";
-        String fifth = imagesDirectory + "highScoresImages/fifth.png";
-        String sixth = imagesDirectory + "highScoresImages/sixth.png";
-        String seventh = imagesDirectory + "highScoresImages/seventh.png";
-        String eighth = imagesDirectory + "highScoresImages/eighth.png";
-        String ninth = imagesDirectory + "highScoresImages/ninth.png";
-        String tenth = imagesDirectory + "highScoresImages/tenth.png";
-        ImageIcon blackImage = new ImageIcon(imagesDirectory + "buttonsImages/black.jpg");
+        String pentagram = IMAGES_DIRECTORY + "highScoresImages/pentagram.png";
+        String first = IMAGES_DIRECTORY + "highScoresImages/first.png";
+        String second = IMAGES_DIRECTORY + "highScoresImages/second.gif";
+        String third = IMAGES_DIRECTORY + "highScoresImages/third.gif";
+        String fourth = IMAGES_DIRECTORY + "highScoresImages/fourth.png";
+        String fifth = IMAGES_DIRECTORY + "highScoresImages/fifth.png";
+        String sixth = IMAGES_DIRECTORY + "highScoresImages/sixth.png";
+        String seventh = IMAGES_DIRECTORY + "highScoresImages/seventh.png";
+        String eighth = IMAGES_DIRECTORY + "highScoresImages/eighth.png";
+        String ninth = IMAGES_DIRECTORY + "highScoresImages/ninth.png";
+        String tenth = IMAGES_DIRECTORY + "highScoresImages/tenth.png";
+        ImageIcon blackImage = new ImageIcon(IMAGES_DIRECTORY + "buttonsImages/black.jpg");
 
         String[] imagesPassArray = {first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth};
         JLabel[] topPanel = {new JLabel("###"), new JLabel("NAME"), new JLabel("SCORE"), createGifLabel(pentagram)};
@@ -50,6 +52,8 @@ class Records {
 
             recordsPanel.add(topPanel[i], constraints);
         }
+
+        List<User> userList = reader.getUsersList();
 
         userList = userList.stream().sorted(Comparator.comparingDouble(User::getScore).reversed()).collect(Collectors.toList());
 
@@ -110,12 +114,12 @@ class Records {
         recordsPanel.setVisible(false);
     }
 
-    static JButton getBackButton() {
+    JButton getBackButton() {
         return back;
     }
 
     private JLabel createGifLabel() {
-        ImageIcon icon = new ImageIcon(imagesDirectory + "buttonsImages/pentagramGif.gif");
+        ImageIcon icon = new ImageIcon(IMAGES_DIRECTORY + "buttonsImages/pentagramGif.gif");
 
         JLabel newLabel = new JLabel();
         icon.setImageObserver(newLabel);
@@ -137,7 +141,7 @@ class Records {
         return newLabel;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         back = new JButton("BACK");
         back.setBorderPainted(false);
         back.setActionCommand("BACK TO MENU FROM RECORDS");

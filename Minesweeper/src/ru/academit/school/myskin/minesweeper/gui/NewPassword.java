@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 class NewPassword {
     private HighScoresReader reader;
     private JPanel newPasswordPanel;
-    private static List<JButton> buttons = new LinkedList<>();
+    private List<JButton> buttons = new LinkedList<>();
 
     private final JTextField nickNameField;
     private final JPasswordField passwordField;
@@ -23,6 +23,7 @@ class NewPassword {
     private final LinkedList<User> players;
 
     NewPassword(HighScoresReader reader) {
+        createButtons();
         this.reader = reader;
 
         newPasswordPanel = new JPanel();
@@ -77,7 +78,7 @@ class NewPassword {
         return panel;
     }
 
-    static void createButtons() {
+    private void createButtons() {
         JButton okButton = new JButton("OK");
         JButton back = new JButton("BACK");
         JButton menu = new JButton("MENU");
@@ -139,7 +140,13 @@ class NewPassword {
         passwordField.requestFocusInWindow();
     }
 
-    static List<JButton> getButtons() {
+    void setDefault() {
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+        nickNameField.setText("");
+    }
+
+    List<JButton> getButtons() {
         return buttons;
     }
 
