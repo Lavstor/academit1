@@ -31,23 +31,24 @@ public class HighScoresReader {
     }
 
     private LinkedList<User> readPlayers() throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(playersListPass));
-
-        //noinspection unchecked
-        users = (LinkedList<User>) in.readObject();
-        return users;
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(playersListPass))) {
+            //noinspection unchecked
+            users = (LinkedList<User>) in.readObject();
+            return users;
+        }
     }
 
     public void writeUsers(User user) throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass));
-
-        users.add(user);
-        out.writeObject(users);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
+            users.add(user);
+            out.writeObject(users);
+        }
     }
 
     private void updateList() throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass));
-        out.writeObject(users);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
+            out.writeObject(users);
+        }
     }
 
     public void updatePlayerData(int newScore) throws IOException {
@@ -58,20 +59,20 @@ public class HighScoresReader {
     }
 
     private void createDefaultPlayerList() throws IOException {
-        users = new LinkedList<>();
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass));
-
-        users.add(new Player("Jesus Christ", 65.0));
-        users.add(new Player("Mr. Hankey", 94.0));
-        users.add(new Player("Leopold Stotch", 81.0));
-        users.add(new Player("Jack Tenorman", 76.0));
-        users.add(new Player("John Connor", 61.0));
-        users.add(new Player("Kenny McCormick", 1.0));
-        users.add(new Player("Eric Cartman", 499.0));
-        users.add(new Player("God", 33.0));
-        users.add(new Player("Satan", 34.0));
-        users.add(new Player("Mr. Herbert Garrison", 31.0));
-        out.writeObject(users);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(playersListPass))) {
+            users = new LinkedList<>();
+            users.add(new Player("Jesus Christ", 65.0));
+            users.add(new Player("Mr. Hankey", 94.0));
+            users.add(new Player("Leopold Stotch", 81.0));
+            users.add(new Player("Jack Tenorman", 76.0));
+            users.add(new Player("John Connor", 61.0));
+            users.add(new Player("Kenny McCormick", 1.0));
+            users.add(new Player("Eric Cartman", 499.0));
+            users.add(new Player("God", 33.0));
+            users.add(new Player("Satan", 34.0));
+            users.add(new Player("Mr. Herbert Garrison", 31.0));
+            out.writeObject(users);
+        }
     }
 
     public void setCurrentUser(User currentUser) {

@@ -63,7 +63,7 @@ public class MineSweeper {
             reader = new HighScoresReader(pass);
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             if (JOptionPane.showConfirmDialog(mainFrame, "Wrong file pass or data type! Create default save file?", "ERROR",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, IMAGE_ICON) == 0) {
+                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, IMAGE_ICON) == JOptionPane.YES_OPTION) {
                 try {
                     reader = new HighScoresReader();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -111,7 +111,7 @@ public class MineSweeper {
 
         if (command.equals("EXIT")) {
             if (JOptionPane.showConfirmDialog(mainFrame, "           YOU SHURE?", "EXIT",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, IMAGE_ICON) == 0) {
+                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, IMAGE_ICON) == JOptionPane.YES_OPTION) {
                 mainFrame.dispose();
             }
         }
@@ -186,6 +186,7 @@ public class MineSweeper {
         if (command.equals("BACK TO PASSWORD")) {
             mainFrame.remove(newPassword.getNewPasswordPanel());
             password.setDefault();
+            newPassword.setDefault();
             mainFrame.add(password.getPasswordPanel(), BorderLayout.CENTER);
             password.getPasswordPanel().updateUI();
         }

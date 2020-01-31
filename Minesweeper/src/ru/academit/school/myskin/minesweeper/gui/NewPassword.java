@@ -95,7 +95,8 @@ class NewPassword {
         String login = nickNameField.getText();
 
         if (login.length() < 4 || password.length < 4) {
-            JOptionPane.showMessageDialog(newPasswordPanel, "Too short login or password! Minimum length must be at least 4 chars", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(newPasswordPanel, "Too short login or password! Minimum" +
+                    " length must be at least 4 chars", "Error Message", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
@@ -104,13 +105,15 @@ class NewPassword {
         ourUser = reader.getUsersList().stream().filter(x -> x.getName().equals(login)).collect(Collectors.toList());
 
         if (ourUser.size() != 0) {
-            JOptionPane.showMessageDialog(newPasswordPanel, "This login already registered. Try another!", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(newPasswordPanel, "This login already registered. Try another!",
+                    "Error Message", JOptionPane.ERROR_MESSAGE);
 
             return false;
         }
 
         if (!Arrays.equals(password, confirmPassword)) {
-            JOptionPane.showMessageDialog(newPasswordPanel, "Passwords dnt match", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(newPasswordPanel, "Passwords dnt match", "Error Message",
+                    JOptionPane.ERROR_MESSAGE);
             Arrays.fill(password, '0');
             Arrays.fill(confirmPassword, '0');
 
@@ -126,7 +129,8 @@ class NewPassword {
         try {
             reader.writeUsers(new Player(login, password));
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(newPasswordPanel, "Cnt save ur data! Reboot game!", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(newPasswordPanel, "Cnt save ur data! Reboot game!",
+                    "Error Message", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

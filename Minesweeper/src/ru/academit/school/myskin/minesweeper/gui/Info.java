@@ -24,8 +24,8 @@ class Info {
                 " Click a square, you get a number.<br> That number is the number " +
                 "of how many mines<br> are surrounding it.<br><br>2: Mark all the mines<" +
                 "that are downright OBVIOUS. <br>Such as eight 1's surrounding a unopened<br>square, it's obviously a mine." +
-                "<br><br>3: Finding the mines in 1 blocks helps a lot,<br> because it opens many squares and<br> good hints to 2's and 3's." +
-                "<br><br> Have fun!</html>";
+                "<br><br>3: Finding the mines in 1 blocks helps a lot,<br> because it opens many squares and<br>" +
+                " good hints to 2's and 3's.<br><br> Have fun!</html>";
 
         infoPanel.add(new JLabel(text, JLabel.CENTER), BorderLayout.CENTER);
         infoPanel.add(returnPanel(), BorderLayout.SOUTH);
